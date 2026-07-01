@@ -4,9 +4,7 @@ function simulateFight() {
         initializeCombatContext();
 
     const sortedSpells =
-        [...selectedSpells].sort((a, b) => {
-            return spellPriority[a.name] - spellPriority[b.name];
-        });
+        sortSpellsByRotationOrder(selectedSpells);
 
     while (
         context.playerHp > 0 &&

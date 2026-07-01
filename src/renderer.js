@@ -55,6 +55,12 @@ function renderFightScreen(viewModel) {
 
                 <aside class="combatant-panel player-panel">
                     <div
+                        id="playerFloatingNumbers"
+                        class="floating-number-layer"
+                        aria-hidden="true"
+                    ></div>
+
+                    <div
                         class="combatant-portrait-slot"
                         aria-hidden="true"
                     ></div>
@@ -69,6 +75,14 @@ function renderFightScreen(viewModel) {
                                 viewModel.player.hp,
                                 viewModel.player.maxHp
                             )}%"
+                        ></div>
+                        <div
+                            id="playerShieldFill"
+                            class="shield-fill"
+                            style="left: ${getPercent(
+                                viewModel.player.hp,
+                                viewModel.player.maxHp
+                            )}%; width: 0%"
                         ></div>
                     </div>
 
@@ -95,17 +109,17 @@ function renderFightScreen(viewModel) {
                                 id="combatFeedbackActor"
                                 class="active-spell-kicker"
                             >
-                                Aktiver Zauber
+                                Ansager
                             </span>
                             <strong id="combatFeedbackTitle">
-                                ${viewModel.activeSpellName || "-"}
+                                Bereit
                             </strong>
                         </div>
                         <div
                             id="combatFeedbackDetail"
-                            class="effect-placeholder"
+                            class="announcer-subline"
                         >
-                            Schaden, Schilde und Statusmeldungen
+                            Bereit
                         </div>
                     </div>
 
@@ -118,6 +132,12 @@ function renderFightScreen(viewModel) {
                 </main>
 
                 <aside class="combatant-panel enemy-panel">
+                    <div
+                        id="enemyFloatingNumbers"
+                        class="floating-number-layer"
+                        aria-hidden="true"
+                    ></div>
+
                     <div
                         class="combatant-portrait-slot"
                         aria-hidden="true"
@@ -133,6 +153,14 @@ function renderFightScreen(viewModel) {
                                 viewModel.enemy.hp,
                                 viewModel.enemy.maxHp
                             )}%"
+                        ></div>
+                        <div
+                            id="enemyShieldFill"
+                            class="shield-fill"
+                            style="left: ${getPercent(
+                                viewModel.enemy.hp,
+                                viewModel.enemy.maxHp
+                            )}%; width: 0%"
                         ></div>
                     </div>
 
@@ -322,10 +350,27 @@ function playCombatMoment(result, moments, index, onComplete) {
     const moment =
         moments[index];
 
+    const timings =
+        getMomentFlowTimings();
+
+    updateActiveSpellCard(moment.spellName, true);
     renderActionFeedback(moment);
     appendCombatLogMoment(moment);
-    updateCombatBars(moment);
-    updateActiveSpellCard(moment.spellName);
+
+    setTimeout(
+        () => {
+            renderFloatingImpacts(moment);
+            renderTargetImpacts(moment);
+        },
+        timings.impact
+    );
+
+    setTimeout(
+        () => {
+            updateCombatBars(moment);
+        },
+        timings.bars
+    );
 
     setTimeout(
         () => {
@@ -424,13 +469,13 @@ function renderActionFeedback(action) {
         getCombatFeedbackView(action);
 
     actor.textContent =
-        view.actor || "Combat Moment";
+        view.subtitle || "Combat Moment";
 
     title.textContent =
         view.actionName || "-";
 
-    detail.innerHTML =
-        renderCombatFeedbackDetail(view);
+    detail.textContent =
+        view.detail || "";
 
     detail.classList.remove("combat-feedback--pulse");
     void detail.offsetWidth;
@@ -441,38 +486,14 @@ function getCombatFeedbackView(moment) {
     const actions =
         moment.actions || [moment];
 
-    const primaryImpactAction =
-        actions.find(action => action.impact && action.impact !== "") ||
-        actions.find(action => detailStartsWithImpact(action.feedbackDetail));
-
-    const impact =
-        primaryImpactAction
-            ? primaryImpactAction.impact ||
-                extractImpact(primaryImpactAction.feedbackDetail)
-            : "";
-
-    const impactLabel =
-        primaryImpactAction
-            ? primaryImpactAction.effectText ||
-                stripImpact(primaryImpactAction.feedbackDetail)
-            : "";
-
-    const effectTexts =
-        actions
-            .filter(action => action !== primaryImpactAction)
-            .map(action => action.effectText || action.feedbackDetail)
-            .filter(text => text !== "");
-
     return {
-        actor: getMomentActor(moment),
+        subtitle: getAnnouncerSubtitle(moment),
         actionName: getMomentActionName(moment),
-        impact,
-        impactLabel,
-        effectTexts
+        detail: getAnnouncerDetail(actions)
     };
 }
 
-function getMomentActor(moment) {
+function getAnnouncerSubtitle(moment) {
     if (moment.actor) {
         return moment.actor;
     }
@@ -500,40 +521,184 @@ function getMomentActionName(moment) {
     return moment.feedbackTitle || moment.message || "-";
 }
 
-function renderCombatFeedbackDetail(view) {
-    const impactHtml =
-        view.impact !== ""
-            ? `
-                <div class="combat-impact">
-                    <span class="combat-impact-number">
-                        ${view.impact}
-                    </span>
-                    <span class="combat-impact-label">
-                        ${view.impactLabel}
-                    </span>
-                </div>
-            `
-            : "";
+function getAnnouncerDetail(actions) {
+    const detailAction =
+        actions.find(action => action.importance === "important") ||
+        actions.find(action => action.effectText && !action.impact);
 
-    const effectsHtml =
-        view.effectTexts.length > 0
-            ? `
-                <div class="combat-effects">
-                    ${view.effectTexts
-                        .map(effectText => `<span>${effectText}</span>`)
-                        .join("")}
-                </div>
-            `
-            : "";
+    return detailAction
+        ? detailAction.effectText || detailAction.feedbackDetail
+        : "";
+}
 
-    if (impactHtml === "" && effectsHtml === "") {
-        return "";
+function renderFloatingImpacts(moment) {
+    const actions =
+        moment.actions || [moment];
+
+    actions.forEach(action => {
+        const impact =
+            getActionImpact(action);
+
+        if (impact === "") {
+            return;
+        }
+
+        const target =
+            getImpactTarget(action);
+
+        if (target === "") {
+            return;
+        }
+
+        renderFloatingNumber(
+            target,
+            impact,
+            getImpactClass(action, impact)
+        );
+    });
+}
+
+function renderTargetImpacts(moment) {
+    const targets =
+        getMomentImpactTargets(moment);
+
+    targets.forEach(target => {
+        triggerTargetImpact(target);
+    });
+}
+
+function getActionImpact(action) {
+    if (action.impact) {
+        return action.impact;
     }
 
-    return `
-        ${impactHtml}
-        ${effectsHtml}
-    `;
+    if (detailStartsWithImpact(action.feedbackDetail)) {
+        return extractImpact(action.feedbackDetail);
+    }
+
+    return "";
+}
+
+function getImpactTarget(action) {
+    if (
+        action.type === "spellDamage" ||
+        action.type === "debuff" ||
+        action.type === "burn"
+    ) {
+        return "enemy";
+    }
+
+    if (action.type === "enemyAttack") {
+        return "player";
+    }
+
+    if (action.type === "shield") {
+        return action.actor && action.actor !== "Spieler"
+            ? "enemy"
+            : "player";
+    }
+
+    if (action.impact && action.impact.startsWith("+")) {
+        return action.actor && action.actor !== "Spieler"
+            ? "enemy"
+            : "player";
+    }
+
+    return "";
+}
+
+function getMomentImpactTargets(moment) {
+    const actions =
+        moment.actions || [moment];
+
+    return [
+        ...new Set(
+            actions
+                .filter(action => isDamageImpact(action))
+                .map(getImpactTarget)
+                .filter(target => target !== "")
+        )
+    ];
+}
+
+function isDamageImpact(action) {
+    const impact =
+        getActionImpact(action);
+
+    return impact.startsWith("-");
+}
+
+function triggerTargetImpact(target) {
+    const panel =
+        document.querySelector(`.${target}-panel`);
+
+    const hpFill =
+        document.getElementById(`${target}HpFill`);
+
+    const hpBar =
+        hpFill
+            ? hpFill.parentElement
+            : null;
+
+    restartCssAnimation(
+        panel,
+        "combatant-panel--hit"
+    );
+
+    restartCssAnimation(
+        hpBar,
+        "hp-bar--impact"
+    );
+}
+
+function restartCssAnimation(element, className) {
+    if (!element) {
+        return;
+    }
+
+    element.classList.remove(className);
+    void element.offsetWidth;
+    element.classList.add(className);
+}
+
+function getImpactClass(action, impact) {
+    if (action.type === "shield") {
+        return "floating-number--shield";
+    }
+
+    if (impact.startsWith("+")) {
+        return action.effectText === "Schild"
+            ? "floating-number--shield"
+            : "floating-number--heal";
+    }
+
+    return "floating-number--damage";
+}
+
+function renderFloatingNumber(target, value, className) {
+    const layer =
+        document.getElementById(`${target}FloatingNumbers`);
+
+    if (!layer) {
+        return;
+    }
+
+    const number =
+        document.createElement("div");
+
+    number.classList.add(
+        "floating-number",
+        className
+    );
+
+    number.textContent = value;
+    layer.appendChild(number);
+
+    number.addEventListener(
+        "animationend",
+        () => number.remove(),
+        { once: true }
+    );
 }
 
 function getMomentPlaybackDuration(moment) {
@@ -559,6 +724,13 @@ function getMomentPlaybackDuration(moment) {
     return PLAYBACK_DURATIONS.normal;
 }
 
+function getMomentFlowTimings() {
+    return {
+        impact: 120,
+        bars: 230
+    };
+}
+
 function detailStartsWithImpact(detail) {
     return /^[+-]?\d+/.test(detail || "");
 }
@@ -570,12 +742,6 @@ function extractImpact(detail) {
     return match
         ? match[1]
         : "";
-}
-
-function stripImpact(detail) {
-    return (detail || "")
-        .replace(/^[+-]?\d+\s*/, "")
-        .trim();
 }
 
 function appendCombatLogMoment(moment) {
@@ -679,46 +845,80 @@ function hideSpellTooltip() {
 function updateCombatBars(action) {
     updateHpBar(
         "playerHpFill",
+        "playerShieldFill",
         "playerHpText",
         action.playerHp,
-        action.playerMaxHp
+        action.playerMaxHp,
+        action.playerShield
     );
 
     updateHpBar(
         "enemyHpFill",
+        "enemyShieldFill",
         "enemyHpText",
         action.enemyHp,
-        action.enemyMaxHp
+        action.enemyMaxHp,
+        action.enemyShield
     );
 }
 
-function updateHpBar(fillId, textId, value, maxValue) {
+function updateHpBar(fillId, shieldId, textId, value, maxValue, shieldValue) {
     const fill =
         document.getElementById(fillId);
+
+    const shield =
+        document.getElementById(shieldId);
 
     const text =
         document.getElementById(textId);
 
-    if (!fill || !text) {
+    if (!fill || !shield || !text) {
         return;
     }
 
+    const hpPercent =
+        getPercent(value, maxValue);
+
+    const shieldPercent =
+        Math.min(
+            getPercent(shieldValue || 0, maxValue),
+            100 - hpPercent
+        );
+
     fill.style.width =
-        `${getPercent(value, maxValue)}%`;
+        `${hpPercent}%`;
+
+    shield.style.left =
+        `${hpPercent}%`;
+
+    shield.style.width =
+        `${shieldPercent}%`;
 
     text.textContent =
         `${value} / ${maxValue} HP`;
 }
 
-function updateActiveSpellCard(spellName) {
+function updateActiveSpellCard(spellName, shouldTrigger = false) {
     document
         .querySelectorAll(".build-card")
         .forEach(card => {
+            const isActive =
+                spellName !== "" &&
+                card.dataset.spellName === spellName;
+
             card.classList.toggle(
                 "build-card--active",
-                spellName !== "" &&
-                card.dataset.spellName === spellName
+                isActive
             );
+
+            if (isActive && shouldTrigger) {
+                restartCssAnimation(
+                    card,
+                    "build-card--triggered"
+                );
+            } else {
+                card.classList.remove("build-card--triggered");
+            }
         });
 }
 

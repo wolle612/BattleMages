@@ -60,7 +60,7 @@ function showFightScreen() {
             hp: enemy.hp,
             maxHp: enemy.hp
         },
-        selectedSpells,
+        selectedSpells: getSortedSelectedSpells(),
         spellRanks,
         activeSpellName: getCurrentActiveSpellName()
     });
@@ -72,13 +72,15 @@ function showFightScreen() {
 
 function getCurrentActiveSpellName() {
     const sortedSpells =
-        [...selectedSpells].sort((a, b) => {
-            return spellPriority[a.name] - spellPriority[b.name];
-        });
+        getSortedSelectedSpells();
 
     return sortedSpells[0]
         ? sortedSpells[0].name
         : "";
+}
+
+function getSortedSelectedSpells() {
+    return sortSpellsByRotationOrder(selectedSpells);
 }
 
 function handleFightStart() {
