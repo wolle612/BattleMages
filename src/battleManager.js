@@ -3,9 +3,6 @@ function simulateFight() {
     const context =
         initializeCombatContext();
 
-    const sortedSpells =
-        sortSpellsByRotationOrder(selectedSpells);
-
     while (
         context.playerHp > 0 &&
         context.enemyHp > 0 &&
@@ -36,9 +33,28 @@ function simulateFight() {
 
         applyEnemyStartOfRoundAbilities(context);
 
-        sortedSpells.forEach(spell => {
+        const castedSpellIds =
+            [];
+
+        while (castedSpellIds.length < context.rotationSpells.length) {
+            const spell =
+                getNextCombatRotationSpell(context, castedSpellIds);
+
+            castedSpellIds.push(spell.id);
+
             resolveSpellCast(context, spell);
-        });
+
+            if (
+                context.enemyHp <= 0 ||
+                context.playerHp <= 0
+            ) {
+                break;
+            }
+        }
+
+        if (context.playerHp <= 0) {
+            break;
+        }
 
         applyEnemyAfterSpellAbilities(context);
 
@@ -75,31 +91,6 @@ function simulateFight() {
             }
         );
 
-        applyBurnDamage(context);
-
-        if (context.enemyHp <= 0) {
-
-            addCombatAction(
-                context,
-                `${context.enemy.name} wurde besiegt!`,
-                {
-                    type: "victory",
-                    feedbackTitle: "Sieg",
-                    feedbackDetail: `${context.enemy.name} wurde besiegt`,
-                    actor: "Spieler",
-                    actionName: "Sieg",
-                    effectText: `${context.enemy.name} wurde besiegt`,
-                    importance: "important"
-                }
-            );
-
-            break;
-        }
-
-        expireBrittle(context);
-        expireFireBuff(context);
-        reduceCooldowns(context.cooldowns);
-
         context.round++;
     }
 
@@ -119,11 +110,18 @@ function initializeCombatContext() {
     const cooldowns = {};
 
     selectedSpells.forEach(spell => {
-        cooldowns[spell.name] = 0;
+        cooldowns[spell.id] = 0;
     });
+
+    const effects =
+        initializeCombatEffects();
+
+    effects.momentum =
+        getInitialCombatMomentum(selectedSpells);
 
     return {
         playerHp: PLAYER_START_HP,
+        playerMaxHp: PLAYER_START_HP,
         playerShield: 0,
         enemy,
         enemyHp: enemy.hp,
@@ -134,10 +132,48 @@ function initializeCombatContext() {
         log: [],
         actionQueue: [],
         cooldowns,
+        rotationSpells: [...selectedSpells],
+        rotationOrderOverrides: createRotationOrderOverrides(selectedSpells),
+        temporaryRotationMoves: [],
+        castHistory: [],
+        lastPlayerSpell: null,
         // TODO: Der CombatContext wird für den MVP bewusst mutiert.
         // Bei Bedarf später in kleinere State-/Result-Objekte aufteilen.
-        effects: initializeCombatEffects()
+        effects
     };
+}
+
+function createRotationOrderOverrides(spellsToOrder) {
+    return spellsToOrder.reduce((overrides, spell) => {
+        overrides[spell.id] = spell.rotationOrder;
+        return overrides;
+    }, {});
+}
+
+function getNextCombatRotationSpell(context, castedSpellIds) {
+    return context.rotationSpells
+        .filter(spell => !castedSpellIds.includes(spell.id))
+        .sort((firstSpell, secondSpell) => {
+            return (
+                context.rotationOrderOverrides[firstSpell.id] -
+                context.rotationOrderOverrides[secondSpell.id]
+            );
+        })[0];
+}
+
+function getInitialCombatMomentum(spellsToCheck) {
+    return spellsToCheck.reduce((initialMomentum, spell) => {
+        const rank =
+            spellRanks[spell.id] || 1;
+
+        const values =
+            getSpellRankValues(spell, rank);
+
+        return Math.max(
+            initialMomentum,
+            values.initialMomentum || 0
+        );
+    }, 0);
 }
 
 function addCombatAction(context, message, options = {}) {
@@ -155,7 +191,7 @@ function addCombatAction(context, message, options = {}) {
         effectText: options.effectText || "",
         importance: options.importance || "normal",
         playerHp: context.playerHp,
-        playerMaxHp: PLAYER_START_HP,
+        playerMaxHp: context.playerMaxHp,
         enemyHp: context.enemyHp,
         enemyMaxHp: context.enemy.hp,
         playerShield: context.playerShield,
@@ -306,25 +342,6 @@ function resolveEnemyAttack(context) {
 
     context.empoweredAttack = 0;
 
-    if (context.effects.slowDuration > 0) {
-
-        damageTaken -= 1;
-
-        addCombatAction(
-            context,
-            `Verlangsamung reduziert den Schaden. (❄)`,
-            {
-                type: "status",
-                feedbackTitle: "Verlangsamung",
-                feedbackDetail: "Schaden reduziert",
-                actionName: "Verlangsamung",
-                effectText: "Gegnerschaden reduziert"
-            }
-        );
-
-        context.effects.slowDuration--;
-    }
-
     if (
         context.enemy.name === "Dunkler Magister" &&
         context.round % 3 === 0
@@ -366,6 +383,30 @@ function resolveEnemyAttack(context) {
                 importance: "important"
             }
         );
+    }
+
+    if (context.effects.nextEnemyAttackReduction > 0) {
+        damageTaken =
+            Math.max(
+                0,
+                damageTaken - context.effects.nextEnemyAttackReduction
+            );
+
+        addCombatAction(
+            context,
+            `Traumschleier reduziert den Angriff um ${context.effects.nextEnemyAttackReduction}.`,
+            {
+                type: "buff",
+                feedbackTitle: "Traumschleier",
+                feedbackDetail: `-${context.effects.nextEnemyAttackReduction} Schaden`,
+                actor: "Spieler",
+                actionName: "Traumschleier",
+                effectText: "Angriff reduziert"
+            }
+        );
+
+        context.effects.nextEnemyAttackReduction = 0;
+        context.effects.blockNextNegativeStatus = false;
     }
 
     if (damageTaken < 0) {

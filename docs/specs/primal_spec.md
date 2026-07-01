@@ -1,38 +1,46 @@
-# Sternenmagie – Implementierungsspezifikation
+# Urgewaltenmagie – Implementierungsspezifikation
 
 Version: 1.0
 Status: Final
-Schule: Sternenmagie
+Schule: Urgewaltenmagie
 
 ---
 
 # Designziel
 
-Sternenmagie belohnt perfektes Timing.
+Urgewaltenmagie erzeugt stetig zunehmenden Druck.
 
 Sie besitzt keine eigene Ressource.
 
-Ihre Stärke entsteht dadurch, den richtigen Moment innerhalb einer Rotation zu nutzen.
+Stattdessen baut sie Momentum auf, welches mächtige Zauber verstärkt.
 
 ---
 
 # Lokale Definitionen
 
-## Timing-Effekt
+## Momentum
 
-Ein Timing-Effekt gilt als aktiv, wenn unmittelbar zuvor ein Sternenzauber mit vorbereitender Wirkung gewirkt wurde.
+Momentum besitzt fünf Stufen.
 
-Timing-Effekte werden nicht gestapelt.
+Minimum:
 
-Es kann immer nur ein Timing-Effekt aktiv sein.
+0
+
+Maximum:
+
+5
+
+Momentum bleibt bis zum Kampfende erhalten.
+
+Kataklysmus verbraucht sämtliches Momentum.
 
 ---
 
-# Zauber 1 – Sternensplitter
+# Zauber 1 – Erdbeben
 
 ID:
 
-star_shard
+earthquake
 
 Typ:
 
@@ -63,9 +71,9 @@ Schaden:
 
 10
 
-Bonus:
+Nachbeben:
 
-+4 Schaden bei aktivem Timing-Effekt.
+4 Schaden.
 
 ---
 
@@ -75,13 +83,17 @@ Schaden:
 
 12
 
+Nachbeben:
+
+6 Schaden.
+
 ---
 
 ## Rang III
 
-Timing-Bonus steigt auf
+Das Nachbeben erzeugt zusätzlich
 
-+8 Schaden.
++1 Momentum.
 
 ---
 
@@ -91,21 +103,25 @@ Schaden:
 
 14
 
+Nachbeben:
+
+8 Schaden.
+
 ---
 
 ## Rang V
 
-Timing-Bonus ignoriert zusätzlich
+Das Nachbeben ignoriert
 
 8 Schild.
 
 ---
 
-# Zauber 2 – Gravitationsfeld
+# Zauber 2 – Gewitterfront
 
 ID:
 
-gravity_field
+stormfront
 
 Typ:
 
@@ -113,7 +129,6 @@ Status
 
 Tags:
 
-- Control
 - Preparation
 
 Seltenheit:
@@ -136,7 +151,9 @@ Schaden:
 
 8
 
-Aktiviert einen Timing-Effekt.
+Erzeugt:
+
++1 Momentum.
 
 ---
 
@@ -150,7 +167,9 @@ Schaden:
 
 ## Rang III
 
-Der Timing-Effekt gilt zusätzlich für den übernächsten Sternenzauber.
+Erzeugt:
+
++2 Momentum.
 
 ---
 
@@ -164,15 +183,87 @@ Schaden:
 
 ## Rang V
 
-Der Timing-Effekt verstärkt zusätzlich den nächsten Hybridzauber.
+Erhöht zusätzlich den Schaden des nächsten Urgewaltenzaubers um
+
++6.
 
 ---
 
-# Zauber 3 – Komet
+# Zauber 3 – Tornado
 
 ID:
 
-comet
+tornado
+
+Typ:
+
+Attack
+
+Tags:
+
+- Manipulation
+
+Seltenheit:
+
+Common
+
+Signature:
+
+Nein
+
+Cooldown:
+
+0
+
+---
+
+## Rang I
+
+Schaden:
+
+12
+
+Der nächste Urgewaltenzauber erhält
+
++4 Schaden.
+
+---
+
+## Rang II
+
+Schaden:
+
+14
+
+---
+
+## Rang III
+
+Der nächste Urgewaltenzauber erhält zusätzlich
+
++1 Momentum.
+
+---
+
+## Rang IV
+
+Schaden:
+
+16
+
+---
+
+## Rang V
+
+Der Bonus gilt für die nächsten zwei Urgewaltenzauber.
+
+---
+
+# Zauber 4 – Vulkanausbruch
+
+ID:
+
+volcanic_eruption
 
 Typ:
 
@@ -198,51 +289,51 @@ Cooldown:
 
 ## Rang I
 
-Schaden:
+Grundschaden:
 
-20
+18
 
 Zusätzlich:
 
-+8 Schaden bei aktivem Timing-Effekt.
++4 Schaden pro Momentum.
 
 ---
 
 ## Rang II
 
-Schaden:
+Grundschaden:
 
-24
+22
 
 ---
 
 ## Rang III
 
-Der Timing-Bonus erhöht zusätzlich den Schilddurchbruch um
+Momentum erhöht zusätzlich den Schilddurchbruch um
 
-8.
+2 pro Momentum.
 
 ---
 
 ## Rang IV
 
-Schaden:
+Grundschaden:
 
-28
+26
 
 ---
 
 ## Rang V
 
-Komet verbraucht keinen aktiven Timing-Effekt.
+Der Zauber verbraucht kein Momentum.
 
 ---
 
-# Zauber 4 – Sonnenfinsternis
+# Zauber 5 – Naturgewalt
 
 ID:
 
-solar_eclipse
+force_of_nature
 
 Typ:
 
@@ -268,29 +359,31 @@ Cooldown:
 
 ## Rang I
 
-Die nächsten zwei Sternenzauber erhalten
+Alle Momentum-Effekte erzeugen
 
-+4 Schaden.
++1 zusätzliches Momentum.
 
 ---
 
 ## Rang II
 
-Bonus:
+Zusätzlich erhalten Urgewaltenzauber
 
-+6 Schaden.
++4 Schaden.
 
 ---
 
 ## Rang III
 
-Der erste Timing-Bonus wird verdoppelt.
+Der Kampf beginnt mit
+
+1 Momentum.
 
 ---
 
 ## Rang IV
 
-Bonus:
+Bonus steigt auf
 
 +8 Schaden.
 
@@ -298,84 +391,19 @@ Bonus:
 
 ## Rang V
 
-Alle Timing-Effekte dieses Kampfes erhalten zusätzlich
+Momentum erreicht sofort mindestens
 
-+4 Schaden.
+3,
+
+falls es darunter liegt.
 
 ---
 
-# Zauber 5 – Sternbild
+# Zauber 6 – Kataklysmus
 
 ID:
 
-constellation
-
-Typ:
-
-Status
-
-Tags:
-
-- Preparation
-- Manipulation
-
-Seltenheit:
-
-Epic
-
-Signature:
-
-Nein
-
-Cooldown:
-
-0
-
----
-
-## Rang I
-
-Hybridkombinationen erhalten
-
-+4 Schaden.
-
----
-
-## Rang II
-
-Bonus:
-
-+6 Schaden.
-
----
-
-## Rang III
-
-Hybridkombinationen erhalten zusätzlich
-
-+4 Schild.
-
----
-
-## Rang IV
-
-Bonus:
-
-+8 Schaden.
-
----
-
-## Rang V
-
-Alle Hybridkombinationen erzeugen automatisch einen Timing-Effekt.
-
----
-
-# Zauber 6 – Supernova
-
-ID:
-
-supernova
+cataclysm
 
 Typ:
 
@@ -403,11 +431,17 @@ Cooldown:
 
 Grundschaden:
 
-34
+30
 
 Zusätzlich:
 
-+8 Schaden bei aktivem Timing-Effekt.
++8 Schaden pro Momentum.
+
+Nach dem Treffer wird Momentum auf
+
+0
+
+gesetzt.
 
 ---
 
@@ -415,13 +449,15 @@ Zusätzlich:
 
 Grundschaden:
 
-40
+36
 
 ---
 
 ## Rang III
 
-Der Timing-Bonus wird verdoppelt.
+Der Bonus steigt auf
+
++10 Schaden pro Momentum.
 
 ---
 
@@ -429,10 +465,12 @@ Der Timing-Bonus wird verdoppelt.
 
 Grundschaden:
 
-46
+42
 
 ---
 
 ## Rang V
 
-Supernova aktiviert anschließend alle verfügbaren Timing-Effekte erneut.
+Kataklysmus verursacht zusätzlich
+
++4 Schaden für jeden zuvor im Kampf verbrauchten Momentum-Punkt.

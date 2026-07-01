@@ -1,6 +1,12 @@
 function showSpellSelection() {
 
-    renderSpellSelectionScreen();
+    const starterSpells =
+        getRandomStarterOffer();
+
+    renderSpellSelectionScreen(
+        starterSpells.length,
+        STARTER_SELECTION_COUNT
+    );
 
     const spellContainer = document.getElementById("spellContainer");
     const selectionCounter = document.getElementById("selectionCounter");
@@ -8,8 +14,7 @@ function showSpellSelection() {
 
     selectedSpells = [];
 
-    spells
-        .filter(spell => spell.starter)
+    starterSpells
         .forEach(spell => {
 
         const card = renderSpellSelectionCard(spell);
@@ -25,22 +30,52 @@ function showSpellSelection() {
 
             } else {
 
-                if (selectedSpells.length >= 3) return;
+                if (selectedSpells.length >= STARTER_SELECTION_COUNT) return;
 
                 selectedSpells.push(spell);
                 card.classList.add("selected");
             }
 
             selectionCounter.textContent =
-                `Ausgewählt: ${selectedSpells.length} / 3`;
+                `Ausgewählt: ${selectedSpells.length} / ${STARTER_SELECTION_COUNT}`;
 
-            startButton.disabled = selectedSpells.length !== 3;
+            startButton.disabled =
+                selectedSpells.length !== STARTER_SELECTION_COUNT;
         });
 
         spellContainer.appendChild(card);
     });
 
     startButton.addEventListener("click", startRun);
+}
+
+function getRandomStarterOffer() {
+    const starterPool =
+        spells.filter(spell => spell.starter === true);
+
+    return shuffleSpells(starterPool)
+        .slice(0, STARTER_OFFER_COUNT);
+}
+
+function shuffleSpells(spellsToShuffle) {
+    const shuffledSpells =
+        [...spellsToShuffle];
+
+    for (let index = shuffledSpells.length - 1; index > 0; index--) {
+        const swapIndex =
+            Math.floor(Math.random() * (index + 1));
+
+        const currentSpell =
+            shuffledSpells[index];
+
+        shuffledSpells[index] =
+            shuffledSpells[swapIndex];
+
+        shuffledSpells[swapIndex] =
+            currentSpell;
+    }
+
+    return shuffledSpells;
 }
 
 function showFightScreen() {
@@ -60,7 +95,7 @@ function showFightScreen() {
             hp: enemy.hp,
             maxHp: enemy.hp
         },
-        selectedSpells: getSortedSelectedSpells(),
+        actionbarSlots: getActionbarSlots(selectedSpells),
         spellRanks,
         activeSpellName: getCurrentActiveSpellName()
     });
@@ -72,15 +107,13 @@ function showFightScreen() {
 
 function getCurrentActiveSpellName() {
     const sortedSpells =
-        getSortedSelectedSpells();
+        getActionbarSlots(selectedSpells)
+            .map(slot => slot.spell)
+            .filter(spell => spell);
 
     return sortedSpells[0]
-        ? sortedSpells[0].name
+        ? sortedSpells[0].id
         : "";
-}
-
-function getSortedSelectedSpells() {
-    return sortSpellsByRotationOrder(selectedSpells);
 }
 
 function handleFightStart() {
@@ -109,7 +142,7 @@ function startRun() {
 
     selectedSpells.forEach(spell => {
 
-        spellRanks[spell.name] = 1;
+        spellRanks[spell.id] = 1;
 
     });
 
@@ -127,33 +160,38 @@ function showRewardScreen() {
     const usedRewards = [];
 
     const ownedSpells = selectedSpells.map(
-        spell => spell.name
+        spell => spell.id
     );
 
     // Upgrade-Kandidat
 
+    const upgradeableSpells =
+        getUpgradeableSpells();
+
     const upgradeSpell =
-        selectedSpells[
+        upgradeableSpells[
             Math.floor(
-                Math.random() * selectedSpells.length
+                Math.random() * upgradeableSpells.length
             )
         ];
 
-    rewardOptions.push({
-        type: "upgrade",
-        spell: upgradeSpell
-    });
+    if (upgradeSpell) {
+        rewardOptions.push({
+            type: "upgrade",
+            spell: upgradeSpell
+        });
 
-    usedRewards.push(
-    upgradeSpell.name
-    );
+        usedRewards.push(
+            upgradeSpell.id
+        );
+    }
 
     // Neuer Zauber
 
     const newSpells =
         spells.filter(
             spell =>
-                !ownedSpells.includes(spell.name)
+                !ownedSpells.includes(spell.id)
         );
 
     const randomNewSpell =
@@ -169,16 +207,16 @@ function showRewardScreen() {
     });
 
     usedRewards.push(
-    randomNewSpell.name
+    randomNewSpell.id
     );
 
     // Zweiter Upgrade-Kandidat
 
     const availableUpgrades =
-        selectedSpells.filter(
+        upgradeableSpells.filter(
             spell =>
                 !usedRewards.includes(
-                    spell.name
+                    spell.id
                 )
         );
 
@@ -264,7 +302,7 @@ function showRewardScreen() {
             if (option.type === "upgrade") {
 
                 spellRanks[
-                    option.spell.name
+                    option.spell.id
                 ]++;
 
                 finishReward(text);
@@ -280,7 +318,7 @@ function showRewardScreen() {
                     );
 
                     spellRanks[
-                        option.spell.name
+                        option.spell.id
                     ] = 1;
 
                     finishReward(text);
@@ -298,6 +336,15 @@ function showRewardScreen() {
             }
         }
     );
+}
+
+function getUpgradeableSpells() {
+    return selectedSpells.filter(spell => {
+        const currentRank =
+            spellRanks[spell.id] || 1;
+
+        return currentRank < spell.upgrades.length;
+    });
 }
 
 function finishReward(text) {
@@ -343,7 +390,7 @@ function showSpellReplaceScreen(
                         );
 
                         delete spellRanks[
-                            oldSpell.name
+                            oldSpell.id
                         ];
 
                         selectedSpells.push(
@@ -351,7 +398,7 @@ function showSpellReplaceScreen(
                         );
 
                         spellRanks[
-                            newSpell.name
+                            newSpell.id
                         ] = 1;
 
                         finishReward(

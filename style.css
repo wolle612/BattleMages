@@ -66,6 +66,7 @@ h1 {
 }
 
 #spellContainer {
+    position: relative;
     display: flex;
     justify-content: center;
     gap: 16px;
@@ -87,9 +88,10 @@ h1 {
 }
 
 .spell-card {
-    width: 220px;
-    padding: 16px;
+    width: 240px;
+    padding: 20px 18px 18px;
     cursor: pointer;
+    text-align: center;
 }
 
 .spell-card:hover {
@@ -111,18 +113,64 @@ h1 {
     color: var(--text-primary);
 }
 
-.spell-description {
-    font-style: italic;
-    color: var(--text-secondary);
-    margin-bottom: 10px;
-    font-size: 0.92rem;
+.spell-card .card-icon-slot {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 14px;
 }
 
-.spell-element {
-    color: var(--text-muted);
-    font-size: 0.85rem;
-    text-transform: uppercase;
+.spell-card-rarity {
+    margin-top: 4px;
+    font-size: 0.74rem;
+    font-weight: 800;
     letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.spell-card-badges {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin: 12px 0;
+}
+
+.spell-card-badge {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    padding: 3px 8px;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.04);
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.spell-card-badge--type {
+    color: var(--text-primary);
+    border-color: rgba(232, 197, 71, 0.28);
+    background: rgba(232, 197, 71, 0.08);
+}
+
+.spell-card-section {
+    display: grid;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.spell-card-section--mechanics {
+    color: var(--text-secondary);
+}
+
+.spell-card-line {
+    font-size: 0.88rem;
+    line-height: 1.35;
+}
+
+.spell-card-footer {
+    justify-content: center;
+    margin-top: 4px;
 }
 
 /* Icon / image placeholder slots (pixel-art ready) */
@@ -927,15 +975,73 @@ h1 {
 }
 
 .tooltip-title {
-    margin-bottom: 6px;
+    margin-bottom: 4px;
     color: var(--accent-gold);
     font-weight: 800;
 }
 
-.tooltip-description {
+.tooltip-rarity {
     margin-bottom: 10px;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.rarity-common {
+    color: #aab2c0;
+}
+
+.rarity-rare {
+    color: #5b8def;
+}
+
+.rarity-epic {
+    color: #b26df5;
+}
+
+.rarity-legendary {
+    color: #f0a34a;
+}
+
+.tooltip-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.tooltip-badge {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    padding: 3px 8px;
     color: var(--text-secondary);
-    font-size: 0.9rem;
+    background: rgba(255, 255, 255, 0.04);
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.tooltip-badge--type {
+    color: var(--text-primary);
+    border-color: rgba(232, 197, 71, 0.28);
+    background: rgba(232, 197, 71, 0.08);
+}
+
+.tooltip-section {
+    display: grid;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.tooltip-section--mechanics {
+    color: var(--text-secondary);
+}
+
+.tooltip-line {
+    font-size: 0.88rem;
+    line-height: 1.35;
 }
 
 .tooltip-meta {
@@ -978,10 +1084,6 @@ h1 {
 
 .reward-card {
     position: relative;
-    width: 240px;
-    padding: 20px 18px 18px;
-    cursor: pointer;
-    text-align: center;
 }
 
 .reward-card:hover {
@@ -1028,15 +1130,21 @@ h1 {
     border: 1px solid rgba(71, 201, 133, 0.35);
 }
 
-.reward-card .card-icon-slot {
-    width: 80px;
-    height: 80px;
-    margin-bottom: 14px;
+.reward-change-list {
+    display: grid;
+    gap: 6px;
+    margin-top: 12px;
 }
 
-.reward-card .card-meta {
-    justify-content: center;
-    margin-top: 4px;
+.reward-change-line {
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    padding: 6px 9px;
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.04);
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.25;
 }
 
 /* Combat log */

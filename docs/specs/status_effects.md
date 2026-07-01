@@ -1,6 +1,6 @@
-# Battlemages – Combat Rules
+# Battlemages – Status Effects
 
-Version: 1.0
+Version: 1.1
 
 Status: Final
 
@@ -8,376 +8,480 @@ Status: Final
 
 # Zweck
 
-Dieses Dokument definiert sämtliche globalen Kampfregeln.
+Dieses Dokument definiert sämtliche globalen Status- und Kampfeffekte von Battlemages.
 
-Es beschreibt ausschließlich die Mechanik des Kampfs.
+Status werden niemals innerhalb einzelner Zauber implementiert.
 
-Keine Schule darf eigene Grundregeln einführen.
+Alle Schulen greifen ausschließlich auf diese Definitionen zurück.
 
-Alle Zauber greifen auf diese Regeln zurück.
-
----
-
-# Kampfrhythmus
-
-Ein Kampf besteht aus einzelnen Impulsen.
-
-Ein Impuls beschreibt genau eine ausgeführte Aktion.
-
-Beispiele:
-
-- Spieler wirkt Zauber
-- Gegner greift an
-- Status löst aus
-- Echo löst aus
-
-Jeder Impuls wird vollständig abgeschlossen,
-bevor der nächste beginnt.
+Neue Status müssen zuerst in diesem Dokument ergänzt werden.
 
 ---
 
-# Reihenfolge eines Impulses
+# Allgemeine Regeln
 
-Jeder Impuls wird immer in derselben Reihenfolge abgearbeitet.
+## Buff
 
-1.
-Aktiver Zauber bestimmen
-
-↓
-
-2.
-Kosten bezahlen
-
-↓
-
-3.
-Direkte Effekte ausführen
-
-↓
-
-4.
-Schaden berechnen
-
-↓
-
-5.
-Schilde berücksichtigen
-
-↓
-
-6.
-HP verändern
-
-↓
-
-7.
-Status anwenden
-
-↓
-
-8.
-Folgeeffekte auslösen
-
-↓
-
-9.
-Kampflog erzeugen
-
-↓
-
-10.
-Renderer aktualisieren
-
-Diese Reihenfolge darf nicht verändert werden.
-
----
-
-# Rotation
-
-Die Rotation bestimmt die Reihenfolge der Zauber.
-
-Sie basiert auf:
-
-rotationOrder
-
-Nach dem letzten Zauber beginnt die Rotation erneut.
-
-Signature-Zauber überspringen ihre nächste Rotation,
-falls ihr Cooldown aktiv ist.
-
----
-
-# Rotation verändern
-
-Zauber dürfen rotationOrder verändern.
-
-Dabei gelten folgende Regeln:
-
-- Änderungen wirken sofort.
-- Die Actionbar aktualisiert sich unmittelbar.
-- Die neue Reihenfolge bleibt bestehen,
-bis sie erneut verändert wird.
-
----
-
-# Schaden
-
-Schaden besitzt folgende Reihenfolge:
-
-1.
-Schadensbonus
-
-↓
-
-2.
-Schilddurchdringung
-
-↓
-
-3.
-Schild
-
-↓
-
-4.
-Leben
-
-Schaden kann niemals negativ werden.
-
----
-
-# Schild
-
-Schild absorbiert Schaden,
-bevor HP verloren gehen.
-
-Schild kann maximal bis zum aktuellen Schildwert verbraucht werden.
-
-Überschüssiger Schaden trifft anschließend HP.
-
-Mehrere Schilde addieren sich.
-
----
-
-# Heilung
-
-Heilung kann HP niemals über das Maximum erhöhen.
-
-Überschüssige Heilung verfällt.
-
----
-
-# Buffs
+Ein Buff verbessert den Spieler.
 
 Buffs besitzen:
 
+- ID
 - Auslöser
 - Wirkung
 - Dauer
-
-Ein Buff endet sofort,
-wenn seine Dauer abgelaufen ist.
-
-Mehrere unterschiedliche Buffs können gleichzeitig aktiv sein.
-
-Ob identische Buffs stapelbar sind,
-entscheidet der jeweilige Buff.
+- Stapelbarkeit
 
 ---
 
-# Debuffs
+## Debuff
 
-Debuffs folgen denselben Regeln wie Buffs.
+Ein Debuff schwächt den Gegner.
 
-Die Definition erfolgt zentral
-in status_effects.md.
-
----
-
-# Hybridkombination
-
-Eine Hybridkombination entsteht,
-wenn zwei unmittelbar aufeinanderfolgende Zauber
-unterschiedlicher Schulen angehören.
-
-Beispiel:
-
-Blood → Rune
-
-Rune → Dream
-
-Star → Blood
-
-Nicht:
-
-Blood → Blood
+Debuffs besitzen dieselben Eigenschaften.
 
 ---
 
-# Runenkombination
+## Dauer
 
-Eine Runenkombination entsteht,
-wenn zwei Runenzauber direkt hintereinander ausgeführt werden.
+Dauer wird grundsätzlich angegeben als:
 
----
+- nächster Zauber
+- nächste X Zauber
+- bis Kampfende
+- bis ausgelöst
 
-# Timing-Effekt
-
-Ein Timing-Effekt ist eine temporäre Vorbereitung.
-
-Es kann immer nur
-ein aktiver Timing-Effekt existieren.
-
-Ein Timing-Effekt wird normalerweise
-beim nächsten passenden Sternenzauber verbraucht.
+Es existieren keine Sekunden oder Echtzeitdauern.
 
 ---
 
-# Echo
+## Stapelbarkeit
 
-Echo wiederholt einen Zauber automatisch.
+Ist nichts anderes angegeben,
 
-Regeln:
+gilt:
 
-- wirkt nach dem ursprünglichen Zauber
-- verursacht standardmäßig 50 % Wirkung
-- kann keine weiteren Echo-Effekte erzeugen
-- löst keine Endlosschleifen aus
-
-Echo übernimmt:
-
-- Schaden
-- Schild
-- Status
-
-sofern der jeweilige Zauber dies erlaubt.
-
----
-
-# Momentum
-
-Momentum besitzt Werte von
-
-0 bis 5.
-
-Momentum:
-
-- bleibt bis Kampfende erhalten
-- kann erhöht werden
-- kann vollständig verbraucht werden
-
-Momentum besitzt keine eigene Anzeige außerhalb des Statusbereichs.
+Nicht stapelbar.
 
 ---
 
 # Wunde
 
-Wunde ist ein globaler Debuff.
+ID
 
-Die genaue Wirkung wird
-in status_effects.md definiert.
+wound
 
-Zauber dürfen ausschließlich prüfen:
+Typ
 
-enemy.hasStatus("wound")
+Debuff
 
-Nicht:
+Stapelbar
 
-eigene Wundensysteme.
+Nein
 
----
+Beschreibung
 
-# Trigger
+Der Gegner gilt als verwundet.
 
-Effekte werden immer vollständig abgearbeitet,
-bevor der nächste Trigger beginnt.
+Einige Schattenzauber erhalten gegen verwundete Ziele zusätzliche Effekte.
 
-Es gibt keine parallelen Trigger.
+Dauer
 
----
-
-# Priorität
-
-Falls mehrere Effekte gleichzeitig ausgelöst werden:
-
-1.
-aktiver Zauber
-
-↓
-
-2.
-direkte Effekte
-
-↓
-
-3.
-Status
-
-↓
-
-4.
-Folgeeffekte
-
-↓
-
-5.
-Renderer
+Bis Kampfende.
 
 ---
 
-# Renderer
+# Blutpakt
 
-Der Renderer berechnet niemals Gameplay.
+ID
 
-Er liest ausschließlich den Combat Context.
+blood_pact
 
-Alle Animationen basieren auf:
+Typ
 
-actionQueue
+Buff
 
-Nicht auf eigener Logik.
+Stapelbar
 
----
+Nein
 
-# Gegner
+Beschreibung
 
-Gegner folgen denselben Regeln
-wie Spieler.
+Verstärkt ausschließlich Blutzauber.
 
-Sie besitzen:
+Die genaue Höhe wird durch den auslösenden Zauber definiert.
 
-- HP
-- Schild
-- Status
-- Zauber
-- Cooldowns
-- Trigger
+Dauer
 
-Es existieren keine Sonderregeln
-nur für Gegner.
+Bis ausgelöst.
 
 ---
 
-# Determinismus
+# Blutrausch
 
-Ein identischer Kampf
-mit identischen Eingaben
-muss immer dasselbe Ergebnis liefern.
+ID
 
-Zufall darf ausschließlich dort eingesetzt werden,
-wo dies explizit durch Design vorgesehen ist.
+blood_frenzy
+
+Typ
+
+Buff
+
+Stapelbar
+
+Nein
+
+Beschreibung
+
+Verstärkt Blutzauber solange die jeweiligen Bedingungen erfüllt sind.
+
+Der Bonus wird ausschließlich vom Zauber definiert.
+
+Dauer
+
+Bis Kampfende oder bis der auslösende Effekt endet.
+
+---
+
+# Vorbereitung
+
+ID
+
+preparation
+
+Typ
+
+Buff
+
+Stapelbar
+
+Nein
+
+Beschreibung
+
+Ein vorbereitender Effekt.
+
+Besitzt selbst keine Wirkung.
+
+Verstärkt den nächsten passenden Zauber.
+
+Die konkrete Stärke bestimmt immer der auslösende Zauber.
+
+---
+
+# Echo
+
+ID
+
+echo
+
+Typ
+
+Buff
+
+Stapelbar
+
+Nein
+
+Beschreibung
+
+Der nächste passende Zauber wird automatisch wiederholt.
+
+Regeln
+
+- 50 % Grundwirkung
+- übernimmt Schaden
+- übernimmt Schild
+- übernimmt erlaubte Status
+- erzeugt niemals weiteres Echo
+
+Dauer
+
+Einmalig.
+
+---
+
+# Timing
+
+ID
+
+timing
+
+Typ
+
+Buff
+
+Stapelbar
+
+Nein
+
+Beschreibung
+
+Bereitet den nächsten Sternenzauber vor.
+
+Regeln
+
+Es kann immer nur ein Timing-Effekt aktiv sein.
+
+Ein neuer Timing-Effekt ersetzt den bisherigen.
+
+Dauer
+
+Bis ausgelöst.
+
+---
+
+# Momentum
+
+ID
+
+momentum
+
+Typ
+
+Buff
+
+Stapelbar
+
+Ja
+
+Maximale Stapel
+
+5
+
+Beschreibung
+
+Momentum verstärkt bestimmte Urgewaltenzauber.
+
+Regeln
+
+Momentum
+
+- bleibt bis Kampfende erhalten
+- wird ausschließlich durch Momentum-Effekte erzeugt
+- kann vollständig verbraucht werden
+
+---
+
+# Runenverbindung
+
+ID
+
+rune_link
+
+Typ
+
+Buff
+
+Stapelbar
+
+Nein
+
+Beschreibung
+
+Verbindet zwei aufeinanderfolgende Runenzauber.
+
+Ermöglicht zusätzliche Runenkombinationen.
+
+Dauer
+
+Bis ausgelöst.
+
+---
+
+# Hybridbonus
+
+ID
+
+hybrid_bonus
+
+Typ
+
+Buff
+
+Stapelbar
+
+Nein
+
+Beschreibung
+
+Verstärkt den nächsten Hybridzauber.
+
+Hybrid bedeutet:
+
+Zwei unmittelbar aufeinanderfolgende Zauber unterschiedlicher Schulen.
+
+Dauer
+
+Bis ausgelöst.
+
+---
+
+# Schildbonus
+
+ID
+
+shield_bonus
+
+Typ
+
+Buff
+
+Stapelbar
+
+Nein
+
+Beschreibung
+
+Verstärkt den nächsten erzeugten Schild.
+
+Dauer
+
+Bis ausgelöst.
+
+---
+
+# Schilddurchbruch
+
+ID
+
+armor_break
+
+Typ
+
+Temporärer Effekt
+
+Beschreibung
+
+Ein Teil des Schadens ignoriert vorhandene Schilde.
+
+Besitzt keine Dauer.
+
+Gilt ausschließlich für den aktuellen Angriff.
+
+---
+
+# Nachbeben
+
+ID
+
+aftershock
+
+Typ
+
+Folgeeffekt
+
+Beschreibung
+
+Ein zweiter kleiner Angriff.
+
+Regeln
+
+- erfolgt unmittelbar nach dem Haupttreffer
+- gilt nicht als eigener Zauber
+- löst keine Zauber erneut aus
+- erzeugt keine Triggerketten
+
+---
+
+# Globale Regeln
+
+Status werden ausschließlich über ihre ID geprüft.
+
+Nicht erlaubt:
+
+spell.name
+
+status.name
+
+Erlaubt:
+
+status.id
+
+hasStatus(id)
+
+addStatus(id)
+
+removeStatus(id)
+
+---
+
+# Darstellung
+
+Status sollen künftig im Charakterfenster dargestellt werden.
+
+Jeder Status besitzt später:
+
+- Icon
+- Name
+- Tooltip
+- Stapelanzeige
+- Restdauer (falls relevant)
+
+Die Darstellung erfolgt ausschließlich über Statusdaten.
 
 ---
 
 # Erweiterbarkeit
 
-Neue Schulen,
-Zauber,
-Gegner
-und Bossmechaniken
+Neue Schulen dürfen neue Status hinzufügen.
 
-dürfen keine Änderungen
-an diesen Grundregeln erfordern.
+Diese müssen jedoch zuerst in diesem Dokument definiert werden.
 
-Neue Inhalte bauen ausschließlich
-auf den hier definierten Regeln auf.
+Erst danach dürfen sie in einer *_spec.md verwendet werden.
+
+---
+
+# UI-Darstellung
+
+Die folgenden Status sollen im Kampf als Statuschips unter dem jeweiligen Charakter dargestellt werden.
+
+| Status-ID | Schule | Sichtbar | Icon |
+|-----------|---------|----------|------|
+| blood_pact | Blut | Ja | 🩸 |
+| blood_frenzy | Blut | Ja | 🩸 |
+| wound | Schatten | Ja | 🌑 |
+| preparation | Global | Nein | — |
+| echo | Traum | Ja | 🌙 |
+| rune_link | Runen | Ja | ✨ |
+| hybrid_bonus | Runen | Nein | — |
+| timing | Sterne | Ja | ⭐ |
+| momentum | Urgewalten | Ja | 🌋 |
+| shield_bonus | Global | Nein | 🛡 |
+| armor_break | Global | Nein | ⚔ |
+| aftershock | Global | Nein | 🌋 |
+
+## Regeln
+
+Status mit **Sichtbar = Ja** werden künftig als Statuschips im Charakterfenster dargestellt.
+
+Jeder Statuschip besitzt später:
+
+- Icon
+- Tooltip
+- Stapelanzeige (falls stapelbar)
+- Restdauer (falls relevant)
+
+Status mit **Sichtbar = Nein** sind reine interne Kampfzustände und werden nicht dauerhaft im UI angezeigt.
+
+# Dokumentenhierarchie
+
+implementation_rules.md
+
+↓
+
+combat_rules.md
+
+↓
+
+status_effects.md
+
+↓
+
+*_spec.md
+
+↓
+
+Code
+
+Diese Reihenfolge ist verbindlich.

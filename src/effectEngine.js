@@ -1,11 +1,32 @@
 function initializeCombatEffects() {
     return {
-        burnDuration: 0,
-        burnDamage: 2,
-        slowDuration: 0,
-        brittleDuration: 0,
-        fireBuffDuration: 0,
-        fireBuffActive: false
+        bloodDamageBonusCharges: 0,
+        bloodDamageBonusValue: 0,
+        bloodPactCharges: 0,
+        bloodPactDamagePerHp: 0,
+        bloodPactSacrificedHp: 0,
+        bloodPactHealPercentOnExpire: 0,
+        bloodFrenzyActive: false,
+        bloodFrenzyThresholdPercent: 0,
+        bloodFrenzyDamageBonus: 0,
+        bloodFrenzyShieldPerBloodSpell: 0,
+        enemyStatuses: {},
+        nextSchoolBonuses: [],
+        nextEchoBonuses: [],
+        globalEchoPercent: 0,
+        nextSpellEffects: [],
+        nextEnemyAttackReduction: 0,
+        blockNextNegativeStatus: false,
+        conditionalSpellBonuses: [],
+        timingEffect: null,
+        globalTimingDamageBonus: 0,
+        doubleNextTimingBonus: false,
+        autoTimingOnHybrid: false,
+        lastTimingEffectValues: null,
+        momentum: 0,
+        consumedMomentum: 0,
+        additionalMomentumGain: 0,
+        primalDamageBonus: 0
     };
 }
 
@@ -53,70 +74,6 @@ function applyPlayerShield(context, damageTaken) {
     }
 
     return damageTaken;
-}
-
-function applyBurnDamage(context) {
-    if (
-        context.effects.burnDuration > 0 &&
-        context.enemyHp > 0
-    ) {
-
-        let currentBurnDamage =
-            context.effects.burnDamage;
-
-        if (context.effects.fireBuffDuration > 0) {
-
-            currentBurnDamage += 1;
-        }
-
-        context.enemyHp -= currentBurnDamage;
-
-        addCombatAction(
-            context,
-            `${context.enemy.name} erleidet ${currentBurnDamage} Brennschaden. (🔥)`,
-            {
-                type: "burn",
-                feedbackTitle: "Brennen",
-                feedbackDetail: `-${currentBurnDamage} Schaden`,
-                actor: "Brennen",
-                actionName: "Brennen",
-                impact: `-${currentBurnDamage}`,
-                effectText: "Schaden"
-            }
-        );
-
-        context.effects.burnDuration--;
-    }
-}
-
-function expireBrittle(context) {
-    if (context.effects.brittleDuration > 0) {
-        context.effects.brittleDuration--;
-    }
-}
-
-function expireFireBuff(context) {
-    if (context.effects.fireBuffDuration > 0) {
-
-        context.effects.fireBuffDuration--;
-
-        if (context.effects.fireBuffDuration === 0) {
-
-            context.effects.fireBuffActive = false;
-
-            addCombatAction(
-                context,
-                `Brennendes Blut endet.`,
-                {
-                    type: "status",
-                    feedbackTitle: "Brennendes Blut",
-                    feedbackDetail: "endet",
-                    actionName: "Brennendes Blut",
-                    effectText: "endet"
-                }
-            );
-        }
-    }
 }
 
 function reduceCooldowns(cooldowns) {

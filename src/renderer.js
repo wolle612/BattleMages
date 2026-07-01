@@ -2,12 +2,12 @@ function getGameRoot() {
     return document.getElementById("game");
 }
 
-function renderSpellSelectionScreen() {
+function renderSpellSelectionScreen(starterSpellCount, selectionCount) {
     getGameRoot().innerHTML = `
-        <p class="subtitle">Wähle 3 von 5 Zaubern für deinen Run.</p>
+        <p class="subtitle">Wähle ${selectionCount} von ${starterSpellCount} Zaubern für deinen Run.</p>
 
         <div id="selectionCounter">
-            Ausgewählt: 0 / 3
+            Ausgewählt: 0 / ${selectionCount}
         </div>
 
         <div id="spellContainer"></div>
@@ -23,16 +23,90 @@ function renderSpellSelectionScreen() {
 }
 
 function renderSpellSelectionCard(spell) {
-    const card = document.createElement("div");
-    card.classList.add("spell-card");
-
-    card.innerHTML = `
-        <div class="spell-name">${spell.name}</div>
-        <div class="spell-description">${spell.description}</div>
-        <div class="spell-element">${spell.element}</div>
-    `;
+    const card =
+        renderSpellCard(spell, 1, {
+            classNames: ["spell-card--selection"]
+        });
 
     return card;
+}
+
+function renderSpellCard(spell, rank, options = {}) {
+    const card =
+        document.createElement("div");
+
+    const classNames =
+        options.classNames || [];
+
+    card.classList.add("spell-card", ...classNames);
+    card.dataset.spellId = spell.id;
+    card.tabIndex = 0;
+
+    card.innerHTML =
+        renderSpellCardContent(
+            getSpellTooltipView(spell, rank),
+            options
+        );
+
+    return card;
+}
+
+function renderSpellCardContent(view, options = {}) {
+    return `
+        ${options.headerHtml || ""}
+        <div
+            class="card-icon-slot"
+            aria-hidden="true"
+        >
+            ${view.name.charAt(0)}
+        </div>
+        <div class="spell-name">
+            ${view.name}
+        </div>
+        <div class="spell-card-rarity ${view.rarity.className}">
+            [${view.rarity.label}]
+        </div>
+        <div class="spell-card-badges">
+            ${renderSpellCardBadge(view.type.label, "spell-card-badge--type")}
+            ${view.tags
+                .map(tag => renderSpellCardBadge(tag.label, "spell-card-badge--tag"))
+                .join("")}
+        </div>
+        <div class="spell-card-section">
+            ${renderSpellCardLines(view.valueLines)}
+        </div>
+        <div class="spell-card-section spell-card-section--mechanics">
+            ${renderSpellCardLines(view.mechanicLines)}
+        </div>
+        <div class="card-meta spell-card-footer">
+            <span class="spell-rank">
+                Rang ${view.rankLabel}
+            </span>
+        </div>
+        ${options.footerHtml || ""}
+    `;
+}
+
+function renderSpellCardBadge(label, className) {
+    return `
+        <span class="spell-card-badge ${className}">
+            ${label}
+        </span>
+    `;
+}
+
+function renderSpellCardLines(lines) {
+    if (lines.length === 0) {
+        return "";
+    }
+
+    return lines
+        .map(line => `
+            <div class="spell-card-line">
+                ${line}
+            </div>
+        `)
+        .join("");
 }
 
 function renderFightScreen(viewModel) {
@@ -200,7 +274,7 @@ function renderFightScreen(viewModel) {
     `;
 
     renderBuildList(
-        viewModel.selectedSpells,
+        viewModel.actionbarSlots,
         viewModel.spellRanks,
         viewModel.activeSpellName
     );
@@ -241,30 +315,42 @@ function renderRunProgress(fightNumber, totalFights) {
     return markers.join("");
 }
 
-function renderBuildList(selectedSpells, spellRanks, activeSpellName) {
+function renderBuildList(actionbarSlots, spellRanks, activeSpellName) {
     const buildList = document.getElementById("buildList");
 
-    selectedSpells.forEach(spell => {
-        buildList.appendChild(
-            renderBuildCard(
-                spell,
-                spellRanks,
-                spell.name === activeSpellName
-            )
-        );
+    actionbarSlots.forEach(slot => {
+        if (slot.spell) {
+            buildList.appendChild(
+                renderBuildCard(
+                    slot,
+                    spellRanks,
+                    slot.spell.id === activeSpellName
+                )
+            );
+            return;
+        }
+
+        buildList.appendChild(renderEmptyBuildCard(slot));
     });
 
-    while (buildList.children.length < 5) {
-        buildList.appendChild(renderEmptyBuildCard());
-    }
-
-    setupSpellTooltips();
+    setupSpellTooltips(
+        actionbarSlots
+            .map(slot => slot.spell)
+            .filter(spell => spell),
+        ".build-card:not(.build-card--empty)",
+        spell => spellRanks[spell.id]
+    );
 }
 
-function renderBuildCard(spell, spellRanks, isActive) {
+function renderBuildCard(slot, spellRanks, isActive) {
+    const spell =
+        slot.spell;
+
     const card = document.createElement("div");
     card.classList.add("build-card");
-    card.dataset.spellName = spell.name;
+    card.dataset.spellId = spell.id;
+    card.dataset.slotId = slot.slotId;
+    card.dataset.slotIndex = slot.slotIndex;
 
     if (isActive) {
         card.classList.add("build-card--active");
@@ -279,7 +365,7 @@ function renderBuildCard(spell, spellRanks, isActive) {
         </div>
         <div class="card-meta">
             <span class="spell-rank">
-                ${romanize(spellRanks[spell.name])}
+                ${romanize(spellRanks[spell.id])}
             </span>
             <span class="spell-cooldown">
                 CD ${spell.cooldown}
@@ -291,18 +377,16 @@ function renderBuildCard(spell, spellRanks, isActive) {
         <span class="sr-only">${spell.name}</span>
     `;
 
-    card.dataset.tooltipName = spell.name;
-    card.dataset.tooltipDescription = spell.description || "";
-    card.dataset.tooltipRank = romanize(spellRanks[spell.name]);
-    card.dataset.tooltipCooldown = spell.cooldown;
     card.tabIndex = 0;
 
     return card;
 }
 
-function renderEmptyBuildCard() {
+function renderEmptyBuildCard(slot) {
     const card = document.createElement("div");
     card.classList.add("build-card", "build-card--empty");
+    card.dataset.slotId = slot.slotId;
+    card.dataset.slotIndex = slot.slotIndex;
 
     card.innerHTML = `
         <div
@@ -582,8 +666,7 @@ function getActionImpact(action) {
 function getImpactTarget(action) {
     if (
         action.type === "spellDamage" ||
-        action.type === "debuff" ||
-        action.type === "burn"
+        action.type === "debuff"
     ) {
         return "enemy";
     }
@@ -602,6 +685,14 @@ function getImpactTarget(action) {
         return action.actor && action.actor !== "Spieler"
             ? "enemy"
             : "player";
+    }
+
+    if (
+        action.impact &&
+        action.impact.startsWith("-") &&
+        action.actor === "Spieler"
+    ) {
+        return "player";
     }
 
     return "";
@@ -771,7 +862,7 @@ function appendCombatLogMoment(moment) {
         combatLog.scrollHeight;
 }
 
-function setupSpellTooltips() {
+function setupSpellTooltips(spellsForTooltip, selector, getRank) {
     const tooltip =
         document.getElementById("spellTooltip");
 
@@ -780,21 +871,30 @@ function setupSpellTooltips() {
     }
 
     document
-        .querySelectorAll(".build-card:not(.build-card--empty)")
+        .querySelectorAll(selector)
         .forEach(card => {
+            const spell =
+                spellsForTooltip.find(
+                    selectedSpell => selectedSpell.id === card.dataset.spellId
+                );
+
+            if (!spell) {
+                return;
+            }
+
             card.addEventListener(
                 "mouseenter",
-                () => showSpellTooltip(card)
+                () => showSpellTooltip(spell, getRank(spell))
             );
 
             card.addEventListener(
                 "focus",
-                () => showSpellTooltip(card)
+                () => showSpellTooltip(spell, getRank(spell))
             );
 
             card.addEventListener(
                 "click",
-                () => showSpellTooltip(card)
+                () => showSpellTooltip(spell, getRank(spell))
             );
 
             card.addEventListener(
@@ -809,7 +909,7 @@ function setupSpellTooltips() {
         });
 }
 
-function showSpellTooltip(card) {
+function showSpellTooltip(spell, rank) {
     const tooltip =
         document.getElementById("spellTooltip");
 
@@ -817,20 +917,52 @@ function showSpellTooltip(card) {
         return;
     }
 
+    const view =
+        getSpellTooltipView(spell, rank);
+
     tooltip.innerHTML = `
         <div class="tooltip-title">
-            ${card.dataset.tooltipName}
+            ${view.name}
         </div>
-        <div class="tooltip-description">
-            ${card.dataset.tooltipDescription}
+        <div class="tooltip-rarity ${view.rarity.className}">
+            [${view.rarity.label}]
+        </div>
+        <div class="tooltip-badges">
+            ${renderTooltipBadge(view.type.label, "tooltip-badge--type")}
+            ${view.tags
+                .map(tag => renderTooltipBadge(tag.label, "tooltip-badge--tag"))
+                .join("")}
+        </div>
+        <div class="tooltip-section">
+            ${renderTooltipLines(view.valueLines)}
+        </div>
+        <div class="tooltip-section tooltip-section--mechanics">
+            ${renderTooltipLines(view.mechanicLines)}
         </div>
         <div class="tooltip-meta">
-            <span>Rang ${card.dataset.tooltipRank}</span>
-            <span>CD ${card.dataset.tooltipCooldown}</span>
+            <span>Rang ${view.rankLabel}</span>
         </div>
     `;
 
     tooltip.hidden = false;
+}
+
+function renderTooltipBadge(label, className) {
+    return `
+        <span class="tooltip-badge ${className}">
+            ${label}
+        </span>
+    `;
+}
+
+function renderTooltipLines(lines) {
+    if (lines.length === 0) {
+        return "";
+    }
+
+    return lines
+        .map(line => `<div class="tooltip-line">${line}</div>`)
+        .join("");
 }
 
 function hideSpellTooltip() {
@@ -904,7 +1036,7 @@ function updateActiveSpellCard(spellName, shouldTrigger = false) {
         .forEach(card => {
             const isActive =
                 spellName !== "" &&
-                card.dataset.spellName === spellName;
+                card.dataset.spellId === spellName;
 
             card.classList.toggle(
                 "build-card--active",
@@ -994,41 +1126,20 @@ function renderRewardScreen() {
 }
 
 function renderRewardCard(option, spellRanks) {
-    const card =
-        document.createElement("div");
-
     const isUpgrade =
         option.type === "upgrade";
 
-    let text = "";
-    let rankLabel = "";
+    const currentRank =
+        spellRanks[option.spell.id] || 1;
 
-    if (isUpgrade) {
-
-        rankLabel = romanize(
-            spellRanks[option.spell.name] + 1
+    const rewardView =
+        getSpellRewardView(
+            option.spell,
+            currentRank,
+            isUpgrade
         );
 
-        text =
-            `${option.spell.name} ${rankLabel}`;
-
-    } else {
-
-        rankLabel = "I";
-
-        text =
-            `${option.spell.name} I`;
-    }
-
-    card.classList.add(
-        "spell-card",
-        "reward-card",
-        isUpgrade
-            ? "reward-card--upgrade"
-            : "reward-card--new"
-    );
-
-    card.innerHTML = `
+    const rewardBadgeHtml = `
         <span class="reward-badge ${
             isUpgrade
                 ? "reward-badge--upgrade"
@@ -1036,24 +1147,61 @@ function renderRewardCard(option, spellRanks) {
         }">
             ${isUpgrade ? "Upgrade" : "Neuer Zauber"}
         </span>
-        <div
-            class="card-icon-slot"
-            aria-hidden="true"
-        ></div>
-        <div class="spell-name">
-            ${option.spell.name}
-        </div>
-        <div class="card-meta">
-            <span class="spell-rank">
-                Rang ${rankLabel}
-            </span>
+    `;
+
+    const rewardChangeHtml = `
+        <div class="reward-change-list">
+            ${renderRewardChangeLines(rewardView.changeLines)}
         </div>
     `;
+
+    const card =
+        renderSpellCard(
+            option.spell,
+            rewardView.rank,
+            {
+                classNames: [
+                    "reward-card",
+                    isUpgrade
+                        ? "reward-card--upgrade"
+                        : "reward-card--new"
+                ],
+                headerHtml: rewardBadgeHtml,
+                footerHtml: isUpgrade
+                    ? rewardChangeHtml
+                    : ""
+            }
+        );
+
+    let text = "";
+
+    if (isUpgrade) {
+        text =
+            `${option.spell.name} ${rewardView.rankLabel}`;
+
+    } else {
+        text =
+            `${option.spell.name} I`;
+    }
 
     return {
         card,
         text
     };
+}
+
+function renderRewardChangeLines(lines) {
+    if (lines.length === 0) {
+        return "";
+    }
+
+    return lines
+        .map(line => `
+            <div class="reward-change-line">
+                ${line}
+            </div>
+        `)
+        .join("");
 }
 
 function renderRewardConfirmation(text) {
