@@ -1,26 +1,37 @@
-const SPELL_DESCRIPTIONS = {
-    blood_strike: "Aggressiver Burst, ideal während Eskalationsphasen.",
-    blood_lance: "Je riskanter der Spieler spielt, desto stärker wird Blutlanze.",
-    blood_wall: "Risiko wird sofort in Verteidigung umgewandelt.",
-    blood_pact: "Sofort stärker werden und zukünftige Opfer effizienter machen.",
-    blood_frenzy: "Der Kampf gerät zunehmend außer Kontrolle.",
-    blood_moon: "Der Höhepunkt jeder Blutrotation.",
-    dream_shard: "Der Angriff hinterlässt einen Nachhall.",
-    deja_vu: "Der nächste Zauber fühlt sich an, als wäre er bereits gewirkt worden.",
-    dream_veil: "Der Gegner trifft nur eine verzerrte Wirklichkeit.",
-    dream_paradox: "Für einen kurzen Moment gelten andere Regeln.",
-    false_awakening: "Ein bereits abgeschlossener Moment kehrt zurück.",
-    dreamwalk: "Der Höhepunkt der Traummagie."
+const SPELL_DESCRIPTIONS = {};
+
+const KEYWORD_TOOLTIPS = {
+    "Runenverbindung": "Verbindet Runenzauber für Kombinationsboni.",
+    "Runenverbindungen": "Verbindet Runenzauber für Kombinationsboni.",
+    "Runenfolge": "Bonusschaden durch aufeinanderfolgende Zauber in der Rotation.",
+    "Hybrid": "Zwei aufeinanderfolgende Zauber unterschiedlicher Schulen.",
+    "Hybridkombination": "Zwei aufeinanderfolgende Zauber unterschiedlicher Schulen.",
+    "Hybridkombinationen": "Zwei aufeinanderfolgende Zauber unterschiedlicher Schulen.",
+    "Vorbereitung": "Verstärkt den nächsten passenden Zauber.",
+    "Echo": "Wiederholt einen Zauber mit reduzierter Stärke.",
+    "Nachbeben": "Verursacht direkt nach dem Treffer Folgeschaden.",
+    "Momentum": "Stapelt sich und verstärkt Urgewaltenzauber.",
+    "Wunde": "Macht das Ziel verwundbar. Der nächste Schadenzauber trifft härter.",
+    "Verwundbar": "Der nächste Schadenzauber am Ziel trifft 50 % härter.",
+    "Schwäche": "Negative Effekte auf dem Ziel, z. B. Verwundbar.",
+    "Schwächen": "Negative Effekte auf dem Ziel, z. B. Verwundbar.",
+    "Timing": "Verstärkt den nächsten Sternenzauber im richtigen Moment.",
+    "Traum": "Schule, die Regeln bricht und Echo erzeugt.",
+    "Traumparadoxon": "Bricht kurzzeitig eine Kampfregel zu deinem Vorteil.",
+    "Falsches Erwachen": "Verstärkt Echo- und Nachwirkungseffekte.",
+    "Meisterrune": "Aktiviert vorbereitete Runenboni im Build.",
+    "Blutrausch": "Verstärkt Blutzauber unter der Aktivierungsbedingung.",
+    "Blutpakt": "Verstärkt Blutzauber durch geopfertes Leben."
 };
 
-const SCHOOL_LABELS = {
-    blood: "Blut",
-    shadow: "Schatten",
-    dream: "Traum",
-    rune: "Rune",
-    star: "Stern",
-    primal: "Urgewalt"
-};
+const SCHOOL_LABELS = Object
+    .keys(COMBAT_SCHOOLS)
+    .reduce((labels, schoolId) => {
+        labels[schoolId] =
+            COMBAT_SCHOOLS[schoolId].fantasyName;
+
+        return labels;
+    }, {});
 
 const RARITY_LABELS = {
     Common: "Gewöhnlich",
@@ -62,33 +73,11 @@ const SPELL_RARITIES_BY_ORDER = [
     "Legendary"
 ];
 
-const SPELL_EFFECTS = {
-    blood_strike: ["deal_damage"],
-    blood_lance: ["pay_hp_percent", "deal_damage"],
-    blood_wall: ["gain_shield", "grant_next_blood_damage_bonus"],
-    blood_pact: ["activate_blood_pact"],
-    blood_frenzy: ["activate_blood_frenzy"],
-    blood_moon: ["deal_damage", "activate_blood_frenzy"]
-};
-
 const spellDefinitions =
     createSpellDefinitions(rawSpellDefinitions);
 
-function createLegacySpells(definitions) {
-    return sortSpellsByRotationOrder(definitions)
-        .map(definition => {
-            const rankOneValues =
-                getSpellRankValues(definition, 1);
-
-            return {
-                ...definition,
-                element: SCHOOL_LABELS[definition.school] || definition.school,
-                damage: rankOneValues.damage,
-                shield: rankOneValues.shield,
-                starter: definition.starter
-            };
-        });
-}
+const spells =
+    sortSpellsByRotationOrder(spellDefinitions);
 
 function createSpellDefinitions(definitions) {
     return definitions.map((definition, index) => {
@@ -97,7 +86,12 @@ function createSpellDefinitions(definitions) {
             description: definition.description || SPELL_DESCRIPTIONS[definition.id],
             rarity: definition.rarity || getDefaultSpellRarity(definitions, definition),
             rotationOrder: definition.rotationOrder || getDefaultRotationOrder(definitions, definition),
-            effects: definition.effects || SPELL_EFFECTS[definition.id] || [],
+            role: definition.role || "",
+            build: definition.build || "",
+            mechanics: definition.mechanics || [],
+            tooltip: definition.tooltip || [],
+            effects: definition.effects || [],
+            spellbookCore: definition.spellbookCore === true,
             starter: definition.starter === true,
             isSignature: definition.isSignature || false
         };
@@ -124,71 +118,98 @@ function getSpellById(spellId) {
     return spellDefinitions.find(spell => spell.id === spellId);
 }
 
-function getSpellRankValues(spell, rank) {
-    const upgrade =
-        spell.upgrades.find(upgradeStep => upgradeStep.rank === rank);
-
-    return upgrade
-        ? upgrade.values
-        : {};
+function getSpellRankValues(spell, rank, path) {
+    return resolveSpellUpgradeValues(
+        spell,
+        rank,
+        path
+    );
 }
 
-function getSpellTooltipView(spell, rank) {
-    const values =
-        getSpellRankValues(spell, rank);
+function getSpellTooltipView(spell, rank, path) {
+    const resolvedPath =
+        path !== undefined
+            ? path
+            : (
+                rank >= PATH_CHOICE_RANK
+                    ? getSpellPath(spell.id)
+                    : null
+            );
+
+    const pathLabel =
+        getSpellPathLabel(spell, resolvedPath);
+
+    const valueLines =
+        getSpellTooltipLines(
+            spell,
+            rank,
+            resolvedPath
+        ).map(enrichTooltipText);
+
+    const description =
+        spell.description
+            ? enrichTooltipText(spell.description)
+            : "";
 
     return {
         name: spell.name,
+        schoolLabel: getSchoolLabel(spell.school),
         rarity: getRarityView(spell.rarity),
-        type: getTypeView(spell.type),
-        tags: getTagViews(spell),
         rankLabel: romanize(rank),
-        valueLines: getSpellValueLines(values),
-        mechanicLines: getSpellMechanicLines(values)
+        description,
+        valueLines,
+        pathLabel
     };
 }
 
-function getSpellRewardView(spell, currentRank, isUpgrade) {
+function getSpellRewardView(spell, currentRank, rewardOption) {
+    if (rewardOption?.type === "path_choice") {
+        return {
+            rarity: getRarityView(spell.rarity),
+            rank: PATH_CHOICE_RANK,
+            rankLabel: romanize(PATH_CHOICE_RANK),
+            changeLines: [],
+            pathChoices: getPathChoiceOptions(spell)
+        };
+    }
+
     const targetRank =
-        isUpgrade ? currentRank + 1 : 1;
+        currentRank + 1;
+
+    const previewLines =
+        getSpellRewardPreviewLines(
+            spell,
+            currentRank
+        );
 
     return {
         rarity: getRarityView(spell.rarity),
         rank: targetRank,
         rankLabel: romanize(targetRank),
-        changeLines: isUpgrade
-            ? getUpgradeChangeLines(
-                getSpellRankValues(spell, currentRank),
-                getSpellRankValues(spell, targetRank)
-            )
-            : getNewSpellLines(
-                getSpellRankValues(spell, targetRank)
-            )
+        changeLines: previewLines.map(line => enrichTooltipText(line))
     };
 }
 
-function getActionbarSlots(spellsToSlot, maxSlots = 5) {
-    const sortedSpells =
-        sortSpellsByRotationOrder(spellsToSlot);
-
-    const slots = [];
-
-    for (let index = 0; index < maxSlots; index++) {
-        slots.push({
-            slotId: `actionbar-slot-${index + 1}`,
-            slotIndex: index + 1,
-            spell: sortedSpells[index] || null
-        });
-    }
-
-    return slots;
-}
 
 function getRarityView(rarity) {
     return {
         label: RARITY_LABELS[rarity] || rarity,
         className: RARITY_CLASS_NAMES[rarity] || "rarity-common"
     };
+}
+
+function getSpellIconPath(spell) {
+    const schoolDefinition =
+        COMBAT_SCHOOLS[spell.school];
+
+    const iconFolder =
+        schoolDefinition?.iconFolder || spell.school;
+
+    return `assets/icons/spells/${iconFolder}/${spell.id}.png`;
+}
+
+function getSpellIconFallbackInitial(spell) {
+    return spell.name.charAt(0);
 }
 
 function getTypeView(type) {
@@ -208,79 +229,98 @@ function getTagViews(spell) {
 }
 
 function getSpellValueLines(values) {
-    const lines = [];
+    const sections =
+        getSpellTooltipSections(null, values);
 
-    addValueLine(lines, values.damage, "Schaden");
-    addValueLine(lines, values.shield, "Schild");
-
-    if (values.frenzyDamageBonus) {
-        lines.push(`+${values.frenzyDamageBonus} Schaden für Blutzauber`);
-    }
-
-    if (values.damagePerSacrificedHp) {
-        lines.push(`+${values.damagePerSacrificedHp} Schaden pro geopfertem HP`);
-    }
-
-    if (values.negativeEffectDamageBonus) {
-        lines.push(`+${values.negativeEffectDamageBonus} Schaden gegen geschwächte Gegner`);
-    }
-
-    if (values.statusDamageBonus) {
-        lines.push(`+${values.statusDamageBonus} Schaden bei ${getStatusLabel(values.requiredStatusId)}`);
-    }
-
-    if (values.perNegativeEffectDamageBonus) {
-        lines.push(`+${values.perNegativeEffectDamageBonus} Schaden pro negativem Effekt`);
-    }
-
-    if (values.nextEchoDamageBonus) {
-        lines.push(`+${values.nextEchoDamageBonus} Schaden für Echo`);
-    }
-
-    if (values.nextSpellAdaptiveBonus) {
-        lines.push(`+${values.nextSpellAdaptiveBonus} Schaden oder Schild`);
-    }
-
-    if (values.conditionalAdaptiveBonus) {
-        lines.push(`+${values.conditionalAdaptiveBonus} Schaden oder Schild`);
-    }
-
-    if (values.timingDamageBonus) {
-        lines.push(`+${values.timingDamageBonus} Schaden bei Timing`);
-    }
-
-    if (values.aftershockDamage) {
-        lines.push(`${values.aftershockDamage} Nachbeben-Schaden`);
-    }
-
-    if (values.damagePerMomentum) {
-        lines.push(`+${values.damagePerMomentum} Schaden pro Momentum`);
-    }
-
-    if (values.consumedMomentumDamageBonus) {
-        lines.push(`+${values.consumedMomentumDamageBonus} Schaden pro verbrauchtem Momentum`);
-    }
-
-    if (values.primalDamageBonus) {
-        lines.push(`+${values.primalDamageBonus} Schaden für Urgewaltenzauber`);
-    }
-
-    return lines;
+    return [
+        ...sections.direct,
+        ...sections.additional
+    ];
 }
 
 function getSpellMechanicLines(values) {
-    const lines = [];
+    const sections =
+        getSpellTooltipSections(null, values);
+
+    return [
+        ...sections.conditional,
+        ...sections.special
+    ];
+}
+
+function getSpellTooltipSections(spell, values) {
+    const sections = {
+        direct: [],
+        additional: [],
+        conditional: [],
+        special: []
+    };
+
+    addDirectEffectLine(sections.direct, values.damage, "damage");
+    addDirectEffectLine(sections.direct, values.shield, "shield");
 
     if (values.hpCostPercent) {
-        lines.push(`Opfert ${values.hpCostPercent} % des maximalen Lebens.`);
+        sections.direct.push(
+            `Opfert ${values.hpCostPercent} % des maximalen Lebens.`
+        );
     }
 
-    if (values.missingLifeBonusMax) {
-        lines.push(`Bis zu +${values.missingLifeBonusMax} Schaden durch fehlendes Leben.`);
+    if (values.aftershockDamage) {
+        sections.additional.push(
+            `Verursacht ${formatValue(values.aftershockDamage)} Nachbeben-Schaden.`
+        );
+    }
+
+    if (values.momentumGain) {
+        sections.additional.push(
+            `Erzeugt ${formatValue(values.momentumGain)} Momentum.`
+        );
+    }
+
+    if (values.aftershockMomentumGain) {
+        sections.additional.push(
+            `Nachbeben erzeugt ${formatValue(values.aftershockMomentumGain)} Momentum.`
+        );
+    }
+
+    if (values.statusId) {
+        sections.additional.push(
+            `Verleiht ${getStatusLabel(values.statusId)}.`
+        );
+    }
+
+    if (values.echoPercent) {
+        sections.additional.push(
+            `Echo: Der Treffer kehrt mit ${values.echoPercent} % Stärke zurück.`
+        );
+    }
+
+    if (values.frenzyThresholdPercent) {
+        sections.additional.push(
+            `Aktiviert Blutrausch unter ${values.frenzyThresholdPercent} % Leben.`
+        );
+    }
+
+    if (values.frenzyDamageBonus) {
+        sections.additional.push(
+            `Blutrausch: +${values.frenzyDamageBonus} Schaden für Blutzauber.`
+        );
+    }
+
+    if (values.frenzyShieldPerBloodSpell) {
+        sections.additional.push(
+            `Blutrausch: Jeder Blutzauber erzeugt ${values.frenzyShieldPerBloodSpell} Schild.`
+        );
+    }
+
+    if (values.activateBloodFrenzy) {
+        sections.additional.push(
+            "Aktiviert Blutrausch nach dem Treffer."
+        );
     }
 
     if (values.nextBloodDamageBonus) {
-        lines.push(
+        sections.conditional.push(
             getBloodBonusLine(
                 values.nextBloodBonusCharges,
                 values.nextBloodDamageBonus
@@ -288,60 +328,32 @@ function getSpellMechanicLines(values) {
         );
     }
 
-    if (values.pactCharges) {
-        lines.push(
-            `Die nächsten ${values.pactCharges} Blutzauber profitieren von geopfertem Leben.`
+    if (values.statusDamageBonus && values.requiredStatusId) {
+        sections.conditional.push(
+            `Falls ${getStatusLabel(values.requiredStatusId)} aktiv ist: +${values.statusDamageBonus} Schaden.`
         );
     }
 
-    if (values.healSacrificePercentOnExpire) {
-        lines.push(
-            `Heilt nach Ablauf ${values.healSacrificePercentOnExpire} % geopferter HP.`
+    if (values.negativeEffectDamageBonus) {
+        sections.conditional.push(
+            `Falls der Gegner Schwächen hat: +${values.negativeEffectDamageBonus} Schaden.`
         );
     }
 
-    if (values.frenzyThresholdPercent) {
-        lines.push(
-            `Aktiv unter ${values.frenzyThresholdPercent} % Leben.`
+    if (values.perNegativeEffectDamageBonus) {
+        sections.conditional.push(
+            `+${values.perNegativeEffectDamageBonus} Schaden pro Schwäche auf dem Ziel.`
         );
     }
 
-    if (values.frenzyShieldPerBloodSpell) {
-        lines.push(
-            `Jeder Blutzauber erzeugt ${values.frenzyShieldPerBloodSpell} Schild.`
+    if (values.additionalNegativeEffectDamageBonus) {
+        sections.conditional.push(
+            `+${values.additionalNegativeEffectDamageBonus} Schaden pro weiterer Schwäche.`
         );
     }
 
-    if (values.damagePerMissingLifePercent) {
-        lines.push(
-            getMissingLifePercentLine(values.damagePerMissingLifePercent)
-        );
-    }
-
-    if (values.activateBloodFrenzy) {
-        lines.push("Aktiviert Blutrausch nach dem Treffer.");
-    }
-
-    if (values.ignoreShield) {
-        lines.push("Ignoriert Schilde.");
-    }
-
-    if (values.refundSacrificeOnKill) {
-        lines.push("Erstattet Opferkosten bei Kill.");
-    }
-
-    if (values.statusId) {
-        lines.push(`Verleiht ${getStatusLabel(values.statusId)}.`);
-    }
-
-    if (values.statusSchoolDamageBonus) {
-        lines.push(
-            `${getStatusLabel(values.statusId)}: +${values.statusSchoolDamageBonus} Schaden für ${getSchoolLabel(values.nextSchool || "shadow")}.`
-        );
-    }
-
-    if (values.nextSchoolDamageBonus) {
-        lines.push(
+    if (values.nextSchoolDamageBonus && values.nextSchool) {
+        sections.conditional.push(
             getSchoolBonusLine(
                 values.nextSchool,
                 values.nextSchoolBonusCharges,
@@ -351,7 +363,7 @@ function getSpellMechanicLines(values) {
     }
 
     if (values.conditionalDamageBonus && values.conditionalTargetSchool) {
-        lines.push(
+        sections.conditional.push(
             getSchoolBonusLine(
                 values.conditionalTargetSchool,
                 values.conditionalBonusCharges,
@@ -360,179 +372,377 @@ function getSpellMechanicLines(values) {
         );
     }
 
+    if (
+        values.conditionalTrigger === "hybrid" &&
+        values.conditionalDamageBonus
+    ) {
+        sections.conditional.push(
+            `Bei Hybrid verursacht der auslösende Zauber +${values.conditionalDamageBonus} Schaden.`
+        );
+    }
+
+    if (
+        values.conditionalTrigger === "hybrid" &&
+        values.conditionalShieldBonus
+    ) {
+        sections.conditional.push(
+            `Bei Hybrid gewährt der auslösende Zauber +${values.conditionalShieldBonus} Schild.`
+        );
+    }
+
     if (values.conditionalShieldBonus && values.conditionalTargetSchool) {
-        lines.push(
-            `Verstärkte ${getSchoolLabel(values.conditionalTargetSchool)}-Zauber erhalten +${values.conditionalShieldBonus} Schild.`
+        sections.conditional.push(
+            `Der nächste ${getSchoolLabel(values.conditionalTargetSchool)}-Zauber gewährt +${values.conditionalShieldBonus} Schild.`
         );
     }
 
     if (values.conditionalAdaptiveBonus) {
-        lines.push(
-            `Der nächste passende Zauber erhält +${values.conditionalAdaptiveBonus} Schaden oder Schild.`
+        sections.conditional.push(
+            getAdaptiveBonusLine(
+                values.conditionalBonusCharges,
+                values.conditionalAdaptiveBonus
+            )
+        );
+    }
+
+    if (values.conditionalMomentumGain) {
+        sections.conditional.push(
+            `Verstärkte Zauber erzeugen ${values.conditionalMomentumGain} Momentum.`
+        );
+    }
+
+    if (values.timingDamageBonus) {
+        sections.conditional.push(
+            `Bei Timing: +${values.timingDamageBonus} Schaden.`
+        );
+    }
+
+    if (values.nextEchoDamageBonus) {
+        sections.conditional.push(
+            `Echo: +${values.nextEchoDamageBonus} Schaden.`
+        );
+    }
+
+    if (values.previousDifferentTypeDamageBonus) {
+        sections.conditional.push(
+            `Falls der vorherige Zauber ein anderer Typ ist: +${values.previousDifferentTypeDamageBonus} Schaden.`
+        );
+    }
+
+    if (values.previousDifferentSchoolDamageBonus) {
+        sections.conditional.push(
+            `Falls der vorherige Zauber eine andere Schule ist: +${values.previousDifferentSchoolDamageBonus} Schaden.`
+        );
+    }
+
+    if (values.damagePerSacrificedHp) {
+        sections.conditional.push(
+            `+${values.damagePerSacrificedHp} Schaden pro geopfertem HP.`
+        );
+    }
+
+    if (values.pactCharges) {
+        sections.conditional.push(
+            `Die nächsten ${values.pactCharges} Blutzauber profitieren von geopfertem Leben.`
+        );
+    }
+
+    if (values.damagePerMomentum) {
+        sections.special.push(
+            `+${values.damagePerMomentum} Schaden pro Momentum.`
+        );
+    }
+
+    if (values.consumedMomentumDamageBonus) {
+        sections.special.push(
+            `+${values.consumedMomentumDamageBonus} Schaden pro verbrauchtem Momentum.`
+        );
+    }
+
+    if (values.primalDamageBonus) {
+        sections.special.push(
+            `+${values.primalDamageBonus} Schaden für Urgewaltenzauber.`
+        );
+    }
+
+    if (values.masterRuneAdaptiveBonus) {
+        sections.special.push(
+            `Meisterrune: +${values.masterRuneAdaptiveBonus} Schaden oder Schild für Runeneffekte.`
+        );
+    }
+
+    if (values.sequenceMaxDamageBonus) {
+        sections.special.push(
+            `Runenfolge: Bis zu +${values.sequenceMaxDamageBonus} Schaden durch aufeinanderfolgende Zauber.`
+        );
+    }
+
+    if (values.missingLifeBonusMax) {
+        sections.special.push(
+            `Bis zu +${values.missingLifeBonusMax} Schaden durch fehlendes Leben.`
+        );
+    }
+
+    if (values.damagePerMissingLifePercent) {
+        sections.special.push(
+            getMissingLifePercentLine(values.damagePerMissingLifePercent)
+        );
+    }
+
+    if (values.nextSpellAdaptiveBonus) {
+        sections.special.push(
+            `Der nächste Zauber verursacht +${values.nextSpellAdaptiveBonus} Schaden oder gewährt +${values.nextSpellAdaptiveBonus} Schild.`
         );
     }
 
     if (values.includeHybridCombinations) {
-        lines.push("Hybridkombinationen können den Bonus ebenfalls auslösen.");
+        sections.special.push(
+            "Hybridkombinationen lösen die Vorbereitung ebenfalls aus."
+        );
+    }
+
+    if (values.conditionalPersistent && values.conditionalTrigger === "hybrid") {
+        sections.special.push(
+            "Vorbereitung bleibt aktiv, bis Hybrid ausgelöst wird."
+        );
     }
 
     if (values.firstNextSchoolDamageBonus) {
-        lines.push(
+        sections.special.push(
             `Erster verstärkter Zauber: +${values.firstNextSchoolDamageBonus} Schaden.`
         );
     }
 
+    if (values.healSacrificePercentOnExpire) {
+        sections.special.push(
+            `Heilt nach Ablauf ${values.healSacrificePercentOnExpire} % geopferter HP.`
+        );
+    }
+
+    if (values.ignoreShield) {
+        sections.special.push("Ignoriert Schilde.");
+    }
+
+    if (values.refundSacrificeOnKill) {
+        sections.special.push("Erstattet Opferkosten bei Kill.");
+    }
+
+    if (values.statusSchoolDamageBonus) {
+        sections.special.push(
+            `${getStatusLabel(values.statusId)}: +${values.statusSchoolDamageBonus} Schaden für ${getSchoolLabel(values.nextSchool || "shadow")}.`
+        );
+    }
+
     if (values.nextSchoolShieldPierce) {
-        lines.push(
+        sections.special.push(
             `Verstärkte Zauber ignorieren ${values.nextSchoolShieldPierce} Schild.`
         );
     }
 
     if (values.negativeEffectShieldPierce) {
-        lines.push(
-            `Ignoriert ${values.negativeEffectShieldPierce} Schild gegen geschwächte Gegner.`
+        sections.special.push(
+            `Ignoriert ${values.negativeEffectShieldPierce} Schild gegen Ziele mit Schwächen.`
         );
     }
 
     if (values.statusShieldPierce) {
-        lines.push(
+        sections.special.push(
             `Ignoriert ${values.statusShieldPierce} Schild bei ${getStatusLabel(values.requiredStatusId)}.`
         );
     }
 
     if (values.aftershockShieldPierce) {
-        lines.push(`Nachbeben ignoriert ${values.aftershockShieldPierce} Schild.`);
-    }
-
-    if (values.shieldPiercePerMomentum) {
-        lines.push(`Ignoriert ${values.shieldPiercePerMomentum} Schild pro Momentum.`);
-    }
-
-    if (values.momentumGain) {
-        lines.push(`Erzeugt ${values.momentumGain} Momentum.`);
-    }
-
-    if (values.aftershockMomentumGain) {
-        lines.push(`Nachbeben erzeugt ${values.aftershockMomentumGain} Momentum.`);
-    }
-
-    if (values.conditionalMomentumGain) {
-        lines.push(`Verstärkte Zauber erzeugen ${values.conditionalMomentumGain} Momentum.`);
-    }
-
-    if (values.additionalMomentumGain) {
-        lines.push(`Momentum-Effekte erzeugen +${values.additionalMomentumGain} Momentum.`);
-    }
-
-    if (values.initialMomentum) {
-        lines.push(`Der Kampf beginnt mit ${values.initialMomentum} Momentum.`);
-    }
-
-    if (values.minimumMomentum) {
-        lines.push(`Momentum steigt sofort auf mindestens ${values.minimumMomentum}.`);
-    }
-
-    if (values.consumeMomentum) {
-        lines.push("Verbraucht sämtliches Momentum nach dem Treffer.");
-    }
-
-    if (values.additionalNegativeEffectDamageBonus) {
-        lines.push(
-            `+${values.additionalNegativeEffectDamageBonus} Schaden pro weiterem negativen Effekt.`
+        sections.special.push(
+            `Nachbeben ignoriert ${values.aftershockShieldPierce} Schild.`
         );
     }
 
-    if (values.echoPercent) {
-        lines.push(`Erzeugt ein Echo mit ${values.echoPercent} % Stärke.`);
+    if (values.shieldPiercePerMomentum) {
+        sections.special.push(
+            `Ignoriert ${values.shieldPiercePerMomentum} Schild pro Momentum.`
+        );
+    }
+
+    if (values.additionalMomentumGain) {
+        sections.special.push(
+            `Momentum-Effekte erzeugen +${values.additionalMomentumGain} Momentum.`
+        );
+    }
+
+    if (values.initialMomentum) {
+        sections.special.push(
+            `Der Kampf beginnt mit ${values.initialMomentum} Momentum.`
+        );
+    }
+
+    if (values.minimumMomentum) {
+        sections.special.push(
+            `Momentum steigt sofort auf mindestens ${values.minimumMomentum}.`
+        );
+    }
+
+    if (values.consumeMomentum) {
+        sections.special.push(
+            "Verbraucht sämtliches Momentum nach dem Treffer."
+        );
     }
 
     if (values.echoCopiesStatusEffects) {
-        lines.push("Echo übernimmt Statuseffekte.");
+        sections.special.push("Echo übernimmt Statuseffekte.");
     }
 
     if (values.echoCopiesAllEffects) {
-        lines.push("Echo übernimmt sämtliche Effekte.");
+        sections.special.push("Echo übernimmt sämtliche Effekte.");
     }
 
     if (values.nextEchoBonusCharges) {
-        lines.push(
+        sections.special.push(
             `Verstärkt die nächsten ${formatValue(values.nextEchoBonusCharges)} Echo-Effekte.`
         );
     }
 
     if (values.echoImmediate) {
-        lines.push("Echo löst unmittelbar nach seinem Ursprung aus.");
+        sections.special.push(
+            "Echo löst unmittelbar nach seinem Ursprung aus."
+        );
     }
 
     if (values.globalEchoPercent) {
-        lines.push(`Echo wirkt mit mindestens ${values.globalEchoPercent} % Stärke.`);
+        sections.special.push(
+            `Echo wirkt mindestens mit ${values.globalEchoPercent} % Stärke.`
+        );
     }
 
     if (values.nextEnemyAttackReduction) {
-        lines.push(
+        sections.special.push(
             `Der nächste gegnerische Angriff verursacht ${values.nextEnemyAttackReduction} Schaden weniger.`
         );
     }
 
     if (values.blockNextNegativeStatus) {
-        lines.push("Schützt bis zum nächsten eigenen Zug vor negativen Statuseffekten.");
+        sections.special.push(
+            "Schützt bis zum nächsten eigenen Zug vor negativen Statuseffekten."
+        );
     }
 
     if (values.ignoreRestrictionCount) {
-        lines.push(
+        sections.special.push(
             `Der nächste Zauber ignoriert ${values.ignoreRestrictionCount} Einschränkung(en).`
         );
     }
 
     if (values.timingTargetSchool) {
-        lines.push(
+        sections.special.push(
             `Aktiviert Timing für ${formatValue(values.timingStarCharges)} ${getSchoolLabel(values.timingTargetSchool)}-Zauber.`
         );
     }
 
     if (values.timingHybridCharges) {
-        lines.push(
-            `Timing gilt zusätzlich für ${formatValue(values.timingHybridCharges)} Hybridzauber.`
+        sections.special.push(
+            `Timing gilt zusätzlich für ${formatValue(values.timingHybridCharges)} Hybrid-Zauber.`
         );
     }
 
     if (values.timingShieldPierce) {
-        lines.push(`Timing ignoriert zusätzlich ${values.timingShieldPierce} Schild.`);
+        sections.special.push(
+            `Timing ignoriert zusätzlich ${values.timingShieldPierce} Schild.`
+        );
     }
 
     if (values.preserveTimingEffect) {
-        lines.push("Verbraucht keinen aktiven Timing-Effekt.");
+        sections.special.push(
+            "Verbraucht keinen aktiven Timing-Effekt."
+        );
     }
 
     if (values.doubleNextTimingBonus) {
-        lines.push("Der erste Timing-Bonus wird verdoppelt.");
+        sections.special.push(
+            "Der erste Timing-Bonus wird verdoppelt."
+        );
     }
 
     if (values.globalTimingDamageBonus) {
-        lines.push(`Alle Timing-Effekte erhalten +${values.globalTimingDamageBonus} Schaden.`);
+        sections.special.push(
+            `Alle Timing-Effekte erhalten +${values.globalTimingDamageBonus} Schaden.`
+        );
     }
 
     if (values.ignoreAllRestrictions) {
-        lines.push("Der nächste Zauber ignoriert sämtliche Einschränkungen.");
+        sections.special.push(
+            "Der nächste Zauber ignoriert sämtliche Einschränkungen."
+        );
     }
 
     if (values.activateDreamParadox) {
-        lines.push("Aktiviert Traumparadoxon für den nächsten Zauber.");
+        sections.special.push(
+            "Setzt Traumparadoxon auf den nächsten Zauber."
+        );
     }
 
     if (values.activateFalseAwakening) {
-        lines.push("Aktiviert Falsches Erwachen für den nächsten Zauber.");
+        sections.special.push(
+            "Setzt Falsches Erwachen auf den nächsten Zauber."
+        );
     }
 
     if (values.triggerActiveEchoes) {
-        lines.push("Löst aktive Echo-Effekte sofort aus.");
+        sections.special.push(
+            "Löst alle aktiven Echo-Effekte sofort aus."
+        );
     }
 
     if (values.maximizeDreamEffects) {
-        lines.push("Maximiert aktive Traum-Effekte.");
+        sections.special.push(
+            "Verstärkt alle aktiven Traum-Effekte auf Maximum."
+        );
     }
 
-    return lines;
+    if (values.retriggerRuneLinks) {
+        sections.special.push(
+            "Aktiviert Runenverbindungen erneut."
+        );
+    }
+
+    if (values.maximizeRuneEffects) {
+        sections.special.push(
+            "Maximiert alle aktiven Runenkombinationen."
+        );
+    }
+
+    if (values.activateHybridCombinations) {
+        sections.special.push(
+            "Aktiviert Hybridkombinationen im Build."
+        );
+    }
+
+    if (values.moveSlotsForward) {
+        sections.special.push(
+            `Rückt den nächsten passenden Zauber um ${values.moveSlotsForward} Platz nach vorne.`
+        );
+    }
+
+    if (values.additionalHybridBuildTags) {
+        sections.special.push(
+            `Hybridkombinationen zählen ${values.additionalHybridBuildTags} zusätzliche(n) Tag(s).`
+        );
+    }
+
+    return sections;
+}
+
+function addDirectEffectLine(lines, value, effectType) {
+    if (typeof value !== "number") {
+        return;
+    }
+
+    if (effectType === "damage") {
+        lines.push(`Verursacht ${formatValue(value)} Schaden.`);
+        return;
+    }
+
+    if (effectType === "shield") {
+        lines.push(`Erhalte ${formatValue(value)} Schild.`);
+    }
 }
 
 function getUpgradeChangeLines(currentValues, nextValues) {
@@ -805,9 +1015,11 @@ function getNewSpellLines(values) {
 }
 
 function addValueLine(lines, value, label) {
-    if (typeof value === "number") {
-        lines.push(`${formatValue(value)} ${label}`);
-    }
+    addDirectEffectLine(
+        lines,
+        value,
+        label === "Schild" ? "shield" : "damage"
+    );
 }
 
 function addChangedValueLine(lines, currentValues, nextValues, key, label) {
@@ -866,12 +1078,20 @@ function hasChangedValue(currentValues, nextValues, key) {
     );
 }
 
-function getBloodBonusLine(charges, bonus) {
+function getAdaptiveBonusLine(charges, bonus) {
     if (charges === 1) {
-        return `Nächster Blutzauber: +${bonus} Schaden.`;
+        return `Der nächste passende Zauber verursacht +${bonus} Schaden oder gewährt +${bonus} Schild.`;
     }
 
-    return `Nächste ${charges} Blutzauber: +${bonus} Schaden.`;
+    return `Die nächsten ${charges} passenden Zauber verursachen +${bonus} Schaden oder gewähren +${bonus} Schild.`;
+}
+
+function getBloodBonusLine(charges, bonus) {
+    if (charges === 1) {
+        return `Der nächste Blutzauber verursacht +${bonus} Schaden.`;
+    }
+
+    return `Die nächsten ${charges} Blutzauber verursachen +${bonus} Schaden.`;
 }
 
 function getSchoolBonusLine(school, charges, bonus) {
@@ -879,19 +1099,61 @@ function getSchoolBonusLine(school, charges, bonus) {
         getSchoolLabel(school);
 
     if (charges === 1) {
-        return `Nächster ${schoolLabel}-Zauber: +${bonus} Schaden.`;
+        return `Der nächste ${schoolLabel}-Zauber verursacht +${bonus} Schaden.`;
     }
 
-    return `Nächste ${charges} ${schoolLabel}-Zauber: +${bonus} Schaden.`;
+    return `Die nächsten ${charges} ${schoolLabel}-Zauber verursachen +${bonus} Schaden.`;
 }
 
 function getSchoolLabel(school) {
     return SCHOOL_LABELS[school] || school;
 }
 
+function enrichTooltipText(text) {
+    if (!text) {
+        return text;
+    }
+
+    let enrichedText =
+        escapeTooltipText(text);
+
+    Object
+        .keys(KEYWORD_TOOLTIPS)
+        .sort((firstKeyword, secondKeyword) => {
+            return secondKeyword.length - firstKeyword.length;
+        })
+        .forEach(keyword => {
+            const pattern =
+                new RegExp(escapeRegExp(keyword), "gi");
+
+            enrichedText =
+                enrichedText.replace(
+                    pattern,
+                    match => {
+                        return `<span class="tooltip-keyword" title="${escapeTooltipText(KEYWORD_TOOLTIPS[keyword])}">${match}</span>`;
+                    }
+                );
+        });
+
+    return enrichedText;
+}
+
+function escapeTooltipText(text) {
+    return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+}
+
+function escapeRegExp(text) {
+    return text.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
 function getStatusLabel(statusId) {
     const statusLabels = {
-        wound: "Wunde"
+        vulnerable: "Verwundbar",
+        wound: "Verwundbar"
     };
 
     return statusLabels[statusId] || statusId;
@@ -917,9 +1179,9 @@ function getSpellRotationOrder(spell) {
 
     if (
         typeof spellPriority !== "undefined" &&
-        typeof spellPriority[spell.name] === "number"
+        typeof spellPriority[spell.id] === "number"
     ) {
-        return spellPriority[spell.name];
+        return spellPriority[spell.id];
     }
 
     return Number.MAX_SAFE_INTEGER;
@@ -933,7 +1195,7 @@ function sortSpellsByRotationOrder(spellsToSort) {
 
 function createSpellPriority(definitions) {
     return definitions.reduce((priorityMap, spell) => {
-        priorityMap[spell.name] = spell.rotationOrder;
+        priorityMap[spell.id] = spell.rotationOrder;
         return priorityMap;
     }, {});
 }

@@ -1,2 +1,0 @@
-const spells =
-    createLegacySpells(spellDefinitions);

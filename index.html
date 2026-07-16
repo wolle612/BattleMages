@@ -8,21 +8,77 @@
 </head>
 <body>
 
-    <h1>Battlemages</h1>
+    <h1 class="app-logo">
+        <img
+            class="app-logo__image"
+            src="assets/logo/bm_logo_basic.png"
+            alt="BattleMages"
+            width="1536"
+            height="1024"
+        >
+    </h1>
 
     <div id="game"></div>
 
+    <script src="data/spellbookCore.js"></script>
+    <script src="data/spellbookPart2.js"></script>
+    <script src="data/spellUpgradeProfiles.js"></script>
     <script src="data/spells.js"></script>
+    <script src="data/enemies.js"></script>
+    <script src="data/combatIdentity.js"></script>
+
+    <!-- VFX-Datenschicht (siehe Architekturplan "PixiJS VFX Engine Architektur") -->
+    <script src="data/vfx/effectPresets.js"></script>
+    <script src="data/vfx/spritesheetManifests.js"></script>
+    <script src="data/vfx/spritesheetTextures.js"></script>
+    <script src="data/vfx/schoolVfxDefaults.js"></script>
+    <script src="data/vfx/enemyActionVfxDefaults.js"></script>
+    <script src="data/vfx/spellVfxDefinitions.js"></script>
+
     <script src="src/spellRegistry.js"></script>
-    <script src="spells.js"></script>
-    <script src="combat.js"></script>
+    <script src="src/enemyRegistry.js"></script>
     <script src="src/constants.js"></script>
     <script src="src/utils.js"></script>
     <script src="src/state.js"></script>
+    <script src="src/rotationManager.js"></script>
+    <script src="src/rewardSystem.js"></script>
+    <script src="src/portraitRegistry.js"></script>
+    <script src="src/combatStatus.js"></script>
+    <script src="src/combatSequence.js"></script>
+    <script src="src/combatPrep.js"></script>
+    <script src="src/combatFormula.js"></script>
+    <script src="src/combatContext.js"></script>
+    <script src="src/enemyEngine.js"></script>
+    <script src="src/upgradeResolver.js"></script>
     <script src="src/renderer.js"></script>
     <script src="src/effectEngine.js"></script>
     <script src="src/spellEngine.js"></script>
     <script src="src/battleManager.js"></script>
+
+    <!-- VFX-Engine (PixiJS-Layer): rein additiv, ruehrt Kampflogik nicht an -->
+    <script src="vendor/pixi.min.js"></script>
+    <script src="src/vfx/layerManager.js"></script>
+    <script src="src/vfx/coordinateBridge.js"></script>
+    <script src="src/vfx/pixiStage.js"></script>
+    <script src="src/vfx/timeline.js"></script>
+    <script src="src/vfx/objectPool.js"></script>
+    <script src="src/vfx/assetManager.js"></script>
+    <script src="src/vfx/soundBridge.js"></script>
+    <script src="src/vfx/effectRegistry.js"></script>
+    <script src="src/vfx/effects/castEffects.js"></script>
+    <script src="src/vfx/effects/projectileEffects.js"></script>
+    <script src="src/vfx/effects/impactEffects.js"></script>
+    <script src="src/vfx/effects/particleEffects.js"></script>
+    <script src="src/vfx/effects/cameraEffects.js"></script>
+    <script src="src/vfx/effectManager.js"></script>
+    <script src="src/vfx/combatVfxAdapter.js"></script>
+
+    <!-- Developer Mode: remove these scripts or set DEV_MODE_ENABLED=false for release -->
+    <script src="src/dev/devConfig.js"></script>
+    <script src="src/dev/devTimings.js"></script>
+    <script src="src/dev/battleMagesDev.js"></script>
+    <script src="src/dev/devPanel.js"></script>
+
     <script src="src/game.js"></script>
 
 </body>

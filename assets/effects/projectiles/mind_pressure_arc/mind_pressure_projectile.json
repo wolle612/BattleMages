@@ -1,0 +1,155 @@
+{
+  "frames": {
+    "mind_pressure_projectile_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 1024
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 1024
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 1024
+      }
+    },
+    "mind_pressure_projectile_01.png": {
+      "frame": {
+        "x": 256,
+        "y": 0,
+        "w": 256,
+        "h": 1024
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 1024
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 1024
+      }
+    },
+    "mind_pressure_projectile_02.png": {
+      "frame": {
+        "x": 512,
+        "y": 0,
+        "w": 256,
+        "h": 1024
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 1024
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 1024
+      }
+    },
+    "mind_pressure_projectile_03.png": {
+      "frame": {
+        "x": 768,
+        "y": 0,
+        "w": 256,
+        "h": 1024
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 1024
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 1024
+      }
+    },
+    "mind_pressure_projectile_04.png": {
+      "frame": {
+        "x": 1024,
+        "y": 0,
+        "w": 256,
+        "h": 1024
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 1024
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 1024
+      }
+    },
+    "mind_pressure_projectile_05.png": {
+      "frame": {
+        "x": 1280,
+        "y": 0,
+        "w": 256,
+        "h": 1024
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 1024
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 1024
+      }
+    }
+  },
+  "animations": {
+    "play": [
+      "mind_pressure_projectile_00.png",
+      "mind_pressure_projectile_01.png",
+      "mind_pressure_projectile_02.png",
+      "mind_pressure_projectile_03.png",
+      "mind_pressure_projectile_04.png",
+      "mind_pressure_projectile_05.png"
+    ]
+  },
+  "meta": {
+    "app": "BattleMages VFX Pipeline",
+    "version": "1.0",
+    "image": "mind_pressure_projectile_sheet.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1536,
+      "h": 1024
+    },
+    "scale": "1",
+    "frameSize": {
+      "w": 256,
+      "h": 1024
+    },
+    "frameCount": 6,
+    "styleKey": "mind_pressure_arc",
+    "assetId": "psionic_projectile_mind_pressure_projectile",
+    "school": "dream",
+    "durationMs": 180,
+    "animationNotes": "6-frame agile psionic bolt cycle for Gedankenschlag flight"
+  }
+}

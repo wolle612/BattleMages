@@ -1,0 +1,179 @@
+{
+  "frames": {
+    "psionic_cast_mind_focus_hex_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 390,
+        "w": 256,
+        "h": 190
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 190
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 190
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "psionic_cast_mind_focus_hex_01.png": {
+      "frame": {
+        "x": 256,
+        "y": 390,
+        "w": 256,
+        "h": 190
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 190
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 190
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "psionic_cast_mind_focus_hex_02.png": {
+      "frame": {
+        "x": 512,
+        "y": 390,
+        "w": 256,
+        "h": 190
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 190
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 190
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "psionic_cast_mind_focus_hex_03.png": {
+      "frame": {
+        "x": 768,
+        "y": 390,
+        "w": 256,
+        "h": 190
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 190
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 190
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "psionic_cast_mind_focus_hex_04.png": {
+      "frame": {
+        "x": 1024,
+        "y": 390,
+        "w": 256,
+        "h": 190
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 190
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 190
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "psionic_cast_mind_focus_hex_05.png": {
+      "frame": {
+        "x": 1280,
+        "y": 390,
+        "w": 256,
+        "h": 190
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 190
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 190
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "animations": {
+    "play": [
+      "psionic_cast_mind_focus_hex_00.png",
+      "psionic_cast_mind_focus_hex_01.png",
+      "psionic_cast_mind_focus_hex_02.png",
+      "psionic_cast_mind_focus_hex_03.png",
+      "psionic_cast_mind_focus_hex_04.png",
+      "psionic_cast_mind_focus_hex_05.png"
+    ]
+  },
+  "meta": {
+    "app": "BattleMages VFX Pipeline",
+    "version": "1.0",
+    "image": "psionic_cast_mind_focus_hex.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1536,
+      "h": 1024
+    },
+    "scale": "1",
+    "frameSize": {
+      "w": 256,
+      "h": 190
+    },
+    "frameCount": 6,
+    "styleKey": "psionic_cast_mind_focus_hex",
+    "assetId": "psionic_cast_mind_focus_hex",
+    "school": "dream",
+            "durationMs": 320,
+    "animationNotes": "focus \u2192 hex lattice ignition \u2192 core charge \u2192 stabilise \u2192 release \u2192 directed discharge"
+  }
+}
