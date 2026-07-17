@@ -377,6 +377,29 @@
             };
         },
 
+        previewShield(target = "player") {
+            beginDevSession();
+            autoStartFight();
+
+            window.setTimeout(() => {
+                playPortraitShieldRise(target);
+
+                const selector =
+                    target === "enemy"
+                        ? ".enemy-panel .combatant-portrait-slot"
+                        : ".player-panel .combatant-portrait-slot";
+
+                const slot =
+                    document.querySelector(selector);
+
+                if (slot) {
+                    slot.classList.add("combatant-portrait-slot--shielded");
+                }
+            }, 250);
+
+            return { target };
+        },
+
         listSpells() {
             return spells.map(spell => ({
                 id: spell.id,

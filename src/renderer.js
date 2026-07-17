@@ -202,18 +202,21 @@ function bindSpellIcons(root) {
 
 function setAppScreenMode(mode) {
     document.body.classList.remove("app-home", "app-game", "app-selection");
+    document.documentElement.classList.remove(
+        "app-home",
+        "app-game",
+        "app-selection"
+    );
 
-    if (mode === "home") {
-        document.body.classList.add("app-home");
-        return;
-    }
+    const screenClass =
+        mode === "home"
+            ? "app-home"
+            : mode === "selection"
+                ? "app-selection"
+                : "app-game";
 
-    if (mode === "selection") {
-        document.body.classList.add("app-selection");
-        return;
-    }
-
-    document.body.classList.add("app-game");
+    document.body.classList.add(screenClass);
+    document.documentElement.classList.add(screenClass);
 }
 
 function playScreenTransition(callback) {
@@ -289,24 +292,20 @@ function renderHowToPlayScreen() {
                 </h3>
                 <dl class="howto-status-list">
                     <div>
-                        <dt>Echo</dt>
-                        <dd>Wiederholt einen Zauber schwächer.</dd>
+                        <dt>Verwundbar</dt>
+                        <dd>Das Ziel nimmt vom nächsten Treffer 50 % mehr Schaden.</dd>
                     </div>
                     <div>
-                        <dt>Momentum</dt>
-                        <dd>Stapelt sich und verstärkt Urgewaltenzauber.</dd>
+                        <dt>Schild</dt>
+                        <dd>Absorbiert eingehenden Schaden, bevor du Leben verlierst.</dd>
                     </div>
                     <div>
-                        <dt>Wunde</dt>
-                        <dd>Macht das Ziel für Schattenzauber verwundbar.</dd>
+                        <dt>Vorbereitung</dt>
+                        <dd>Verstärkt oder verändert deinen nächsten Zauber.</dd>
                     </div>
                     <div>
-                        <dt>Timing</dt>
-                        <dd>Verstärkt den nächsten Sternenzauber.</dd>
-                    </div>
-                    <div>
-                        <dt>Traum</dt>
-                        <dd>Bricht Regeln und erzeugt Nachwirkungen.</dd>
+                        <dt>Kritischer Treffer</dt>
+                        <dd>Verursacht doppelten Schaden.</dd>
                     </div>
                 </dl>
             </section>
@@ -482,6 +481,17 @@ function renderSpellCardContent(spell, view, options = {}) {
                     ${schoolHtml}
                     ${bodyHtml}
                 </div>
+            </div>
+        `;
+    }
+
+    if (variant === "reward") {
+        return `
+            ${options.headerHtml || ""}
+            ${iconHtml}
+            <div class="reward-card-scroll">
+                ${schoolHtml}
+                ${bodyHtml}
             </div>
         `;
     }
@@ -1236,9 +1246,6 @@ function renderBuildCard(slot, spellRanks, isActive, options = {}) {
                     <span class="spell-rank">
                         ${romanize(spellRanks[spell.id])}
                     </span>
-                    <span class="spell-cooldown">
-                        CD ${spell.cooldown}
-                    </span>
                 </div>
                 <div class="spell-status">
                     Bereit
@@ -1594,6 +1601,10 @@ function renderFloatingImpact(action) {
 
     if (!impact || !target) {
         return;
+    }
+
+    if (isShieldGainCombatAction(action)) {
+        playPortraitShieldRise(target);
     }
 
     renderFloatingNumber(
@@ -2108,7 +2119,7 @@ function getCombatLogActor(action) {
     return action.type || "Log";
 }
 
-function setupSpellTooltips(spellsForTooltip, selector, getRank) {
+function setupSpellTooltips(spellsForTooltip, selector, getRank, options = {}) {
     const tooltip =
         document.getElementById("spellTooltip");
 
@@ -2138,7 +2149,7 @@ function setupSpellTooltips(spellsForTooltip, selector, getRank) {
                     }
 
                     cancelSpellTooltipHide();
-                    showSpellTooltip(spell, getRank(spell));
+                    showSpellTooltip(spell, getRank(spell), options);
                 }
             );
 
@@ -2150,7 +2161,7 @@ function setupSpellTooltips(spellsForTooltip, selector, getRank) {
                     }
 
                     cancelSpellTooltipHide();
-                    showSpellTooltip(spell, getRank(spell));
+                    showSpellTooltip(spell, getRank(spell), options);
                 }
             );
 
@@ -2162,7 +2173,7 @@ function setupSpellTooltips(spellsForTooltip, selector, getRank) {
                     }
 
                     cancelSpellTooltipHide();
-                    showSpellTooltip(spell, getRank(spell));
+                    showSpellTooltip(spell, getRank(spell), options);
                 }
             );
 
@@ -2178,7 +2189,7 @@ function setupSpellTooltips(spellsForTooltip, selector, getRank) {
         });
 }
 
-function showSpellTooltip(spell, rankOrProgress) {
+function showSpellTooltip(spell, rankOrProgress, options = {}) {
     if (isActionbarDragging) {
         return;
     }
@@ -2202,7 +2213,8 @@ function showSpellTooltip(spell, rankOrProgress) {
         getSpellTooltipView(
             spell,
             progress.rank,
-            progress.path
+            progress.path,
+            options
         );
 
     tooltip.innerHTML = `
@@ -2223,14 +2235,65 @@ function showSpellTooltip(spell, rankOrProgress) {
         ${view.description
             ? `<div class="tooltip-description">${view.description}</div>`
             : ""}
+        <div class="tooltip-section-label">Effekt</div>
         ${renderTooltipValueLines(view.valueLines)}
+        ${view.showRank
+            ? `<div class="tooltip-rank">Rang ${view.rankLabel}</div>`
+            : ""}
         ${view.pathLabel
             ? `<div class="tooltip-specialization">Spezialisierung: ${view.pathLabel}</div>`
             : ""}
+        ${renderTooltipUpgradePreview(view.upgradePreview)}
     `;
 
     bindSpellIcons(tooltip);
     tooltip.hidden = false;
+}
+
+function renderTooltipUpgradePreview(preview) {
+    if (!preview) {
+        return "";
+    }
+
+    const hasRank3 =
+        preview.rank3?.length > 0;
+
+    const hasRank5 =
+        preview.rank5?.length > 0;
+
+    if (!hasRank3 && !hasRank5) {
+        return "";
+    }
+
+    return `
+        <div class="tooltip-upgrades">
+            <div class="tooltip-section-label">Weitere Entwicklung</div>
+            ${hasRank3
+                ? renderTooltipUpgradeRank("Rang III", preview.rank3)
+                : ""}
+            ${hasRank5
+                ? renderTooltipUpgradeRank("Rang V", preview.rank5)
+                : ""}
+        </div>
+    `;
+}
+
+function renderTooltipUpgradeRank(rankTitle, entries) {
+    return `
+        <div class="tooltip-upgrade-rank">
+            <div class="tooltip-upgrade-rank-title">${rankTitle}</div>
+            ${entries.map(entry => `
+                <div class="tooltip-upgrade-entry">
+                    ${entry.label
+                        ? `<div class="tooltip-upgrade-path">${entry.label}</div>`
+                        : ""}
+                    ${renderTooltipLines(
+                        (entry.lines || []).map(enrichTooltipText)
+                    )}
+                </div>
+            `).join("")}
+        </div>
+    `;
 }
 
 function renderTooltipValueLines(lines) {
@@ -2374,6 +2437,7 @@ function updateCombatBars(action) {
 
 function updateCombatClarity(action) {
     updatePortraitVulnerableOverlays(action);
+    updatePortraitShieldOverlays(action);
     updateEnemyIntent(action.enemyActionBar);
 }
 
@@ -2506,6 +2570,13 @@ function renderCombatOutcome(result) {
             <h2 class="defeat">
                 Deine Reise endet hier.
             </h2>
+
+            <button
+                id="restartButton"
+                class="btn btn-primary"
+            >
+                Neue Reise beginnen
+            </button>
         `;
 
         renderActionFeedback({
@@ -2516,6 +2587,100 @@ function renderCombatOutcome(result) {
 
     combatLog.scrollTop =
         combatLog.scrollHeight;
+
+    renderCombatOutcomeOverlay(result);
+}
+
+function removeCombatOutcomeOverlay() {
+    const existingOverlay =
+        document.getElementById("combatOutcomeOverlay");
+
+    if (existingOverlay) {
+        existingOverlay.remove();
+    }
+}
+
+function renderCombatOutcomeOverlay(result) {
+    removeCombatOutcomeOverlay();
+
+    const overlay =
+        document.createElement("div");
+
+    overlay.id = "combatOutcomeOverlay";
+    overlay.classList.add("combat-outcome-overlay");
+
+    if (result.victory) {
+        const enemyName =
+            result.enemyName
+                ? escapeHtml(result.enemyName)
+                : "Der Gegner";
+
+        overlay.innerHTML = `
+            <div class="combat-outcome-panel combat-outcome-panel--victory">
+                <button
+                    id="combatOutcomeDismiss"
+                    class="combat-outcome-dismiss"
+                    type="button"
+                    aria-label="Schließen"
+                >
+                    ✕
+                </button>
+                <h2 class="combat-outcome-title combat-outcome-title--victory">
+                    Sieg!
+                </h2>
+                <p class="combat-outcome-subtitle">
+                    ${enemyName} wurde besiegt. Glückwunsch!
+                </p>
+                <button
+                    id="overlayRewardButton"
+                    class="btn btn-primary combat-outcome-cta"
+                >
+                    Belohnung wählen
+                </button>
+            </div>
+        `;
+    } else {
+        overlay.innerHTML = `
+            <div class="combat-outcome-panel combat-outcome-panel--defeat">
+                <h2 class="combat-outcome-title combat-outcome-title--defeat">
+                    Deine Reise endet hier
+                </h2>
+                <p class="combat-outcome-subtitle">
+                    Doch jede Niederlage ist nur der Auftakt einer neuen Geschichte.
+                </p>
+                <button
+                    id="overlayRestartButton"
+                    class="btn btn-primary combat-outcome-cta"
+                >
+                    Neue Reise beginnen
+                </button>
+            </div>
+        `;
+    }
+
+    document.body.appendChild(overlay);
+
+    if (result.victory) {
+        const dismissButton =
+            overlay.querySelector("#combatOutcomeDismiss");
+
+        dismissButton.addEventListener(
+            "click",
+            removeCombatOutcomeOverlay
+        );
+
+        overlay.addEventListener("click", event => {
+            if (event.target === overlay) {
+                removeCombatOutcomeOverlay();
+            }
+        });
+    }
+
+    window.requestAnimationFrame(() => {
+        overlay.classList.add("combat-outcome-overlay--visible");
+    });
+
+    return overlay;
 }
 
 function renderRewardScreen() {
@@ -2530,9 +2695,12 @@ function renderRewardScreen() {
                 <h3 class="reward-build-title">
                     Dein Build
                 </h3>
+                <p class="reward-build-hint">
+                    Zauber überfahren, um Details zu sehen
+                </p>
                 <div
                     id="rewardBuildList"
-                    class="actionbar actionbar--readonly"
+                    class="actionbar actionbar--readonly actionbar--reward"
                 ></div>
             </section>
 
@@ -2569,15 +2737,25 @@ function renderRewardCard(option, spellRanks) {
     const isUpgrade =
         option.type === "upgrade";
 
+    const startRank =
+        option.startRank || 1;
+
     const currentRank =
-        spellRanks[option.spell.id] || 1;
+        isUpgrade
+            ? (spellRanks[option.spell.id] || 1)
+            : startRank;
 
     const rewardView =
-        getSpellRewardView(
-            option.spell,
-            currentRank,
-            option
-        );
+        isUpgrade
+            ? getSpellRewardView(
+                option.spell,
+                currentRank,
+                option
+            )
+            : getSpellTooltipView(option.spell, startRank);
+
+    const newSpellRankLabel =
+        romanize(startRank);
 
     const rewardBadgeHtml = `
         <span class="reward-badge ${
@@ -2585,20 +2763,30 @@ function renderRewardCard(option, spellRanks) {
                 ? "reward-badge--upgrade"
                 : "reward-badge--new"
         }">
-            ${isUpgrade ? "Upgrade" : "Neuer Zauber"}
+            ${isUpgrade
+                ? "Upgrade"
+                : startRank > 1
+                    ? `Neuer Zauber · Rang ${newSpellRankLabel}`
+                    : "Neuer Zauber"}
         </span>
+        ${isUpgrade && rewardView.rankProgressLabel
+            ? `<div class="reward-rank-progress">${rewardView.rankProgressLabel}</div>`
+            : ""}
+        ${!isUpgrade && startRank > 1
+            ? `<div class="reward-rank-progress">Startet auf Rang ${newSpellRankLabel}</div>`
+            : ""}
     `;
 
     const rewardChangeHtml = `
         <div class="reward-change-list">
-            ${renderRewardChangeLines(rewardView.changeLines)}
+            ${renderRewardChangeLines(rewardView.changeLines || [])}
         </div>
     `;
 
     const card =
         renderSpellCard(
             option.spell,
-            rewardView.rank,
+            isUpgrade ? rewardView.rank : startRank,
             {
                 classNames: [
                     "reward-card",
@@ -2622,7 +2810,7 @@ function renderRewardCard(option, spellRanks) {
 
     } else {
         text =
-            `${option.spell.name} I`;
+            `${option.spell.name} ${newSpellRankLabel}`;
     }
 
     return {
@@ -2643,6 +2831,9 @@ function renderPathChoiceRewardCard(option, spellRanks) {
     slot.dataset.spellId =
         option.spell.id;
 
+    const currentRank =
+        spellRanks[option.spell.id] || (PATH_CHOICE_RANK - 1);
+
     const header =
         document.createElement("div");
 
@@ -2652,11 +2843,19 @@ function renderPathChoiceRewardCard(option, spellRanks) {
             Entwicklungspfad
         </span>
         <div class="reward-path-choice-title">
-            ${option.spell.name} ${romanize(PATH_CHOICE_RANK)}
+            ${option.spell.name}
+        </div>
+        <div class="reward-rank-progress">
+            Rang ${romanize(currentRank)} → ${romanize(PATH_CHOICE_RANK)}
         </div>
     `;
 
     slot.appendChild(header);
+
+    const scrollHost =
+        document.createElement("div");
+
+    scrollHost.classList.add("reward-card-scroll");
 
     const choicesHost =
         document.createElement("div");
@@ -2679,7 +2878,9 @@ function renderPathChoiceRewardCard(option, spellRanks) {
                 </span>
                 <span class="reward-path-choice-detail">
                     ${renderRewardChangeLines(
-                        (pathChoice.tooltip || []).map(enrichTooltipText)
+                        pathChoice.changeLines?.length
+                            ? pathChoice.changeLines.map(enrichTooltipText)
+                            : (pathChoice.tooltip || []).map(enrichTooltipText)
                     )}
                 </span>
             `;
@@ -2689,7 +2890,8 @@ function renderPathChoiceRewardCard(option, spellRanks) {
             return choiceButton;
         });
 
-    slot.appendChild(choicesHost);
+    scrollHost.appendChild(choicesHost);
+    slot.appendChild(scrollHost);
 
     return {
         card: slot,
@@ -2774,23 +2976,6 @@ function renderRewardChangeLines(lines) {
         .join("");
 }
 
-function renderRewardConfirmation(text) {
-    getGameRoot().innerHTML = `
-        <h2>
-            Belohnung erhalten:
-        </h2>
-
-        <p>${text}</p>
-
-        <button
-            id="nextFightButton"
-            class="btn btn-primary"
-        >
-            Weiter
-        </button>
-    `;
-}
-
 function renderSpellReplaceScreen(selectedSpells) {
     getGameRoot().innerHTML = `
         <h2>
@@ -2835,6 +3020,19 @@ function renderRunVictoryScreen() {
         <h1>
             Run geschafft!
         </h1>
+
+        <p class="subtitle">
+            Du hast alle Gegner besiegt. Eine neue Reise wartet bereits.
+        </p>
+
+        <div class="screen-actions">
+            <button
+                id="backToHomeButton"
+                class="btn btn-primary"
+            >
+                Zurück zum Hauptmenü
+            </button>
+        </div>
     `;
 }
 

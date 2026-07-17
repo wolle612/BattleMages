@@ -1,0 +1,203 @@
+{
+  "frames": {
+    "school_beam_rune_00.png": {
+      "frame": {
+        "x": 71,
+        "y": 0,
+        "w": 811,
+        "h": 241
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 811,
+        "h": 241
+      },
+      "sourceSize": {
+        "w": 811,
+        "h": 241
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_rune_01.png": {
+      "frame": {
+        "x": 71,
+        "y": 241,
+        "w": 811,
+        "h": 240
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 811,
+        "h": 240
+      },
+      "sourceSize": {
+        "w": 811,
+        "h": 240
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_rune_02.png": {
+      "frame": {
+        "x": 71,
+        "y": 481,
+        "w": 811,
+        "h": 241
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 811,
+        "h": 241
+      },
+      "sourceSize": {
+        "w": 811,
+        "h": 241
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_rune_03.png": {
+      "frame": {
+        "x": 71,
+        "y": 722,
+        "w": 811,
+        "h": 241
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 811,
+        "h": 241
+      },
+      "sourceSize": {
+        "w": 811,
+        "h": 241
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_rune_04.png": {
+      "frame": {
+        "x": 71,
+        "y": 963,
+        "w": 811,
+        "h": 241
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 811,
+        "h": 241
+      },
+      "sourceSize": {
+        "w": 811,
+        "h": 241
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_rune_05.png": {
+      "frame": {
+        "x": 71,
+        "y": 1204,
+        "w": 811,
+        "h": 240
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 811,
+        "h": 240
+      },
+      "sourceSize": {
+        "w": 811,
+        "h": 240
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_rune_06.png": {
+      "frame": {
+        "x": 71,
+        "y": 1444,
+        "w": 811,
+        "h": 241
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 811,
+        "h": 241
+      },
+      "sourceSize": {
+        "w": 811,
+        "h": 241
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "animations": {
+    "play": [
+      "school_beam_rune_00.png",
+      "school_beam_rune_01.png",
+      "school_beam_rune_02.png",
+      "school_beam_rune_03.png",
+      "school_beam_rune_04.png",
+      "school_beam_rune_05.png",
+      "school_beam_rune_06.png"
+    ]
+  },
+  "meta": {
+    "app": "BattleMages VFX Pipeline",
+    "version": "1.0",
+    "image": "Rune_Beam.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 933,
+      "h": 1685
+    },
+    "scale": "1",
+    "frameSize": {
+      "w": 811,
+      "h": 241
+    },
+    "frameCount": 7,
+    "styleKey": "school_beam_rune",
+    "school": "rune",
+    "category": "beam",
+    "durationMs": 460
+  }
+}

@@ -1,0 +1,153 @@
+{
+  "frames": {
+    "school_impact_chaos_00.png": {
+      "frame": {
+        "x": 331,
+        "y": 0,
+        "w": 126,
+        "h": 434
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 126,
+        "h": 434
+      },
+      "sourceSize": {
+        "w": 126,
+        "h": 434
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_impact_chaos_01.png": {
+      "frame": {
+        "x": 331,
+        "y": 434,
+        "w": 126,
+        "h": 434
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 126,
+        "h": 434
+      },
+      "sourceSize": {
+        "w": 126,
+        "h": 434
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_impact_chaos_02.png": {
+      "frame": {
+        "x": 331,
+        "y": 868,
+        "w": 126,
+        "h": 434
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 126,
+        "h": 434
+      },
+      "sourceSize": {
+        "w": 126,
+        "h": 434
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_impact_chaos_03.png": {
+      "frame": {
+        "x": 331,
+        "y": 1302,
+        "w": 126,
+        "h": 434
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 126,
+        "h": 434
+      },
+      "sourceSize": {
+        "w": 126,
+        "h": 434
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_impact_chaos_04.png": {
+      "frame": {
+        "x": 331,
+        "y": 1736,
+        "w": 126,
+        "h": 434
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 126,
+        "h": 434
+      },
+      "sourceSize": {
+        "w": 126,
+        "h": 434
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "animations": {
+    "play": [
+      "school_impact_chaos_00.png",
+      "school_impact_chaos_01.png",
+      "school_impact_chaos_02.png",
+      "school_impact_chaos_03.png",
+      "school_impact_chaos_04.png"
+    ]
+  },
+  "meta": {
+    "app": "BattleMages VFX Pipeline",
+    "version": "1.0",
+    "image": "Chaos_Impact.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 725,
+      "h": 2170
+    },
+    "scale": "1",
+    "frameSize": {
+      "w": 126,
+      "h": 434
+    },
+    "frameCount": 5,
+    "styleKey": "school_impact_chaos",
+    "school": "chaos",
+    "category": "impact",
+    "durationMs": 380
+  }
+}

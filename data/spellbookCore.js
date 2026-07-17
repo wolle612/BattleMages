@@ -8,7 +8,7 @@ const spellbookCoreDefinitions = [
         build: "verwundbar_burst",
         mechanics: ["vulnerable"],
         rarity: "Common",
-        description: "Der zuverlässigste Verwundbar-Erzeuger.",
+        description: "Knochen splittern unter dem Druck lebendiger Magie.",
         tooltip: [
             "Verursacht 30 Schaden.",
             "Fügt Verwundbar zu."
@@ -34,7 +34,7 @@ const spellbookCoreDefinitions = [
         build: "verwundbar_ketten",
         mechanics: ["vulnerable"],
         rarity: "Rare",
-        description: "Hält Verwundbar-Ketten ohne komplizierte Dauer am Laufen.",
+        description: "Innere Organe versagen, sobald die Schwäche greift.",
         tooltip: [
             "Verursacht 30 Schaden.",
             "Gegen verwundbare Ziele: Fügt erneut Verwundbar zu."
@@ -63,10 +63,10 @@ const spellbookCoreDefinitions = [
         build: "verwundbar_burst",
         mechanics: ["vulnerable"],
         rarity: "Rare",
-        description: "Der erste große Burst-Zauber für Verwundbar-Builds.",
+        description: "Ein gezielter Stich, der jede offene Wunde ausnutzt.",
         tooltip: [
-            "Verursacht 40 Schaden.",
-            "Gegen verwundbare Ziele: +35 Schaden."
+            "Verursacht 35 Schaden.",
+            "Gegen verwundbare Ziele: +30 Schaden."
         ],
         tags: ["Burst"],
         spellbookCore: true,
@@ -77,8 +77,8 @@ const spellbookCoreDefinitions = [
             {
                 rank: 1,
                 values: {
-                    damage: 40,
-                    vulnerableBonusDamage: 35
+                    damage: 35,
+                    vulnerableBonusDamage: 30
                 }
             }
         ]
@@ -92,7 +92,7 @@ const spellbookCoreDefinitions = [
         build: "schildfestung",
         mechanics: ["shield"],
         rarity: "Common",
-        description: "Der Standard-Schildgenerator.",
+        description: "Runen formen eine dichte Barriere aus hartem Licht.",
         tooltip: [
             "Erhalte 32 Schild."
         ],
@@ -117,7 +117,7 @@ const spellbookCoreDefinitions = [
         build: "schildkanone",
         mechanics: ["shield"],
         rarity: "Rare",
-        description: "Wandelt Schild in Schaden um.",
+        description: "Die Barriere zerbricht und entlädt sich als tödlicher Stoß.",
         tooltip: [
             "Verursacht Schaden in Höhe deines aktuellen Schildes.",
             "Entfernt anschließend deinen Schild."
@@ -143,7 +143,7 @@ const spellbookCoreDefinitions = [
         build: "kritmaschine",
         mechanics: ["crit"],
         rarity: "Common",
-        description: "Ein zuverlässiger Krit-Generator.",
+        description: "Eine Klinge aus Schatten sucht den tödlichen Winkel.",
         tooltip: [
             "Verursacht 30 Schaden.",
             "+20 % Kritchance."
@@ -172,7 +172,7 @@ const spellbookCoreDefinitions = [
         build: "one_shot",
         mechanics: ["crit"],
         rarity: "Rare",
-        description: "Eröffnet den Garantierter-Krit-Build für den nächsten Zauber.",
+        description: "Schattenfinger markieren das nächste Opfer für den kritischen Schlag.",
         tooltip: [
             "Verursacht 20 Schaden.",
             "Der nächste Zauber trifft garantiert kritisch."
@@ -202,14 +202,14 @@ const spellbookCoreDefinitions = [
         build: "one_shot",
         mechanics: ["crit"],
         rarity: "Epic",
-        description: "Der Finisher, für den man Krit vorbereitet.",
+        description: "Der letzte Schnitt, der vorbereitete Schwäche endgültig besiegelt.",
         tooltip: [
             "Verursacht 45 Schaden.",
             "Kritische Treffer verursachen +50 Schaden."
         ],
         tags: ["Burst"],
         spellbookCore: true,
-        starter: true,
+        starter: false,
         cooldown: 0,
         effects: ["deal_damage"],
         upgrades: [
@@ -231,7 +231,7 @@ const spellbookCoreDefinitions = [
         build: "schild_krit",
         mechanics: ["shield", "crit"],
         rarity: "Rare",
-        description: "Die Brücke zwischen Schild- und Krit-Builds.",
+        description: "Runen und Schatten schwingen im gleichen Takt.",
         tooltip: [
             "Verursacht 30 Schaden.",
             "Kritische Treffer gewähren 20 Schild."
@@ -260,14 +260,14 @@ const spellbookCoreDefinitions = [
         build: "sequenz",
         mechanics: ["sequence"],
         rarity: "Epic",
-        description: "Belohnt gute Reihenfolge nach Angriffszaubern.",
+        description: "Der zweite Schritt fällt, bevor das Opfer den ersten bemerkt.",
         tooltip: [
             "Verursacht 25 Schaden.",
             "Wurde zuvor ein Angriffszauber gewirkt, trifft dieser Zauber zweimal."
         ],
         tags: ["Attack"],
         spellbookCore: true,
-        starter: true,
+        starter: false,
         cooldown: 0,
         effects: ["deal_damage"],
         upgrades: [
@@ -290,10 +290,10 @@ const spellbookCoreDefinitions = [
         build: "multischule",
         mechanics: ["sequence"],
         rarity: "Rare",
-        description: "Der wichtigste Hybrid-Zauber für Multischule-Builds.",
+        description: "Fremde Magie verkettet sich zu einem verstärkten Schlag.",
         tooltip: [
-            "Verursacht 35 Schaden.",
-            "Wurde zuvor ein Zauber einer anderen Schule gewirkt: +35 Schaden."
+            "Verursacht 30 Schaden.",
+            "Wurde zuvor ein Zauber einer anderen Schule gewirkt: +30 Schaden."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -304,9 +304,9 @@ const spellbookCoreDefinitions = [
             {
                 rank: 1,
                 values: {
-                    damage: 35,
+                    damage: 30,
                     sequenceTrigger: "different_school",
-                    sequenceDamageBonus: 35
+                    sequenceDamageBonus: 30
                 }
             }
         ]
@@ -320,10 +320,10 @@ const spellbookCoreDefinitions = [
         build: "monoschule",
         mechanics: ["sequence"],
         rarity: "Rare",
-        description: "Belohnt bewusst gewählte Monoschule-Rotationen.",
+        description: "Nur gleiche Magie darf folgen — und trifft dann härter.",
         tooltip: [
-            "Verursacht 35 Schaden.",
-            "Wurde zuvor ein Zauber derselben Schule gewirkt: +35 Schaden."
+            "Verursacht 30 Schaden.",
+            "Wurde zuvor ein Zauber derselben Schule gewirkt: +30 Schaden."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -334,9 +334,9 @@ const spellbookCoreDefinitions = [
             {
                 rank: 1,
                 values: {
-                    damage: 35,
+                    damage: 30,
                     sequenceTrigger: "same_school",
-                    sequenceDamageBonus: 35
+                    sequenceDamageBonus: 30
                 }
             }
         ]

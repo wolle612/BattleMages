@@ -1,0 +1,178 @@
+{
+  "frames": {
+    "school_cast_biomancy_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 422,
+        "w": 256,
+        "h": 147
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 147
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 147
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_biomancy_01.png": {
+      "frame": {
+        "x": 256,
+        "y": 422,
+        "w": 256,
+        "h": 147
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 147
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 147
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_biomancy_02.png": {
+      "frame": {
+        "x": 512,
+        "y": 422,
+        "w": 256,
+        "h": 147
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 147
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 147
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_biomancy_03.png": {
+      "frame": {
+        "x": 768,
+        "y": 422,
+        "w": 256,
+        "h": 147
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 147
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 147
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_biomancy_04.png": {
+      "frame": {
+        "x": 1024,
+        "y": 422,
+        "w": 256,
+        "h": 147
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 147
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 147
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_biomancy_05.png": {
+      "frame": {
+        "x": 1280,
+        "y": 422,
+        "w": 256,
+        "h": 147
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 147
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 147
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "animations": {
+    "play": [
+      "school_cast_biomancy_00.png",
+      "school_cast_biomancy_01.png",
+      "school_cast_biomancy_02.png",
+      "school_cast_biomancy_03.png",
+      "school_cast_biomancy_04.png",
+      "school_cast_biomancy_05.png"
+    ]
+  },
+  "meta": {
+    "app": "BattleMages VFX Pipeline",
+    "version": "1.0",
+    "image": "Biomancy_Cast.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1536,
+      "h": 1024
+    },
+    "scale": "1",
+    "frameSize": {
+      "w": 256,
+      "h": 147
+    },
+    "frameCount": 6,
+    "styleKey": "school_cast_biomancy",
+    "school": "biomancy",
+    "category": "cast",
+    "durationMs": 380
+  }
+}

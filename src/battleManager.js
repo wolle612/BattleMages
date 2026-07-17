@@ -98,6 +98,7 @@ function simulateFight() {
     return {
         victory: context.playerHp > 0,
         playerHp: context.playerHp,
+        enemyName: context.enemy.name,
         log: context.log,
         actionQueue: context.actionQueue
     };

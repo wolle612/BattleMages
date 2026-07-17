@@ -68,6 +68,15 @@ function createVfxTimeline() {
 }
 
 function ensureVfxRendererActive() {
+    // isVfxSupported() ist false, sobald disableVfxRendering() nach einem
+    // WebGL-Fehler den Ticker angehalten hat. Ohne diesen Guard wuerde JEDER
+    // nachfolgende Tween (runVfxTween) den Ticker hier ungeprueft wieder
+    // starten und den kaputten Renderer erneut antriggern (Ursache des
+    // "Cannot read properties of null (reading '_batchEnabled')"-Folgefehlers).
+    if (!isVfxSupported()) {
+        return null;
+    }
+
     const pixiApp =
         ensureVfxPixiApp();
 

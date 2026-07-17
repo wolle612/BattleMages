@@ -1,0 +1,178 @@
+{
+  "frames": {
+    "school_explosion_rune_00.png": {
+      "frame": {
+        "x": 367,
+        "y": 0,
+        "w": 297,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 297,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 297,
+        "h": 256
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_explosion_rune_01.png": {
+      "frame": {
+        "x": 367,
+        "y": 256,
+        "w": 297,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 297,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 297,
+        "h": 256
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_explosion_rune_02.png": {
+      "frame": {
+        "x": 367,
+        "y": 512,
+        "w": 297,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 297,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 297,
+        "h": 256
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_explosion_rune_03.png": {
+      "frame": {
+        "x": 367,
+        "y": 768,
+        "w": 297,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 297,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 297,
+        "h": 256
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_explosion_rune_04.png": {
+      "frame": {
+        "x": 367,
+        "y": 1024,
+        "w": 297,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 297,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 297,
+        "h": 256
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_explosion_rune_05.png": {
+      "frame": {
+        "x": 367,
+        "y": 1280,
+        "w": 297,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 297,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 297,
+        "h": 256
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "animations": {
+    "play": [
+      "school_explosion_rune_00.png",
+      "school_explosion_rune_01.png",
+      "school_explosion_rune_02.png",
+      "school_explosion_rune_03.png",
+      "school_explosion_rune_04.png",
+      "school_explosion_rune_05.png"
+    ]
+  },
+  "meta": {
+    "app": "BattleMages VFX Pipeline",
+    "version": "1.0",
+    "image": "Rune_Explosion.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1024,
+      "h": 1536
+    },
+    "scale": "1",
+    "frameSize": {
+      "w": 297,
+      "h": 256
+    },
+    "frameCount": 6,
+    "styleKey": "school_explosion_rune",
+    "school": "rune",
+    "category": "explosion",
+    "durationMs": 460
+  }
+}

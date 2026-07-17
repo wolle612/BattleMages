@@ -25,7 +25,7 @@ function createVfxProjectileVisual(preset) {
     drawVfxCircleGraphic(
         bolt,
         preset.size || 6,
-        preset.color,
+        preset.color ?? 0xffffff,
         0.95,
         true
     );
@@ -370,5 +370,103 @@ function playProjectileEffect(projectileDefinition, anchors) {
     return createVfxHandle(duration, () => {
         cancelTween();
         destroyProjectileVisual(root, visual, trailState);
+    });
+}
+
+/*
+ * Beam-Projektiltyp (siehe VFX Animation Mapping): der Strahl fliegt NICHT,
+ * sondern verbindet Spieler- und Gegnerportrait sofort und vollstaendig. Das
+ * Sprite Sheet wird auf die volle Distanz gestreckt (dynamische Laenge) und
+ * dabei komplett durchanimiert (jeder Frame in Reihenfolge, feste Framerate
+ * ueber preset.animationSpeed / den Pixi-Ticker).
+ */
+function playBeamEffect(projectileDefinition, anchors) {
+    const preset =
+        resolveVfxProjectilePreset(projectileDefinition);
+
+    const layer =
+        getVfxLayer("projectile");
+
+    const fromAnchor =
+        anchors?.[projectileDefinition?.from || "caster"];
+
+    const toAnchor =
+        anchors?.[projectileDefinition?.to || "target"];
+
+    if (!layer || !fromAnchor || !toAnchor || !preset) {
+        return createNoopVfxHandle();
+    }
+
+    const textures =
+        preset.spritesheet
+            ? getVfxSpritesheetAnimation(
+                preset.spritesheet,
+                preset.animation || "play"
+            )
+            : null;
+
+    if (!textures || textures.length === 0) {
+        return createNoopVfxHandle();
+    }
+
+    const sprite =
+        new PIXI.AnimatedSprite(textures);
+
+    sprite.anchor.set(0.5);
+    sprite.loop = false;
+    sprite.animationSpeed = preset.animationSpeed || 0.25;
+    applyVfxBlendMode(sprite, preset.blendMode);
+
+    const deltaX =
+        toAnchor.x - fromAnchor.x;
+
+    const deltaY =
+        toAnchor.y - fromAnchor.y;
+
+    const distance =
+        Math.hypot(deltaX, deltaY);
+
+    // Der Beam ueberlappt beide Portraits leicht, damit er sich sichtbar
+    // vollstaendig von Portrait zu Portrait erstreckt statt nur zwischen den
+    // Mittelpunkten zu enden.
+    const length =
+        distance + 56;
+
+    const thickness =
+        preset.displaySize || 96;
+
+    sprite.width = length;
+    sprite.height = thickness;
+    sprite.rotation = Math.atan2(deltaY, deltaX);
+    sprite.position.set(
+        fromAnchor.x + deltaX / 2,
+        fromAnchor.y + deltaY / 2
+    );
+
+    layer.addChild(sprite);
+    sprite.gotoAndPlay(0);
+    renderVfxFrame();
+
+    const duration =
+        projectileDefinition?.duration || preset.duration || 460;
+
+    let disposed = false;
+
+    const dispose = () => {
+        if (disposed) {
+            return;
+        }
+
+        disposed = true;
+        sprite.stop();
+        destroyVfxDisplayObject(sprite);
+    };
+
+    const cancelTimer =
+        window.setTimeout(dispose, duration + 40);
+
+    return createVfxHandle(duration, () => {
+        window.clearTimeout(cancelTimer);
+        dispose();
     });
 }

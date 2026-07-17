@@ -1,27 +1,14 @@
 const SPELL_DESCRIPTIONS = {};
 
 const KEYWORD_TOOLTIPS = {
-    "Runenverbindung": "Verbindet Runenzauber für Kombinationsboni.",
-    "Runenverbindungen": "Verbindet Runenzauber für Kombinationsboni.",
-    "Runenfolge": "Bonusschaden durch aufeinanderfolgende Zauber in der Rotation.",
-    "Hybrid": "Zwei aufeinanderfolgende Zauber unterschiedlicher Schulen.",
-    "Hybridkombination": "Zwei aufeinanderfolgende Zauber unterschiedlicher Schulen.",
-    "Hybridkombinationen": "Zwei aufeinanderfolgende Zauber unterschiedlicher Schulen.",
-    "Vorbereitung": "Verstärkt den nächsten passenden Zauber.",
-    "Echo": "Wiederholt einen Zauber mit reduzierter Stärke.",
-    "Nachbeben": "Verursacht direkt nach dem Treffer Folgeschaden.",
-    "Momentum": "Stapelt sich und verstärkt Urgewaltenzauber.",
-    "Wunde": "Macht das Ziel verwundbar. Der nächste Schadenzauber trifft härter.",
-    "Verwundbar": "Der nächste Schadenzauber am Ziel trifft 50 % härter.",
-    "Schwäche": "Negative Effekte auf dem Ziel, z. B. Verwundbar.",
-    "Schwächen": "Negative Effekte auf dem Ziel, z. B. Verwundbar.",
-    "Timing": "Verstärkt den nächsten Sternenzauber im richtigen Moment.",
-    "Traum": "Schule, die Regeln bricht und Echo erzeugt.",
-    "Traumparadoxon": "Bricht kurzzeitig eine Kampfregel zu deinem Vorteil.",
-    "Falsches Erwachen": "Verstärkt Echo- und Nachwirkungseffekte.",
-    "Meisterrune": "Aktiviert vorbereitete Runenboni im Build.",
-    "Blutrausch": "Verstärkt Blutzauber unter der Aktivierungsbedingung.",
-    "Blutpakt": "Verstärkt Blutzauber durch geopfertes Leben."
+    "Vorbereitung": "Verstärkt oder verändert deinen nächsten Zauber.",
+    "Verwundbar": "Das Ziel nimmt vom nächsten Treffer 50 % mehr Schaden.",
+    "Schild": "Absorbiert eingehenden Schaden, bevor du Leben verlierst.",
+    "Kritischer Treffer": "Verursacht doppelten Schaden.",
+    "Kritische Treffer": "Verursachen doppelten Schaden.",
+    "Kritchance": "Chance, einen kritischen Treffer zu landen.",
+    "Schwäche": "Negativer Effekt auf dem Ziel, z. B. Verwundbar.",
+    "Schwächen": "Negative Effekte auf dem Ziel, z. B. Verwundbar."
 };
 
 const SCHOOL_LABELS = Object
@@ -126,7 +113,7 @@ function getSpellRankValues(spell, rank, path) {
     );
 }
 
-function getSpellTooltipView(spell, rank, path) {
+function getSpellTooltipView(spell, rank, path, options = {}) {
     const resolvedPath =
         path !== undefined
             ? path
@@ -151,14 +138,27 @@ function getSpellTooltipView(spell, rank, path) {
             ? enrichTooltipText(spell.description)
             : "";
 
+    const showRank =
+        options.showRank !== false;
+
+    const showUpgradePreview =
+        options.showUpgradePreview !== false;
+
+    const upgradePreview =
+        showUpgradePreview
+            ? getSpellUpgradePreview(spell, rank, resolvedPath)
+            : { rank3: [], rank5: [] };
+
     return {
         name: spell.name,
         schoolLabel: getSchoolLabel(spell.school),
         rarity: getRarityView(spell.rarity),
         rankLabel: romanize(rank),
+        showRank,
         description,
         valueLines,
-        pathLabel
+        pathLabel,
+        upgradePreview
     };
 }
 
@@ -176,16 +176,28 @@ function getSpellRewardView(spell, currentRank, rewardOption) {
     const targetRank =
         currentRank + 1;
 
+    const currentValues =
+        getSpellRankValues(spell, currentRank);
+
+    const nextValues =
+        getSpellRankValues(spell, targetRank);
+
+    const deltaLines =
+        getUpgradeChangeLines(currentValues, nextValues);
+
     const previewLines =
-        getSpellRewardPreviewLines(
-            spell,
-            currentRank
-        );
+        deltaLines.length > 0
+            ? deltaLines
+            : getSpellRewardPreviewLines(
+                spell,
+                currentRank
+            );
 
     return {
         rarity: getRarityView(spell.rarity),
         rank: targetRank,
         rankLabel: romanize(targetRank),
+        rankProgressLabel: `Rang ${romanize(currentRank)} → ${romanize(targetRank)}`,
         changeLines: previewLines.map(line => enrichTooltipText(line))
     };
 }

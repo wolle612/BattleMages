@@ -26,23 +26,41 @@ function playCastEffect(castDefinition, anchors) {
             ? new PIXI.AnimatedSprite(textures)
             : new PIXI.Graphics();
 
+    // Basisskalierung fuer Sprite-Sheet-Casts: haelt das Seitenverhaeltnis der
+    // (nicht-quadratischen) Frames und skaliert die groesste Kante auf
+    // preset.displaySize. Der Pulse-Tween multipliziert nur relativ dazu.
+    let castBaseScale = 0.9;
+
     if (isSpritesheetCast) {
         visual.anchor.set(0.5);
         visual.loop = false;
         visual.animationSpeed = preset.animationSpeed || 0.83;
-        visual.width = preset.displayWidth || 96;
-        visual.height = preset.displayHeight || 71;
         applyVfxBlendMode(visual, preset.blendMode);
+
+        const nativeWidth =
+            visual.texture?.width || preset.frameW || 96;
+
+        const dims =
+            getVfxSheetDisplayDims(preset);
+
+        castBaseScale =
+            nativeWidth > 0
+                ? dims.w / nativeWidth
+                : 0.9;
     }
 
     const isFill =
         preset.shape === "circle_fill";
 
     if (!isSpritesheetCast) {
+        // Schul-Sheet-Presets (data/vfx/schoolVfxAssets.js) haben absichtlich
+        // KEIN preset.color (sie sind reine Sprite-Sheet-Definitionen). Falls
+        // ihr Sheet z. B. wegen eines Ladefehlers nicht verfuegbar ist, greift
+        // hier ein neutraler Fallback statt eines undefined-Farbwerts.
         drawVfxCircleGraphic(
             visual,
             preset.radius || (isFill ? 10 : 22),
-            preset.color,
+            preset.color ?? 0xffffff,
             isFill ? (preset.alpha ?? 0.82) : 0.9,
             isFill
         );
@@ -51,7 +69,7 @@ function playCastEffect(castDefinition, anchors) {
     visual.position.set(anchor.x, anchor.y);
     visual.scale.set(
         isSpritesheetCast
-            ? 0.9
+            ? castBaseScale
             : (isFill ? 0.55 : 0.4)
     );
     visual.alpha =
@@ -91,12 +109,12 @@ function playCastEffect(castDefinition, anchors) {
             duration,
             progress => {
                 if (isSpritesheetCast) {
-                    const scale =
+                    const pulse =
                         progress < 0.48
-                            ? 0.88 + progress * 0.25
-                            : 1 - (progress - 0.48) * 0.04;
+                            ? 0.98 + progress * 0.06
+                            : 1.01 - (progress - 0.48) * 0.02;
 
-                    visual.scale.set(scale);
+                    visual.scale.set(castBaseScale * pulse);
                     visual.alpha =
                         progress < 0.93
                             ? 1

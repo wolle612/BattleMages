@@ -102,7 +102,12 @@ function loadVfxImageBaseTexture(imagePath) {
             image.crossOrigin = "anonymous";
         }
 
-        image.src = resolveVfxImageSource(imageUrl);
+        // imageUrl ist bereits ueber resolveVfxImageSource() aufgeloest
+        // (data:-URI oder absolute URL) — NICHT erneut aufloesen: ein
+        // zweiter new URL()-Durchlauf ueber eine data:-URI kann Base64-
+        // Sonderzeichen (+, /, =) beschaedigen und die Textur unbrauchbar
+        // machen.
+        image.src = imageUrl;
     });
 }
 
@@ -150,9 +155,20 @@ function preloadVfxCoreAssets() {
     }
 
     if (!vfxCoreAssetsPromise) {
+        // Alle Schul-Sprite-Sheets (Cast/Beam/Schnitt/Explosion/Impact) werden
+        // EINMAL beim Spielstart geladen und gecacht. Waehrend des Kampfes
+        // finden dadurch keine Nachladevorgaenge statt.
+        const schoolManifests =
+            typeof VFX_SCHOOL_SHEET_MANIFESTS !== "undefined"
+                ? VFX_SCHOOL_SHEET_MANIFESTS
+                : [];
+
+        const manifestPaths =
+            VFX_CORE_SPRITESHEETS.concat(schoolManifests);
+
         vfxCoreAssetsPromise =
             Promise.all(
-                VFX_CORE_SPRITESHEETS.map(path => loadVfxSpritesheet(path))
+                manifestPaths.map(path => loadVfxSpritesheet(path))
             );
     }
 

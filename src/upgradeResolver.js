@@ -258,17 +258,27 @@ function getPathChoiceOptions(spell) {
         return [];
     }
 
+    const currentValues =
+        getSpellRankValues(spell, PATH_CHOICE_RANK - 1, null);
+
     return ["a", "b"]
         .filter(pathId => profile.paths[pathId])
         .map(pathId => {
             const pathProfile =
                 profile.paths[pathId];
 
+            const patchValues =
+                pathProfile.rank3?.values || {};
+
+            const nextValues =
+                mergeUpgradeValues(currentValues, patchValues);
+
             return {
                 path: pathId,
                 label: pathProfile.label,
                 tooltip: pathProfile.rank3?.tooltip || [],
-                values: pathProfile.rank3?.values || {}
+                changeLines: getUpgradeChangeLines(currentValues, nextValues),
+                values: patchValues
             };
         });
 }
@@ -282,33 +292,196 @@ function getSpellTooltipLines(spell, rank, path) {
     }
 
     if (rank === 2 && profile?.rank2?.tooltip?.length) {
-        return profile.rank2.tooltip;
+        const rank2Lines =
+            profile.rank2.tooltip;
+
+        if (tooltipLinesLookComplete(rank2Lines)) {
+            return rank2Lines;
+        }
+
+        return mergeAdditiveTooltipLines(
+            spell.tooltip || [],
+            rank2Lines
+        );
     }
 
     if (rank >= PATH_CHOICE_RANK && path && profile?.paths?.[path]) {
         const pathProfile =
             profile.paths[path];
 
-        if (rank === 5 && pathProfile.rank5?.tooltip?.length) {
-            return pathProfile.rank5.tooltip;
-        }
+        const stackedLines =
+            [...(spell.tooltip || [])];
 
-        if (rank === 4) {
-            if (pathProfile.rank4?.tooltip?.length) {
-                return pathProfile.rank4.tooltip;
+        if (profile.rank2?.tooltip?.length) {
+            if (tooltipLinesLookComplete(profile.rank2.tooltip)) {
+                stackedLines.length = 0;
+                stackedLines.push(...profile.rank2.tooltip);
+            } else {
+                const merged =
+                    mergeAdditiveTooltipLines(stackedLines, profile.rank2.tooltip);
+                stackedLines.length = 0;
+                stackedLines.push(...merged);
             }
+        }
 
-            if (profile.rank4?.tooltip?.length) {
-                return profile.rank4.tooltip;
+        if (rank >= PATH_CHOICE_RANK && pathProfile.rank3?.tooltip?.length) {
+            if (tooltipLinesLookComplete(pathProfile.rank3.tooltip)) {
+                stackedLines.length = 0;
+                stackedLines.push(...pathProfile.rank3.tooltip);
+            } else {
+                const merged =
+                    mergeAdditiveTooltipLines(stackedLines, pathProfile.rank3.tooltip);
+                stackedLines.length = 0;
+                stackedLines.push(...merged);
             }
         }
 
-        if (rank === PATH_CHOICE_RANK && pathProfile.rank3?.tooltip?.length) {
-            return pathProfile.rank3.tooltip;
+        if (rank >= 4) {
+            const rank4Lines =
+                pathProfile.rank4?.tooltip?.length
+                    ? pathProfile.rank4.tooltip
+                    : profile.rank4?.tooltip;
+
+            if (rank4Lines?.length) {
+                if (tooltipLinesLookComplete(rank4Lines)) {
+                    stackedLines.length = 0;
+                    stackedLines.push(...rank4Lines);
+                } else {
+                    const merged =
+                        mergeAdditiveTooltipLines(stackedLines, rank4Lines);
+                    stackedLines.length = 0;
+                    stackedLines.push(...merged);
+                }
+            }
         }
+
+        if (rank >= 5 && pathProfile.rank5?.tooltip?.length) {
+            if (tooltipLinesLookComplete(pathProfile.rank5.tooltip)) {
+                stackedLines.length = 0;
+                stackedLines.push(...pathProfile.rank5.tooltip);
+            } else {
+                const merged =
+                    mergeAdditiveTooltipLines(
+                        stackedLines,
+                        pathProfile.rank5.tooltip
+                    );
+                stackedLines.length = 0;
+                stackedLines.push(...merged);
+            }
+        }
+
+        return dedupeTooltipLines(stackedLines);
     }
 
     return spell.tooltip || [];
+}
+
+function tooltipLinesLookComplete(lines) {
+    return lines.some(line => {
+        return /verursacht\s+\d|erhalte\s+\d|erhöhe\s+dein/i.test(line);
+    });
+}
+
+function mergeAdditiveTooltipLines(baseLines, additiveLines) {
+    const result =
+        [...baseLines];
+
+    additiveLines.forEach(newLine => {
+        const prefix =
+            String(newLine).split(":")[0].trim();
+
+        if (prefix.length >= 10) {
+            for (let index = result.length - 1; index >= 0; index--) {
+                const existingPrefix =
+                    String(result[index]).split(":")[0].trim();
+
+                if (existingPrefix === prefix) {
+                    result.splice(index, 1);
+                }
+            }
+        }
+
+        result.push(newLine);
+    });
+
+    return dedupeTooltipLines(result);
+}
+
+function dedupeTooltipLines(lines) {
+    const seen =
+        new Set();
+
+    return lines.filter(line => {
+        const key =
+            String(line).trim().toLowerCase();
+
+        if (!key || seen.has(key)) {
+            return false;
+        }
+
+        seen.add(key);
+        return true;
+    });
+}
+
+function getSpellUpgradePreview(spell, rank, path) {
+    const profile =
+        getSpellUpgradeProfile(spell);
+
+    if (!profile || rank >= SPELL_MAX_RANK) {
+        return {
+            rank3: [],
+            rank5: []
+        };
+    }
+
+    const resolvedPath =
+        path !== undefined
+            ? path
+            : getSpellPath(spell.id);
+
+    const rank3 = [];
+    const rank5 = [];
+
+    if (rank < PATH_CHOICE_RANK && profile.paths) {
+        ["a", "b"].forEach(pathId => {
+            const pathProfile =
+                profile.paths[pathId];
+
+            if (!pathProfile) {
+                return;
+            }
+
+            if (pathProfile.rank3?.tooltip?.length) {
+                rank3.push({
+                    label: pathProfile.label || `Pfad ${pathId.toUpperCase()}`,
+                    lines: pathProfile.rank3.tooltip
+                });
+            }
+
+            if (pathProfile.rank5?.tooltip?.length) {
+                rank5.push({
+                    label: pathProfile.label || `Pfad ${pathId.toUpperCase()}`,
+                    lines: pathProfile.rank5.tooltip
+                });
+            }
+        });
+    } else if (resolvedPath && profile.paths?.[resolvedPath]) {
+        const pathProfile =
+            profile.paths[resolvedPath];
+
+        if (rank < 5 && pathProfile.rank5?.tooltip?.length) {
+            rank5.push({
+                label: pathProfile.label || null,
+                lines: pathProfile.rank5.tooltip
+            });
+        }
+    }
+
+    return {
+        rank3,
+        rank5
+    };
 }
 
 function getSpellPathLabel(spell, path) {
@@ -382,8 +555,11 @@ function applySpellUpgradeChoice(spell, chosenPath) {
     spellRanks[spell.id] = progress.rank + 1;
 }
 
-function initializeSpellProgress(spellId) {
-    spellRanks[spellId] = 1;
+function initializeSpellProgress(spellId, startRank = 1) {
+    const clampedRank =
+        Math.max(1, Math.min(2, Math.floor(startRank) || 1));
+
+    spellRanks[spellId] = clampedRank;
     delete spellPaths[spellId];
 }
 

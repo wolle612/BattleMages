@@ -1,0 +1,203 @@
+{
+  "frames": {
+    "school_beam_chaos_00.png": {
+      "frame": {
+        "x": 77,
+        "y": 0,
+        "w": 836,
+        "h": 231
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 836,
+        "h": 231
+      },
+      "sourceSize": {
+        "w": 836,
+        "h": 231
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_chaos_01.png": {
+      "frame": {
+        "x": 77,
+        "y": 231,
+        "w": 836,
+        "h": 232
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 836,
+        "h": 232
+      },
+      "sourceSize": {
+        "w": 836,
+        "h": 232
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_chaos_02.png": {
+      "frame": {
+        "x": 77,
+        "y": 463,
+        "w": 836,
+        "h": 231
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 836,
+        "h": 231
+      },
+      "sourceSize": {
+        "w": 836,
+        "h": 231
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_chaos_03.png": {
+      "frame": {
+        "x": 77,
+        "y": 694,
+        "w": 836,
+        "h": 231
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 836,
+        "h": 231
+      },
+      "sourceSize": {
+        "w": 836,
+        "h": 231
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_chaos_04.png": {
+      "frame": {
+        "x": 77,
+        "y": 925,
+        "w": 836,
+        "h": 231
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 836,
+        "h": 231
+      },
+      "sourceSize": {
+        "w": 836,
+        "h": 231
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_chaos_05.png": {
+      "frame": {
+        "x": 77,
+        "y": 1156,
+        "w": 836,
+        "h": 232
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 836,
+        "h": 232
+      },
+      "sourceSize": {
+        "w": 836,
+        "h": 232
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_chaos_06.png": {
+      "frame": {
+        "x": 77,
+        "y": 1388,
+        "w": 836,
+        "h": 231
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 836,
+        "h": 231
+      },
+      "sourceSize": {
+        "w": 836,
+        "h": 231
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "animations": {
+    "play": [
+      "school_beam_chaos_00.png",
+      "school_beam_chaos_01.png",
+      "school_beam_chaos_02.png",
+      "school_beam_chaos_03.png",
+      "school_beam_chaos_04.png",
+      "school_beam_chaos_05.png",
+      "school_beam_chaos_06.png"
+    ]
+  },
+  "meta": {
+    "app": "BattleMages VFX Pipeline",
+    "version": "1.0",
+    "image": "Chaos_Beam.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 972,
+      "h": 1619
+    },
+    "scale": "1",
+    "frameSize": {
+      "w": 836,
+      "h": 231
+    },
+    "frameCount": 7,
+    "styleKey": "school_beam_chaos",
+    "school": "chaos",
+    "category": "beam",
+    "durationMs": 460
+  }
+}

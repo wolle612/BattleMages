@@ -1,0 +1,203 @@
+{
+  "frames": {
+    "school_beam_shadow_00.png": {
+      "frame": {
+        "x": 87,
+        "y": 0,
+        "w": 819,
+        "h": 233
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 819,
+        "h": 233
+      },
+      "sourceSize": {
+        "w": 819,
+        "h": 233
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_shadow_01.png": {
+      "frame": {
+        "x": 87,
+        "y": 233,
+        "w": 819,
+        "h": 234
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 819,
+        "h": 234
+      },
+      "sourceSize": {
+        "w": 819,
+        "h": 234
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_shadow_02.png": {
+      "frame": {
+        "x": 87,
+        "y": 467,
+        "w": 819,
+        "h": 233
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 819,
+        "h": 233
+      },
+      "sourceSize": {
+        "w": 819,
+        "h": 233
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_shadow_03.png": {
+      "frame": {
+        "x": 87,
+        "y": 700,
+        "w": 819,
+        "h": 234
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 819,
+        "h": 234
+      },
+      "sourceSize": {
+        "w": 819,
+        "h": 234
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_shadow_04.png": {
+      "frame": {
+        "x": 87,
+        "y": 934,
+        "w": 819,
+        "h": 233
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 819,
+        "h": 233
+      },
+      "sourceSize": {
+        "w": 819,
+        "h": 233
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_shadow_05.png": {
+      "frame": {
+        "x": 87,
+        "y": 1167,
+        "w": 819,
+        "h": 234
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 819,
+        "h": 234
+      },
+      "sourceSize": {
+        "w": 819,
+        "h": 234
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_shadow_06.png": {
+      "frame": {
+        "x": 87,
+        "y": 1401,
+        "w": 819,
+        "h": 233
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 819,
+        "h": 233
+      },
+      "sourceSize": {
+        "w": 819,
+        "h": 233
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "animations": {
+    "play": [
+      "school_beam_shadow_00.png",
+      "school_beam_shadow_01.png",
+      "school_beam_shadow_02.png",
+      "school_beam_shadow_03.png",
+      "school_beam_shadow_04.png",
+      "school_beam_shadow_05.png",
+      "school_beam_shadow_06.png"
+    ]
+  },
+  "meta": {
+    "app": "BattleMages VFX Pipeline",
+    "version": "1.0",
+    "image": "Shadow_Beam.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 963,
+      "h": 1634
+    },
+    "scale": "1",
+    "frameSize": {
+      "w": 819,
+      "h": 233
+    },
+    "frameCount": 7,
+    "styleKey": "school_beam_shadow",
+    "school": "shadow",
+    "category": "beam",
+    "durationMs": 460
+  }
+}

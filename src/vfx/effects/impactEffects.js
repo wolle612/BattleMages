@@ -33,10 +33,13 @@ function createVfxImpactVisual(preset) {
     const graphic =
         new PIXI.Graphics();
 
+    // Schul-Sheet-Presets haben absichtlich kein preset.color (reine
+    // Sprite-Sheet-Definition); neutraler Fallback statt undefined bei
+    // fehlgeschlagenem Sheet-Load.
     drawVfxCircleGraphic(
         graphic,
         preset.radius || 18,
-        preset.color,
+        preset.color ?? 0xffffff,
         0.85,
         true
     );
@@ -75,11 +78,11 @@ function playImpactEffect(impactDefinition, anchors) {
     visual.position.set(anchor.x, anchor.y);
 
     if (isSpritesheetImpact) {
-        const size =
-            displaySize * (impactDefinition?.scale || 1);
+        const dims =
+            getVfxSheetDisplayDims(preset, impactDefinition?.scale || 1);
 
-        visual.width = size;
-        visual.height = size;
+        visual.width = dims.w;
+        visual.height = dims.h;
     } else {
         visual.scale.set(scaleBase);
     }

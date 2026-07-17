@@ -1,5 +1,15 @@
-const PORTRAIT_EFFECT_ASSETS = {
-    vulnerable: "assets/effects/impact/vulnerable.png"
+// "vulnerable" ist absichtlich deaktiviert: das alte Asset (vulnerable.png)
+// war fehlerhaft und wurde geloescht. Die CSS-Klasse
+// (combatant-portrait-slot--vulnerable) wird weiterhin toggled (siehe
+// updatePortraitVulnerableOverlays), es existiert nur aktuell kein Bild dafuer.
+// Neues Asset einfach wieder hier eintragen, um die Visualisierung zu
+// reaktivieren.
+const PORTRAIT_EFFECT_ASSETS = {};
+
+const PORTRAIT_SHIELD_RISE_ASSET = {
+    sheet: "assets/effects/shield/portrait_shield_rise/portrait_shield_rise_sheet.png",
+    frameCount: 8,
+    durationMs: 640
 };
 
 const PORTRAIT_ENTITY_OVERRIDES = {
@@ -106,9 +116,10 @@ function getPortraitEffectAsset(effectId) {
 }
 
 function renderPortraitEffectOverlaysHtml() {
-    return Object
-        .entries(PORTRAIT_EFFECT_ASSETS)
-        .map(([effectId, asset]) => `
+    const staticEffects =
+        Object
+            .entries(PORTRAIT_EFFECT_ASSETS)
+            .map(([effectId, asset]) => `
             <img
                 class="combatant-portrait-effect combatant-portrait-effect--${effectId}"
                 src="${asset}"
@@ -116,7 +127,16 @@ function renderPortraitEffectOverlaysHtml() {
                 aria-hidden="true"
             />
         `)
-        .join("");
+            .join("");
+
+    const shieldEffect = `
+        <div
+            class="combatant-portrait-effect combatant-portrait-effect--shield"
+            aria-hidden="true"
+        ></div>
+    `;
+
+    return `${staticEffects}${shieldEffect}`;
 }
 
 function statusListHasVulnerable(statuses) {
@@ -147,6 +167,65 @@ function updatePortraitVulnerableOverlays(action) {
         document.querySelector(".enemy-panel .combatant-portrait-slot"),
         statusListHasVulnerable(action.enemyDebuffs)
     );
+}
+
+function updatePortraitShieldOverlays(action) {
+    updatePortraitSlotShielded(
+        document.querySelector(".player-panel .combatant-portrait-slot"),
+        (action.playerShield || 0) > 0
+    );
+
+    updatePortraitSlotShielded(
+        document.querySelector(".enemy-panel .combatant-portrait-slot"),
+        (action.enemyShield || 0) > 0
+    );
+}
+
+function updatePortraitSlotShielded(slot, isShielded) {
+    if (!slot) {
+        return;
+    }
+
+    slot.classList.toggle(
+        "combatant-portrait-slot--shielded",
+        isShielded
+    );
+
+    if (!isShielded) {
+        slot.classList.remove("combatant-portrait-slot--shield-rise");
+    }
+}
+
+function isShieldGainCombatAction(action) {
+    if (!action || action.type !== "shield") {
+        return false;
+    }
+
+    const impact =
+        action.impact ||
+        (action.feedbackDetail && action.feedbackDetail.startsWith("+")
+            ? action.feedbackDetail.match(/\+(\d+)/)?.[0]
+            : "");
+
+    return typeof impact === "string" && impact.startsWith("+");
+}
+
+function playPortraitShieldRise(targetSide) {
+    const selector =
+        targetSide === "enemy"
+            ? ".enemy-panel .combatant-portrait-slot"
+            : ".player-panel .combatant-portrait-slot";
+
+    const slot =
+        document.querySelector(selector);
+
+    if (!slot) {
+        return;
+    }
+
+    slot.classList.remove("combatant-portrait-slot--shield-rise");
+    void slot.offsetWidth;
+    slot.classList.add("combatant-portrait-slot--shield-rise");
 }
 
 function applyPortraitPlaceholder(slot) {

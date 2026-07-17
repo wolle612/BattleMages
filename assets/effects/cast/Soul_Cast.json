@@ -1,0 +1,178 @@
+{
+  "frames": {
+    "school_cast_soul_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 385,
+        "w": 256,
+        "h": 185
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 185
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 185
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_soul_01.png": {
+      "frame": {
+        "x": 256,
+        "y": 385,
+        "w": 256,
+        "h": 185
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 185
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 185
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_soul_02.png": {
+      "frame": {
+        "x": 512,
+        "y": 385,
+        "w": 256,
+        "h": 185
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 185
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 185
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_soul_03.png": {
+      "frame": {
+        "x": 768,
+        "y": 385,
+        "w": 256,
+        "h": 185
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 185
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 185
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_soul_04.png": {
+      "frame": {
+        "x": 1024,
+        "y": 385,
+        "w": 256,
+        "h": 185
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 185
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 185
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_soul_05.png": {
+      "frame": {
+        "x": 1280,
+        "y": 385,
+        "w": 256,
+        "h": 185
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 185
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 185
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "animations": {
+    "play": [
+      "school_cast_soul_00.png",
+      "school_cast_soul_01.png",
+      "school_cast_soul_02.png",
+      "school_cast_soul_03.png",
+      "school_cast_soul_04.png",
+      "school_cast_soul_05.png"
+    ]
+  },
+  "meta": {
+    "app": "BattleMages VFX Pipeline",
+    "version": "1.0",
+    "image": "Soul_Cast.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1536,
+      "h": 1024
+    },
+    "scale": "1",
+    "frameSize": {
+      "w": 256,
+      "h": 185
+    },
+    "frameCount": 6,
+    "styleKey": "school_cast_soul",
+    "school": "soul",
+    "category": "cast",
+    "durationMs": 380
+  }
+}

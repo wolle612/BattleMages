@@ -7,6 +7,17 @@ const STARTER_OFFER_COUNT = 5;
 
 const STARTER_SELECTION_COUNT = 3;
 
+/* Starter offer rarity weights — Commons dominate; Epics/Legendaries stay 0
+   even if a spell is accidentally flagged starter. */
+const STARTER_RARITY_WEIGHTS = {
+    Common: 70,
+    Rare: 28,
+    Epic: 0,
+    Legendary: 0
+};
+
+const STARTER_MIN_COMMON_OFFERS = 2;
+
 const PLAYBACK_DURATIONS = {
     minor: 520,
     normal: 780,

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>portrait_shield_rise Preview</title>
+    <style>
+        :root {
+            --portrait-size: 272px;
+            --portrait-frame-inset: 11% 10% 10% 10%;
+        }
+
+        body {
+            margin: 0;
+            background: #1a1f2e;
+            color: #d8e0f0;
+            font-family: Consolas, monospace;
+            padding: 24px;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 1.2rem;
+        }
+
+        p {
+            margin: 0 0 16px;
+            color: #9eb0d0;
+        }
+
+        .preview-grid {
+            display: flex;
+            gap: 32px;
+            flex-wrap: wrap;
+            align-items: flex-start;
+        }
+
+        .preview-card {
+            width: calc(var(--portrait-size) + 48px);
+        }
+
+        .preview-card h2 {
+            margin: 0 0 12px;
+            font-size: 0.95rem;
+            color: #e8c547;
+        }
+
+        .combatant-portrait-slot {
+            position: relative;
+            width: var(--portrait-size);
+            height: var(--portrait-size);
+            padding: var(--portrait-frame-inset);
+            box-sizing: border-box;
+            background: #2a3040;
+            border: 2px solid #4a5568;
+            overflow: hidden;
+        }
+
+        .combatant-portrait-image {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 18%;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            filter: saturate(0.85) brightness(0.92);
+        }
+
+        .combatant-portrait-effect {
+            position: absolute;
+            inset: var(--portrait-frame-inset);
+            width: auto;
+            height: auto;
+            pointer-events: none;
+            opacity: 0;
+            z-index: 3;
+        }
+
+        .combatant-portrait-effect--shield {
+            background-image: url("../assets/effects/shield/portrait_shield_rise/portrait_shield_rise_sheet.png");
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            background-size: 800% 100%;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        .combatant-portrait-slot--shield-rise
+            .combatant-portrait-effect--shield {
+            opacity: 1;
+            animation: portraitShieldRise 640ms steps(8) forwards;
+        }
+
+        .combatant-portrait-slot--shielded
+            .combatant-portrait-effect--shield {
+            opacity: 1;
+            background-position: 100% 0;
+            animation: none;
+        }
+
+        @keyframes portraitShieldRise {
+            from { background-position: 0 0; }
+            to { background-position: 100% 0; }
+        }
+
+        .sheet-preview {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid #33415f;
+        }
+
+        .sheet-preview img {
+            display: block;
+            max-width: 100%;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+            border: 1px solid #4a5568;
+            background: #10141f;
+        }
+
+        button {
+            margin-top: 12px;
+            padding: 8px 14px;
+            background: #2d3f63;
+            color: #f4f8ff;
+            border: 1px solid #5f7db0;
+            cursor: pointer;
+            font-family: inherit;
+        }
+
+        button:hover {
+            background: #3a5078;
+        }
+    </style>
+</head>
+<body>
+    <h1>portrait_shield_rise — Schild-Porträt-Animation</h1>
+    <p>8-Bit-Sprite-Sheet: offener rissiger Goldschild, starke Seiten, offenes Oberteil.</p>
+
+    <div class="preview-grid">
+        <div class="preview-card">
+            <h2>Aufbau-Animation</h2>
+            <div id="riseSlot" class="combatant-portrait-slot">
+                <img
+                    class="combatant-portrait-image"
+                    src="../assets/portraits/player/player.png"
+                    alt=""
+                />
+                <div class="combatant-portrait-effect combatant-portrait-effect--shield"></div>
+            </div>
+            <button id="replayRise">Animation abspielen</button>
+        </div>
+
+        <div class="preview-card">
+            <h2>Gehalten (Schild aktiv)</h2>
+            <div class="combatant-portrait-slot combatant-portrait-slot--shielded">
+                <img
+                    class="combatant-portrait-image"
+                    src="../assets/portraits/player/player.png"
+                    alt=""
+                />
+                <div class="combatant-portrait-effect combatant-portrait-effect--shield"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="sheet-preview">
+        <h2>Sprite Sheet (8 × 128 px)</h2>
+        <img
+            src="../assets/effects/shield/portrait_shield_rise/portrait_shield_rise_sheet.png"
+            alt="portrait_shield_rise sprite sheet"
+        />
+    </div>
+
+    <script>
+        const riseSlot = document.getElementById("riseSlot");
+
+        function replayRise() {
+            riseSlot.classList.remove(
+                "combatant-portrait-slot--shield-rise",
+                "combatant-portrait-slot--shielded"
+            );
+            void riseSlot.offsetWidth;
+            riseSlot.classList.add("combatant-portrait-slot--shield-rise");
+
+            window.setTimeout(() => {
+                riseSlot.classList.remove("combatant-portrait-slot--shield-rise");
+                riseSlot.classList.add("combatant-portrait-slot--shielded");
+            }, 640);
+        }
+
+        document.getElementById("replayRise").addEventListener("click", replayRise);
+        replayRise();
+    </script>
+</body>
+</html>

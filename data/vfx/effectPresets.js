@@ -101,12 +101,11 @@ const VFX_IMPACT_PRESETS = {
         duration: 140,
         animationSpeed: 0.55,
         blendMode: "add"
-    },
-    vulnerable_mark: {
-        texture: "assets/effects/impact/vulnerable.png",
-        size: 44,
-        duration: 320
     }
+    // "vulnerable_mark" wurde entfernt: verwies auf das geloeschte
+    // vulnerable.png und wurde von keinem Zauber/keiner Enemy-Action
+    // referenziert (siehe portraitRegistry.js fuer den separaten,
+    // ebenfalls deaktivierten Portrait-Overlay-Vulnerable-Effekt).
 };
 
 const VFX_PARTICLE_PRESETS = {

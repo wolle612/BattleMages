@@ -1,0 +1,178 @@
+{
+  "frames": {
+    "school_cast_shadow_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 416,
+        "w": 256,
+        "h": 154
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 154
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 154
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_shadow_01.png": {
+      "frame": {
+        "x": 256,
+        "y": 416,
+        "w": 256,
+        "h": 154
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 154
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 154
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_shadow_02.png": {
+      "frame": {
+        "x": 512,
+        "y": 416,
+        "w": 256,
+        "h": 154
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 154
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 154
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_shadow_03.png": {
+      "frame": {
+        "x": 768,
+        "y": 416,
+        "w": 256,
+        "h": 154
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 154
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 154
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_shadow_04.png": {
+      "frame": {
+        "x": 1024,
+        "y": 416,
+        "w": 256,
+        "h": 154
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 154
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 154
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_shadow_05.png": {
+      "frame": {
+        "x": 1280,
+        "y": 416,
+        "w": 256,
+        "h": 154
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 154
+      },
+      "sourceSize": {
+        "w": 256,
+        "h": 154
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "animations": {
+    "play": [
+      "school_cast_shadow_00.png",
+      "school_cast_shadow_01.png",
+      "school_cast_shadow_02.png",
+      "school_cast_shadow_03.png",
+      "school_cast_shadow_04.png",
+      "school_cast_shadow_05.png"
+    ]
+  },
+  "meta": {
+    "app": "BattleMages VFX Pipeline",
+    "version": "1.0",
+    "image": "Shadow_Cast.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1536,
+      "h": 1024
+    },
+    "scale": "1",
+    "frameSize": {
+      "w": 256,
+      "h": 154
+    },
+    "frameCount": 6,
+    "styleKey": "school_cast_shadow",
+    "school": "shadow",
+    "category": "cast",
+    "durationMs": 380
+  }
+}

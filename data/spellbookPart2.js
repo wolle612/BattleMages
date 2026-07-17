@@ -8,14 +8,14 @@ const spellbookPart2Definitions = [
         build: "verwundbar_burst",
         mechanics: ["vulnerable"],
         rarity: "Common",
-        description: "Der zuverlässige Füllzauber eines Verwundbar-Builds.",
+        description: "Geronnenes Blut verdichtet sich zum nächsten Stoß.",
         tooltip: [
             "Verursacht 30 Schaden.",
             "Gegen verwundbare Ziele: +15 Schaden."
         ],
         tags: ["Attack"],
         spellbookCore: true,
-        starter: false,
+        starter: true,
         cooldown: 0,
         effects: ["deal_damage"],
         upgrades: [
@@ -37,7 +37,7 @@ const spellbookPart2Definitions = [
         build: "krit_verwundbar",
         mechanics: ["crit", "vulnerable"],
         rarity: "Rare",
-        description: "Kritische Treffer machen das Ziel verwundbar.",
+        description: "Der kritische Treffer legt die Schwachstelle frei.",
         tooltip: [
             "Verursacht 30 Schaden.",
             "Kritische Treffer fügen Verwundbar zu."
@@ -66,14 +66,14 @@ const spellbookPart2Definitions = [
         build: "schildfestung",
         mechanics: ["shield"],
         rarity: "Common",
-        description: "Biomantie erhält erstmals defensiven Spielraum für Hybrid-Builds.",
+        description: "Knochenplatten wachsen über Haut und Fleisch.",
         tooltip: [
             "Verursacht 15 Schaden.",
             "Erhalte 20 Schild."
         ],
         tags: ["Attack"],
         spellbookCore: true,
-        starter: false,
+        starter: true,
         cooldown: 0,
         effects: ["deal_damage", "gain_shield"],
         upgrades: [
@@ -95,7 +95,7 @@ const spellbookPart2Definitions = [
         build: "kritmaschine",
         mechanics: ["crit", "shield"],
         rarity: "Rare",
-        description: "Defensiver Crit-Zauber, der Treffer unmittelbar belohnt.",
+        description: "Ein Mantel aus Schatten fängt kritische Treffer ab.",
         tooltip: [
             "Verursacht 30 Schaden.",
             "Bei einem kritischen Treffer erhältst du 20 Schild."
@@ -124,14 +124,14 @@ const spellbookPart2Definitions = [
         build: "kritmaschine",
         mechanics: ["crit"],
         rarity: "Common",
-        description: "Der konstante DPS-Zauber für Crit-Builds.",
+        description: "Ein schwerer Hieb aus der Dunkelheit.",
         tooltip: [
             "Verursacht 35 Schaden.",
             "Kritische Treffer verursachen +20 Schaden."
         ],
         tags: ["Attack"],
         spellbookCore: true,
-        starter: false,
+        starter: true,
         cooldown: 0,
         effects: ["deal_damage"],
         upgrades: [
@@ -153,7 +153,7 @@ const spellbookPart2Definitions = [
         build: "krit_verwundbar",
         mechanics: ["vulnerable", "crit"],
         rarity: "Rare",
-        description: "Wandelt Verwundbar in Krit-Chancen um.",
+        description: "Der gebrochene Wille öffnet den Geist für kritische Treffer.",
         tooltip: [
             "Verursacht 30 Schaden.",
             "Gegen verwundbare Ziele: +30 % Kritchance."
@@ -182,14 +182,14 @@ const spellbookPart2Definitions = [
         build: "kritmaschine",
         mechanics: ["crit"],
         rarity: "Common",
-        description: "Flexible Alternative zu Dunkler Klinge.",
+        description: "Ein Gedankenstoß sucht den verwundbaren Punkt.",
         tooltip: [
             "Verursacht 32 Schaden.",
             "+18 % Kritchance."
         ],
         tags: ["Attack"],
         spellbookCore: true,
-        starter: false,
+        starter: true,
         cooldown: 0,
         effects: ["deal_damage"],
         upgrades: [
@@ -211,7 +211,7 @@ const spellbookPart2Definitions = [
         build: "kritmaschine",
         mechanics: ["crit"],
         rarity: "Rare",
-        description: "Ersetzt alte Buffs durch klare Nächster-Zauber-Vorbereitung.",
+        description: "Ein Strom von Absicht richtet den nächsten Zauber aus.",
         tooltip: [
             "Verursacht 15 Schaden.",
             "Der nächste Zauber erhält +40 % Kritchance."
@@ -241,14 +241,14 @@ const spellbookPart2Definitions = [
         build: "schildfestung",
         mechanics: ["shield"],
         rarity: "Common",
-        description: "Psionik erhält Zugang zu Schild ohne Runen zu kopieren.",
+        description: "Gedanken verdichten sich zu einem schützenden Schild.",
         tooltip: [
             "Verursacht 15 Schaden.",
             "Erhalte 20 Schild."
         ],
         tags: ["Attack"],
         spellbookCore: true,
-        starter: false,
+        starter: true,
         cooldown: 0,
         effects: ["deal_damage", "gain_shield"],
         upgrades: [
@@ -270,7 +270,7 @@ const spellbookPart2Definitions = [
         build: "multischule",
         mechanics: ["sequence", "vulnerable"],
         rarity: "Rare",
-        description: "Verbessert Hybrid-Builds mit gezieltem Verwundbar-Setup.",
+        description: "Fremde Magie löst die Falle und macht das Ziel verwundbar.",
         tooltip: [
             "Verursacht 25 Schaden.",
             "Wurde zuvor ein Zauber einer anderen Schule gewirkt: Fügt Verwundbar zu."
@@ -299,7 +299,7 @@ const spellbookPart2Definitions = [
         build: "kritmaschine",
         mechanics: ["crit"],
         rarity: "Common",
-        description: "Flexibler Unterstützer für den nächsten Treffer.",
+        description: "Die Absicht wird umgelenkt und schärft den Folgeschlag.",
         tooltip: [
             "Verursacht 20 Schaden.",
             "Der nächste Zauber erhält +25 % Kritchance."
@@ -329,7 +329,7 @@ const spellbookPart2Definitions = [
         build: "schildfestung",
         mechanics: ["shield", "sequence"],
         rarity: "Rare",
-        description: "Belohnt defensive Rotationen.",
+        description: "Ein verbotenes Siegel wächst mit jedem Schutzzauber.",
         tooltip: [
             "Erhalte 25 Schild.",
             "Wurde zuvor ein Schutzzauber gewirkt: +20 Schild."
@@ -359,7 +359,7 @@ const spellbookPart2Definitions = [
         build: "schildfestung",
         mechanics: ["shield"],
         rarity: "Rare",
-        description: "Der stärkste Schildskalierer.",
+        description: "Das Siegel pulsiert und verdoppelt die vorhandene Barriere.",
         tooltip: [
             "Erhöhe deinen aktuellen Schild um 50 %.",
             "Verursacht 15 Schaden."
@@ -388,7 +388,7 @@ const spellbookPart2Definitions = [
         build: "verwundbar_burst",
         mechanics: ["vulnerable"],
         rarity: "Common",
-        description: "Runenkunst erhält Zugriff auf Verwundbar.",
+        description: "Die Rune springt auf und hinterlässt eine offene Schwäche.",
         tooltip: [
             "Verursacht 25 Schaden.",
             "Fügt Verwundbar zu."
@@ -414,7 +414,7 @@ const spellbookPart2Definitions = [
         build: "hybrid",
         mechanics: ["shield", "vulnerable"],
         rarity: "Rare",
-        description: "Offensive Hybridkarte der Runenkunst.",
+        description: "Hinter dem eigenen Schild bricht die Rune das Ziel.",
         tooltip: [
             "Verursacht 30 Schaden.",
             "Besitzt du Schild, fügt dieser Zauber Verwundbar zu."
@@ -443,7 +443,7 @@ const spellbookPart2Definitions = [
         build: "schildfestung",
         mechanics: ["shield"],
         rarity: "Common",
-        description: "Aggressive Alternative zum Schildgenerator.",
+        description: "Ein runischer Stoß, der zugleich schützt und verletzt.",
         tooltip: [
             "Verursacht 35 Schaden.",
             "Erhalte 15 Schild."
@@ -472,7 +472,7 @@ const spellbookPart2Definitions = [
         build: "burst",
         mechanics: ["burst"],
         rarity: "Common",
-        description: "Einfache Burst-Karte der Chaosmagie.",
+        description: "Ungezähmte Energie entlädt sich in unberechenbarer Gewalt.",
         tooltip: [
             "Verursacht 30–50 Schaden."
         ],
@@ -500,7 +500,7 @@ const spellbookPart2Definitions = [
         build: "burst",
         mechanics: ["burst"],
         rarity: "Rare",
-        description: "Der Standard-Burstzauber der Chaosmagie.",
+        description: "Eine Klinge aus reinem Chaos schneidet ohne Umweg.",
         tooltip: [
             "Verursacht 45 Schaden."
         ],
@@ -525,7 +525,7 @@ const spellbookPart2Definitions = [
         build: "schildkanone",
         mechanics: ["shield", "burst"],
         rarity: "Epic",
-        description: "Nutzt vorhandenen Schild offensiv, ohne ihn zu verbrauchen.",
+        description: "Chaos nährt sich am Schild und entlädt den Überschuss.",
         tooltip: [
             "Verursacht 25 Schaden.",
             "Besitzt du Schild, verursacht dieser Zauber zusätzlichen Schaden in Höhe von 50 % deines Schildes."
@@ -554,7 +554,7 @@ const spellbookPart2Definitions = [
         build: "schildkanone",
         mechanics: ["shield", "hybrid"],
         rarity: "Rare",
-        description: "Direkter Hybrid-Zauber ohne Buff-Leiste.",
+        description: "Die getroffene Seele gibt Kraft als Schild zurück.",
         tooltip: [
             "Verursacht 30 Schaden.",
             "Erhalte Schild in Höhe von 50 % des verursachten Schadens."
@@ -583,7 +583,7 @@ const spellbookPart2Definitions = [
         build: "schildkanone",
         mechanics: ["shield"],
         rarity: "Common",
-        description: "Kleiner Bruder des Schildbrechers.",
+        description: "Ein Schnitt, der aus dem eigenen Schild gespeist wird.",
         tooltip: [
             "Verursacht Schaden in Höhe von 50 % deines Schildes."
         ],
@@ -610,7 +610,7 @@ const spellbookPart2Definitions = [
         build: "verwundbar_burst",
         mechanics: ["vulnerable", "shield"],
         rarity: "Rare",
-        description: "Verbindet Verwundbar und Schild in einem Schritt.",
+        description: "Verwundbarkeit wird zu schützender Seelenkraft.",
         tooltip: [
             "Verursacht 30 Schaden.",
             "Gegen verwundbare Ziele erhältst du 20 Schild."
@@ -639,7 +639,7 @@ const spellbookPart2Definitions = [
         build: "krit_verwundbar",
         mechanics: ["crit", "vulnerable"],
         rarity: "Rare",
-        description: "Verbindet Crit- und Verwundbar-Builds.",
+        description: "Ein Funke Seelenfeuer sucht kritische Schwachstellen.",
         tooltip: [
             "Verursacht 30 Schaden.",
             "Gegen verwundbare Ziele: +30 % Kritchance."

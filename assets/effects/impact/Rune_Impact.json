@@ -1,0 +1,153 @@
+{
+  "frames": {
+    "school_impact_rune_00.png": {
+      "frame": {
+        "x": 433,
+        "y": 0,
+        "w": 203,
+        "h": 307
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 203,
+        "h": 307
+      },
+      "sourceSize": {
+        "w": 203,
+        "h": 307
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_impact_rune_01.png": {
+      "frame": {
+        "x": 433,
+        "y": 307,
+        "w": 203,
+        "h": 307
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 203,
+        "h": 307
+      },
+      "sourceSize": {
+        "w": 203,
+        "h": 307
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_impact_rune_02.png": {
+      "frame": {
+        "x": 433,
+        "y": 614,
+        "w": 203,
+        "h": 308
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 203,
+        "h": 308
+      },
+      "sourceSize": {
+        "w": 203,
+        "h": 308
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_impact_rune_03.png": {
+      "frame": {
+        "x": 433,
+        "y": 922,
+        "w": 203,
+        "h": 307
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 203,
+        "h": 307
+      },
+      "sourceSize": {
+        "w": 203,
+        "h": 307
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_impact_rune_04.png": {
+      "frame": {
+        "x": 433,
+        "y": 1229,
+        "w": 203,
+        "h": 307
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 203,
+        "h": 307
+      },
+      "sourceSize": {
+        "w": 203,
+        "h": 307
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "animations": {
+    "play": [
+      "school_impact_rune_00.png",
+      "school_impact_rune_01.png",
+      "school_impact_rune_02.png",
+      "school_impact_rune_03.png",
+      "school_impact_rune_04.png"
+    ]
+  },
+  "meta": {
+    "app": "BattleMages VFX Pipeline",
+    "version": "1.0",
+    "image": "Rune_Impact.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1024,
+      "h": 1536
+    },
+    "scale": "1",
+    "frameSize": {
+      "w": 203,
+      "h": 307
+    },
+    "frameCount": 5,
+    "styleKey": "school_impact_rune",
+    "school": "rune",
+    "category": "impact",
+    "durationMs": 380
+  }
+}

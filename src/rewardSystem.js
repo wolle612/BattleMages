@@ -1,3 +1,7 @@
+const REWARD_SLOT_COUNT = 3;
+const REWARD_UPGRADE_TYPE_CHANCE = 0.55;
+const SCHOOL_AFFINITY_MULTIPLIER = 1.5;
+
 const REWARD_RARITY_WEIGHTS_BY_PROGRESS = [
     {
         maxFightIndex: 2,
@@ -46,6 +50,30 @@ const REWARD_RARITY_WEIGHTS_BY_PROGRESS = [
     }
 ];
 
+const NEW_SPELL_START_RANK_WEIGHTS_BY_PROGRESS = [
+    {
+        maxFightIndex: 2,
+        weights: {
+            1: 95,
+            2: 5
+        }
+    },
+    {
+        maxFightIndex: 6,
+        weights: {
+            1: 80,
+            2: 20
+        }
+    },
+    {
+        maxFightIndex: 11,
+        weights: {
+            1: 60,
+            2: 40
+        }
+    }
+];
+
 const SHADOW_SETUP_DEPENDENCY_MULTIPLIER = 0.2;
 
 function getRewardRarityWeights(fightIndex) {
@@ -58,6 +86,49 @@ function getRewardRarityWeights(fightIndex) {
         ];
 
     return progressStep.weights;
+}
+
+function getNewSpellStartRankWeights(fightIndex) {
+    const progressStep =
+        NEW_SPELL_START_RANK_WEIGHTS_BY_PROGRESS.find(step => {
+            return fightIndex <= step.maxFightIndex;
+        }) ||
+        NEW_SPELL_START_RANK_WEIGHTS_BY_PROGRESS[
+            NEW_SPELL_START_RANK_WEIGHTS_BY_PROGRESS.length - 1
+        ];
+
+    return progressStep.weights;
+}
+
+function rollNewSpellStartRank(fightIndex) {
+    const weights =
+        getNewSpellStartRankWeights(fightIndex);
+
+    const entries =
+        Object.keys(weights).map(rankKey => {
+            return Number(rankKey);
+        });
+
+    return pickWeightedEntry(
+        entries,
+        rank => weights[rank] || 0
+    ) || 1;
+}
+
+function getOwnedSchoolIds(ownedSpellIds) {
+    const schools =
+        new Set();
+
+    ownedSpellIds.forEach(spellId => {
+        const spell =
+            getSpellById(spellId);
+
+        if (spell?.school) {
+            schools.add(spell.school);
+        }
+    });
+
+    return schools;
 }
 
 function playerHasWoundEnabler(ownedSpellIds) {
@@ -108,6 +179,13 @@ function getNewSpellOfferWeight(spell, ownedSpellIds, fightIndex) {
         return 0;
     }
 
+    const ownedSchools =
+        getOwnedSchoolIds(ownedSpellIds);
+
+    if (ownedSchools.has(spell.school)) {
+        weight *= SCHOOL_AFFINITY_MULTIPLIER;
+    }
+
     const hasWoundEnabler =
         playerHasWoundEnabler(ownedSpellIds);
 
@@ -126,6 +204,19 @@ function getNewSpellOfferWeight(spell, ownedSpellIds, fightIndex) {
     return weight;
 }
 
+function getUpgradeOfferWeight(spell, ownedSpellIds) {
+    let weight = 1;
+
+    const ownedSchools =
+        getOwnedSchoolIds(ownedSpellIds);
+
+    if (ownedSchools.has(spell.school)) {
+        weight *= SCHOOL_AFFINITY_MULTIPLIER;
+    }
+
+    return weight;
+}
+
 function pickWeightedEntry(entries, getWeight) {
     const weightedEntries =
         entries
@@ -138,6 +229,10 @@ function pickWeightedEntry(entries, getWeight) {
             .filter(item => item.weight > 0);
 
     if (weightedEntries.length === 0) {
+        if (entries.length === 0) {
+            return null;
+        }
+
         return entries[
             Math.floor(Math.random() * entries.length)
         ];
@@ -180,7 +275,19 @@ function createUpgradeRewardOption(spell) {
     };
 }
 
-function pickRandomUpgradeSpell(upgradeableSpells, excludedSpellIds) {
+function createNewRewardOption(spell, fightIndex) {
+    return {
+        type: "new",
+        spell,
+        startRank: rollNewSpellStartRank(fightIndex)
+    };
+}
+
+function pickRandomUpgradeSpell(
+    upgradeableSpells,
+    excludedSpellIds,
+    ownedSpellIds = []
+) {
     const availableUpgrades =
         upgradeableSpells.filter(spell => {
             return !excludedSpellIds.includes(spell.id);
@@ -190,11 +297,10 @@ function pickRandomUpgradeSpell(upgradeableSpells, excludedSpellIds) {
         return null;
     }
 
-    return availableUpgrades[
-        Math.floor(
-            Math.random() * availableUpgrades.length
-        )
-    ];
+    return pickWeightedEntry(
+        availableUpgrades,
+        spell => getUpgradeOfferWeight(spell, ownedSpellIds)
+    );
 }
 
 function pickNewRewardSpell(
@@ -224,6 +330,223 @@ function pickNewRewardSpell(
     );
 }
 
+function hasAvailableUpgrades(upgradeableSpells, excludedSpellIds) {
+    return upgradeableSpells.some(spell => {
+        return !excludedSpellIds.includes(spell.id);
+    });
+}
+
+function hasAvailableNewSpells(ownedSpellIds, excludedSpellIds) {
+    return spells.some(spell => {
+        return (
+            !ownedSpellIds.includes(spell.id) &&
+            !excludedSpellIds.includes(spell.id)
+        );
+    });
+}
+
+function rollRewardSlotType(
+    canUpgrade,
+    canNew
+) {
+    if (canUpgrade && canNew) {
+        return Math.random() < REWARD_UPGRADE_TYPE_CHANCE
+            ? "upgrade"
+            : "new";
+    }
+
+    if (canUpgrade) {
+        return "upgrade";
+    }
+
+    if (canNew) {
+        return "new";
+    }
+
+    return null;
+}
+
+function tryCreateRewardOption(
+    slotType,
+    fightIndex,
+    ownedSpellIds,
+    upgradeableSpells,
+    excludedSpellIds
+) {
+    if (slotType === "upgrade") {
+        const spell =
+            pickRandomUpgradeSpell(
+                upgradeableSpells,
+                excludedSpellIds,
+                ownedSpellIds
+            );
+
+        if (!spell) {
+            return null;
+        }
+
+        return createUpgradeRewardOption(spell);
+    }
+
+    if (slotType === "new") {
+        const spell =
+            pickNewRewardSpell(
+                ownedSpellIds,
+                fightIndex,
+                excludedSpellIds
+            );
+
+        if (!spell) {
+            return null;
+        }
+
+        return createNewRewardOption(spell, fightIndex);
+    }
+
+    return null;
+}
+
+function createRewardOptionForAvailableType(
+    fightIndex,
+    ownedSpellIds,
+    upgradeableSpells,
+    excludedSpellIds,
+    preferredType = null
+) {
+    const canUpgrade =
+        hasAvailableUpgrades(upgradeableSpells, excludedSpellIds);
+
+    const canNew =
+        hasAvailableNewSpells(ownedSpellIds, excludedSpellIds);
+
+    const preferred =
+        preferredType ||
+        rollRewardSlotType(canUpgrade, canNew);
+
+    if (!preferred) {
+        return null;
+    }
+
+    let option =
+        tryCreateRewardOption(
+            preferred,
+            fightIndex,
+            ownedSpellIds,
+            upgradeableSpells,
+            excludedSpellIds
+        );
+
+    if (option) {
+        return option;
+    }
+
+    const fallbackType =
+        preferred === "upgrade" ? "new" : "upgrade";
+
+    return tryCreateRewardOption(
+        fallbackType,
+        fightIndex,
+        ownedSpellIds,
+        upgradeableSpells,
+        excludedSpellIds
+    );
+}
+
+function isUpgradeRewardType(type) {
+    return type === "upgrade" || type === "path_choice";
+}
+
+function applySoftTypeGuarantees(
+    rewardOptions,
+    fightIndex,
+    ownedSpellIds,
+    upgradeableSpells
+) {
+    if (rewardOptions.length < 2) {
+        return rewardOptions;
+    }
+
+    const usedIds =
+        rewardOptions.map(option => option.spell.id);
+
+    const hasUpgrade =
+        rewardOptions.some(option => {
+            return isUpgradeRewardType(option.type);
+        });
+
+    const canUpgrade =
+        hasAvailableUpgrades(upgradeableSpells, usedIds);
+
+    if (!hasUpgrade && canUpgrade) {
+        const replaceIndex =
+            rewardOptions.findIndex(option => {
+                return option.type === "new";
+            });
+
+        if (replaceIndex >= 0) {
+            const excluded =
+                usedIds.filter((_, index) => {
+                    return index !== replaceIndex;
+                });
+
+            const replacement =
+                tryCreateRewardOption(
+                    "upgrade",
+                    fightIndex,
+                    ownedSpellIds,
+                    upgradeableSpells,
+                    excluded
+                );
+
+            if (replacement) {
+                rewardOptions[replaceIndex] =
+                    replacement;
+            }
+        }
+    }
+
+    const usedIdsAfterUpgrade =
+        rewardOptions.map(option => option.spell.id);
+
+    const hasNewAfter =
+        rewardOptions.some(option => {
+            return option.type === "new";
+        });
+
+    const canNewAfter =
+        hasAvailableNewSpells(ownedSpellIds, usedIdsAfterUpgrade);
+
+    if (!hasNewAfter && canNewAfter) {
+        const replaceIndex =
+            rewardOptions.findIndex(option => {
+                return isUpgradeRewardType(option.type);
+            });
+
+        if (replaceIndex >= 0) {
+            const excluded =
+                usedIdsAfterUpgrade.filter((_, index) => {
+                    return index !== replaceIndex;
+                });
+
+            const replacement =
+                tryCreateRewardOption(
+                    "new",
+                    fightIndex,
+                    ownedSpellIds,
+                    upgradeableSpells,
+                    excluded
+                );
+
+            if (replacement) {
+                rewardOptions[replaceIndex] =
+                    replacement;
+            }
+        }
+    }
+
+    return rewardOptions;
+}
+
 function generateRewardOptions(
     fightIndex,
     ownedSpellIds,
@@ -232,46 +555,29 @@ function generateRewardOptions(
     const rewardOptions = [];
     const usedRewards = [];
 
-    const firstUpgrade =
-        pickRandomUpgradeSpell(
-            upgradeableSpells,
-            usedRewards
-        );
+    for (let slot = 0; slot < REWARD_SLOT_COUNT; slot++) {
+        const option =
+            createRewardOptionForAvailableType(
+                fightIndex,
+                ownedSpellIds,
+                upgradeableSpells,
+                usedRewards
+            );
 
-    if (firstUpgrade) {
-        rewardOptions.push(
-            createUpgradeRewardOption(firstUpgrade)
-        );
+        if (!option) {
+            break;
+        }
 
-        usedRewards.push(firstUpgrade.id);
+        rewardOptions.push(option);
+        usedRewards.push(option.spell.id);
     }
 
-    const newSpell =
-        pickNewRewardSpell(
-            ownedSpellIds,
-            fightIndex
-        );
-
-    if (newSpell) {
-        rewardOptions.push({
-            type: "new",
-            spell: newSpell
-        });
-
-        usedRewards.push(newSpell.id);
-    }
-
-    const secondUpgrade =
-        pickRandomUpgradeSpell(
-            upgradeableSpells,
-            usedRewards
-        );
-
-    if (secondUpgrade) {
-        rewardOptions.push(
-            createUpgradeRewardOption(secondUpgrade)
-        );
-    }
+    applySoftTypeGuarantees(
+        rewardOptions,
+        fightIndex,
+        ownedSpellIds,
+        upgradeableSpells
+    );
 
     return shuffleRewardOptions(rewardOptions);
 }
@@ -313,34 +619,13 @@ function rerollRewardOption(
         currentOption.spell.id
     ];
 
-    if (currentOption.type === "upgrade" ||
-        currentOption.type === "path_choice") {
-        const spell =
-            pickRandomUpgradeSpell(
-                upgradeableSpells,
-                excludedSpellIds
-            );
-
-        if (!spell) {
-            return currentOption;
-        }
-
-        return createUpgradeRewardOption(spell);
-    }
-
-    const spell =
-        pickNewRewardSpell(
-            ownedSpellIds,
+    const option =
+        createRewardOptionForAvailableType(
             fightIndex,
+            ownedSpellIds,
+            upgradeableSpells,
             excludedSpellIds
         );
 
-    if (!spell) {
-        return currentOption;
-    }
-
-    return {
-        type: "new",
-        spell
-    };
+    return option || currentOption;
 }

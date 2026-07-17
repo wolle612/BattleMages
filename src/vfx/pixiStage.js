@@ -10,8 +10,18 @@ function isVfxFileProtocol() {
     return window.location.protocol === "file:";
 }
 
+// Unter file:// blockiert der Browser fetch()/XHR fuer lokale JSON-Dateien UND
+// markiert per <img> geladene Sibling-PNGs als "cross-origin", sobald sie via
+// WebGL texImage2D als Textur hochgeladen werden sollen (jede file://-Datei
+// gilt als eigener, undurchsichtiger Origin — CVE-2019-11730). Sowohl die
+// Spritesheet-MANIFESTE (JSON) als auch die PNG-TEXTUREN (als Base64-WebP-
+// data-URI) muessen daher als Inline-JS eingebettet sein, siehe
+// tools/sync_vfx_manifests_js.py.
 function hasVfxFileProtocolSupport() {
     return (
+        typeof VFX_SPRITESHEET_MANIFESTS !== "undefined" &&
+        VFX_SPRITESHEET_MANIFESTS !== null &&
+        Object.keys(VFX_SPRITESHEET_MANIFESTS).length > 0 &&
         typeof VFX_SPRITESHEET_TEXTURE_DATA !== "undefined" &&
         VFX_SPRITESHEET_TEXTURE_DATA !== null &&
         Object.keys(VFX_SPRITESHEET_TEXTURE_DATA).length > 0
@@ -26,7 +36,7 @@ function warnVfxFileProtocolOnce() {
     vfxFileProtocolWarningShown = true;
 
     console.warn(
-        "[VFX] file:// ohne eingebettete Texturen. " +
+        "[VFX] file:// ohne eingebettete Spritesheet-Manifeste/-Texturen. " +
         "Führe aus: py tools/sync_vfx_manifests_js.py " +
         "(oder nutze http://localhost mit py -m http.server 8765)"
     );
@@ -51,7 +61,14 @@ function disableVfxRendering(reason) {
 
     vfxRenderDisabled = true;
 
-    if (vfxPixiApp?.ticker) {
+    // app.stop() entfernt den Render-Callback vollstaendig vom Ticker (statt
+    // ihn nur zu pausieren) — robuster gegen Code, der spaeter versehentlich
+    // ticker.start() aufruft. isVfxSupported() (siehe ensureVfxRendererActive)
+    // verhindert zusaetzlich, dass ueberhaupt noch jemand versucht, den
+    // kaputten Renderer erneut zu benutzen.
+    if (typeof vfxPixiApp?.stop === "function") {
+        vfxPixiApp.stop();
+    } else if (vfxPixiApp?.ticker) {
         vfxPixiApp.ticker.stop();
     }
 

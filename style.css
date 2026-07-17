@@ -125,8 +125,16 @@
     --starter-selection-gap: 14px;
     --starter-card-frame-source: url('assets/ui/cards/starter_card.png');
     --starter-card-fill: #16181e;
-    --combat-log-pillar-width: 64px;
-    --combat-log-panel-min-height: 340px;
+    --combat-log-pillar-width: 68px;
+    --combat-log-panel-height: 300px;
+    /* Native asset bounds (opaque content) — used to crop transparent padding
+       so pillar caps and center rails share the same top/bottom edge. */
+    --combat-log-center-native-h: 856;
+    --combat-log-center-opaque-top: 14;
+    --combat-log-center-opaque-h: 831;
+    --combat-log-pillar-native-h: 1024;
+    --combat-log-pillar-opaque-top: 79;
+    --combat-log-pillar-opaque-h: 862;
     --combat-log-center-source: url('assets/ui/log/combat_log_center.png');
     --combat-log-pillar-left-source: url('assets/ui/log/combat_log_pillar_left.png');
     --combat-log-pillar-right-source: url('assets/ui/log/combat_log_pillar_right.png');
@@ -459,10 +467,6 @@ body.app-selection #spellContainer {
 .spell-rank {
     color: var(--accent-gold);
     font-weight: 600;
-}
-
-.spell-cooldown {
-    color: var(--text-muted);
 }
 
 .sr-only {
@@ -970,6 +974,38 @@ body.app-selection #spellContainer {
     opacity: 1;
 }
 
+.combatant-portrait-effect--shield {
+    background-image: url("assets/effects/shield/portrait_shield_rise/portrait_shield_rise_sheet.png");
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 800% 100%;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+.combatant-portrait-slot--shield-rise
+    .combatant-portrait-effect--shield {
+    opacity: 1;
+    animation: portraitShieldRise 640ms steps(8) forwards;
+}
+
+.combatant-portrait-slot--shielded
+    .combatant-portrait-effect--shield {
+    opacity: 1;
+    background-position: 100% 0;
+    animation: none;
+}
+
+@keyframes portraitShieldRise {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 100% 0;
+    }
+}
+
 .combatant-portrait-slot--reveal {
     animation: portraitReveal 0.55s ease both;
 }
@@ -1384,20 +1420,27 @@ body.app-selection #spellContainer {
 }
 
 .reward-build-panel {
-    margin-bottom: 24px;
-    padding: 16px 18px;
+    margin-bottom: 28px;
+    padding: 20px 22px 22px;
     background: rgba(0, 0, 0, 0.18);
     border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
 }
 
 .reward-build-title {
-    margin: 0 0 12px;
+    margin: 0 0 4px;
     color: var(--text-secondary);
-    font-size: 0.82rem;
+    font-size: 0.95rem;
     font-weight: 800;
     letter-spacing: 0.06em;
     text-transform: uppercase;
+}
+
+.reward-build-hint {
+    margin: 0 0 16px;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-style: italic;
 }
 
 .actionbar--readonly {
@@ -1407,6 +1450,38 @@ body.app-selection #spellContainer {
 .actionbar--readonly .build-card {
     pointer-events: auto;
     cursor: default;
+}
+
+/* — Reward screen build bar: bigger and more prominent than the compact
+   in-combat action bar, since it's the main way to inspect owned spells
+   before picking a reward. — */
+.actionbar--reward {
+    --spell-slot-size: 104px;
+    gap: 18px;
+}
+
+.actionbar--reward .build-card {
+    width: 128px;
+    padding: 12px 10px;
+    gap: 8px;
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+}
+
+.actionbar--reward .build-card:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 0 0 2px rgba(200, 190, 170, 0.32),
+        0 10px 24px rgba(0, 0, 0, 0.4);
+}
+
+.actionbar--reward .build-card .spell-icon__fallback {
+    font-size: 1.7rem;
+}
+
+.actionbar--reward .build-card .card-meta {
+    font-size: 0.82rem;
 }
 
 @keyframes feedbackFade {
@@ -2019,6 +2094,59 @@ body.app-selection #spellContainer {
     font-weight: 700;
 }
 
+.tooltip-description {
+    margin: 8px 0 10px;
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    font-style: italic;
+    line-height: 1.35;
+}
+
+.tooltip-section-label {
+    margin: 10px 0 4px;
+    color: var(--text-muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.tooltip-rank {
+    margin-top: 10px;
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    font-weight: 700;
+}
+
+.tooltip-upgrades {
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.tooltip-upgrade-rank {
+    margin-top: 8px;
+}
+
+.tooltip-upgrade-rank-title {
+    margin-bottom: 4px;
+    color: var(--accent-gold-dim);
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.tooltip-upgrade-path {
+    margin: 4px 0 2px;
+    color: var(--text-secondary);
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+
+.tooltip-upgrade-entry .tooltip-line {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
 .tooltip-section--values {
     margin-top: 0;
 }
@@ -2149,8 +2277,11 @@ body.app-selection #spellContainer {
 .reward-card {
     position: relative;
     isolation: isolate;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: var(--reward-card-width);
-    min-height: calc(var(--reward-card-width) / var(--reward-card-aspect));
+    height: calc(var(--reward-card-width) / var(--reward-card-aspect));
     padding: 36px 20px 80px;
     text-align: center;
     overflow: hidden;
@@ -2164,6 +2295,32 @@ body.app-selection #spellContainer {
         transform 0.15s ease,
         box-shadow 0.15s ease,
         filter 0.15s ease;
+}
+
+/* All reward cards (upgrade, new spell, path choice) share this fixed
+   height so the reward grid always lines up evenly; content that would
+   overflow scrolls inside .reward-card-scroll instead of stretching the card. */
+.reward-card-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.reward-card-scroll::-webkit-scrollbar {
+    width: 4px;
+}
+
+.reward-card-scroll::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.reward-card.reward-path-choice {
+    align-items: stretch;
 }
 
 .reward-card::after {
@@ -2299,6 +2456,18 @@ body.app-selection #spellContainer {
     background: rgba(71, 201, 133, 0.18);
     color: var(--accent-new);
     border: 1px solid rgba(71, 201, 133, 0.35);
+}
+
+.reward-rank-progress {
+    margin: 6px 0 0;
+    color: var(--text-secondary);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+}
+
+.reward-path-choice-header .reward-rank-progress {
+    margin-top: 0;
 }
 
 .reward-change-list {
@@ -2490,6 +2659,21 @@ body.app-home {
     min-height: 100vh;
     min-height: 100dvh;
     background: #0a0c10;
+}
+
+html.app-game,
+html.app-selection {
+    background-color: #0a0c10;
+    background-image:
+        linear-gradient(
+            rgba(8, 10, 14, 0.32),
+            rgba(8, 10, 14, 0.38)
+        ),
+        url("assets/backgrounds/menus/battlemages_gamescreen.png");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 body.app-game,
@@ -2856,6 +3040,95 @@ body.app-home #game {
     color: var(--accent-danger);
 }
 
+/* — Combat outcome overlay (Sieg/Niederlage Pop-up) — */
+.combat-outcome-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: rgba(6, 7, 9, 0.72);
+    opacity: 0;
+    transition: opacity 0.24s ease;
+}
+
+.combat-outcome-overlay--visible {
+    opacity: 1;
+}
+
+.combat-outcome-panel {
+    position: relative;
+    width: min(92vw, 460px);
+    padding: 44px 32px 36px;
+    text-align: center;
+    background-color: var(--panel-fill);
+    border: var(--panel-frame-width) solid transparent;
+    border-image-source: var(--panel-frame-source);
+    border-image-slice: var(--panel-frame-slice);
+    border-image-width: var(--panel-frame-width);
+    border-image-repeat: stretch;
+    box-shadow: var(--shadow-outer);
+    transform: translateY(14px) scale(0.97);
+    transition:
+        transform 0.24s ease,
+        opacity 0.24s ease;
+}
+
+.combat-outcome-overlay--visible .combat-outcome-panel {
+    transform: translateY(0) scale(1);
+}
+
+.combat-outcome-dismiss {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.15s ease;
+}
+
+.combat-outcome-dismiss:hover {
+    color: var(--text-primary);
+}
+
+.combat-outcome-title {
+    margin: 0 0 12px;
+    font-size: clamp(1.6rem, 4vw, 2.1rem);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.55);
+}
+
+.combat-outcome-title--victory {
+    color: var(--accent-success);
+}
+
+.combat-outcome-title--defeat {
+    color: var(--accent-danger);
+}
+
+.combat-outcome-subtitle {
+    margin: 0 0 28px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.combat-outcome-cta {
+    min-width: 220px;
+}
+
 /* ==========================================================
    Sprint G4 — Fantasy UI Art Pass (CSS-only)
    ========================================================== */
@@ -2917,14 +3190,17 @@ body.app-home #game {
 
 /* — Combat log (slice pillars + stretchable center) —
    Lives inside the .battle-arena grid and spans every column, so its left/right
-   edges always match the player/enemy panel edges without hardcoded widths. */
+   edges always match the player/enemy panel edges without hardcoded widths.
+   Fixed height: content scrolls inside #combatLog; frame assets stay aligned. */
 .combat-log-shell {
     grid-column: 1 / -1;
     position: relative;
     display: flex;
     align-items: stretch;
     box-sizing: border-box;
-    min-height: var(--combat-log-panel-min-height);
+    height: var(--combat-log-panel-height);
+    min-height: var(--combat-log-panel-height);
+    max-height: var(--combat-log-panel-height);
     border: none;
     background: none;
     overflow: hidden;
@@ -2934,8 +3210,21 @@ body.app-home #game {
 .combat-log-pillar {
     flex: 0 0 var(--combat-log-pillar-width);
     background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100% 100%;
+    /* Crop transparent padding so ornate caps/bases sit flush with the shell edges */
+    background-size:
+        100%
+        calc(
+            var(--combat-log-panel-height) *
+            var(--combat-log-pillar-native-h) /
+            var(--combat-log-pillar-opaque-h)
+        );
+    background-position:
+        center
+        calc(
+            var(--combat-log-panel-height) *
+            var(--combat-log-pillar-opaque-top) /
+            var(--combat-log-pillar-opaque-h) * -1
+        );
     image-rendering: pixelated;
     image-rendering: crisp-edges;
     filter: saturate(0.62) brightness(0.92);
@@ -2953,6 +3242,9 @@ body.app-home #game {
     position: relative;
     flex: 1 1 auto;
     min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
     background-color: var(--combat-log-fill);
     overflow: hidden;
 }
@@ -2965,8 +3257,21 @@ body.app-home #game {
     pointer-events: none;
     background-image: var(--combat-log-center-source);
     background-repeat: no-repeat;
-    background-position: center;
-    background-size: 100% 100%;
+    /* Same opaque-crop as pillars so top/bottom rails meet the pillar stubs */
+    background-size:
+        100%
+        calc(
+            var(--combat-log-panel-height) *
+            var(--combat-log-center-native-h) /
+            var(--combat-log-center-opaque-h)
+        );
+    background-position:
+        center
+        calc(
+            var(--combat-log-panel-height) *
+            var(--combat-log-center-opaque-top) /
+            var(--combat-log-center-opaque-h) * -1
+        );
     filter: saturate(0.62) brightness(0.92);
     image-rendering: pixelated;
     image-rendering: crisp-edges;
@@ -2975,14 +3280,28 @@ body.app-home #game {
 #combatLog {
     position: relative;
     z-index: 1;
+    flex: 1 1 auto;
     width: 100%;
-    height: 100%;
-    min-height: var(--combat-log-panel-min-height);
-    padding: 18px 14px 16px;
+    min-height: 0;
+    height: auto;
+    max-height: 100%;
+    padding: 28px 16px 26px;
     box-sizing: border-box;
     overflow-x: hidden;
     overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(200, 180, 140, 0.35) transparent;
     background: transparent;
+}
+
+#combatLog::-webkit-scrollbar {
+    width: 6px;
+}
+
+#combatLog::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: rgba(200, 180, 140, 0.35);
 }
 
 /* Compact headers: battle progress uses panel + header assets (see .battle-header) */
@@ -3136,6 +3455,10 @@ body.app-home #game {
     border: none;
     border-radius: 0;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+    cursor: pointer;
+    transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
 }
 
 .spell-card--selection::after {
@@ -3153,7 +3476,7 @@ body.app-home #game {
 }
 
 .spell-card--selection:hover::after {
-    filter: saturate(0.68) brightness(0.98);
+    filter: saturate(0.85) brightness(1.18);
 }
 
 .spell-card--selection.selected::after {
@@ -3296,7 +3619,10 @@ body.app-home #game {
 .spell-card--selection:hover {
     transform: translateY(-4px) scale(1.01);
     border-color: transparent;
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.52);
+    box-shadow:
+        0 0 0 2px rgba(200, 190, 170, 0.32),
+        0 0 22px rgba(180, 165, 130, 0.18),
+        0 18px 40px rgba(0, 0, 0, 0.52);
 }
 
 .spell-card--selection.selected {
@@ -3589,6 +3915,19 @@ body.app-home #game {
 .combatant-portrait-effect {
     inset: var(--portrait-frame-inset);
     z-index: 3;
+}
+
+/*
+ * Der Schild-Effekt ist ein Ring, der ueber den GESAMTEN Porträtrahmen (den
+ * kompletten quadratischen Slot) zentriert sein soll, nicht nur ueber den
+ * inneren, zugeschnittenen Porträt-Art-Bereich. Das Sprite-Sheet (800% 100%
+ * Background-Size) ist fuer die volle Slot-Groesse berechnet; ohne dieses
+ * inset:0 wuerde die generische .combatant-portrait-effect-Regel oben das
+ * Schild auf den (asymmetrischen) Rahmen-Inset verkleinern und dadurch
+ * sichtbar aus der Mitte verschieben.
+ */
+.combatant-portrait-effect--shield {
+    inset: 0;
 }
 
 .enemy-portrait-slot {

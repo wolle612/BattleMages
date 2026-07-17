@@ -1,0 +1,203 @@
+{
+  "frames": {
+    "school_beam_psionic_00.png": {
+      "frame": {
+        "x": 24,
+        "y": 0,
+        "w": 232,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 232,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 232,
+        "h": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_psionic_01.png": {
+      "frame": {
+        "x": 24,
+        "y": 64,
+        "w": 232,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 232,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 232,
+        "h": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_psionic_02.png": {
+      "frame": {
+        "x": 24,
+        "y": 128,
+        "w": 232,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 232,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 232,
+        "h": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_psionic_03.png": {
+      "frame": {
+        "x": 24,
+        "y": 192,
+        "w": 232,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 232,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 232,
+        "h": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_psionic_04.png": {
+      "frame": {
+        "x": 24,
+        "y": 256,
+        "w": 232,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 232,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 232,
+        "h": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_psionic_05.png": {
+      "frame": {
+        "x": 24,
+        "y": 320,
+        "w": 232,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 232,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 232,
+        "h": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_psionic_06.png": {
+      "frame": {
+        "x": 24,
+        "y": 384,
+        "w": 232,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 232,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 232,
+        "h": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "animations": {
+    "play": [
+      "school_beam_psionic_00.png",
+      "school_beam_psionic_01.png",
+      "school_beam_psionic_02.png",
+      "school_beam_psionic_03.png",
+      "school_beam_psionic_04.png",
+      "school_beam_psionic_05.png",
+      "school_beam_psionic_06.png"
+    ]
+  },
+  "meta": {
+    "app": "BattleMages VFX Pipeline",
+    "version": "1.0",
+    "image": "Psionic_Beam.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 256,
+      "h": 448
+    },
+    "scale": "1",
+    "frameSize": {
+      "w": 232,
+      "h": 64
+    },
+    "frameCount": 7,
+    "styleKey": "school_beam_psionic",
+    "school": "psionic",
+    "category": "beam",
+    "durationMs": 460
+  }
+}

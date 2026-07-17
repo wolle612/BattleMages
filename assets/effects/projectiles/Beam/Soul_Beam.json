@@ -1,0 +1,203 @@
+{
+  "frames": {
+    "school_beam_soul_00.png": {
+      "frame": {
+        "x": 0,
+        "y": 0,
+        "w": 984,
+        "h": 219
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 984,
+        "h": 219
+      },
+      "sourceSize": {
+        "w": 984,
+        "h": 219
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_soul_01.png": {
+      "frame": {
+        "x": 0,
+        "y": 219,
+        "w": 984,
+        "h": 220
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 984,
+        "h": 220
+      },
+      "sourceSize": {
+        "w": 984,
+        "h": 220
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_soul_02.png": {
+      "frame": {
+        "x": 0,
+        "y": 439,
+        "w": 984,
+        "h": 219
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 984,
+        "h": 219
+      },
+      "sourceSize": {
+        "w": 984,
+        "h": 219
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_soul_03.png": {
+      "frame": {
+        "x": 0,
+        "y": 658,
+        "w": 984,
+        "h": 220
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 984,
+        "h": 220
+      },
+      "sourceSize": {
+        "w": 984,
+        "h": 220
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_soul_04.png": {
+      "frame": {
+        "x": 0,
+        "y": 878,
+        "w": 984,
+        "h": 219
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 984,
+        "h": 219
+      },
+      "sourceSize": {
+        "w": 984,
+        "h": 219
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_soul_05.png": {
+      "frame": {
+        "x": 0,
+        "y": 1097,
+        "w": 984,
+        "h": 220
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 984,
+        "h": 220
+      },
+      "sourceSize": {
+        "w": 984,
+        "h": 220
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_beam_soul_06.png": {
+      "frame": {
+        "x": 0,
+        "y": 1317,
+        "w": 984,
+        "h": 219
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 984,
+        "h": 219
+      },
+      "sourceSize": {
+        "w": 984,
+        "h": 219
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "animations": {
+    "play": [
+      "school_beam_soul_00.png",
+      "school_beam_soul_01.png",
+      "school_beam_soul_02.png",
+      "school_beam_soul_03.png",
+      "school_beam_soul_04.png",
+      "school_beam_soul_05.png",
+      "school_beam_soul_06.png"
+    ]
+  },
+  "meta": {
+    "app": "BattleMages VFX Pipeline",
+    "version": "1.0",
+    "image": "Soul_Beam.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1024,
+      "h": 1536
+    },
+    "scale": "1",
+    "frameSize": {
+      "w": 984,
+      "h": 219
+    },
+    "frameCount": 7,
+    "styleKey": "school_beam_soul",
+    "school": "soul",
+    "category": "beam",
+    "durationMs": 460
+  }
+}

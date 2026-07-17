@@ -1,0 +1,178 @@
+{
+  "frames": {
+    "school_impact_soul_00.png": {
+      "frame": {
+        "x": 447,
+        "y": 0,
+        "w": 222,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 222,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 222,
+        "h": 256
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_impact_soul_01.png": {
+      "frame": {
+        "x": 447,
+        "y": 256,
+        "w": 222,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 222,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 222,
+        "h": 256
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_impact_soul_02.png": {
+      "frame": {
+        "x": 447,
+        "y": 512,
+        "w": 222,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 222,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 222,
+        "h": 256
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_impact_soul_03.png": {
+      "frame": {
+        "x": 447,
+        "y": 768,
+        "w": 222,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 222,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 222,
+        "h": 256
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_impact_soul_04.png": {
+      "frame": {
+        "x": 447,
+        "y": 1024,
+        "w": 222,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 222,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 222,
+        "h": 256
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_impact_soul_05.png": {
+      "frame": {
+        "x": 447,
+        "y": 1280,
+        "w": 222,
+        "h": 256
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 222,
+        "h": 256
+      },
+      "sourceSize": {
+        "w": 222,
+        "h": 256
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    }
+  },
+  "animations": {
+    "play": [
+      "school_impact_soul_00.png",
+      "school_impact_soul_01.png",
+      "school_impact_soul_02.png",
+      "school_impact_soul_03.png",
+      "school_impact_soul_04.png",
+      "school_impact_soul_05.png"
+    ]
+  },
+  "meta": {
+    "app": "BattleMages VFX Pipeline",
+    "version": "1.0",
+    "image": "Soul_Impact.png",
+    "format": "RGBA8888",
+    "size": {
+      "w": 1024,
+      "h": 1536
+    },
+    "scale": "1",
+    "frameSize": {
+      "w": 222,
+      "h": 256
+    },
+    "frameCount": 6,
+    "styleKey": "school_impact_soul",
+    "school": "soul",
+    "category": "impact",
+    "durationMs": 380
+  }
+}

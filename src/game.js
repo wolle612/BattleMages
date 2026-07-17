@@ -90,7 +90,11 @@ function showSpellSelection() {
     setupSpellTooltips(
         starterSpells,
         "#spellContainer .spell-card",
-        () => 1
+        () => 1,
+        {
+            showRank: false,
+            showUpgradePreview: true
+        }
     );
 
     startButton.addEventListener("click", startRun);
@@ -98,10 +102,81 @@ function showSpellSelection() {
 
 function getRandomStarterOffer() {
     const starterPool =
-        spells.filter(spell => spell.starter === true);
+        spells.filter(spell => {
+            return (
+                spell.starter === true &&
+                (STARTER_RARITY_WEIGHTS[spell.rarity] || 0) > 0
+            );
+        });
 
-    return shuffleSpells(starterPool)
-        .slice(0, STARTER_OFFER_COUNT);
+    const offer = [];
+
+    function pickNext(excludedIds, preferredRarity = null) {
+        const available =
+            starterPool.filter(spell => {
+                if (excludedIds.includes(spell.id)) {
+                    return false;
+                }
+
+                if (preferredRarity && spell.rarity !== preferredRarity) {
+                    return false;
+                }
+
+                return true;
+            });
+
+        if (available.length === 0) {
+            return null;
+        }
+
+        return pickWeightedEntry(
+            available,
+            spell => STARTER_RARITY_WEIGHTS[spell.rarity] || 0
+        );
+    }
+
+    for (let slot = 0; slot < STARTER_OFFER_COUNT; slot++) {
+        const usedIds =
+            offer.map(spell => spell.id);
+
+        const picked =
+            pickNext(usedIds);
+
+        if (!picked) {
+            break;
+        }
+
+        offer.push(picked);
+    }
+
+    let commonCount =
+        offer.filter(spell => spell.rarity === "Common").length;
+
+    while (commonCount < STARTER_MIN_COMMON_OFFERS) {
+        const replaceIndex =
+            offer.findIndex(spell => spell.rarity !== "Common");
+
+        if (replaceIndex < 0) {
+            break;
+        }
+
+        const excludedIds =
+            offer
+                .map(spell => spell.id)
+                .filter((_, index) => index !== replaceIndex);
+
+        const replacement =
+            pickNext(excludedIds, "Common");
+
+        if (!replacement) {
+            break;
+        }
+
+        offer[replaceIndex] = replacement;
+        commonCount += 1;
+    }
+
+    return shuffleSpells(offer);
 }
 
 function shuffleSpells(spellsToShuffle) {
@@ -205,9 +280,33 @@ function handleFightStart() {
                 document
                     .getElementById("rewardButton")
                     .addEventListener("click", showRewardScreen);
+
+                document
+                    .getElementById("overlayRewardButton")
+                    .addEventListener("click", () => {
+                        removeCombatOutcomeOverlay();
+                        showRewardScreen();
+                    });
+
+            } else {
+
+                document
+                    .getElementById("restartButton")
+                    .addEventListener("click", restartRun);
+
+                document
+                    .getElementById("overlayRestartButton")
+                    .addEventListener("click", () => {
+                        removeCombatOutcomeOverlay();
+                        restartRun();
+                    });
             }
         }
     );
+}
+
+function restartRun() {
+    playScreenTransition(showHomeScreen);
 }
 
 function startRun() {
@@ -296,45 +395,55 @@ function showRewardScreen() {
         });
     }
 
+    function bindPathChoiceSelection(card, option, pathCards) {
+        if (option.type !== "path_choice" || !pathCards) {
+            return;
+        }
+
+        pathCards.forEach(pathButton => {
+            pathButton.addEventListener("click", event => {
+                event.stopPropagation();
+
+                document
+                    .querySelectorAll(".reward-path-choice-option")
+                    .forEach(button =>
+                        button.classList.remove("selected")
+                    );
+
+                document
+                    .querySelectorAll(".reward-card")
+                    .forEach(rewardCardElement =>
+                        rewardCardElement.classList.remove("selected")
+                    );
+
+                pathButton.classList.add("selected");
+                card.classList.add("selected");
+
+                const pathChoice =
+                    option.pathChoices.find(pathOption => {
+                        return pathOption.path === pathButton.dataset.path;
+                    });
+
+                selectedReward = {
+                    option,
+                    text: `${option.spell.name} ${romanize(PATH_CHOICE_RANK)} – ${pathChoice.label}`,
+                    path: pathButton.dataset.path
+                };
+
+                confirmButton.disabled = false;
+            });
+        });
+    }
+
     function mountRewardSlot(option, slotIndex) {
         const rewardSlot =
             renderRewardSlot(option, spellRanks);
 
-        if (option.type === "path_choice") {
-            (rewardSlot.pathCards || []).forEach(pathButton => {
-                pathButton.addEventListener("click", event => {
-                    event.stopPropagation();
-
-                    document
-                        .querySelectorAll(".reward-path-choice-option")
-                        .forEach(button =>
-                            button.classList.remove("selected")
-                        );
-
-                    document
-                        .querySelectorAll(".reward-card")
-                        .forEach(rewardCardElement =>
-                            rewardCardElement.classList.remove("selected")
-                        );
-
-                    pathButton.classList.add("selected");
-                    rewardSlot.card.classList.add("selected");
-
-                    const pathChoice =
-                        option.pathChoices.find(pathOption => {
-                            return pathOption.path === pathButton.dataset.path;
-                        });
-
-                    selectedReward = {
-                        option,
-                        text: `${option.spell.name} ${romanize(PATH_CHOICE_RANK)} – ${pathChoice.label}`,
-                        path: pathButton.dataset.path
-                    };
-
-                    confirmButton.disabled = false;
-                });
-            });
-        }
+        bindPathChoiceSelection(
+            rewardSlot.card,
+            option,
+            rewardSlot.pathCards
+        );
 
         bindRewardCardSelection(
             rewardSlot.card,
@@ -356,6 +465,9 @@ function showRewardScreen() {
                     return;
                 }
 
+                const previousOption =
+                    currentOptions[slotIndex];
+
                 const otherDisplayedSpellIds =
                     currentOptions
                         .filter((_, index) => {
@@ -373,7 +485,7 @@ function showRewardScreen() {
 
                 const nextOption =
                     rerollRewardOption(
-                        currentOptions[slotIndex],
+                        previousOption,
                         currentFight,
                         ownedSpellIds,
                         upgradeableSpells,
@@ -398,6 +510,15 @@ function showRewardScreen() {
                         currentOptions[slotIndex] =
                             nextOption;
 
+                        rewardSlot.card =
+                            nextRewardCard.card;
+
+                        bindPathChoiceSelection(
+                            nextRewardCard.card,
+                            nextOption,
+                            nextRewardCard.pathCards
+                        );
+
                         bindRewardCardSelection(
                             nextRewardCard.card,
                             nextOption,
@@ -406,12 +527,18 @@ function showRewardScreen() {
 
                         if (
                             selectedReward &&
-                            selectedReward.option === option
+                            selectedReward.option === previousOption
                         ) {
-                            selectedReward = {
-                                option: nextOption,
-                                text: nextRewardCard.text
-                            };
+                            if (nextOption.type === "path_choice") {
+                                selectedReward = null;
+                                confirmButton.disabled = true;
+                            } else {
+                                selectedReward = {
+                                    option: nextOption,
+                                    text: nextRewardCard.text,
+                                    path: null
+                                };
+                            }
                         }
                     }
                 );
@@ -434,13 +561,10 @@ function showRewardScreen() {
             const option =
                 selectedReward.option;
 
-            const text =
-                selectedReward.text;
-
             if (option.type === "upgrade") {
                 applySpellUpgradeChoice(option.spell);
 
-                finishReward(text);
+                finishReward();
 
                 return;
             }
@@ -456,7 +580,7 @@ function showRewardScreen() {
                 spellRanks[option.spell.id] =
                     PATH_CHOICE_RANK;
 
-                finishReward(text);
+                finishReward();
 
                 return;
             }
@@ -465,16 +589,20 @@ function showRewardScreen() {
 
                 appendSpellToRotation(option.spell);
 
-                initializeSpellProgress(option.spell.id);
+                initializeSpellProgress(
+                    option.spell.id,
+                    option.startRank || 1
+                );
 
-                finishReward(text);
+                finishReward();
 
                 return;
 
             } else {
 
                 showSpellReplaceScreen(
-                    option.spell
+                    option.spell,
+                    option.startRank || 1
                 );
 
                 return;
@@ -489,22 +617,13 @@ function getUpgradeableSpells() {
     });
 }
 
-function finishReward(text) {
-
-    renderRewardConfirmation(text);
-
-    document
-        .getElementById(
-            "nextFightButton"
-        )
-        .addEventListener(
-            "click",
-            showNextFightScreen
-        );
+function finishReward() {
+    showNextFightScreen();
 }
 
 function showSpellReplaceScreen(
-    newSpell
+    newSpell,
+    startRank = 1
 ) {
 
     renderSpellReplaceScreen(selectedSpells);
@@ -533,12 +652,11 @@ function showSpellReplaceScreen(
                         );
 
                         initializeSpellProgress(
-                            newSpell.id
+                            newSpell.id,
+                            startRank
                         );
 
-                        finishReward(
-                            `${newSpell.name} I`
-                        );
+                        finishReward();
                     }
                 );
             }
@@ -557,6 +675,10 @@ function showNextFightScreen() {
         hideVfxStage();
 
         renderRunVictoryScreen();
+
+        document
+            .getElementById("backToHomeButton")
+            .addEventListener("click", restartRun);
 
         return;
     }
