@@ -3,9 +3,9 @@
     "school_beam_chaos_00.png": {
       "frame": {
         "x": 77,
-        "y": 0,
+        "y": 3,
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "rotated": false,
       "trimmed": false,
@@ -13,11 +13,11 @@
         "x": 0,
         "y": 0,
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "sourceSize": {
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "anchor": {
         "x": 0.5,
@@ -27,9 +27,9 @@
     "school_beam_chaos_01.png": {
       "frame": {
         "x": 77,
-        "y": 231,
+        "y": 234,
         "w": 836,
-        "h": 232
+        "h": 226
       },
       "rotated": false,
       "trimmed": false,
@@ -37,11 +37,11 @@
         "x": 0,
         "y": 0,
         "w": 836,
-        "h": 232
+        "h": 226
       },
       "sourceSize": {
         "w": 836,
-        "h": 232
+        "h": 226
       },
       "anchor": {
         "x": 0.5,
@@ -51,9 +51,9 @@
     "school_beam_chaos_02.png": {
       "frame": {
         "x": 77,
-        "y": 463,
+        "y": 466,
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "rotated": false,
       "trimmed": false,
@@ -61,11 +61,11 @@
         "x": 0,
         "y": 0,
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "sourceSize": {
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "anchor": {
         "x": 0.5,
@@ -75,9 +75,9 @@
     "school_beam_chaos_03.png": {
       "frame": {
         "x": 77,
-        "y": 694,
+        "y": 697,
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "rotated": false,
       "trimmed": false,
@@ -85,11 +85,11 @@
         "x": 0,
         "y": 0,
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "sourceSize": {
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "anchor": {
         "x": 0.5,
@@ -99,9 +99,9 @@
     "school_beam_chaos_04.png": {
       "frame": {
         "x": 77,
-        "y": 925,
+        "y": 928,
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "rotated": false,
       "trimmed": false,
@@ -109,11 +109,11 @@
         "x": 0,
         "y": 0,
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "sourceSize": {
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "anchor": {
         "x": 0.5,
@@ -123,9 +123,9 @@
     "school_beam_chaos_05.png": {
       "frame": {
         "x": 77,
-        "y": 1156,
+        "y": 1159,
         "w": 836,
-        "h": 232
+        "h": 226
       },
       "rotated": false,
       "trimmed": false,
@@ -133,11 +133,11 @@
         "x": 0,
         "y": 0,
         "w": 836,
-        "h": 232
+        "h": 226
       },
       "sourceSize": {
         "w": 836,
-        "h": 232
+        "h": 226
       },
       "anchor": {
         "x": 0.5,
@@ -147,9 +147,9 @@
     "school_beam_chaos_06.png": {
       "frame": {
         "x": 77,
-        "y": 1388,
+        "y": 1391,
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "rotated": false,
       "trimmed": false,
@@ -157,11 +157,11 @@
         "x": 0,
         "y": 0,
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "sourceSize": {
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "anchor": {
         "x": 0.5,
@@ -192,7 +192,7 @@
     "scale": "1",
     "frameSize": {
       "w": 836,
-      "h": 231
+      "h": 225
     },
     "frameCount": 7,
     "styleKey": "school_beam_chaos",

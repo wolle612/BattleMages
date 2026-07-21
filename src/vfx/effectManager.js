@@ -265,13 +265,13 @@ function estimateVfxProjectilePhaseDuration(projectile, context) {
         Math.max(120, Math.round((distance / speed) * 1000));
 }
 
-function estimateVfxImpactDelayMs(definition, context = {}) {
+function estimateVfxImpactDelayMs(definition, context = {}, skipCast = false) {
     if (!definition) {
         return 0;
     }
 
     return Math.round(
-        estimateVfxCastDelay(definition) +
+        (skipCast ? 0 : estimateVfxCastDelay(definition)) +
         estimateVfxProjectilePhaseDuration(definition.projectile, context)
     );
 }
@@ -379,19 +379,25 @@ function playVfxDefinition(definition, context = {}, options = {}) {
             onImpact: options.onImpact
         };
 
-        // Phase 1 – Cast: erscheint sofort am wirkenden Charakter.
-        if (definition.cast) {
+        // Phase 1 – Cast: erscheint sofort am wirkenden Charakter. Wird
+        // uebersprungen, wenn dieser Moment die Fortsetzung desselben
+        // Zauber-Casts ist (mehrere effects[] desselben Zaubers, siehe
+        // combatVfxAdapter.js isContinuationOfSameSpellCast) – der
+        // Beschwoerungs-Flash soll nur einmal pro Cast erscheinen.
+        if (definition.cast && !options.skipCast) {
             runVfxPhaseSafely("cast", () =>
                 trackVfxHandle(playCastEffect(definition.cast, anchors))
             );
         }
 
-        if (definition.sound?.cast) {
+        if (definition.sound?.cast && !options.skipCast) {
             playVfxSound(definition.sound.cast);
         }
 
         const delayBeforeProjectile =
-            estimateVfxCastDelay(definition);
+            options.skipCast
+                ? 0
+                : estimateVfxCastDelay(definition);
 
         // Phase 2 – Projektiltyp: startet nach Abschluss des Casts. Phase 3 –
         // Impact: startet nach Abschluss der Projektilphase, immer am Ziel und

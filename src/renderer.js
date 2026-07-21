@@ -1395,17 +1395,22 @@ function playCombatMoment(result, moments, index, onComplete) {
             };
 
             const impactFallbackMs =
-                estimateCombatVfxImpactDelay(moment, action) + 120;
+                estimateCombatVfxImpactDelay(moment, action, previousMoment) + 120;
 
             const impactFallbackTimer =
                 window.setTimeout(presentImpact, impactFallbackMs);
 
-            playVfxForCombatMoment(moment, action, {
-                onImpact: () => {
-                    window.clearTimeout(impactFallbackTimer);
-                    presentImpact();
-                }
-            });
+            playVfxForCombatMoment(
+                moment,
+                action,
+                {
+                    onImpact: () => {
+                        window.clearTimeout(impactFallbackTimer);
+                        presentImpact();
+                    }
+                },
+                previousMoment
+            );
         };
 
         if (flow.showImpact && flow.startVfxOnFeedback) {
@@ -1650,15 +1655,7 @@ function createCombatMoments(actions) {
 }
 
 function isFollowUpCombatAction(action) {
-    return (
-        action.actionName === "Echo" ||
-        action.actionName === "Nachbeben" ||
-        action.feedbackTitle === "Echo" ||
-        action.feedbackTitle === "Nachbeben" ||
-        action.effectText === "Momentum" ||
-        action.effectText === "Momentum verbraucht" ||
-        action.feedbackTitle === "Momentum"
-    );
+    return action.effectText === "Folgetreffer";
 }
 
 function mergeFeedbackDetail(currentDetail, nextDetail) {
@@ -2493,20 +2490,23 @@ function updateHpBar(fillId, shieldId, textId, value, maxValue, shieldValue) {
     const hpPercent =
         getPercent(value, maxValue);
 
-    const shieldPercent =
-        Math.min(
-            getPercent(value + (shieldValue || 0), maxValue),
-            100
-        );
+    const shieldRawPercent =
+        getPercent(shieldValue || 0, maxValue);
+
+    const shieldVisiblePercent =
+        Math.min(shieldRawPercent, hpPercent);
+
+    const shieldLeftPercent =
+        hpPercent - shieldVisiblePercent;
 
     fill.style.width =
         `${hpPercent}%`;
 
     shield.style.left =
-        "0%";
+        `${shieldLeftPercent}%`;
 
     shield.style.width =
-        `${shieldPercent}%`;
+        `${shieldVisiblePercent}%`;
 
     text.textContent =
         shieldValue > 0

@@ -3,9 +3,9 @@
     "school_explosion_psionic_00.png": {
       "frame": {
         "x": 365,
-        "y": 0,
+        "y": 3,
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "rotated": false,
       "trimmed": false,
@@ -13,11 +13,11 @@
         "x": 0,
         "y": 0,
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "sourceSize": {
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "anchor": {
         "x": 0.5,
@@ -27,9 +27,9 @@
     "school_explosion_psionic_01.png": {
       "frame": {
         "x": 365,
-        "y": 256,
+        "y": 259,
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "rotated": false,
       "trimmed": false,
@@ -37,11 +37,11 @@
         "x": 0,
         "y": 0,
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "sourceSize": {
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "anchor": {
         "x": 0.5,
@@ -51,9 +51,9 @@
     "school_explosion_psionic_02.png": {
       "frame": {
         "x": 365,
-        "y": 512,
+        "y": 515,
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "rotated": false,
       "trimmed": false,
@@ -61,11 +61,11 @@
         "x": 0,
         "y": 0,
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "sourceSize": {
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "anchor": {
         "x": 0.5,
@@ -75,9 +75,9 @@
     "school_explosion_psionic_03.png": {
       "frame": {
         "x": 365,
-        "y": 768,
+        "y": 771,
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "rotated": false,
       "trimmed": false,
@@ -85,11 +85,11 @@
         "x": 0,
         "y": 0,
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "sourceSize": {
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "anchor": {
         "x": 0.5,
@@ -99,9 +99,9 @@
     "school_explosion_psionic_04.png": {
       "frame": {
         "x": 365,
-        "y": 1024,
+        "y": 1027,
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "rotated": false,
       "trimmed": false,
@@ -109,11 +109,11 @@
         "x": 0,
         "y": 0,
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "sourceSize": {
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "anchor": {
         "x": 0.5,
@@ -123,9 +123,9 @@
     "school_explosion_psionic_05.png": {
       "frame": {
         "x": 365,
-        "y": 1280,
+        "y": 1283,
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "rotated": false,
       "trimmed": false,
@@ -133,11 +133,11 @@
         "x": 0,
         "y": 0,
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "sourceSize": {
         "w": 295,
-        "h": 256
+        "h": 250
       },
       "anchor": {
         "x": 0.5,
@@ -167,7 +167,7 @@
     "scale": "1",
     "frameSize": {
       "w": 295,
-      "h": 256
+      "h": 250
     },
     "frameCount": 6,
     "styleKey": "school_explosion_psionic",

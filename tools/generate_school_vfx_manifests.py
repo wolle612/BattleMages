@@ -103,6 +103,18 @@ CATEGORY = {
 ALPHA_THRESHOLD = 8
 CROSS_PAD = 6
 
+# Frames werden ohne Gutter direkt nebeneinander gepackt (strip_end von Frame
+# i == strip_start von Frame i+1). Beim Rendern mit nicht-ganzzahligem
+# Display-Scale (z. B. displaySize 230 auf frameW 256, siehe CATEGORY) tastet
+# die GPU an der gemeinsamen Kante vereinzelt Pixel des Nachbar-Frames mit ab
+# -> sichtbarer "Rest des naechsten Frames" am Rand (siehe Bug-Report Sprite-
+# Bleeding). STRIP_PAD zieht JEDEN Frame symmetrisch um ein paar Pixel nach
+# innen zusammen (auch am aeusseren Sheet-Rand -- unschaedlich, dort ist ohne-
+# hin meist wenig Content), damit alle Frames exakt gleich gross bleiben und
+# keine Skalierungs-Schwankung zwischen Frames entsteht. Bei frameW ~250px und
+# Downscale auf ~230px ist der Verlust im Ergebnis nicht sichtbar.
+STRIP_PAD = 3
+
 
 def content_extent(alpha: np.ndarray, axis: int) -> tuple[int, int]:
     """Min/max index (inclusive) along `axis` where any content exists."""
@@ -119,8 +131,8 @@ def build_frames(width: int, height: int, count: int, cross_lo: int, cross_hi: i
     cross_start = cross_lo
     cross_size = cross_hi - cross_lo + 1
     for i in range(count):
-        strip_start = round(i * axis_len / count)
-        strip_end = round((i + 1) * axis_len / count)
+        strip_start = round(i * axis_len / count) + STRIP_PAD
+        strip_end = round((i + 1) * axis_len / count) - STRIP_PAD
         strip_size = strip_end - strip_start
         if vertical:
             rect = {"x": cross_start, "y": strip_start, "w": cross_size, "h": strip_size}

@@ -2,9 +2,9 @@
   "frames": {
     "school_cast_psionic_00.png": {
       "frame": {
-        "x": 0,
+        "x": 3,
         "y": 421,
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "rotated": false,
@@ -12,11 +12,11 @@
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "sourceSize": {
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "anchor": {
@@ -26,9 +26,9 @@
     },
     "school_cast_psionic_01.png": {
       "frame": {
-        "x": 256,
+        "x": 259,
         "y": 421,
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "rotated": false,
@@ -36,11 +36,11 @@
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "sourceSize": {
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "anchor": {
@@ -50,9 +50,9 @@
     },
     "school_cast_psionic_02.png": {
       "frame": {
-        "x": 512,
+        "x": 515,
         "y": 421,
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "rotated": false,
@@ -60,11 +60,11 @@
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "sourceSize": {
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "anchor": {
@@ -74,9 +74,9 @@
     },
     "school_cast_psionic_03.png": {
       "frame": {
-        "x": 768,
+        "x": 771,
         "y": 421,
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "rotated": false,
@@ -84,11 +84,11 @@
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "sourceSize": {
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "anchor": {
@@ -98,9 +98,9 @@
     },
     "school_cast_psionic_04.png": {
       "frame": {
-        "x": 1024,
+        "x": 1027,
         "y": 421,
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "rotated": false,
@@ -108,11 +108,11 @@
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "sourceSize": {
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "anchor": {
@@ -122,9 +122,9 @@
     },
     "school_cast_psionic_05.png": {
       "frame": {
-        "x": 1280,
+        "x": 1283,
         "y": 421,
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "rotated": false,
@@ -132,11 +132,11 @@
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "sourceSize": {
-        "w": 256,
+        "w": 250,
         "h": 165
       },
       "anchor": {
@@ -166,7 +166,7 @@
     },
     "scale": "1",
     "frameSize": {
-      "w": 256,
+      "w": 250,
       "h": 165
     },
     "frameCount": 6,

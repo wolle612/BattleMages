@@ -1054,7 +1054,7 @@ body.app-selection #spellContainer {
 .shield-fill {
     position: absolute;
     top: 0;
-    z-index: 1;
+    z-index: 3;
     height: 100%;
     background:
         repeating-linear-gradient(
@@ -3830,7 +3830,7 @@ body.app-home #game {
 }
 
 .shield-fill {
-    z-index: 1;
+    z-index: 3;
     border-radius: 0;
     opacity: 0.92;
     background:

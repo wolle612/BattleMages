@@ -22,7 +22,30 @@ function buildCombatVfxContext(moment, action) {
     };
 }
 
-function playVfxForCombatMoment(moment, action, presentationCallbacks = {}) {
+// Ein Zauber-Cast (resolveSpellCast, spellEngine.js) kann mehrere Effekte
+// (effects[]) haben, von denen jeder seinen eigenen actionQueue-Eintrag und
+// damit seinen eigenen Moment erzeugt (z. B. "deal_damage" + "gain_shield").
+// Ohne diese Erkennung wuerde jeder dieser Momente die volle Cast-Phase
+// (den Beschwoerungs-Flash am Zauberer) erneut abspielen, obwohl es sich
+// gameplay-seitig um EINEN Cast handelt. Nur direkt aufeinanderfolgende
+// Momente desselben Zaubers gelten als Fortsetzung; ein Wechsel des Akteurs
+// oder ein anderer Zauber dazwischen zaehlt nicht.
+function isContinuationOfSameSpellCast(moment, previousMoment) {
+    if (!previousMoment) {
+        return false;
+    }
+
+    const spellId =
+        getCombatFeedbackView(moment).spellId;
+
+    if (!spellId) {
+        return false;
+    }
+
+    return getCombatFeedbackView(previousMoment).spellId === spellId;
+}
+
+function playVfxForCombatMoment(moment, action, presentationCallbacks = {}, previousMoment = null) {
     if (!isVfxSupported()) {
         if (typeof presentationCallbacks.onImpact === "function") {
             presentationCallbacks.onImpact();
@@ -44,7 +67,8 @@ function playVfxForCombatMoment(moment, action, presentationCallbacks = {}) {
         getCombatFeedbackView(moment);
 
     const vfxOptions = {
-        onImpact: presentationCallbacks.onImpact
+        onImpact: presentationCallbacks.onImpact,
+        skipCast: isContinuationOfSameSpellCast(moment, previousMoment)
     };
 
     if (feedbackView.spellId && getSpellById(feedbackView.spellId)) {
@@ -59,24 +83,29 @@ function playVfxForCombatMoment(moment, action, presentationCallbacks = {}) {
     }
 }
 
-function estimateCombatVfxImpactDelay(moment, action) {
+function estimateCombatVfxImpactDelay(moment, action, previousMoment = null) {
     const feedbackView =
         getCombatFeedbackView(moment);
 
     const context =
         buildCombatVfxContext(moment, action);
 
+    const skipCast =
+        isContinuationOfSameSpellCast(moment, previousMoment);
+
     if (feedbackView.spellId && getSpellById(feedbackView.spellId)) {
         return estimateVfxImpactDelayMs(
             resolveSpellVfxDefinition(feedbackView.spellId),
-            context
+            context,
+            skipCast
         );
     }
 
     if (feedbackView.iconKey) {
         return estimateVfxImpactDelayMs(
             resolveEnemyActionVfxDefinition(feedbackView.iconKey),
-            context
+            context,
+            skipCast
         );
     }
 

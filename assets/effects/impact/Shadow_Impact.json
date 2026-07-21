@@ -3,9 +3,9 @@
     "school_impact_shadow_00.png": {
       "frame": {
         "x": 0,
-        "y": 0,
+        "y": 3,
         "w": 643,
-        "h": 307
+        "h": 301
       },
       "rotated": false,
       "trimmed": false,
@@ -13,11 +13,11 @@
         "x": 0,
         "y": 0,
         "w": 643,
-        "h": 307
+        "h": 301
       },
       "sourceSize": {
         "w": 643,
-        "h": 307
+        "h": 301
       },
       "anchor": {
         "x": 0.5,
@@ -27,9 +27,9 @@
     "school_impact_shadow_01.png": {
       "frame": {
         "x": 0,
-        "y": 307,
+        "y": 310,
         "w": 643,
-        "h": 307
+        "h": 301
       },
       "rotated": false,
       "trimmed": false,
@@ -37,11 +37,11 @@
         "x": 0,
         "y": 0,
         "w": 643,
-        "h": 307
+        "h": 301
       },
       "sourceSize": {
         "w": 643,
-        "h": 307
+        "h": 301
       },
       "anchor": {
         "x": 0.5,
@@ -51,9 +51,9 @@
     "school_impact_shadow_02.png": {
       "frame": {
         "x": 0,
-        "y": 614,
+        "y": 617,
         "w": 643,
-        "h": 308
+        "h": 302
       },
       "rotated": false,
       "trimmed": false,
@@ -61,11 +61,11 @@
         "x": 0,
         "y": 0,
         "w": 643,
-        "h": 308
+        "h": 302
       },
       "sourceSize": {
         "w": 643,
-        "h": 308
+        "h": 302
       },
       "anchor": {
         "x": 0.5,
@@ -75,9 +75,9 @@
     "school_impact_shadow_03.png": {
       "frame": {
         "x": 0,
-        "y": 922,
+        "y": 925,
         "w": 643,
-        "h": 307
+        "h": 301
       },
       "rotated": false,
       "trimmed": false,
@@ -85,11 +85,11 @@
         "x": 0,
         "y": 0,
         "w": 643,
-        "h": 307
+        "h": 301
       },
       "sourceSize": {
         "w": 643,
-        "h": 307
+        "h": 301
       },
       "anchor": {
         "x": 0.5,
@@ -99,9 +99,9 @@
     "school_impact_shadow_04.png": {
       "frame": {
         "x": 0,
-        "y": 1229,
+        "y": 1232,
         "w": 643,
-        "h": 307
+        "h": 301
       },
       "rotated": false,
       "trimmed": false,
@@ -109,11 +109,11 @@
         "x": 0,
         "y": 0,
         "w": 643,
-        "h": 307
+        "h": 301
       },
       "sourceSize": {
         "w": 643,
-        "h": 307
+        "h": 301
       },
       "anchor": {
         "x": 0.5,
@@ -142,7 +142,7 @@
     "scale": "1",
     "frameSize": {
       "w": 643,
-      "h": 307
+      "h": 301
     },
     "frameCount": 5,
     "styleKey": "school_impact_shadow",

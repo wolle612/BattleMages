@@ -370,33 +370,27 @@ function applyEnemyDamageToPlayer(context, action, damage) {
 
     if (damageTaken > 0) {
         context.playerHp -= damageTaken;
-
-        addCombatAction(
-            context,
-            `${context.enemy.name} verursacht ${damageTaken} Schaden.`,
-            {
-                type: "enemyAttack",
-                feedbackTitle: action.name,
-                feedbackDetail: `-${damageTaken} HP`,
-                actor: context.enemy.name,
-                ...getEnemyCombatActionMeta(action),
-                impact: `-${damageTaken}`,
-                effectText: "HP"
-            }
-        );
-        return;
     }
 
+    // damageTaken kann 0 sein (Angriff komplett vom Schild absorbiert).
+    // `impact` bleibt trotzdem gesetzt (z. B. "-0"), damit getCombatMomentFlow
+    // (renderer.js) den Moment als "hat Impact" erkennt und auf die
+    // Gegner-VFX wartet, statt die Balken sofort ohne Animation zu
+    // aktualisieren (siehe Bug-Report: Schild reduziert sich, bevor die
+    // Gegneranimation durchlaeuft).
     addCombatAction(
         context,
-        "Angriff absorbiert",
+        damageTaken > 0
+            ? `${context.enemy.name} verursacht ${damageTaken} Schaden.`
+            : "Angriff absorbiert",
         {
-            type: "shield",
-            feedbackTitle: "Schild",
-            feedbackDetail: "Angriff absorbiert",
+            type: "enemyAttack",
+            feedbackTitle: action.name,
+            feedbackDetail: damageTaken > 0 ? `-${damageTaken} HP` : "Angriff absorbiert",
             actor: context.enemy.name,
             ...getEnemyCombatActionMeta(action),
-            effectText: "Angriff absorbiert"
+            impact: `-${damageTaken}`,
+            effectText: damageTaken > 0 ? "HP" : "Angriff absorbiert"
         }
     );
 }

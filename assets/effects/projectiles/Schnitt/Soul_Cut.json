@@ -3,9 +3,9 @@
     "school_cut_soul_00.png": {
       "frame": {
         "x": 0,
-        "y": 0,
+        "y": 3,
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "rotated": false,
       "trimmed": false,
@@ -13,11 +13,11 @@
         "x": 0,
         "y": 0,
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "sourceSize": {
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "anchor": {
         "x": 0.5,
@@ -27,9 +27,9 @@
     "school_cut_soul_01.png": {
       "frame": {
         "x": 0,
-        "y": 171,
+        "y": 174,
         "w": 1024,
-        "h": 170
+        "h": 164
       },
       "rotated": false,
       "trimmed": false,
@@ -37,11 +37,11 @@
         "x": 0,
         "y": 0,
         "w": 1024,
-        "h": 170
+        "h": 164
       },
       "sourceSize": {
         "w": 1024,
-        "h": 170
+        "h": 164
       },
       "anchor": {
         "x": 0.5,
@@ -51,9 +51,9 @@
     "school_cut_soul_02.png": {
       "frame": {
         "x": 0,
-        "y": 341,
+        "y": 344,
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "rotated": false,
       "trimmed": false,
@@ -61,11 +61,11 @@
         "x": 0,
         "y": 0,
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "sourceSize": {
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "anchor": {
         "x": 0.5,
@@ -75,9 +75,9 @@
     "school_cut_soul_03.png": {
       "frame": {
         "x": 0,
-        "y": 512,
+        "y": 515,
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "rotated": false,
       "trimmed": false,
@@ -85,11 +85,11 @@
         "x": 0,
         "y": 0,
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "sourceSize": {
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "anchor": {
         "x": 0.5,
@@ -99,9 +99,9 @@
     "school_cut_soul_04.png": {
       "frame": {
         "x": 0,
-        "y": 683,
+        "y": 686,
         "w": 1024,
-        "h": 170
+        "h": 164
       },
       "rotated": false,
       "trimmed": false,
@@ -109,11 +109,11 @@
         "x": 0,
         "y": 0,
         "w": 1024,
-        "h": 170
+        "h": 164
       },
       "sourceSize": {
         "w": 1024,
-        "h": 170
+        "h": 164
       },
       "anchor": {
         "x": 0.5,
@@ -123,9 +123,9 @@
     "school_cut_soul_05.png": {
       "frame": {
         "x": 0,
-        "y": 853,
+        "y": 856,
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "rotated": false,
       "trimmed": false,
@@ -133,11 +133,11 @@
         "x": 0,
         "y": 0,
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "sourceSize": {
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "anchor": {
         "x": 0.5,
@@ -147,9 +147,9 @@
     "school_cut_soul_06.png": {
       "frame": {
         "x": 0,
-        "y": 1024,
+        "y": 1027,
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "rotated": false,
       "trimmed": false,
@@ -157,11 +157,11 @@
         "x": 0,
         "y": 0,
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "sourceSize": {
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "anchor": {
         "x": 0.5,
@@ -171,9 +171,9 @@
     "school_cut_soul_07.png": {
       "frame": {
         "x": 0,
-        "y": 1195,
+        "y": 1198,
         "w": 1024,
-        "h": 170
+        "h": 164
       },
       "rotated": false,
       "trimmed": false,
@@ -181,11 +181,11 @@
         "x": 0,
         "y": 0,
         "w": 1024,
-        "h": 170
+        "h": 164
       },
       "sourceSize": {
         "w": 1024,
-        "h": 170
+        "h": 164
       },
       "anchor": {
         "x": 0.5,
@@ -195,9 +195,9 @@
     "school_cut_soul_08.png": {
       "frame": {
         "x": 0,
-        "y": 1365,
+        "y": 1368,
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "rotated": false,
       "trimmed": false,
@@ -205,11 +205,11 @@
         "x": 0,
         "y": 0,
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "sourceSize": {
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "anchor": {
         "x": 0.5,
@@ -242,7 +242,7 @@
     "scale": "1",
     "frameSize": {
       "w": 1024,
-      "h": 171
+      "h": 165
     },
     "frameCount": 9,
     "styleKey": "school_cut_soul",
