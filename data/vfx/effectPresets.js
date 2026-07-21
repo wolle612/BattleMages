@@ -25,16 +25,6 @@ const VFX_CAST_PRESETS = {
         shape: "circle_fill",
         alpha: 0.78
     },
-    psionic_cast_mind_focus_hex: {
-        spritesheet:
-            "assets/effects/cast/psionic_cast_mind_focus_hex.json",
-        animation: "play",
-        displayWidth: 96,
-        displayHeight: 71,
-        duration: 320,
-        animationSpeed: 0.3,
-        blendMode: "add"
-    },
     flare_rune: { color: 0x9c3b2e, radius: 26, duration: 260 },
     flare_star: { color: 0x6bcf3a, radius: 24, duration: 210 },
     flare_primal: { color: 0xd8d4f5, radius: 24, duration: 240 }
@@ -72,18 +62,7 @@ const VFX_PROJECTILE_PRESETS = {
     bolt_dream: { color: 0x39c2ff, size: 6, speed: 900 },
     bolt_rune: { color: 0x9c3b2e, size: 7, speed: 850 },
     bolt_star: { color: 0x6bcf3a, size: 7, speed: 1050 },
-    bolt_primal: { color: 0xd8d4f5, size: 6, speed: 800 },
-    mind_pressure_arc: {
-        spritesheet:
-            "assets/effects/projectiles/mind_pressure_arc/mind_pressure_projectile.json",
-        animation: "play",
-        displayWidth: 82,
-        displayHeight: 328,
-        speed: 1100,
-        animationSpeed: 0.78,
-        blendMode: "add",
-        motion: "psionic_glide"
-    }
+    bolt_primal: { color: 0xd8d4f5, size: 6, speed: 800 }
 };
 
 const VFX_IMPACT_PRESETS = {
@@ -93,15 +72,7 @@ const VFX_IMPACT_PRESETS = {
     burst_dream: { color: 0x39c2ff, radius: 22, duration: 280 },
     burst_rune: { color: 0x9c3b2e, radius: 24, duration: 300 },
     burst_star: { color: 0x6bcf3a, radius: 24, duration: 260 },
-    burst_primal: { color: 0xd8d4f5, radius: 22, duration: 300 },
-    mind_ring_burst: {
-        spritesheet: "assets/effects/impact/mind_ring_burst/mind_ring_burst.json",
-        animation: "play",
-        displaySize: 96,
-        duration: 140,
-        animationSpeed: 0.55,
-        blendMode: "add"
-    }
+    burst_primal: { color: 0xd8d4f5, radius: 22, duration: 300 }
     // "vulnerable_mark" wurde entfernt: verwies auf das geloeschte
     // vulnerable.png und wurde von keinem Zauber/keiner Enemy-Action
     // referenziert (siehe portraitRegistry.js fuer den separaten,
@@ -113,13 +84,6 @@ const VFX_PARTICLE_PRESETS = {
     sparks_blood: { color: 0x8c1024, size: 3, count: 9, spread: 34, duration: 340 },
     sparks_shadow: { color: 0x3a4159, size: 3, count: 8, spread: 36, duration: 340 },
     sparks_dream: { color: 0x39c2ff, size: 3, count: 8, spread: 40, duration: 360 },
-    mind_motes_placeholder: {
-        color: 0xe8f4ff,
-        size: 2,
-        count: 4,
-        spread: 22,
-        duration: 260
-    },
     sparks_rune: { color: 0x9c3b2e, size: 3, count: 8, spread: 34, duration: 360 },
     sparks_star: { color: 0x6bcf3a, size: 3, count: 10, spread: 44, duration: 320 },
     sparks_primal: { color: 0xd8d4f5, size: 3, count: 8, spread: 38, duration: 380 }

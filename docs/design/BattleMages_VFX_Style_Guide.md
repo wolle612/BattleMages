@@ -25,9 +25,13 @@ und müssen den hier definierten Regeln entsprechen.
 
 -   PNG mit Alphakanal
 -   Sprite Sheets bevorzugt
--   Standardgröße Impact: 96×96 px pro Frame
--   Standardgröße Projectile: 64×24 px pro Frame
--   Standard: 8 Frames (abweichende Effekte begründen)
+-   Anzeigegröße je Kategorie einheitlich (Details/Tabelle je Schule:
+    `BattleMages_VFX_Library.md`): Cast 230 px, Beam 96 px, Explosion
+    270 px, Schnitt/Cut 250 px, Impact 210 px.
+-   Frameanzahl je Kategorie schulweise leicht unterschiedlich (5--9
+    Frames, siehe `FRAME_COUNTS` in
+    `tools/generate_school_vfx_manifests.py` bzw. die Tabelle in
+    `BattleMages_VFX_Library.md`) -- keine feste Standardzahl.
 -   NEAREST-Scaling
 -   Keine Farbsaum-Artefakte
 
@@ -109,58 +113,27 @@ Farben: Cyan • Türkis • Eisblau • Weiß
 Sprache: Mentale Energie, Hexagonmuster, Druckwellen, geometrische
 Präzision, kontrollierte Instabilität, kristallartige Strukturen.
 
-Referenz-Impact: mind_ring_burst
+Referenz-Impact: `school_impact_psionic` (`Psionic_Impact.png`)
 
-Referenz-Projectile: mind_pressure_arc (horizontaler Druckbogen,
-Spitze rechts, dezenter Trail links)
+Referenz-Projectile (Beam): `school_beam_psionic` (`Psionic_Beam.png`)
 
 ------------------------------------------------------------------------
 
-# Vertical-Slice-Timing (Gedankenschlag, v1)
+# Historische Notiz: Vertical-Slice-Timing (Gedankenschlag, Pilot)
 
-Erprobte Werte fuer den ersten spielbaren Psionik-Vertical-Slice.
-Diese Werte sind Referenz fuer kuenftige Schulen, keine harte Pflicht.
+Der erste spielbare Vertical-Slice (Gedankenschlag/Psionik) diente zur
+Erprobung des Cast→Projectile→Impact-Ablaufs und ist inzwischen durch
+das aktuelle Schul-Sheet-Modell ersetzt (siehe
+`BattleMages_VFX_Production_Plan_v2.md`). Die damals verwendeten
+Presets existieren nicht mehr, die konkreten Zeitwerte sind keine
+gültige Referenz mehr. Erhalten gebliebene Prinzipien:
 
-## Ablauf
-
-Cast (120 ms) → Verzoegerung (90 ms) → Projectile (~920 px/s) → Impact
-(140 ms) → Schadenszahl → Crit-Styling (falls vorhanden)
-
-## Cast
-
--   Preset: `psionic_cast_mind_focus_hex`
--   6-Frame-Fokusaufbau mit gerichteter Entladung
--   Dauer: 120 ms
--   `delayBeforeProjectile`: 108 ms
-
-## Projectile
-
--   Preset: `mind_pressure_arc`
--   Geschwindigkeit: 920 px/s (Lesbarkeit vor Tempo)
--   Animations-Loop waehrend Flug
-
-## Impact
-
--   Preset: `mind_ring_burst`
--   Display-Scale: 0.92 (Portrait bleibt sichtbar)
--   Dauer: 140 ms
-
-## Particles (Platzhalter)
-
--   Preset: `mind_motes_placeholder`
--   4 Lichtpunkte, Spread 22 px, Dauer 260 ms
-
-## Presentation-Sync
-
--   Schadenszahl und Portrait-Hit **am Impact-Moment**, nicht beim
-    Cast-Start (`onImpact`-Callback via EffectManager)
--   Crit: Klasse `floating-number--crit` bei `effectText ===
-    "Kritischer Treffer"`
-
-## Verbotene Vertical-Slice-Abweichungen
-
--   Keine Kamera-Shakes fuer Referenz-Angriffe
--   Keine Sonderpfade ausserhalb EffectManager / Timeline / Registry
+-   Schadenszahl und Portrait-Hit synchronisieren **am
+    Impact-Moment**, nicht beim Cast-Start (`onImpact`-Callback via
+    EffectManager) -- weiterhin gültig.
+-   Keine Kamera-Shakes und keine Sonderpfade außerhalb
+    EffectManager/Timeline/Registry für Standardangriffe -- weiterhin
+    gültig.
 
 ------------------------------------------------------------------------
 

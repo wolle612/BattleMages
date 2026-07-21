@@ -186,17 +186,17 @@ Hauptmotiv.
 
 Beispiele:
 
-✔ Blutlanze
+✔ Knochenbruch
 
-→ blutrote Lanze
+→ gebrochener Knochen
 
-✔ Runenschlag
+✔ Runenstoß
 
 → leuchtende Rune
 
-✔ Traumparadoxon
+✔ Gedankenschlag
 
-→ zerbrochene Sanduhr
+→ kristalliner Blitz
 
 Nicht mehrere Motive kombinieren.
 
@@ -249,25 +249,9 @@ Status besitzen:
 
 Beispiele:
 
-Blutrausch
-
-→ Blutstropfen
-
-Wunde
+Verwundbar
 
 → Riss
-
-Echo
-
-→ Doppelmond
-
-Momentum
-
-→ Flamme
-
-Timing
-
-→ Sternenuhr
 
 ---
 
