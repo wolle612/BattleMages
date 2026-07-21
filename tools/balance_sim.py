@@ -168,7 +168,9 @@ def cast_spell(context, spell_id):
         dmg = s["player_shield"]
         es, dmg = apply_enemy_shield(s["enemy_shield"], dmg)
         s["enemy_shield"] = es
-        s["enemy_hp"] -= apply_cap(s, dmg)
+        dealt = apply_cap(s, dmg)
+        s["enemy_hp"] -= dealt
+        s["current_rotation_damage"] = s.get("current_rotation_damage", 0) + dealt
         s["player_shield"] = 0
         s["mechanics"]["shield"] = True
         s["last_spell"] = spell
@@ -214,6 +216,7 @@ def cast_spell(context, spell_id):
             final = max(0, final - s["next_penalty"])
             s["next_penalty"] = 0
         s["enemy_hp"] -= final
+        s["current_rotation_damage"] = s.get("current_rotation_damage", 0) + final
         if final > 0:
             s["consec_player_dmg"] += 1
         threshold = s.get("anti_spike")
@@ -313,6 +316,8 @@ def simulate_fight(enemy, rotation, seed=None):
         "player_crit_taken": False,
         "vuln_since_action": False,
         "rounds": 0,
+        "current_rotation_damage": 0,
+        "rotation_damage_log": [],
     }
 
     action_idx = 0
@@ -321,6 +326,7 @@ def simulate_fight(enemy, rotation, seed=None):
     while s["player_hp"] > 0 and s["enemy_hp"] > 0 and s["rounds"] < max_rounds:
         s["rounds"] += 1
         s["mechanics"] = {"vulnerable": False, "shield": False, "crit": False, "sequence": False}
+        s["current_rotation_damage"] = 0
 
         for spell_id in rotation:
             if s["enemy_hp"] <= 0 or s["player_hp"] <= 0:
@@ -332,6 +338,11 @@ def simulate_fight(enemy, rotation, seed=None):
                 break
             enemy_impulse(s, enemy, action_idx)
             action_idx += 1
+        else:
+            # Rotation vollstaendig ohne Tod einer Seite durchlaufen -> zaehlt
+            # als gueltiger Rotation-Value-Messpunkt (siehe RV-Definition,
+            # Combat_Formula_v2.md).
+            s["rotation_damage_log"].append(s["current_rotation_damage"])
 
         p = enemy.get("passive", {})
         if p.get("heal_after_rotation"):
@@ -346,13 +357,16 @@ def simulate_fight(enemy, rotation, seed=None):
         "rounds": s["rounds"],
         "player_hp": max(0, s["player_hp"]),
         "player_shield": s["player_shield"],
+        "rotation_damage_log": s["rotation_damage_log"],
     }
 
 
 def run_archetype_matrix(trials=200):
     results = {}
+    rv_by_archetype = {}
     for arch, rotation in ARCHETYPE_BUILDS.items():
         results[arch] = {}
+        rv_samples = []
         for enemy in ENEMY_DATA:
             wins = 0
             rounds = []
@@ -361,13 +375,42 @@ def run_archetype_matrix(trials=200):
                 if r["victory"]:
                     wins += 1
                 rounds.append(r["rounds"])
+                rv_samples.extend(r["rotation_damage_log"])
             results[arch][enemy["id"]] = {
                 "win_rate": wins / trials,
                 "avg_rounds": sum(rounds) / len(rounds),
                 "enc": enemy["enc"],
                 "tier": enemy["tier"],
             }
-    return results
+        rv_by_archetype[arch] = (
+            sum(rv_samples) / len(rv_samples) if rv_samples else None
+        )
+    return results, rv_by_archetype
+
+
+# Zielbaender aus docs/design/BattleMages_Combat_Formula_v2.md ("Rotation
+# Value"). Wichtiger Vorbehalt: dieser Simulator bildet 3-Zauber-Starter-
+# Rotationen ohne Upgrades ab, nicht die vollen 5-Zauber-Endgame-Rotationen,
+# fuer die die Baender eigentlich gedacht sind -- siehe
+# docs/specs/architecture_design_audit_2026-07-21.md.
+RV_TARGET_BANDS = [
+    ("Durchschnittlicher Build", 160, 190),
+    ("Synergischer Build", 220, 260),
+    ("Perfekt optimierter Build", 300, 360),
+]
+
+
+def classify_rv(value):
+    if value is None:
+        return "keine Messpunkte"
+    for label, low, high in RV_TARGET_BANDS:
+        if low <= value <= high:
+            return f"im Band '{label}' ({low}-{high})"
+    if value < RV_TARGET_BANDS[0][1]:
+        return f"unter '{RV_TARGET_BANDS[0][0]}' ({RV_TARGET_BANDS[0][1]}-{RV_TARGET_BANDS[0][2]})"
+    if value > RV_TARGET_BANDS[-1][2]:
+        return f"ueber '{RV_TARGET_BANDS[-1][0]}' ({RV_TARGET_BANDS[-1][1]}-{RV_TARGET_BANDS[-1][2]})"
+    return "zwischen zwei Zielbaendern (trifft keins genau)"
 
 
 def enemy_dps_per_rotation(enemy):
@@ -384,7 +427,7 @@ def enemy_dps_per_rotation(enemy):
 
 def main():
     random.seed(42)
-    matrix = run_archetype_matrix(300)
+    matrix, rv_by_archetype = run_archetype_matrix(300)
 
     print("=== ARCHETYPE WIN RATES (starter 3-spell, no upgrades) ===")
     for arch, fights in matrix.items():
@@ -392,6 +435,14 @@ def main():
         for eid, data in sorted(fights.items(), key=lambda x: x[1]["enc"]):
             flag = "!" if data["win_rate"] < 0.5 else " "
             print(f"  {flag} E{data['enc']:2d} {eid:22s} win={data['win_rate']:.0%} avg_rounds={data['avg_rounds']:.1f}")
+
+    print("\n=== ROTATION VALUE (RV) vs. Zielbaender (Combat_Formula_v2.md) ===")
+    print("Hinweis: misst 3-Zauber-Starter-Rotationen ohne Upgrades -- deckt")
+    print("NICHT die vollen 5-Zauber-Endgame-Rotationen ab, fuer die die")
+    print("Zielbaender eigentlich gedacht sind. Siehe architecture_design_audit.")
+    for arch, rv in sorted(rv_by_archetype.items(), key=lambda x: (x[1] is None, x[1])):
+        rv_display = f"{rv:.1f}" if rv is not None else "n/a"
+        print(f"  {arch:10s} avg_rv={rv_display:>7s}  {classify_rv(rv)}")
 
     print("\n=== ENEMY INCOMING DPS (3-spell rotation, rough) ===")
     for enemy in ENEMY_DATA:
