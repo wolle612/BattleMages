@@ -4,6 +4,10 @@ Version: 1.0
 Status: Final
 Schule: Traummagie
 
+> **STATUS: SUPERSEDED (Archiv)** — Alte Spec aus einem früheren Sprint, nicht
+> im Runtime-Pfad. Maßgeblich: `data/spellbookCore.js`/`data/spellbookPart2.js`.
+> Siehe `docs/specs/architecture_design_audit_2026-07-21.md`.
+
 ---
 
 # Designziel

@@ -2,6 +2,10 @@
 
 Version: 1.1
 
+> **STATUS: SUPERSEDED (Archiv)** — Alte Spec aus einem früheren Sprint, nicht
+> im Runtime-Pfad. Maßgeblich: `data/spellbookCore.js`/`data/spellbookPart2.js`
+> und `docs/design/*`. Siehe `docs/specs/architecture_design_audit_2026-07-21.md`.
+
 ---
 
 # Zauber 1 – Blutschlag

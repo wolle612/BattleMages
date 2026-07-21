@@ -4,6 +4,10 @@ Version: 1.0
 Status: Approved
 Verantwortlich: Game Design
 
+> **STATUS: SUPERSEDED** — Maßgeblich sind `docs/design/BattleMages_Combat_Formula_v2.md`
+> und `docs/design/BattleMages_Combat_Identity_Matrix_v1.0.md`. Details:
+> `docs/specs/architecture_design_audit_2026-07-21.md`.
+
 ---
 
 # Zweck

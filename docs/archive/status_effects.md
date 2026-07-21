@@ -4,6 +4,10 @@ Version: 1.1
 
 Status: Final
 
+> **STATUS: SUPERSEDED (Archiv)** — Alte Spec aus einem früheren Sprint, nicht
+> im Runtime-Pfad. Maßgeblich: `src/combatStatus.js` und `data/combatIdentity.js`.
+> Siehe `docs/specs/architecture_design_audit_2026-07-21.md`.
+
 ---
 
 # Zweck

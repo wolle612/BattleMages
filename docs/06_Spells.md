@@ -3,6 +3,11 @@
 Version: 1.0
 Status: Approved
 
+> **STATUS: SUPERSEDED** — Zauberanzahl/-identität stimmen nicht mit dem
+> aktuellen Spellbook überein. Maßgeblich sind `data/spellbookCore.js`,
+> `data/spellbookPart2.js` und `data/combatIdentity.js` (siehe `CLAUDE.md`,
+> Abschnitt "Quellenhierarchie bei Konflikten").
+
 ---
 
 # Zweck

@@ -4,6 +4,11 @@ Version: 1.0
 Status: Approved
 Verantwortlich: Game Design
 
+> **STATUS: SUPERSEDED** — Kompletter Gegner-Roster (Namen, Rollen, Mechaniken)
+> weicht vom tatsächlichen Spiel ab. Maßgeblich ist
+> `docs/design/BattleMages_Enemy_Design_Document_v3.md`. Details:
+> `docs/specs/architecture_design_audit_2026-07-21.md`.
+
 ---
 
 # Zweck

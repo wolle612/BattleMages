@@ -4,6 +4,12 @@ Version: 1.0
 Status: Approved
 Verantwortlich: Game Design
 
+> **STATUS: SUPERSEDED** — Das hier beschriebene Schadensklassen-System
+> (Small/Standard/Strong/Signature) ist inkompatibel mit dem tatsächlich
+> verwendeten Budget-System. Maßgeblich sind `docs/design/BattleMages_Combat_Formula_v2.md`
+> und `docs/design/BattleMages_Spell_Budget_Review_v2.md`. Details:
+> `docs/specs/architecture_design_audit_2026-07-21.md`.
+
 ---
 
 # Zweck

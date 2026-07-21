@@ -1,5 +1,9 @@
 # Battlemages – Project Overview
 
+> **STATUS: SUPERSEDED** — Veralteter Design-Snapshot (z. B. 100 HP hier vs.
+> tatsächlich 120). Maßgeblich sind `README.md` und `CLAUDE.md` sowie die
+> `docs/design/*`-Serie. Details: `docs/specs/architecture_design_audit_2026-07-21.md`.
+
 ## Vision
 Battlemages ist ein rundenbasiertes 1vs1 Browser-Roguelite.
 

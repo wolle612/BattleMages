@@ -3,6 +3,9 @@
 Version: 1.0
 Status: Approved
 
+> **STATUS: SUPERSEDED** — Maßgeblich sind `data/spellbookCore.js` und
+> `data/spellbookPart2.js` (Schule `star`, Fantasy-Name Chaosmagie).
+
 ---
 
 # Zweck

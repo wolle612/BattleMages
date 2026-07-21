@@ -4,6 +4,10 @@ Version: 1.0
 
 Status: Final
 
+> **STATUS: SUPERSEDED (Archiv)** — Alte Spec aus einem früheren Sprint, nicht
+> im Runtime-Pfad. Maßgeblich: `docs/design/BattleMages_Combat_Formula_v2.md`.
+> Siehe `docs/specs/architecture_design_audit_2026-07-21.md`.
+
 ---
 
 # Zweck
