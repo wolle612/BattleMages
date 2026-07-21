@@ -546,6 +546,65 @@ const spellbookPart2Definitions = [
         ]
     },
     {
+        id: "entropy",
+        school: "star",
+        name: "Entropie",
+        type: "Attack",
+        role: "generator",
+        build: "schildkanone",
+        mechanics: ["burst", "shield"],
+        rarity: "Common",
+        description: "Geordnete Energie zerfällt in Chaos und hinterlässt einen schützenden Rest.",
+        tooltip: [
+            "Verursacht 26 Schaden.",
+            "Erhalte 10 Schild."
+        ],
+        tags: ["Attack"],
+        spellbookCore: true,
+        starter: true,
+        cooldown: 0,
+        effects: ["deal_damage", "gain_shield"],
+        upgrades: [
+            {
+                rank: 1,
+                values: {
+                    damage: 26,
+                    shield: 10
+                }
+            }
+        ]
+    },
+    {
+        id: "overload",
+        school: "star",
+        name: "Überladung",
+        type: "Attack",
+        role: "finisher",
+        build: "schildkanone",
+        mechanics: ["shield", "burst"],
+        rarity: "Epic",
+        description: "Aufgestauter Schild überlädt sich und entlädt sich gewaltsam.",
+        tooltip: [
+            "Verursacht 12 Schaden.",
+            "Erzeugt 12 Schild und entlädt deinen gesamten Schild sofort als zusätzlichen Schaden."
+        ],
+        tags: ["Attack"],
+        spellbookCore: true,
+        starter: false,
+        cooldown: 0,
+        effects: ["gain_shield", "deal_shield_damage"],
+        upgrades: [
+            {
+                rank: 1,
+                values: {
+                    damage: 12,
+                    shield: 12,
+                    shieldBonusDamagePercent: 100
+                }
+            }
+        ]
+    },
+    {
         id: "soul_bind",
         school: "primal",
         name: "Seelenbindung",
@@ -655,6 +714,35 @@ const spellbookPart2Definitions = [
                 values: {
                     damage: 30,
                     vulnerableCritChanceBonus: 30
+                }
+            }
+        ]
+    },
+    {
+        id: "soul_ward",
+        school: "primal",
+        name: "Seelenwache",
+        type: "Attack",
+        role: "verstaerker",
+        build: "schild_krit",
+        mechanics: ["crit", "shield"],
+        rarity: "Common",
+        description: "Die Seele wacht auf und schützt sich im entscheidenden Moment.",
+        tooltip: [
+            "Verursacht 26 Schaden.",
+            "Bei kritischem Treffer: Erhalte 20 Schild."
+        ],
+        tags: ["Attack"],
+        spellbookCore: true,
+        starter: false,
+        cooldown: 0,
+        effects: ["deal_damage"],
+        upgrades: [
+            {
+                rank: 1,
+                values: {
+                    damage: 26,
+                    critShieldGain: 20
                 }
             }
         ]

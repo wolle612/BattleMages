@@ -1172,6 +1172,81 @@ const spellUpgradeProfiles = {
             }
         }
     },
+    entropy: {
+        rank2: {
+            values: { damage: 34 },
+            tooltip: ["Verursacht 34 Schaden.", "Erhalte 10 Schild."]
+        },
+        rank4: {
+            values: { damage: 42 },
+            tooltip: ["Verursacht 42 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Verdichtung",
+                rank3: {
+                    values: { shield: 20 },
+                    tooltip: ["Schildgewinn steigt auf 20."]
+                },
+                rank5: {
+                    values: { shield: 34 },
+                    tooltip: ["Schildgewinn steigt auf 34."]
+                }
+            },
+            b: {
+                label: "Implosion",
+                rank3: {
+                    values: { critFlatBonus: 20 },
+                    tooltip: ["Kritische Treffer verursachen zusätzlich +20 Schaden."]
+                },
+                rank5: {
+                    values: { critFlatBonus: 40 },
+                    tooltip: ["Kritische Treffer verursachen zusätzlich +40 Schaden."]
+                }
+            }
+        }
+    },
+    overload: {
+        rank2: {
+            values: { damage: 20 },
+            tooltip: [
+                "Verursacht 20 Schaden.",
+                "Erzeugt 12 Schild und entlädt deinen gesamten Schild sofort als zusätzlichen Schaden."
+            ]
+        },
+        rank4: {
+            values: { damage: 28 },
+            tooltip: ["Verursacht 28 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Vollentladung",
+                rank3: {
+                    values: { shieldBonusDamagePercent: 130, shield: 15 },
+                    tooltip: ["Schildschaden: 130 % des Schildes.", "Schildgewinn: 15."]
+                },
+                rank5: {
+                    values: { shieldBonusDamagePercent: 160, shield: 18 },
+                    tooltip: ["Schildschaden: 160 % des Schildes.", "Schildgewinn: 18."]
+                }
+            },
+            b: {
+                label: "Stoßwelle",
+                rank3: {
+                    values: { damage: 38 },
+                    tooltip: ["Fixschaden: 38."]
+                },
+                rank4: {
+                    values: { damage: 48 },
+                    tooltip: ["Fixschaden: 48."]
+                },
+                rank5: {
+                    values: { damage: 60 },
+                    tooltip: ["Fixschaden: 60."]
+                }
+            }
+        }
+    },
     soul_pulse: {
         rank2: {
             values: { damage: 40 },
@@ -1236,6 +1311,40 @@ const spellUpgradeProfiles = {
                 rank5: {
                     values: { nextSpellCritChanceBonus: 30 },
                     tooltip: ["Trifft ein verwundbares Ziel: Der nächste Zauber erhält +30 % Kritchance."]
+                }
+            }
+        }
+    },
+    soul_ward: {
+        rank2: {
+            values: { damage: 34 },
+            tooltip: ["Verursacht 34 Schaden.", "Bei kritischem Treffer: Erhalte 20 Schild."]
+        },
+        rank4: {
+            values: { damage: 42 },
+            tooltip: ["Verursacht 42 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Wachsame Seele",
+                rank3: {
+                    values: { critShieldGain: 30 },
+                    tooltip: ["Schildgewinn bei Krit: 30."]
+                },
+                rank5: {
+                    values: { critShieldMultiplier: 2 },
+                    tooltip: ["Der erhaltene Schild bei Krit verdoppelt sich."]
+                }
+            },
+            b: {
+                label: "Gebundener Schutz",
+                rank3: {
+                    values: { sequenceTrigger: "after_protection", sequenceDamageBonus: 25 },
+                    tooltip: ["Nach einem Schutz-Zauber: +25 Schaden."]
+                },
+                rank5: {
+                    values: { sequenceDamageBonus: 45 },
+                    tooltip: ["Nach einem Schutz-Zauber: +45 Schaden."]
                 }
             }
         }

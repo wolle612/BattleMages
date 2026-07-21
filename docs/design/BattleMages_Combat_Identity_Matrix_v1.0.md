@@ -110,6 +110,19 @@ Sekundär: Sustain - Selten: Sequenz
 ```
 
 ```
+Hinweis (2026-07-22, empirisch bestätigt via tools/simulate_full_builds.js):
+Seelenmagie besitzt bewusst keinen Generator und keinen Finisher. Jeder Zauber
+der Schule verbindet zwei Mechaniken (z. B. Schaden<->Schild, Verwundbar->Schild,
+Verwundbar->Krit, Krit->Schild) und setzt externen Input aus einer anderen
+Schule voraus (meist Verwundbar oder Schild). Das ist keine Lücke, sondern die
+direkte Konsequenz der eigenen Gameplay-Identität "Mechaniken verbinden" --
+Seelenmagie ist als Multischule-Verbindungsschule konzipiert, nicht für
+Monoschule-Solospiel. Messung: eine reine Seelenmagie-Rotation bleibt schwach
+(Rang 5: 46 % Siegquote), ein einziger getauschter Verwundbar-Generator aus
+einer anderen Schule hebt dieselbe Rotation auf 69 % Siegquote.
+```
+
+```
 ========================================
 ```
 

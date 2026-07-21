@@ -61,8 +61,11 @@ const SPELL_PROJECTILE_TYPES = {
     rune_thrust: "cut",             // Runenstoss
     chaos_blade: "cut",             // Chaosklinge
     chaos_catalyst: "projectile",   // Chaoskatalysator
+    entropy: "explosion",           // Entropie
+    overload: "explosion",          // Ueberladung
     soul_pulse: "beam",             // Seelenimpuls
-    soul_spark: "projectile"        // Seelenfunke
+    soul_spark: "projectile",       // Seelenfunke
+    soul_ward: "beam"               // Seelenwache
 };
 
 function getSpellProjectileType(spellId) {
