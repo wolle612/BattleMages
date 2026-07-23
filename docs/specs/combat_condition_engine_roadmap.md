@@ -519,6 +519,56 @@ Geänderte Dateien: `src/spellEngine.js`, `src/combatFormula.js`,
 (5 Werte/Effekte), `docs/design/BattleMages_Combat_Condition_Engine_Spec.md`.
 
 Damit sind alle vier zuvor offenen Nach-Phase-3-Punkte abgeschlossen.
-Verbleibend vor einem Merge: die Multischule-Rang-5-Anomalie
-(niedrige Priorität, sekundärer Vergleichsbuild) und Phase 4
-(UI/VFX/Doku).
+
+## Phase 4 (Doku-Teil) — abgeschlossen (2026-07-23)
+
+Phase 4 wurde bewusst in zwei Teile gesplittet: Doku-Updates (rein
+textuell, gut verifizierbar) jetzt; die Präzision-Status-UI
+(`getPlayerStatusViews()`/`getEnemyBuffViews()` echt befüllen +
+Renderer-Anbindung + neue Icons) zurückgestellt auf einen eigenen,
+späteren Schritt gemeinsam mit dem Nutzer am Bildschirm — die Session
+hat keine Browser-Automatisierung zur visuellen Verifikation zur
+Verfügung, und die Recherche zeigte, dass `playerStatuses`/
+`enemyBuffs`/`enemyDebuffs` nicht nur leer zurückgegeben werden,
+sondern auch auf der Konsumenten-Seite (`renderer.js`) komplett fehlen
+(anders als `enemyActionBar`/`enemyIntent`, die durchverdrahtet sind) —
+ein echtes neues Feature, kein Stub-Fix.
+
+**Erledigt**: alle drei in der ursprünglichen Phase-4-Planung
+genannten Dokumente aktualisiert:
+
+- `Combat_Formula_v2.md`: "Schild" → "Magischer Widerstand" (inkl.
+  Mitigationsformel-Erklärung), Präzision als neue universelle
+  Mechanik ergänzt, `SCHILDREFERENZEN` → `WIDERSTANDREFERENZEN` mit an
+  das tatsächliche Spellbook angepassten Werten (20/32/50 statt
+  15/25/40), Zauberbudget-Beispielliste aktualisiert.
+- `Combat_Identity_Matrix_v1.0.md`: "Schild" → "Magischer Widerstand"
+  in den universellen Mechaniken, Präzision ergänzt, betroffene
+  Schul-Einträge (Schatten/Rune/Chaosmagie) und die
+  Mechanik-Verteilungs-Tabelle synchronisiert. **Neu geflaggt, nicht
+  repariert**: die drei `BUILD_ARCHETYPES`-Einträge
+  `schildfestung`/`schildkanone`/`schild_krit`
+  (`data/combatIdentity.js`) referenzieren weiterhin die alte
+  Schild-Mechanik (`focus: ["shield", ...]`) und wurden bewusst NICHT
+  umbenannt — rein interne IDs, nie spielersichtbar, aber
+  vokabular-inkonsistent zum Rest des Umbaus. Empfehlung im Dokument
+  hinterlegt (`widerstandsfestung`/`widerstandskanone`/
+  `widerstand_krit`), Entscheidung offen.
+- `Spell_Authoring_Checklist.md`: Mechanik-Tag-Vokabular `shield` →
+  `resistance`; Effekt-Liste (Abschnitt 4) von sieben auf die
+  tatsächlichen zehn Effekt-IDs aktualisiert. **Neuer Fund dabei,
+  ebenfalls nur geflaggt, nicht entschieden**: kein einziger
+  Spieler-Zauber nutzt die vier alten `shield`-Effekt-IDs
+  (`gain_shield`/`increase_shield_percent`/`deal_shield_damage`/
+  `gain_shield_from_dealt_damage`) noch in seinem `effects[]`
+  (verifiziert per Grep über `data/*.js`) — sie sind für Spieler-Zauber
+  faktisch tot, bleiben aber über `enemyEngine.js`/`data/enemies.js`
+  für Gegner-Schild (separates Vokabular) weiterhin in Gebrauch. Ob die
+  vier Handler in `spellEngine.js` als "für Spieler-Zauber tot, aber
+  absichtlich verfügbares Vokabular" behalten oder entfernt werden
+  sollen, ist offen — im Dokument als Hinweis hinterlegt, keine
+  Entscheidung getroffen.
+
+**Verbleibend vor einem Merge**: die Multischule-Rang-5-Anomalie
+(niedrige Priorität, sekundärer Vergleichsbuild) sowie die
+zurückgestellte Präzision-Status-UI (eigener Schritt, siehe oben).

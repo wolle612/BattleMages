@@ -1,5 +1,8 @@
 ```
 BattleMages – Combat Formula v2 Status: Approved (Spellbook v2)
+Update 2026-07-23: Schild -> Magischer Widerstand (Combat Condition
+Engine), Präzision als deterministische Krit-Variante ergänzt.
+Details: docs/specs/combat_condition_engine_roadmap.md
 ```
 
 ```
@@ -54,7 +57,14 @@ Boss: 8–12 Rotationen
 ## `UNIVERSELLE MECHANIKEN` 
 
 ```
-Schild - Kein Maximum. - Kernmechanik für Defensive und Offensive.
+Magischer Widerstand (Update 2026-07-23, Combat Condition Engine) -
+Kein Maximum, wird nie konsumiert (Ersatz für das alte, verbrauchbare
+"Schild"). - Reduziert eingehenden Schaden prozentual mit abnehmendem
+Grenznutzen: reductionPercent = Widerstand / (Widerstand + 40). 40
+Widerstand ergibt 50 % Reduktion, jede weitere Investition bleibt
+spürbar, nähert sich 100 % aber nur asymptotisch an. - Kernmechanik
+für Defensive und Offensive (Schadensskalierung über
+resistanceBonusDamagePercent-Werte).
 ```
 
 ```
@@ -65,6 +75,15 @@ Wird danach entfernt. - Nicht stackbar. - Nicht verlängerbar.
 ```
 Krit - Grundkritchance: 5 % - Kritischer Treffer verursacht 200 %
 Schaden. - Krit wird hauptsächlich über Zauber aufgebaut.
+```
+
+```
+Präzision (Update 2026-07-23, Combat Condition Engine) - Deterministische
+Variante von Krit: garantierter kritischer Treffer für den nächsten
+gewirkten Zauber, kein Zufall. - Ersetzt bei Zaubern ohne eigenen
+Krit-Payoff die frühere reine Selbst-Kritchance ("Option B"-Muster,
+siehe Roadmap-Dokument). - Technisch dieselbe Next-Spell-Prep-
+Infrastruktur wie andere Vorbereitungseffekte, kein eigener State.
 ```
 
 ```
@@ -125,18 +144,23 @@ sich aus dem Zauberbudget.
 ------------------------------------------------------------------------
 ```
 
-## `SCHILDREFERENZEN` 
+## `WIDERSTANDREFERENZEN` 
 
 ```
-Kleiner Schild: 15
-```
-
-```
-Standard: 25
+(Update 2026-07-23: vormals "Schildreferenzen" -- Werte anhand des
+tatsächlichen migrierten Spellbooks aktualisiert.)
 ```
 
 ```
-Groß: 40
+Kleiner Widerstand: 20
+```
+
+```
+Standard: 32
+```
+
+```
+Groß: 50
 ```
 
 ```
@@ -159,9 +183,10 @@ Typische Budgetkosten:
 ```
 
 ```
-30 Schaden = 10 25 Schild = 10 Verwundbar = 5 +20 % Kritchance (nächster
-Zauber) = 5 Garantierter Krit (nächster Zauber) = 8 +30 % Kritschaden
-(nächster Zauber) = 4 +50 % Schild = 5 +30 Schaden gegen Verwundbar = 5
+30 Schaden = 10 32 Magischer Widerstand = 10 Verwundbar = 5 +20 %
+Kritchance (nächster Zauber) = 5 Präzision / garantierter Krit
+(nächster Zauber) = 8 +30 % Kritschaden (nächster Zauber) = 4 +50 %
+Widerstand-Schaden = 5 +30 Schaden gegen Verwundbar = 5
 ```
 
 ```
