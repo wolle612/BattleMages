@@ -75,7 +75,7 @@ frühere `shield` -- Magischer Widerstand statt konsumierbarem Schild,
 siehe `docs/specs/combat_condition_engine_roadmap.md`. Kein Zauber
 im aktuellen Spellbook trägt noch `shield` als Mechanik-Tag.)
 
-**Build-Archetypen** (`BUILD_ARCHETYPES`, 15 Stück, z. B. `schildfestung`,
+**Build-Archetypen** (`BUILD_ARCHETYPES`, 15 Stück, z. B. `widerstandsfestung`,
 `verwundbar_burst`, `kritmaschine`, `monoschule`, `multischule`, `sequenz`,
 `burst`, `sustain`, `one_shot`, `kontrollierter_schaden` ...): volle Liste in
 `data/combatIdentity.js`. **Nur internes Design-/Balance-Werkzeug, niemals

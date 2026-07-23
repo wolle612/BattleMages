@@ -494,7 +494,8 @@ vorhandenen Funktion. Nachgetragen, verifiziert per Sandbox-Skript
 53, korrekt).
 
 **Zwei Content-Lücken neu gestaltet** (beide Teil des schulübergreifenden
-`schildkanone`-Build-Archetyps, Rune/Seelenmagie):
+`schildkanone`-Build-Archetyps [inzwischen umbenannt zu
+`widerstandskanone`, siehe Nachtrag unten], Rune/Seelenmagie):
 
 - `shield_breaker` Pfad B Rang 3 ("Kontrollierter Einschlag", Rune):
   unconditioneller Sockelschaden `resistanceBonusDamagePercent: 25`,
@@ -562,15 +563,7 @@ genannten Dokumente aktualisiert:
 - `Combat_Identity_Matrix_v1.0.md`: "Schild" → "Magischer Widerstand"
   in den universellen Mechaniken, Präzision ergänzt, betroffene
   Schul-Einträge (Schatten/Rune/Chaosmagie) und die
-  Mechanik-Verteilungs-Tabelle synchronisiert. **Neu geflaggt, nicht
-  repariert**: die drei `BUILD_ARCHETYPES`-Einträge
-  `schildfestung`/`schildkanone`/`schild_krit`
-  (`data/combatIdentity.js`) referenzieren weiterhin die alte
-  Schild-Mechanik (`focus: ["shield", ...]`) und wurden bewusst NICHT
-  umbenannt — rein interne IDs, nie spielersichtbar, aber
-  vokabular-inkonsistent zum Rest des Umbaus. Empfehlung im Dokument
-  hinterlegt (`widerstandsfestung`/`widerstandskanone`/
-  `widerstand_krit`), Entscheidung offen.
+  Mechanik-Verteilungs-Tabelle synchronisiert.
 - `Spell_Authoring_Checklist.md`: Mechanik-Tag-Vokabular `shield` →
   `resistance`; Effekt-Liste (Abschnitt 4) von sieben auf die
   tatsächlichen zehn Effekt-IDs aktualisiert. **Neuer Fund dabei,
@@ -586,8 +579,28 @@ genannten Dokumente aktualisiert:
   sollen, ist offen — im Dokument als Hinweis hinterlegt, keine
   Entscheidung getroffen.
 
-**Verbleibend vor einem Merge**: die zurückgestellte Präzision-Status-UI
-(eigener Schritt, siehe oben) sowie die zwei offenen
-Vokabular-Entscheidungen oben. Die Multischule-Rang-5-Anomalie wurde
-zwischenzeitlich root-caused und als "kein Bug" geschlossen (siehe
-Phase-3-Abschnitt).
+## Zwei Vokabular-Entscheidungen getroffen (2026-07-23)
+
+- **BUILD_ARCHETYPES umbenannt**: `schildfestung`/`schildkanone`/
+  `schild_krit` → `widerstandsfestung`/`widerstandskanone`/
+  `widerstand_krit` (`data/combatIdentity.js`, inkl. `label` und
+  `focus: ["shield", ...]` → `["resistance", ...]`). Alle
+  `build:`-Referenzen in `data/spellbookCore.js` (3 Zauber) und
+  `data/spellbookPart2.js` (11 Zauber) mitgezogen. Rein interne IDs,
+  nie spielersichtbar — kein Spielerrisiko. Verifiziert: kein Code in
+  `src/`/`tools/` referenziert die alten IDs.
+- **Tote `shield`-Effekt-IDs bewusst NICHT entfernt**: `gain_shield`/
+  `increase_shield_percent`/`deal_shield_damage`/
+  `gain_shield_from_dealt_damage` bleiben in `spellEngine.js` stehen,
+  obwohl aktuell kein Spieler-Zauber sie nutzt — als bewusst
+  verfügbares Vokabular für einen künftigen, absichtlich
+  konsumierbaren Schild-Zauber, funktionierender Code ohne Risiko/
+  Wartungslast. Entscheidung getroffen, kein weiterer Punkt offen.
+
+Beide Doku-Stellen entsprechend nachgezogen
+(`Combat_Identity_Matrix_v1.0.md`, `Spell_Authoring_Checklist.md`).
+
+**Verbleibend vor einem Merge**: nur noch die zurückgestellte
+Präzision-Status-UI (eigener Schritt, siehe oben). Alle anderen
+Punkte (Balance, toter Code, Content-Lücken, Multischule-Anomalie,
+Vokabular-Konsistenz, Doku) sind abgeschlossen.

@@ -184,22 +184,22 @@ Sehr niedrig: - Chaosmagie
 BUILD-ARCHETYPEN
 ```
 
-- `Schildfestung` 
+- `Widerstandsfestung` 
 
-- `Schildkanone` 
+- `Widerstandskanone` 
 
-- `Schild/Krit` 
+- `Widerstand/Krit` 
 
 ```
-(Hinweis, Update 2026-07-23: diese drei Archetyp-Namen/-Foki (`id`s
-`schildfestung`/`schildkanone`/`schild_krit`, `focus: ["shield", ...]`
-in `data/combatIdentity.js`) referenzieren noch die alte
-Schild-Mechanik und wurden im Rahmen der Combat-Condition-Engine-
-Migration NICHT umbenannt -- rein interne Design-/Balance-IDs, nie
-spielersichtbar, daher als bestehende Inkonsistenz geflaggt statt
-eigenmächtig umbenannt. Empfehlung für eine künftige Entscheidung:
-auf `widerstandsfestung`/`widerstandskanone`/`widerstand_krit`
-umstellen, um mit dem Rest des Vokabulars konsistent zu sein.)
+(Update 2026-07-23: vormals Schildfestung/Schildkanone/Schild-Krit --
+die drei Archetyp-IDs `schildfestung`/`schildkanone`/`schild_krit`
+(`data/combatIdentity.js`, `BUILD_ARCHETYPES`) referenzierten noch die
+alte Schild-Mechanik und wurden auf `widerstandsfestung`/
+`widerstandskanone`/`widerstand_krit` (`focus: ["resistance", ...]`)
+umbenannt, um mit dem Rest des Vokabulars konsistent zu sein. Rein
+interne Design-/Balance-IDs, nie spielersichtbar -- alle
+`build:`-Referenzen in `data/spellbookCore.js`/`spellbookPart2.js`
+mitgezogen.)
 ```
 
 - `Verwundbar-Burst` 

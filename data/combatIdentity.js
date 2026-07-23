@@ -34,20 +34,20 @@ const SPELL_ROLES = {
 };
 
 const BUILD_ARCHETYPES = {
-    schildfestung: {
-        id: "schildfestung",
-        label: "Schildfestung",
-        focus: ["shield"]
+    widerstandsfestung: {
+        id: "widerstandsfestung",
+        label: "Widerstandsfestung",
+        focus: ["resistance"]
     },
-    schildkanone: {
-        id: "schildkanone",
-        label: "Schildkanone",
-        focus: ["shield", "damage"]
+    widerstandskanone: {
+        id: "widerstandskanone",
+        label: "Widerstandskanone",
+        focus: ["resistance", "damage"]
     },
-    schild_krit: {
-        id: "schild_krit",
-        label: "Schild/Krit",
-        focus: ["shield", "crit"]
+    widerstand_krit: {
+        id: "widerstand_krit",
+        label: "Widerstand/Krit",
+        focus: ["resistance", "crit"]
     },
     verwundbar_burst: {
         id: "verwundbar_burst",
