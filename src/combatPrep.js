@@ -21,6 +21,7 @@ function createNextSpellPrep(overrides = {}) {
         label: "",
         requeueOnConsume: false,
         sourceSpellId: "",
+        ignoreShield: false,
         ...overrides
     };
 }
@@ -132,6 +133,10 @@ function applyNextSpellPrepToCast(context, spell, cast) {
 
     if (prep.appliesVulnerable) {
         cast.nextSpellAppliesVulnerable = true;
+    }
+
+    if (prep.ignoreShield) {
+        cast.ignoreShieldFromPrep = true;
     }
 
     if (prep.adaptiveBonus) {

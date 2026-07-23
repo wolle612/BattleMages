@@ -1,11 +1,20 @@
-function hasCastTimeNextSpellPrepValues(values, context) {
+// `enemyWasVulnerableAtCast` ist eine Momentaufnahme von VOR der
+// Effekt-Ausführung (siehe resolveSpellCast), nicht ein Live-Check auf
+// context. Grund: deal_damage gegen ein verwundbares Ziel konsumiert
+// Verwundbar normalerweise noch im selben Cast (applyVulnerableMultiplier),
+// bevor diese Funktion (die NACH der Effekt-Schleife läuft) sonst prüfen
+// würde -- ein Live-Check hier würde also fast immer fälschlich "false"
+// liefern, selbst wenn das Ziel beim Cast-Start verwundbar war. Betraf schon
+// vor dieser Änderung organ_failure Pfad B Rang 5, gefunden beim Testen der
+// soul_spark-Neugestaltung.
+function hasCastTimeNextSpellPrepValues(values, context, cast) {
     if (values.nextSpellRandomPrep) {
         return true;
     }
 
     if (
         values.nextSpellPrepRequiresVulnerable &&
-        !hasEnemyVulnerable(context)
+        !cast.enemyWasVulnerableAtCast
     ) {
         return false;
     }
@@ -15,7 +24,8 @@ function hasCastTimeNextSpellPrepValues(values, context) {
         values.nextSpellCritChanceBonus ||
         values.nextSpellGuaranteedCrit ||
         values.nextSpellAppliesVulnerable ||
-        values.nextSpellShieldBonus
+        values.nextSpellShieldBonus ||
+        values.nextSpellIgnoresShield
     );
 }
 
@@ -120,6 +130,9 @@ function resolveSpellCast(context, spell) {
         return false;
     }
 
+    cast.enemyWasVulnerableAtCast =
+        hasEnemyVulnerable(context);
+
     applyValuesToCast(context, values, cast, spell);
     applyNextSpellPrepToCast(context, spell, cast);
 
@@ -132,7 +145,7 @@ function resolveSpellCast(context, spell) {
 
     if (
         !effects.includes("grant_next_spell_prep") &&
-        hasCastTimeNextSpellPrepValues(values, context)
+        hasCastTimeNextSpellPrepValues(values, context, cast)
     ) {
         grantUniversalNextSpellPrep(context, spell, values);
     }
@@ -200,6 +213,11 @@ function resolveSpellEffect(context, spell, values, cast, effect) {
 
     if (effect === "gain_shield_from_dealt_damage") {
         gainShieldFromDealtDamage(context, spell, values, cast);
+        return;
+    }
+
+    if (effect === "gain_resistance_from_dealt_damage") {
+        gainResistanceFromDealtDamage(context, spell, values, cast);
         return;
     }
 
@@ -314,11 +332,21 @@ function resolveSpellDamageHit(context, spell, values, cast, hitIndex, hitCount)
     const shieldPierce =
         getSpellShieldPierce(context, spell, hitValues, cast);
 
+    // ignoreShield kann entweder direkt am Zauber stehen (values.ignoreShield)
+    // oder per Praep vom vorherigen Cast gewaehrt worden sein
+    // (cast.ignoreShieldFromPrep, siehe applyNextSpellPrepToCast in
+    // combatPrep.js) -- applySpellDamageToEnemy kennt nur `values`, daher
+    // hier zusammenfuehren statt die Funktionssignatur zu erweitern.
+    const effectiveHitValues =
+        cast.ignoreShieldFromPrep
+            ? { ...hitValues, ignoreShield: true }
+            : hitValues;
+
     const appliedDamage =
         applySpellDamageToEnemy(
             context,
             damage,
-            hitValues,
+            effectiveHitValues,
             shieldPierce
         );
 
@@ -402,6 +430,24 @@ function resolveSpellDamageHit(context, spell, values, cast, hitIndex, hitCount)
             context,
             spell,
             vulnerableShieldValue,
+            "Verwundbar"
+        );
+    }
+
+    if (
+        enemyWasVulnerable &&
+        hitValues.vulnerableResistanceGain
+    ) {
+        const vulnerableResistanceValue =
+            hitValues.vulnerableResistanceMultiplier
+                ? hitValues.vulnerableResistanceGain *
+                    hitValues.vulnerableResistanceMultiplier
+                : hitValues.vulnerableResistanceGain;
+
+        grantResistance(
+            context,
+            spell,
+            vulnerableResistanceValue,
             "Verwundbar"
         );
     }
@@ -625,6 +671,32 @@ function gainShieldFromDealtDamage(context, spell, values, cast) {
     );
 }
 
+function gainResistanceFromDealtDamage(context, spell, values, cast) {
+    if (
+        !values.resistanceFromDealtDamagePercent ||
+        !cast.lastDamage
+    ) {
+        return;
+    }
+
+    const resistanceGain =
+        Math.floor(
+            cast.lastDamage *
+            values.resistanceFromDealtDamagePercent / 100
+        );
+
+    if (resistanceGain <= 0) {
+        return;
+    }
+
+    grantResistance(
+        context,
+        spell,
+        resistanceGain,
+        "Widerstand"
+    );
+}
+
 function grantCombatShield(context, spell, shieldValue, effectText) {
     context.playerShield += shieldValue;
 
@@ -741,7 +813,24 @@ function applyVulnerableEffect(context, spell, values) {
         return;
     }
 
+    // Deterministischer Ersatz fuer "bei zufaelligem Maximalschaden" (siehe
+    // chaos_eruption-Neugestaltung, Combat Condition Engine): prueft die
+    // eigene fehlende Lebensenergie in Prozent statt eines Wuerfelwurfs.
+    if (
+        values.applyVulnerableIfMissingLifePercent &&
+        getMissingLifePercent(context) < values.applyVulnerableIfMissingLifePercent
+    ) {
+        return;
+    }
+
     applyEnemyVulnerable(context, spell, values);
+}
+
+function getMissingLifePercent(context) {
+    return (
+        (context.playerMaxHp - context.playerHp) /
+        context.playerMaxHp
+    ) * 100;
 }
 
 function grantUniversalNextSpellPrep(context, spell, values) {
@@ -766,6 +855,8 @@ function grantUniversalNextSpellPrep(context, spell, values) {
                 (values.nextSpellShieldPercentBonus || 0) / 100,
             appliesVulnerable:
                 Boolean(values.nextSpellAppliesVulnerable),
+            ignoreShield:
+                Boolean(values.nextSpellIgnoresShield),
             requiredSchool: values.nextSpellSchool || null,
             requiredType: values.nextSpellType || null,
             requireHybrid:

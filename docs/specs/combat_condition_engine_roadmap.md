@@ -217,4 +217,83 @@ Aufgabe von Phase 3, nicht dieser Phase.
 
 **Nächster Schritt:** Go/No-Go-Entscheidung durch den Nutzer, dann
 Phase 1 (Engine verallgemeinern) bzw. Phase 2 (restliche 5 Schulen).
-Noch nicht committet.
+
+**Phase 2, Zwischenstand (2026-07-23): Go/No-Go bestätigt, Biomantie/
+Psionik/Chaosmagie/Seelenmagie migriert, nur Schatten steht noch aus.**
+
+- **Biomantie**: alle 5 Zauber komplett (`bone_fracture`, `organ_failure`,
+  `anatomy`, `bone_armor`, `blood_clot`).
+- **Psionik**: 5/6 berührte Zauber migriert (`mind_barrier`, `mind_trap`
+  Pfad B [bereits vorher wirkungslos, 1:1 übernommen]). `mind_strike`
+  komplett neugestaltet (siehe unten). `mind_stream`/`mind_redirect`/
+  `arcane_chain` brauchten keine Änderung.
+- **Chaosmagie**: alle 5 Zauber. `chaos_catalyst`/`entropy`/`overload`
+  reine Migration. `chaos_eruption` komplett neugestaltet auf
+  ausdrücklichen Nutzerwunsch (siehe unten). `chaos_blade` brauchte
+  keine Änderung.
+- **Seelenmagie**: alle 5 Zauber. `soul_bind` (neue Formel
+  `gainResistanceFromDealtDamage`, spiegelt `gainShieldFromDealtDamage`),
+  `soul_cut`, `soul_pulse`, `soul_ward` reine Migration. `soul_spark`
+  komplett neugestaltet (siehe unten).
+
+**Zwei kreative Neugestaltungen auf explizite Nutzeranfrage** (kein reiner
+Formalismus wie der Rest der Migration):
+
+1. **`chaos_eruption`** — komplette Zufalls-Entfernung (Basis-Schadensbereich
+   UND Pfad-B-Random-Prep). Neu: Basisschaden skaliert deterministisch mit
+   eigener fehlender Lebensenergie (`damagePerMissingLifePercent`, neue
+   Funktion `getMissingLifePercent`/`applyVulnerableIfMissingLifePercent`
+   in `spellEngine.js`) statt Würfelwurf — "Chaos" jetzt als "abhängig vom
+   eigenen Risiko" statt als Zufall ausgedrückt. Pfad B gewährt
+   deterministisch Präzision (`nextSpellGuaranteedCrit`) statt eines
+   zufälligen Bonus. **Wichtiger Fund**: `nextSpellRandomPrep`,
+   `randomDamageMin`/`randomDamageMax` und
+   `applyVulnerableOnMaxRandomDamage` werden dadurch von KEINEM Zauber
+   mehr referenziert — toter Code in `spellEngine.js`/`combatFormula.js`,
+   noch nicht entfernt (Nutzer-Entscheidung nötig, ob jetzt oder später).
+2. **"Option B"-Redesign für `mind_strike`/`soul_spark`**: reine
+   Selbst-Krit-Chance ohne eigenen Payoff wird zum Präzision-Generator für
+   den nächsten Zauber (`nextSpellGuaranteedCrit`), nicht zur reinen
+   Selbst-Chance. Beide Zauber vollständig neu durchdacht über alle
+   Ränge/Pfade (nicht nur die Basis), da die alten Pfade strukturell auf
+   der jetzt entfernten Selbst-Chance aufbauten.
+
+**Bugfix, beim Testen gefunden (nicht Teil der ursprünglichen Migration,
+aber durch sie aufgedeckt):** `nextSpellPrepRequiresVulnerable` prüfte
+den Verwundbar-Status per Live-Check NACH der Effekt-Ausführung —
+zu spät, weil `deal_damage` gegen ein verwundbares Ziel Verwundbar im
+selben Cast bereits konsumiert. Betraf `organ_failure` Pfad B Rang 5
+(bereits vor dieser Session vorhanden) und die neue
+`soul_spark`-Neugestaltung gleichermaßen. Behoben durch eine
+Cast-Start-Momentaufnahme (`cast.enemyWasVulnerableAtCast`,
+`spellEngine.js`) statt eines Live-Checks. Verifiziert für beide Zauber.
+
+Verifiziert: alle Syntax-Checks grün, bestehende Suiten weiterhin 86/86,
+`validate_data.py` sauber, `simulate_full_builds.js` läuft für alle
+migrierten Schulen durch (durchweg deutlich erhöhte Sieg-/RV-Werte,
+konsistent mit dem bereits erwarteten "unretuned"-Befund aus Phase 0.5).
+
+**`chaos_eruption`, zweiter Anlauf (2026-07-23):** Nutzer widersprach dem
+ersten Entwurf (Skalierung mit eigener fehlender Lebensenergie) —
+Fund bestätigt: diese Mechanik war ursprünglich für Blutmagie/Biomantie
+gedacht (`docs/archive/blood_spec.md`), nicht für Chaosmagie, und wird
+von keinem aktuellen Zauber genutzt. Neu, an "Chaosblitz" (World of
+Warcraft) orientiert: **ignoriert gegnerischen Schild/Widerstand
+vollständig** (`ignoreShield`, bereits vorhandener, bis dahin
+ungenutzter Wert in `combatFormula.js`). Dafür neu gebaut: `ignoreShield`
+als vergebbare Next-Spell-Prep-Eigenschaft (`nextSpellIgnoresShield` →
+`prep.ignoreShield` → `cast.ignoreShieldFromPrep`, verdrahtet in
+`combatPrep.js`/`spellEngine.js`) für Pfad B ("der nächste Zauber
+ignoriert ebenfalls Schild/Widerstand"). Pfad A nutzt `vulnerableBonusDamage`
+(bewusst ein bislang unberührter Wert, um nicht von den Basis-Rang-
+Überschreibungen geklont zu werden — bekannte Eigenheit des
+Merge-Systems, siehe Code-Kommentar). Verifiziert: Basis ignoriert
+100 Gegner-Schild vollständig ohne ihn zu verbrauchen; Pfad-B-Prep
+funktioniert nachweislich auch für einen komplett unabhängigen
+Folgezauber (`bone_fracture` im Test). Bestehende Suiten weiterhin grün,
+`simulate_full_builds.js` läuft für Chaosmagie durch.
+
+Noch nicht committet. Fehlt: Schatten (letzte Schule, hängt zusätzlich
+am Option-B-Redesign für `dark_blade`/`will_break`/weitere), Entscheidung
+zum toten `nextSpellRandomPrep`-Code, Phase 3 (Balance) und Phase 4
+(UI/Doku).

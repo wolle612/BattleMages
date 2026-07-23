@@ -64,7 +64,9 @@ function createSpellCastState() {
         nextSpellAppliesVulnerable: false,
         deferVulnerableConsume: false,
         lastKnownPlayerShield: 0,
-        lastKnownSequenceResistanceBonus: 0
+        lastKnownSequenceResistanceBonus: 0,
+        enemyWasVulnerableAtCast: false,
+        ignoreShieldFromPrep: false
     };
 }
 
