@@ -327,25 +327,25 @@ const spellbookPart2Definitions = [
         type: "Protection",
         role: "verstaerker",
         build: "schildfestung",
-        mechanics: ["shield", "sequence"],
+        mechanics: ["resistance", "sequence"],
         rarity: "Rare",
         description: "Ein verbotenes Siegel wächst mit jedem Schutzzauber.",
         tooltip: [
-            "Erhalte 25 Schild.",
-            "Wurde zuvor ein Schutzzauber gewirkt: +20 Schild."
+            "Erhalte 25 Magischen Widerstand.",
+            "Wurde zuvor ein Schutzzauber gewirkt: +20 Magischen Widerstand."
         ],
         tags: ["Protection"],
         spellbookCore: true,
         starter: false,
         cooldown: 0,
-        effects: ["gain_shield"],
+        effects: ["gain_resistance"],
         upgrades: [
             {
                 rank: 1,
                 values: {
-                    shield: 25,
+                    resistance: 25,
                     sequenceTrigger: "after_protection",
-                    sequenceShieldBonus: 20
+                    sequenceResistanceBonus: 20
                 }
             }
         ]
@@ -357,23 +357,23 @@ const spellbookPart2Definitions = [
         type: "Attack",
         role: "verstaerker",
         build: "schildfestung",
-        mechanics: ["shield"],
+        mechanics: ["resistance"],
         rarity: "Rare",
         description: "Das Siegel pulsiert und verdoppelt die vorhandene Barriere.",
         tooltip: [
-            "Erhöhe deinen aktuellen Schild um 50 %.",
+            "Erhöhe deinen aktuellen Magischen Widerstand um 50 %.",
             "Verursacht 15 Schaden."
         ],
         tags: ["Attack"],
         spellbookCore: true,
         starter: false,
         cooldown: 0,
-        effects: ["increase_shield_percent", "deal_damage"],
+        effects: ["increase_resistance", "deal_damage"],
         upgrades: [
             {
                 rank: 1,
                 values: {
-                    playerShieldPercentIncrease: 50,
+                    playerResistancePercentIncrease: 50,
                     damage: 15
                 }
             }
@@ -412,12 +412,12 @@ const spellbookPart2Definitions = [
         type: "Attack",
         role: "verstaerker",
         build: "hybrid",
-        mechanics: ["shield", "vulnerable"],
+        mechanics: ["resistance", "vulnerable"],
         rarity: "Rare",
         description: "Hinter dem eigenen Schild bricht die Rune das Ziel.",
         tooltip: [
             "Verursacht 30 Schaden.",
-            "Besitzt du Schild, fügt dieser Zauber Verwundbar zu."
+            "Besitzt du Magischen Widerstand, fügt dieser Zauber Verwundbar zu."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -429,7 +429,7 @@ const spellbookPart2Definitions = [
                 rank: 1,
                 values: {
                     damage: 30,
-                    applyVulnerableIfPlayerShield: true
+                    applyVulnerableIfPlayerResistance: true
                 }
             }
         ]
@@ -441,24 +441,24 @@ const spellbookPart2Definitions = [
         type: "Attack",
         role: "verstaerker",
         build: "schildfestung",
-        mechanics: ["shield"],
+        mechanics: ["resistance"],
         rarity: "Common",
         description: "Ein runischer Stoß, der zugleich schützt und verletzt.",
         tooltip: [
             "Verursacht 35 Schaden.",
-            "Erhalte 15 Schild."
+            "Erhalte 15 Magischen Widerstand."
         ],
         tags: ["Attack"],
         spellbookCore: true,
         starter: false,
         cooldown: 0,
-        effects: ["deal_damage", "gain_shield"],
+        effects: ["deal_damage", "gain_resistance"],
         upgrades: [
             {
                 rank: 1,
                 values: {
                     damage: 35,
-                    shield: 15
+                    resistance: 15
                 }
             }
         ]

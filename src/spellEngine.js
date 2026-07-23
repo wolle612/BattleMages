@@ -150,6 +150,15 @@ function resolveSpellCast(context, spell) {
         );
     }
 
+    if (values.postCastResistanceGain) {
+        grantResistance(
+            context,
+            spell,
+            values.postCastResistanceGain,
+            "Widerstand"
+        );
+    }
+
     notifyPlayerSpellResolved(context, spell, cast);
 
     context.cooldowns[spell.id] = spell.cooldown;
@@ -191,6 +200,16 @@ function resolveSpellEffect(context, spell, values, cast, effect) {
 
     if (effect === "gain_shield_from_dealt_damage") {
         gainShieldFromDealtDamage(context, spell, values, cast);
+        return;
+    }
+
+    if (effect === "gain_resistance") {
+        gainSpellResistance(context, spell, values, cast);
+        return;
+    }
+
+    if (effect === "increase_resistance") {
+        increaseResistance(context, spell, values);
     }
 }
 
@@ -275,6 +294,12 @@ function resolveSpellDamageHit(context, spell, values, cast, hitIndex, hitCount)
             hitCount
         );
 
+    // Zwischenspeicherung fuer applyCritToDamage() (combatFormula.js),
+    // die keinen Zugriff auf context/spell hat -- gleiches Muster wie
+    // lastKnownPlayerShield fuer den Schild-Krit-Multiplikator.
+    cast.lastKnownSequenceResistanceBonus =
+        getSequenceGatedResistanceBonusDamage(context, spell, hitValues);
+
     const critResult =
         applyCritToDamage(
             damage,
@@ -337,6 +362,21 @@ function resolveSpellDamageHit(context, spell, values, cast, hitIndex, hitCount)
             context,
             spell,
             critShieldValue,
+            "Kritischer Treffer"
+        );
+    }
+
+    if (critResult.isCrit && hitValues.critResistanceGain) {
+        const critResistanceValue =
+            hitValues.critResistanceMultiplier
+                ? hitValues.critResistanceGain *
+                    hitValues.critResistanceMultiplier
+                : hitValues.critResistanceGain;
+
+        grantResistance(
+            context,
+            spell,
+            critResistanceValue,
             "Kritischer Treffer"
         );
     }
@@ -604,6 +644,70 @@ function grantCombatShield(context, spell, shieldValue, effectText) {
     );
 }
 
+// Magischer Widerstand (Combat Condition Engine, siehe
+// docs/design/BattleMages_Combat_Condition_Engine_Spec.md): permanenter,
+// nie konsumierter Flachwert, im Unterschied zu grantCombatShield() oben
+// KEIN depletable Pool. Wird in applyPlayerResistance() (effectEngine.js)
+// gegen jeden eingehenden Treffer verrechnet, ohne sich dabei zu
+// verringern. grantResistance() ist der gemeinsame Schreib-/Log-Pfad für
+// alle Widerstand-Quellen (Basis-Gewinn, Verstärkung, Post-Cast-Bonus).
+function grantResistance(context, spell, resistanceValue, effectText) {
+    context.playerResistance += resistanceValue;
+
+    addCombatAction(
+        context,
+        `${spell.name} +${resistanceValue} Magischer Widerstand.`,
+        {
+            type: "resistance",
+            spellName: spell.id,
+            feedbackTitle: spell.name,
+            feedbackDetail: `+${resistanceValue} Widerstand`,
+            actor: "Spieler",
+            actionName: spell.name,
+            impact: `+${resistanceValue}`,
+            effectText
+        }
+    );
+}
+
+function gainSpellResistance(context, spell, values, cast) {
+    const resistanceValue =
+        calculateResistanceGain(context, spell, values, cast);
+
+    if (!resistanceValue) {
+        return;
+    }
+
+    grantResistance(context, spell, resistanceValue, "Widerstand");
+}
+
+function increaseResistance(context, spell, values) {
+    if (context.playerResistance <= 0) {
+        return;
+    }
+
+    let resistanceGain = 0;
+
+    if (values.playerResistancePercentIncrease) {
+        resistanceGain +=
+            Math.floor(
+                context.playerResistance *
+                values.playerResistancePercentIncrease / 100
+            );
+    }
+
+    if (values.playerResistanceFlatIncrease) {
+        resistanceGain +=
+            values.playerResistanceFlatIncrease;
+    }
+
+    if (resistanceGain <= 0) {
+        return;
+    }
+
+    grantResistance(context, spell, resistanceGain, "Widerstand verstärkt");
+}
+
 function applyVulnerableEffect(context, spell, values) {
     if (
         values.applyVulnerableOnlyIfVulnerable &&
@@ -626,6 +730,13 @@ function applyVulnerableEffect(context, spell, values) {
     if (
         values.applyVulnerableIfPlayerShield &&
         context.playerShield <= 0
+    ) {
+        return;
+    }
+
+    if (
+        values.applyVulnerableIfPlayerResistance &&
+        context.playerResistance <= 0
     ) {
         return;
     }

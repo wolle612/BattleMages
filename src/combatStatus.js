@@ -90,6 +90,15 @@ function applyEnemyVulnerable(context, spell, values) {
         );
     }
 
+    if (values.applyVulnerableResistanceGain) {
+        grantResistance(
+            context,
+            spell,
+            values.applyVulnerableResistanceGain,
+            "Verwundbar"
+        );
+    }
+
     if (
         values.nextSpellPrepTrigger === "on_apply_vulnerable" ||
         values.nextSpellPrepOnApplyVulnerable

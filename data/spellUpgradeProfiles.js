@@ -116,23 +116,29 @@ const spellUpgradeProfiles = {
     },
     shield_wall: {
         rank2: {
-            values: { shield: 38 },
-            tooltip: ["Erhalte 38 Schild."]
+            values: { resistance: 38 },
+            tooltip: ["Erhalte 38 Magischen Widerstand."]
         },
         rank4: {
-            values: { shield: 50 },
-            tooltip: ["Erhalte 50 Schild."]
+            values: { resistance: 50 },
+            tooltip: ["Erhalte 50 Magischen Widerstand."]
         },
         paths: {
             a: {
                 label: "Verstärkte Rune",
                 rank3: {
-                    values: { playerShieldFlatIncrease: 15 },
-                    tooltip: ["Erhalte zusätzlich 15 Schild."]
+                    // Hinweis: dieser Wert war schon vor der Migration
+                    // wirkungslos (fehlender "increase_shield_percent"/
+                    // jetzt "increase_resistance" Eintrag in effects[]).
+                    // Bewusst 1:1 als bestehende, dem Nutzer gemeldete
+                    // Inkonsistenz uebernommen, nicht stillschweigend
+                    // "repariert" -- siehe Zusammenfassung.
+                    values: { playerResistanceFlatIncrease: 15 },
+                    tooltip: ["Erhalte zusätzlich 15 Magischen Widerstand."]
                 },
                 rank5: {
-                    values: { shieldGainIfPlayerShielded: 25 },
-                    tooltip: ["Besitzt du bereits Schild: Erhalte zusätzlich 25 Schild."]
+                    values: { resistanceGainIfPlayerHasResistance: 25 },
+                    tooltip: ["Besitzt du bereits Widerstand: Erhalte zusätzlich 25 Magischen Widerstand."]
                 }
             },
             b: {
@@ -143,20 +149,20 @@ const spellUpgradeProfiles = {
                     tooltip: ["Verursacht zusätzlich 20 Schaden."]
                 },
                 rank5: {
-                    values: { shieldBonusDamagePercent: 50 },
-                    tooltip: ["Verursacht zusätzlich Schaden in Höhe von 50 % deines Schildes."]
+                    values: { resistanceBonusDamagePercent: 50 },
+                    tooltip: ["Verursacht zusätzlich Schaden in Höhe von 50 % deines Magischen Widerstands."]
                 }
             }
         }
     },
     shield_breaker: {
         rank2: {
-            values: { shieldBonusDamagePercent: 60 },
-            tooltip: ["Schaden skaliert mit 60 % deines Schildes."]
+            values: { resistanceBonusDamagePercentOnSequence: 60 },
+            tooltip: ["Schaden skaliert mit 60 % deines Magischen Widerstands."]
         },
         rank4: {
-            values: { shieldBonusDamagePercent: 75 },
-            tooltip: ["Schaden skaliert mit 75 % deines Schildes."]
+            values: { resistanceBonusDamagePercentOnSequence: 75 },
+            tooltip: ["Schaden skaliert mit 75 % deines Magischen Widerstands."]
         },
         paths: {
             a: {
@@ -166,19 +172,20 @@ const spellUpgradeProfiles = {
                     tooltip: ["Schaden erhöht sich zusätzlich um +25."]
                 },
                 rank5: {
-                    values: { shieldBonusDamageCritMultiplier: 2 },
-                    tooltip: ["Kritische Treffer verdoppeln den zusätzlichen Schildschaden."]
+                    values: { resistanceBonusDamageCritMultiplier: 2 },
+                    tooltip: ["Kritische Treffer verdoppeln den zusätzlichen Widerstandsschaden."]
                 }
             },
             b: {
                 label: "Kontrollierter Einschlag",
-                rank3: {
-                    values: { shieldConsumePercent: 75 },
-                    tooltip: ["Verbraucht nur 75 % deines Schildes."]
-                },
+                // Rang 3 bewusst ohne Zusatzeffekt gelassen: shieldConsumePercent
+                // ("verbrauche nur X% deines Schildes") hat unter Magischem
+                // Widerstand (wird nie konsumiert) keine Entsprechung mehr --
+                // echte Design-Luecke, nicht eigenmaechtig durch einen erfundenen
+                // Ersatzwert geschlossen. Siehe Zusammenfassung/Migrationsnotizen.
                 rank5: {
-                    values: { postCastShieldGain: 25 },
-                    tooltip: ["Nach dem Angriff erhältst du 25 Schild zurück."]
+                    values: { postCastResistanceGain: 25 },
+                    tooltip: ["Nach dem Angriff erhältst du 25 Magischen Widerstand zurück."]
                 }
             }
         }
@@ -291,10 +298,10 @@ const spellUpgradeProfiles = {
     },
     rune_harmony: {
         rank2: {
-            values: { damage: 45, critShieldGain: 25 },
+            values: { damage: 45, critResistanceGain: 25 },
             tooltip: [
                 "Verursacht 45 Schaden.",
-                "Kritische Treffer gewähren 25 Schild."
+                "Kritische Treffer gewähren 25 Magischen Widerstand."
             ]
         },
         rank4: {
@@ -305,12 +312,12 @@ const spellUpgradeProfiles = {
             a: {
                 label: "Runenfokus",
                 rank3: {
-                    values: { critShieldGain: 40 },
-                    tooltip: ["Kritische Treffer gewähren 40 Schild."]
+                    values: { critResistanceGain: 40 },
+                    tooltip: ["Kritische Treffer gewähren 40 Magischen Widerstand."]
                 },
                 rank5: {
-                    values: { critShieldMultiplier: 2 },
-                    tooltip: ["Kritische Treffer verdoppeln den erhaltenen Schild."]
+                    values: { critResistanceMultiplier: 2 },
+                    tooltip: ["Kritische Treffer verdoppeln den erhaltenen Magischen Widerstand."]
                 }
             },
             b: {
@@ -322,7 +329,7 @@ const spellUpgradeProfiles = {
                 rank5: {
                     values: { nextSpellCritChanceBonus: 20 },
                     tooltip: [
-                        "Kritische Treffer erzeugen Schild.",
+                        "Kritische Treffer erzeugen Widerstand.",
                         "Der nächste Zauber erhält +20 % Kritchance."
                     ]
                 }
@@ -427,8 +434,8 @@ const spellUpgradeProfiles = {
             b: {
                 label: "Unerschütterliche Rune",
                 rank3: {
-                    values: { postCastShieldGain: 25 },
-                    tooltip: ["Erhalte nach dem Treffer 25 Schild."]
+                    values: { postCastResistanceGain: 25 },
+                    tooltip: ["Erhalte nach dem Treffer 25 Magischen Widerstand."]
                 },
                 rank5: {
                     values: { nextSpellCritChanceBonus: 25, nextSpellSchool: "rune" },
@@ -609,23 +616,23 @@ const spellUpgradeProfiles = {
     },
     forbidden_seal: {
         rank2: {
-            values: { shield: 35 },
-            tooltip: ["Erhalte 35 Schild."]
+            values: { resistance: 35 },
+            tooltip: ["Erhalte 35 Magischen Widerstand."]
         },
         rank4: {
-            values: { shield: 50 },
-            tooltip: ["Erhalte 50 Schild."]
+            values: { resistance: 50 },
+            tooltip: ["Erhalte 50 Magischen Widerstand."]
         },
         paths: {
             a: {
                 label: "Dreifaches Siegel",
                 rank3: {
-                    values: { sequenceShieldBonus: 35 },
-                    tooltip: ["Nach Schutzzauber: +35 Schild."]
+                    values: { sequenceResistanceBonus: 35 },
+                    tooltip: ["Nach Schutzzauber: +35 Magischen Widerstand."]
                 },
                 rank5: {
-                    values: { sequenceShieldGain: 25 },
-                    tooltip: ["Nach einem Schutzzauber erhältst du zusätzlich 25 Schild."]
+                    values: { sequenceResistanceGain: 25 },
+                    tooltip: ["Nach einem Schutzzauber erhältst du zusätzlich 25 Magischen Widerstand."]
                 }
             },
             b: {
@@ -636,31 +643,31 @@ const spellUpgradeProfiles = {
                     tooltip: ["Verursacht zusätzlich 25 Schaden."]
                 },
                 rank5: {
-                    values: { shieldBonusDamagePercent: 50 },
-                    tooltip: ["Schaden erhöht sich um 50 % deines Schildes."]
+                    values: { resistanceBonusDamagePercent: 50 },
+                    tooltip: ["Schaden erhöht sich um 50 % deines Magischen Widerstands."]
                 }
             }
         }
     },
     amplified_seal: {
         rank2: {
-            values: { playerShieldFlatIncrease: 20 },
-            tooltip: ["Erhöhe deinen Schild zusätzlich um 20."]
+            values: { playerResistanceFlatIncrease: 20 },
+            tooltip: ["Erhöhe deinen Magischen Widerstand zusätzlich um 20."]
         },
         rank4: {
-            values: { playerShieldFlatIncrease: 60 },
-            tooltip: ["Erhöhe deinen Schild zusätzlich um 60."]
+            values: { playerResistanceFlatIncrease: 60 },
+            tooltip: ["Erhöhe deinen Magischen Widerstand zusätzlich um 60."]
         },
         paths: {
             a: {
                 label: "Bollwerk",
                 rank3: {
-                    values: { playerShieldFlatIncrease: 40 },
-                    tooltip: ["Erhöhe deinen Schild zusätzlich um 40."]
+                    values: { playerResistanceFlatIncrease: 40 },
+                    tooltip: ["Erhöhe deinen Magischen Widerstand zusätzlich um 40."]
                 },
                 rank5: {
-                    values: { postCastShieldGain: 30 },
-                    tooltip: ["Erhalte zusätzlich 30 Schild."]
+                    values: { postCastResistanceGain: 30 },
+                    tooltip: ["Erhalte zusätzlich 30 Magischen Widerstand."]
                 }
             },
             b: {
@@ -670,8 +677,8 @@ const spellUpgradeProfiles = {
                     tooltip: ["Verursacht zusätzlich 25 Schaden."]
                 },
                 rank5: {
-                    values: { shieldBonusDamagePercent: 75 },
-                    tooltip: ["Schaden erhöht sich zusätzlich um 75 % deines Schildes."]
+                    values: { resistanceBonusDamagePercent: 75 },
+                    tooltip: ["Schaden erhöht sich zusätzlich um 75 % deines Magischen Widerstands."]
                 }
             }
         }
@@ -700,8 +707,8 @@ const spellUpgradeProfiles = {
             b: {
                 label: "Schützender Bruch",
                 rank3: {
-                    values: { applyVulnerableShieldGain: 20 },
-                    tooltip: ["Erhalte beim Zufügen von Verwundbar 20 Schild."]
+                    values: { applyVulnerableResistanceGain: 20 },
+                    tooltip: ["Erhalte beim Zufügen von Verwundbar 20 Magischen Widerstand."]
                 },
                 rank5: {
                     values: {
@@ -1047,8 +1054,8 @@ const spellUpgradeProfiles = {
             b: {
                 label: "Schutzrune",
                 rank3: {
-                    values: { applyVulnerableShieldGain: 20 },
-                    tooltip: ["Erhalte beim Zufügen von Verwundbar 20 Schild."]
+                    values: { applyVulnerableResistanceGain: 20 },
+                    tooltip: ["Erhalte beim Zufügen von Verwundbar 20 Magischen Widerstand."]
                 },
                 rank5: {
                     values: { nextSpellDamageBonus: 25 },
@@ -1059,10 +1066,10 @@ const spellUpgradeProfiles = {
     },
     rune_thrust: {
         rank2: {
-            values: { damage: 45, shield: 25 },
+            values: { damage: 45, resistance: 25 },
             tooltip: [
                 "Verursacht 45 Schaden.",
-                "Erhalte 25 Schild."
+                "Erhalte 25 Magischen Widerstand."
             ]
         },
         rank4: {
@@ -1088,12 +1095,12 @@ const spellUpgradeProfiles = {
             b: {
                 label: "Schutzstoß",
                 rank3: {
-                    values: { shield: 45 },
-                    tooltip: ["Erhalte zusätzlich 20 Schild."]
+                    values: { resistance: 45 },
+                    tooltip: ["Erhalte zusätzlich 20 Magischen Widerstand."]
                 },
                 rank5: {
-                    values: { critShieldGain: 25 },
-                    tooltip: ["Kritische Treffer gewähren zusätzlich 25 Schild."]
+                    values: { critResistanceGain: 25 },
+                    tooltip: ["Kritische Treffer gewähren zusätzlich 25 Magischen Widerstand."]
                 }
             }
         }

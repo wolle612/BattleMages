@@ -366,6 +366,9 @@ function applyEnemyDamageToPlayer(context, action, damage) {
         Math.max(0, damage);
 
     damageTaken =
+        applyPlayerResistance(context, damageTaken);
+
+    damageTaken =
         applyPlayerShield(context, damageTaken);
 
     if (damageTaken > 0) {

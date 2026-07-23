@@ -15,6 +15,7 @@ function initializeCombatContext() {
         playerHp: PLAYER_START_HP,
         playerMaxHp: PLAYER_START_HP,
         playerShield: 0,
+        playerResistance: 0,
         enemy,
         enemyHp: enemy.hp,
         round: 1,
@@ -46,6 +47,8 @@ function createSpellCastState() {
         flatDamageBonus: 0,
         flatShieldBonus: 0,
         flatShieldApplied: false,
+        flatResistanceBonus: 0,
+        resistancePercentBonus: 0,
         critChanceBonus: 0,
         critDamageBonus: 0,
         guaranteedCrit: false,
@@ -60,7 +63,8 @@ function createSpellCastState() {
         lastDamage: 0,
         nextSpellAppliesVulnerable: false,
         deferVulnerableConsume: false,
-        lastKnownPlayerShield: 0
+        lastKnownPlayerShield: 0,
+        lastKnownSequenceResistanceBonus: 0
     };
 }
 

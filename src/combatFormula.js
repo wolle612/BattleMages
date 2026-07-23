@@ -108,6 +108,28 @@ function getDebuffDamageBonuses(context, values, cast) {
     return bonus;
 }
 
+// Widerstands-Gegenstueck zu getShieldBonusDamage() unten. Anders als
+// beim Schild-Original ist dies KEIN "gib Verteidigung fuer Schaden
+// auf"-Tausch mehr (Widerstand wird dabei nicht verbraucht, siehe
+// applyPlayerResistance) -- eher ein reiner Skalierungsbonus fuer
+// investierten Widerstand. Bewusst so uebernommen (faithful mechanical
+// port, siehe Migrationstabelle shield_wall Pfad B); ob das ohne
+// Deckel/Diminishing-Returns balanciert bleibt, ist eine offene Frage
+// fuer die Balance-Phase (Abschnitt 4.1 der Spec).
+function getResistanceBonusDamage(context, values) {
+    if (
+        !values.resistanceBonusDamagePercent ||
+        context.playerResistance <= 0
+    ) {
+        return 0;
+    }
+
+    return Math.floor(
+        context.playerResistance *
+        values.resistanceBonusDamagePercent / 100
+    );
+}
+
 function getShieldBonusDamage(context, values) {
     if (
         !values.shieldBonusDamagePercent ||
@@ -181,6 +203,29 @@ function getDamagePerUniqueSchoolBonus(context, values) {
     ) * values.damagePerUniqueSchoolInRotation;
 }
 
+// Bedingter Widerstand-Skalierungsschaden -- Gegenstueck zu
+// deal_shield_damage/dealShieldDamage OHNE Verbrauch (Widerstand wird
+// nie konsumiert, siehe applyPlayerResistance). Der Bonus ist deshalb
+// an eine Sequence-Bedingung gekoppelt (typischerweise
+// after_protection) statt an "wie viel Schild ist noch da" -- ersetzt
+// fuer migrierte Zauber (z. B. shield_breaker) die alte
+// Schild-Verbrauchslogik vollstaendig ueber den normalen
+// deal_damage-Pfad, kein eigener Effekt-Typ mehr noetig.
+function getSequenceGatedResistanceBonusDamage(context, spell, values) {
+    if (
+        !values.resistanceBonusDamagePercentOnSequence ||
+        !values.sequenceTrigger ||
+        !matchesSequenceTrigger(context, spell, values.sequenceTrigger)
+    ) {
+        return 0;
+    }
+
+    return Math.floor(
+        context.playerResistance *
+        values.resistanceBonusDamagePercentOnSequence / 100
+    );
+}
+
 function calculateFlatSpellDamage(context, spell, values, cast) {
     let damage = resolveSpellBaseDamage(values, cast);
 
@@ -191,6 +236,8 @@ function calculateFlatSpellDamage(context, spell, values, cast) {
     damage += getVulnerableFlatBonus(context, spell);
     damage += getSequenceDamageBonus(context, spell, values);
     damage += getShieldBonusDamage(context, values);
+    damage += getResistanceBonusDamage(context, values);
+    damage += getSequenceGatedResistanceBonusDamage(context, spell, values);
     damage += getDamagePerUniqueSchoolBonus(context, values);
     damage += cast.timingDamageBonus || 0;
 
@@ -287,6 +334,20 @@ function applyCritToDamage(
         critDamage +=
             bonusShieldDamage *
             (values.shieldBonusDamageCritMultiplier - 1);
+    }
+
+    // Widerstands-Gegenstueck: liest den in resolveSpellDamageHit()
+    // (spellEngine.js) vorab in cast.lastKnownSequenceResistanceBonus
+    // zwischengespeicherten Wert, da applyCritToDamage() keinen Zugriff
+    // auf den echten context/spell hat (gleiches Muster wie oben bei
+    // lastKnownPlayerShield).
+    if (
+        values.resistanceBonusDamageCritMultiplier &&
+        cast.lastKnownSequenceResistanceBonus
+    ) {
+        critDamage +=
+            cast.lastKnownSequenceResistanceBonus *
+            (values.resistanceBonusDamageCritMultiplier - 1);
     }
 
     return {
@@ -396,6 +457,62 @@ function calculateShieldGain(context, spell, values, cast) {
 
     return Math.floor(
         baseShield * (1 + percentBonus)
+    );
+}
+
+// Magischer Widerstand -- Formel-Gegenstueck zu calculateShieldGain()
+// oben. Bewusst identischer Aufbau (Basiswert + Sequence-Bonus +
+// Praesenz-Bonus + Prozent-Multiplikator), damit bestehende
+// Zauber-Muster (Sequence-verstaerkte Generatoren, Verstaerker-Zauber)
+// unveraendert uebertragen werden koennen. Der einzige Unterschied
+// steckt nicht in dieser Formel, sondern darin, wie der Rueckgabewert
+// spaeter verrechnet wird (siehe applyPlayerResistance in
+// effectEngine.js: nie konsumiert, im Unterschied zu Schild).
+function calculateResistanceGain(context, spell, values, cast) {
+    let baseResistance =
+        (values.resistance || 0) +
+        (cast.flatResistanceBonus || 0);
+
+    if (
+        values.sequenceResistanceBonus &&
+        values.sequenceTrigger &&
+        matchesSequenceTrigger(
+            context,
+            spell,
+            values.sequenceTrigger
+        )
+    ) {
+        baseResistance += values.sequenceResistanceBonus;
+    }
+
+    if (
+        values.sequenceResistanceGain &&
+        values.sequenceTrigger &&
+        matchesSequenceTrigger(
+            context,
+            spell,
+            values.sequenceTrigger
+        )
+    ) {
+        baseResistance += values.sequenceResistanceGain;
+    }
+
+    if (
+        values.resistanceGainIfPlayerHasResistance &&
+        context.playerResistance > 0
+    ) {
+        baseResistance += values.resistanceGainIfPlayerHasResistance;
+    }
+
+    if (!baseResistance) {
+        return 0;
+    }
+
+    const percentBonus =
+        cast.resistancePercentBonus || 0;
+
+    return Math.floor(
+        baseResistance * (1 + percentBonus)
     );
 }
 

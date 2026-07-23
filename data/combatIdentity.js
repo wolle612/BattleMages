@@ -147,7 +147,7 @@ const COMBAT_SCHOOLS = {
         iconFolder: "forbidden_runes",
         fantasyName: "Verbotene Runenkunst",
         gameplay: "Stabilität und Kontrolle.",
-        primaryMechanic: "shield",
+        primaryMechanic: "resistance",
         secondaryMechanic: "utility",
         rareMechanic: "crit",
         sequenceLevel: "medium"

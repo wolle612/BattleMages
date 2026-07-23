@@ -90,21 +90,21 @@ const spellbookCoreDefinitions = [
         type: "Protection",
         role: "generator",
         build: "schildfestung",
-        mechanics: ["shield"],
+        mechanics: ["resistance"],
         rarity: "Common",
         description: "Runen formen eine dichte Barriere aus hartem Licht.",
         tooltip: [
-            "Erhalte 32 Schild."
+            "Erhalte 32 Magischen Widerstand."
         ],
         tags: ["Protection"],
         spellbookCore: true,
         starter: true,
         cooldown: 0,
-        effects: ["gain_shield"],
+        effects: ["gain_resistance"],
         upgrades: [
             {
                 rank: 1,
-                values: { shield: 32 }
+                values: { resistance: 32 }
             }
         ]
     },
@@ -115,22 +115,25 @@ const spellbookCoreDefinitions = [
         type: "Attack",
         role: "build_enabler",
         build: "schildkanone",
-        mechanics: ["shield"],
+        mechanics: ["resistance", "sequence"],
         rarity: "Rare",
         description: "Die Barriere zerbricht und entlädt sich als tödlicher Stoß.",
         tooltip: [
-            "Verursacht Schaden in Höhe deines aktuellen Schildes.",
-            "Entfernt anschließend deinen Schild."
+            "Verursacht Schaden in Höhe deines Magischen Widerstands.",
+            "Nur wirksam, wenn du zuvor einen Schutzzauber gewirkt hast."
         ],
         tags: ["Burst"],
         spellbookCore: true,
         starter: true,
         cooldown: 0,
-        effects: ["deal_shield_damage"],
+        effects: ["deal_damage"],
         upgrades: [
             {
                 rank: 1,
-                values: { consumePlayerShield: true }
+                values: {
+                    sequenceTrigger: "after_protection",
+                    resistanceBonusDamagePercentOnSequence: 100
+                }
             }
         ]
     },
@@ -229,12 +232,12 @@ const spellbookCoreDefinitions = [
         type: "Attack",
         role: "build_enabler",
         build: "schild_krit",
-        mechanics: ["shield", "crit"],
+        mechanics: ["resistance", "crit"],
         rarity: "Rare",
         description: "Runen und Schatten schwingen im gleichen Takt.",
         tooltip: [
             "Verursacht 30 Schaden.",
-            "Kritische Treffer gewähren 20 Schild."
+            "Kritische Treffer gewähren 20 Magischen Widerstand."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -246,7 +249,7 @@ const spellbookCoreDefinitions = [
                 rank: 1,
                 values: {
                     damage: 30,
-                    critShieldGain: 20
+                    critResistanceGain: 20
                 }
             }
         ]
