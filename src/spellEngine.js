@@ -136,16 +136,29 @@ function resolveSpellCast(context, spell) {
     cast.deferVulnerableConsume =
         Boolean(values.vulnerableRepeatHits);
 
-    effects.forEach(effect => {
-        resolveSpellEffect(context, spell, values, cast, effect);
-    });
-
+    // Next-Spell-Prep (Praezision u.a.) wird VOR der Effekt-Schleife
+    // gewaehrt, nicht danach: der Log-Eintrag fuer diesen Cast (z.B. der
+    // Schadens-Effekt in der Schleife unten) soll den neuen Status bereits
+    // widerspiegeln, statt ihn erst einen Kampf-Moment zu spaet anzuzeigen
+    // (betraf die Spieler-Status-UI, siehe Roadmap-Dokument). Aendert nur
+    // den Zeitpunkt der Zustandsaenderung, nicht das Endergebnis --
+    // applyNextSpellPrepToCast (eingehende Preps aus vorherigen Casts) lief
+    // bereits vorher, kein Effekt in der Schleife liest nextSpellPreps fuer
+    // die eigene Schadensberechnung.
     if (
-        !effects.includes("grant_next_spell_prep") &&
+        effects.includes("grant_next_spell_prep") ||
         hasCastTimeNextSpellPrepValues(values, context, cast)
     ) {
         grantUniversalNextSpellPrep(context, spell, values);
     }
+
+    effects.forEach(effect => {
+        if (effect === "grant_next_spell_prep") {
+            return;
+        }
+
+        resolveSpellEffect(context, spell, values, cast, effect);
+    });
 
     if (cast.nextSpellAppliesVulnerable) {
         applyEnemyVulnerable(context, spell, values);

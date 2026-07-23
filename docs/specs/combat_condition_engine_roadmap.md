@@ -600,7 +600,87 @@ genannten Dokumente aktualisiert:
 Beide Doku-Stellen entsprechend nachgezogen
 (`Combat_Identity_Matrix_v1.0.md`, `Spell_Authoring_Checklist.md`).
 
-**Verbleibend vor einem Merge**: nur noch die zurückgestellte
-Präzision-Status-UI (eigener Schritt, siehe oben). Alle anderen
-Punkte (Balance, toter Code, Content-Lücken, Multischule-Anomalie,
-Vokabular-Konsistenz, Doku) sind abgeschlossen.
+## Phase 4 (UI-Teil): Präzision-Status-UI — abgeschlossen (2026-07-24)
+
+`getPlayerStatusViews()`/`getEnemyBuffViews()` waren nicht nur leere
+Stubs, sondern hatten auch keine Konsumenten-Seite in `renderer.js` —
+anders als `enemyActionBar`/`enemyIntent` (durchverdrahtet) fehlte für
+`playerStatuses`/`enemyBuffs`/`enemyDebuffs` das komplette Rendering.
+`getPlayerStatusViews(context)` jetzt echt implementiert
+(`src/battleManager.js`): liefert `{id:"resistance", stacks:<Wert>}`
+wenn `context.playerResistance > 0`, und `{id:"precision",
+stacks:<Ladungen>}` wenn eine `nextSpellPreps`-Ladung mit
+`guaranteedCrit:true` ansteht — exaktes Muster von
+`getEnemyDebuffViews()`. `getEnemyBuffViews()` bleibt bewusst Stub
+(nicht Teil dieser Aufgabe).
+
+**Erster Ansatz verworfen**: das bereits vorhandene, aber komplett
+unbenutzte generische Chip-System (`renderStatusChips`/
+`updateStatusRow`, `.status-row`/`.status-chip`-CSS, ursprünglich nur
+für Verwundbar vorgesehen) wurde zunächst wiederverwendet, nutzerseitig
+aber klar als "sieht schlecht aus, generisches Rahmen-Asset,
+Größen passen nicht" abgelehnt — zurückgebaut. Stattdessen zwei
+dedizierte, reine CSS-Lösungen (kein neues Bild-Asset nötig, explizit
+weil der Nutzer mit KI-generierter Asset-Erstellung für sowas
+schlechte Erfahrungen gemacht hat):
+
+- **Präzision**: Gold-pulsierender Glow-Ring ums Spieler-Portrait
+  (`combatant-portrait-effect--precision`, radialer Farbverlauf +
+  `box-shadow`, `portraitPrecisionPulse`-Keyframe), analog zum
+  bestehenden Verwundbar/Schild-Overlay-Mechanismus
+  (`updatePortraitPrecisionOverlay`, `portraitRegistry.js`). Eine
+  echte Positionierungs-Falle dabei gefunden und gefixt: die generische
+  `.combatant-portrait-effect`-Regel positioniert relativ zur
+  Padding-Kante des Slots, der Slot selbst hat aber ebenfalls
+  `padding: var(--portrait-frame-inset)` — der Inset wurde dadurch
+  doppelt angewendet (Glow sichtbar zu klein/versetzt). Fix:
+  `inset: 0`-Override, exakt das gleiche Muster, das der bestehende
+  Schild-Effekt schon aus demselben Grund braucht (siehe Code-Kommentar
+  dort).
+- **Magischer Widerstand**: eigenständiges Badge an der
+  Porträt-Ecke (`#playerResistanceBadge`, `resistance-badge`-CSS),
+  Prozentwerte relativ zu `--portrait-size` statt fixer Pixel.
+  Farbgebung zunächst erfunden-blau, auf Nutzer-Feedback ("generisch,
+  passt nicht zu den Assets") auf die bestehende Bronze/Gold-Palette
+  des Spiels umgestellt (`--border-accent`, `--accent-gold-bright`,
+  dunkles Bronze statt Blau) — passt jetzt zur durchgehenden
+  Bronze/Stein-Ästhetik von Rahmen/Slots/Buttons. Eigenes
+  Hover-Tooltip (reines CSS `:hover`, kein natives `title`-Attribut --
+  das erwies sich als unzuverlässig/verzögert) zeigt Wert und die
+  tatsächliche prozentuale Schadensreduktion
+  (`getResistanceReductionPercent`, `portraitRegistry.js` — muss mit
+  `RESISTANCE_MITIGATION_CONSTANT` in `effectEngine.js`
+  übereinstimmen, per Code-Kommentar markiert, keine zweite
+  Balance-Quelle). **Zukünftig geplant (nicht Teil dieser Session)**:
+  Nutzer möchte perspektivisch ein eigenes Icon-Asset (z. B.
+  Schild-Form) erstellen, in dem die Zahl sitzt — aktuelles CSS-Badge
+  ist bewusst als Übergangslösung akzeptiert, kein Blocker.
+
+**Echter Timing-Bug gefunden und gefixt** (`src/spellEngine.js`,
+`resolveSpellCast`): Next-Spell-Prep-Gewährung (u. a. Präzision) lief
+bisher NACH der Effekt-Schleife eines Casts. Der Log-Eintrag für den
+eigenen Schadens-Effekt desselben Casts (z. B. "Dunkle Klinge trifft
+für 30 Schaden") entstand dadurch, BEVOR die Präzision gesetzt war —
+sichtbar wurde der neue Status dem Spieler daher immer erst einen
+Kampf-Moment zu spät (beim gegnerischen Zug, nicht direkt beim eigenen
+Cast). Fix: Next-Spell-Prep-Gewährung läuft jetzt VOR der
+Effekt-Schleife; der `grant_next_spell_prep`-Effekt-Eintrag wird beim
+Durchlauf der Schleife übersprungen, da bereits vorher gewährt.
+Betrifft nicht nur Präzision, sondern alle über Next-Spell-Prep
+gewährten Werte (z. B. auch `shadow_grasp`). Verifiziert per
+Sandbox-Trace: Status erscheint jetzt korrekt sofort im selben
+Log-Eintrag wie der Cast. Reine Zeitpunkt-Änderung, keine
+Kampf-Mathematik betroffen — Regressionssuite (91/91) und
+`simulate_full_builds.js` unverändert.
+
+Zwei unabhängige Konsolenmeldungen während des manuellen Tests
+entdeckt, nicht durch diese Arbeit verursacht (nicht untersucht, nur
+notiert): PixiJS-Warnung "Texture added to the cache ... already had
+an entry" (`school_impact_soul_05.png`), und ein 404 für `entropy.png`
+(Chaosmagie-Zauber-Icon oder gleichnamige Gegner-Aktion). Beides für
+eine spätere, separate Untersuchung vorgemerkt.
+
+**Verbleibend vor einem Merge**: keine offenen Punkte mehr aus der
+Combat-Condition-Engine-Migration selbst. Optional/später: die zwei
+oben notierten Konsolenmeldungen untersuchen, das eigene
+Widerstand-Icon-Asset des Nutzers einbauen (sobald erstellt).
