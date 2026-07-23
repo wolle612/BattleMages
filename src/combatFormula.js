@@ -144,35 +144,7 @@ function getShieldBonusDamage(context, values) {
     );
 }
 
-function resolveSpellBaseDamage(values, cast) {
-    if (
-        values.randomDamageMin != null &&
-        values.randomDamageMax != null
-    ) {
-        if (cast.rolledBaseDamage == null) {
-            const minimum =
-                Math.min(
-                    values.randomDamageMin,
-                    values.randomDamageMax
-                );
-
-            const maximum =
-                Math.max(
-                    values.randomDamageMin,
-                    values.randomDamageMax
-                );
-
-            cast.rolledBaseDamage =
-                minimum +
-                Math.floor(
-                    Math.random() *
-                    (maximum - minimum + 1)
-                );
-        }
-
-        return cast.rolledBaseDamage;
-    }
-
+function resolveSpellBaseDamage(values) {
     return values.damage || 0;
 }
 
@@ -227,7 +199,7 @@ function getSequenceGatedResistanceBonusDamage(context, spell, values) {
 }
 
 function calculateFlatSpellDamage(context, spell, values, cast) {
-    let damage = resolveSpellBaseDamage(values, cast);
+    let damage = resolveSpellBaseDamage(values);
 
     damage += cast.flatDamageBonus || 0;
     damage += getMissingLifeBonus(context, values);

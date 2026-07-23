@@ -54,7 +54,6 @@ function createSpellCastState() {
         guaranteedCrit: false,
         shieldPercentBonus: 0,
         timingDamageBonus: 0,
-        rolledBaseDamage: null,
         ignoreLifeCost: false,
         ignoreCooldown: false,
         ignorePrerequisite: false,

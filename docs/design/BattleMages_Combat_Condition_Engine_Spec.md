@@ -60,15 +60,15 @@ Die übrigen Prep-Varianten (`nextSpellDamageBonus`,
 Nicht-Krit-Fälle bestehen — sie sind kein Duplikat, weil sie eine andere
 Aufgabe haben als die Sequence-Trigger.
 
-**Offener Punkt, hier bewusst nicht entschieden:** `chaos_eruption`
-Pfad B nutzt `nextSpellRandomPrep` — ein *zufällig* ausgewählter
-Prep-Typ. Das ist die einzige verbliebene echte Zufallskomponente im
-gesamten migrierten Vokabular. Zwei Optionen: (a) als bewusste
-Chaosmagie-Ausnahme beibehalten (passt thematisch — "Chaos" *soll*
-unvorhersehbar sein, im Gegensatz zu allen anderen Schulen), oder
-(b) zugunsten voller Konsistenz ebenfalls deterministisch umbauen.
-**Muss vor Phase 2 (Chaosmagie-Rollout) entschieden werden, nicht Teil
-dieser Freigabe.**
+**Erledigt (Phase 2, Chaosmagie-Rollout):** `chaos_eruption` wurde
+komplett neu entworfen (Chaosblitz-inspiriert, "ignoriert Schild/
+Widerstand" statt Zufallsschaden) und nutzt `nextSpellRandomPrep`
+seither nicht mehr — Option (b) wurde de facto durch das Redesign
+umgesetzt. `nextSpellRandomPrep`/`grantRandomNextSpellPrep` und die
+zugehörigen `randomDamageMin`/`randomDamageMax`/
+`applyVulnerableOnMaxRandomDamage`-Werte waren seitdem toter Code ohne
+Aufrufer und wurden in Phase 3 (Balance-Neukalibrierung) entfernt. Das
+migrierte Vokabular ist damit vollständig frei von Zufallskomponenten.
 
 ## 3. Neue Datenstrukturen
 

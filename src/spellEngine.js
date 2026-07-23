@@ -8,10 +8,6 @@
 // vor dieser Änderung organ_failure Pfad B Rang 5, gefunden beim Testen der
 // soul_spark-Neugestaltung.
 function hasCastTimeNextSpellPrepValues(values, context, cast) {
-    if (values.nextSpellRandomPrep) {
-        return true;
-    }
-
     if (
         values.nextSpellPrepRequiresVulnerable &&
         !cast.enemyWasVulnerableAtCast
@@ -233,15 +229,6 @@ function resolveSpellEffect(context, spell, values, cast, effect) {
 }
 
 function dealSpellDamage(context, spell, values, cast) {
-    if (
-        values.applyVulnerableOnMaxRandomDamage &&
-        cast.rolledBaseDamage != null &&
-        values.randomDamageMax != null &&
-        cast.rolledBaseDamage >= values.randomDamageMax
-    ) {
-        applyEnemyVulnerable(context, spell, values);
-    }
-
     const hitCount =
         getDamageHitCount(context, spell, values);
 
@@ -835,11 +822,6 @@ function getMissingLifePercent(context) {
 }
 
 function grantUniversalNextSpellPrep(context, spell, values) {
-    if (values.nextSpellRandomPrep) {
-        grantRandomNextSpellPrep(context, spell, values);
-        return;
-    }
-
     queueNextSpellPrep(
         context,
         createNextSpellPrep({
@@ -863,49 +845,6 @@ function grantUniversalNextSpellPrep(context, spell, values) {
             requiredType: values.nextSpellType || null,
             requireHybrid:
                 values.nextSpellSequenceTrigger === "hybrid",
-            label: "",
-            sourceSpellId: spell.id
-        }),
-        values.nextSpellPrepCharges || 1
-    );
-}
-
-function grantRandomNextSpellPrep(context, spell, values) {
-    const randomConfig =
-        values.nextSpellRandomPrep;
-
-    const options = Array.isArray(randomConfig)
-        ? randomConfig
-        : [
-            {
-                damage: randomConfig.damageBonus || 0,
-                critChanceBonus:
-                    randomConfig.critChanceBonus || 0
-            },
-            {
-                shield: randomConfig.shieldBonus || 0
-            }
-        ].filter(option => {
-            return (
-                option.damage ||
-                option.critChanceBonus ||
-                option.shield
-            );
-        });
-
-    const roll =
-        Math.floor(Math.random() * options.length);
-
-    const chosenOption =
-        options[roll];
-
-    queueNextSpellPrep(
-        context,
-        createNextSpellPrep({
-            flatDamage: chosenOption.damage || 0,
-            flatShield: chosenOption.shield || 0,
-            critChanceBonus:
-                (chosenOption.critChanceBonus || 0) / 100,
             label: "",
             sourceSpellId: spell.id
         }),

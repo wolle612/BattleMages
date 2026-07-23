@@ -127,13 +127,12 @@ const spellUpgradeProfiles = {
             a: {
                 label: "Verstärkte Rune",
                 rank3: {
-                    // Hinweis: dieser Wert war schon vor der Migration
-                    // wirkungslos (fehlender "increase_shield_percent"/
-                    // jetzt "increase_resistance" Eintrag in effects[]).
-                    // Bewusst 1:1 als bestehende, dem Nutzer gemeldete
-                    // Inkonsistenz uebernommen, nicht stillschweigend
-                    // "repariert" -- siehe Zusammenfassung.
+                    // War pre-existing wirkungslos (fehlender
+                    // "increase_resistance"-Eintrag in effects[], siehe
+                    // Roadmap-Dokument) -- in Phase 3 (Balance-
+                    // Neukalibrierung) nachgetragen, kein neuer Wert.
                     values: { playerResistanceFlatIncrease: 15 },
+                    effects: ["increase_resistance"],
                     tooltip: ["Erhalte zusätzlich 15 Magischen Widerstand."]
                 },
                 rank5: {
@@ -178,11 +177,21 @@ const spellUpgradeProfiles = {
             },
             b: {
                 label: "Kontrollierter Einschlag",
-                // Rang 3 bewusst ohne Zusatzeffekt gelassen: shieldConsumePercent
-                // ("verbrauche nur X% deines Schildes") hat unter Magischem
-                // Widerstand (wird nie konsumiert) keine Entsprechung mehr --
-                // echte Design-Luecke, nicht eigenmaechtig durch einen erfundenen
-                // Ersatzwert geschlossen. Siehe Zusammenfassung/Migrationsnotizen.
+                // Phase 3 (Balance-Neukalibrierung): war zuvor ohne Zusatzeffekt,
+                // weil das alte shieldConsumePercent ("verbrauche nur X% deines
+                // Schildes") unter permanentem, nie konsumiertem Magischen
+                // Widerstand keine Entsprechung mehr hat. Neu gestaltet statt
+                // ersatzlos leer gelassen: unconditioneller Sockelschaden, der
+                // (anders als der Basis-/Rang4-Bonus) NICHT an die
+                // "after_protection"-Sequenz gebunden ist -- shield_breaker
+                // richtet dadurch auch bei verpasster Sequenz noch Schaden an,
+                // statt komplett wirkungslos zu bleiben. Passt zum Pfadnamen
+                // "kontrolliert" im Gegensatz zu Pfad A ("Vernichtung", reine
+                // Verstaerkung des sequenzgebundenen Bonus).
+                rank3: {
+                    values: { resistanceBonusDamagePercent: 25 },
+                    tooltip: ["Verursacht zusätzlich Schaden in Höhe von 25 % deines Magischen Widerstands, auch ohne vorherigen Schutzzauber."]
+                },
                 rank5: {
                     values: { postCastResistanceGain: 25 },
                     tooltip: ["Nach dem Angriff erhältst du 25 Magischen Widerstand zurück."]
@@ -619,11 +628,12 @@ const spellUpgradeProfiles = {
             a: {
                 label: "Eiserner Wille",
                 rank3: {
-                    // Hinweis: schon vor der Migration wirkungslos (fehlender
-                    // "increase_shield_percent"/"increase_resistance" Eintrag in
-                    // effects[]), gleiche vorbestehende Inkonsistenz wie bei
-                    // shield_wall/bone_armor Pfad A Rang 3. 1:1 uebernommen.
+                    // War pre-existing wirkungslos (fehlender
+                    // "increase_resistance"-Eintrag in effects[], gleiche
+                    // Inkonsistenz wie shield_wall/bone_armor Pfad A Rang 3)
+                    // -- in Phase 3 nachgetragen, kein neuer Wert.
                     values: { playerResistanceFlatIncrease: 20 },
+                    effects: ["increase_resistance"],
                     tooltip: ["Erhalte zusätzlich 20 Magischen Widerstand."]
                 },
                 rank5: {
@@ -800,13 +810,20 @@ const spellUpgradeProfiles = {
                     values: { resistanceBonusDamagePercent: 90 },
                     tooltip: ["Skaliert mit 90 % deines Magischen Widerstands."]
                 },
-                // Rang 5 bewusst ohne Zusatzeffekt gelassen: shieldConsumePercent
-                // war schon vor der Migration wirkungslos (soul_cut nutzt
-                // "deal_damage", nie "deal_shield_damage" -- die einzige Stelle,
-                // die shieldConsumePercent ausliest). Selbst wenn erreichbar,
-                // ergibt "verbrauche nur X%" unter permanentem, nie konsumiertem
-                // Widerstand ohnehin keinen Sinn mehr. Nicht eigenmaechtig durch
-                // einen erfundenen Ersatzwert geschlossen.
+                // Phase 3 (Balance-Neukalibrierung): war zuvor ohne Zusatzeffekt,
+                // weil das alte shieldConsumePercent (soul_cut nutzt "deal_damage",
+                // nie "deal_shield_damage" -- die einzige Stelle, die den Wert
+                // ausliest) unter permanentem, nie konsumiertem Widerstand ohnehin
+                // sinnlos war. Neu gestaltet: reine Skalierungs-Erhoehung statt
+                // erfundener Ersatzmechanik -- passt zur Pfad-A-Identitaet
+                // ("Seelenzerreisser", reiner Skalierungs-Burst, im Gegensatz zu
+                // Pfad B "Geoeffnete Seele" mit Verwundbar/Krit-Fokus). Ohne den
+                // alten Schild-Verbrauch-Malus darf die Skalierung hoeher liegen
+                // als der Basis-Rang4-Wert (100 %).
+                rank5: {
+                    values: { resistanceBonusDamagePercent: 130 },
+                    tooltip: ["Skaliert mit 130 % deines Magischen Widerstands."]
+                }
             },
             b: {
                 label: "Geöffnete Seele",
@@ -903,11 +920,12 @@ const spellUpgradeProfiles = {
             a: {
                 label: "Verdichtete Knochen",
                 rank3: {
-                    // Hinweis: schon vor der Migration wirkungslos (fehlender
-                    // "increase_shield_percent"/"increase_resistance" Eintrag in
-                    // effects[], gleiche vorbestehende Inkonsistenz wie shield_wall
-                    // Pfad A Rang 3). 1:1 uebernommen, nicht repariert.
+                    // War pre-existing wirkungslos (fehlender
+                    // "increase_resistance"-Eintrag in effects[], gleiche
+                    // Inkonsistenz wie shield_wall Pfad A Rang 3) -- in
+                    // Phase 3 nachgetragen, kein neuer Wert.
                     values: { playerResistanceFlatIncrease: 20 },
+                    effects: ["increase_resistance"],
                     tooltip: ["Erhalte zusätzlich 20 Magischen Widerstand."]
                 },
                 rank5: {

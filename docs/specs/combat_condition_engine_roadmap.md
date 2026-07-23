@@ -445,3 +445,80 @@ Noch offen (nicht Teil von Phase 3): Entscheidung zum toten
 Content-Lücken ohne mechanisches Widerstand-Äquivalent
 (`shield_breaker` Pfad B Rang 3, `soul_cut` Pfad A Rang 5), die
 Multischule-Anomalie oben, und Phase 4 (UI/VFX/Doku).
+
+## Nachtrag — Aufräumarbeiten nach Phase 3 (2026-07-23)
+
+Alle vier zuvor offenen Punkte (bis auf die Multischule-Anomalie und
+Phase 4) auf Nutzerwunsch abgearbeitet, bevor gemerged wird.
+
+**Toter Code entfernt.** `nextSpellRandomPrep`/`grantRandomNextSpellPrep`
+(`spellEngine.js`), `randomDamageMin`/`randomDamageMax`/
+`rolledBaseDamage`/die Zufallszweig in `resolveSpellBaseDamage`
+(`combatFormula.js`, `combatContext.js`) und
+`applyVulnerableOnMaxRandomDamage` (`spellEngine.js`) hatten seit dem
+`chaos_eruption`-Redesign (Phase 2) keine Aufrufer mehr — verifiziert
+per Grep über den gesamten Datenbestand (0 Treffer in `data/*.js`).
+Entfernt, `resolveSpellBaseDamage` dadurch auf ein Einzeiler-Passthrough
+vereinfacht. Spec-Dokument (`BattleMages_Combat_Condition_Engine_Spec.md`,
+Abschnitt 2) entsprechend nachgezogen — der dort offen gelassene Punkt
+zur Zufallskomponente in `chaos_eruption` Pfad B war durch das
+Chaosblitz-Redesign faktisch schon vorher gelöst, nur nie im Dokument
+nachgetragen.
+
+**Drei inerte Rang-3-Werte repariert** (`shield_wall`/`bone_armor`/
+`mind_barrier` Pfad A): reiner Wiring-Fehler, kein Redesign — der
+Effekt `increase_resistance` existierte bereits exakt für diesen
+Zweck (liest `playerResistanceFlatIncrease`, mirror von
+`increase_shield_percent`), aber keiner der drei Rang-3-Patches trug
+`increase_resistance` in sein `effects[]`-Array ein. Tooltip
+("Erhalte zusätzlich X Widerstand") passte immer schon exakt zur
+vorhandenen Funktion. Nachgetragen, verifiziert per Sandbox-Skript
+(z. B. shield_wall Pfad A Rang 3: 38 Basis-Widerstand + 15 Zusatz =
+53, korrekt).
+
+**Zwei Content-Lücken neu gestaltet** (beide Teil des schulübergreifenden
+`schildkanone`-Build-Archetyps, Rune/Seelenmagie):
+
+- `shield_breaker` Pfad B Rang 3 ("Kontrollierter Einschlag", Rune):
+  unconditioneller Sockelschaden `resistanceBonusDamagePercent: 25`,
+  zusätzlich zum sequenzgebundenen Bonus (`resistanceBonusDamagePercentOnSequence`).
+  Vorher war der Zauber bei verpasster `after_protection`-Sequenz
+  komplett wirkungslos (0 Schaden) — passt zum Pfadnamen "kontrolliert"
+  im Gegensatz zu Pfad A ("Vernichtung", reine Verstärkung des
+  sequenzgebundenen Bonus). Keine neue Engine-Arbeit nötig
+  (`getResistanceBonusDamage` existierte bereits, addiert sich
+  unabhängig zum sequenzgebundenen Anteil).
+- `soul_cut` Pfad A Rang 5 ("Seelenzerreißer", Seelenmagie):
+  `resistanceBonusDamagePercent` von 100 % (Basis-Rang4) auf 130 %.
+  Reine Skalierungserhöhung statt erfundener Ersatzmechanik für das
+  weggefallene `shieldConsumePercent` — passt zur Pfad-A-Identität
+  (reiner Skalierungs-Burst, im Gegensatz zu Pfad B "Geöffnete Seele"
+  mit Verwundbar/Krit-Fokus). Ohne den alten Schild-Verbrauch-Malus
+  darf die Skalierung über den Basis-Rang4-Wert hinausgehen.
+
+**Balance-Nebenwirkung beobachtet, kein Bug**: nach dem `soul_cut`-Buff
+steigt Seelenmagies Rang-5-Siegrate spürbar (73 %→84 %), während der
+Ø-RV-Wert gleichzeitig fällt (211→~130). Ursache ist eine Eigenheit der
+RV-Messmethode (`tools/simulate_full_builds.js`,
+`extractRotationDamages`): RV wird als Schaden pro vollständiger Runde
+gemittelt, über die ganze Kampfdauer. Schnellere Siege (durch den
+stärkeren `soul_cut`) verschieben den Stichprobenmix hin zu mehr
+frühen, noch schwachen Runden und weniger späten, voll aufgebauten
+Runden — der Build wird dadurch nicht schwächer, nur die Kampfdauer
+kürzer. Sieg-% ist hier das aussagekräftigere Signal. Kein
+Handlungsbedarf, nur zur Einordnung dokumentiert, falls die Zahl
+künftig wieder auffällt.
+
+**Verifiziert**: alle 4 Suiten weiterhin grün (91/91),
+`simulate_full_builds.js` läuft für alle 6 Schulen durch, drei gezielte
+Sandbox-Skripte bestätigen die drei Fix-Kategorien einzeln (Widerstand-
+Zugewinn, unconditioneller Sockelschaden, Skalierungswert).
+
+Geänderte Dateien: `src/spellEngine.js`, `src/combatFormula.js`,
+`src/combatContext.js` (toter Code), `data/spellUpgradeProfiles.js`
+(5 Werte/Effekte), `docs/design/BattleMages_Combat_Condition_Engine_Spec.md`.
+
+Damit sind alle vier zuvor offenen Nach-Phase-3-Punkte abgeschlossen.
+Verbleibend vor einem Merge: die Multischule-Rang-5-Anomalie
+(niedrige Priorität, sekundärer Vergleichsbuild) und Phase 4
+(UI/VFX/Doku).
