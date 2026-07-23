@@ -317,11 +317,13 @@ Aufwasch nach demselben Option-B-Muster wie `soul_spark` neu gestaltet
 `grantUniversalNextSpellPrep` ergänzt (`combatPrep.js`/`spellEngine.js`).
 
 **Zwei weitere pre-existing Tooltip/Wert-Diskrepanzen gefunden (nicht
-Teil dieser Migration, nicht repariert, nur geflaggt)**: `death_stroke`
-Pfad A Rang 3 (`critFlatBonus: 90`, Tooltip nennt "+40") und `dark_blow`
-Pfad A Rang 3 (`critFlatBonus: 55`, Tooltip nennt "+35") — beide schon
-vor dieser Session vorhanden, unabhängig vom Combat-Condition-Engine-
-Umbau.
+Teil dieser Migration, zunächst nicht repariert, nur geflaggt)**:
+`death_stroke` Pfad A Rang 3 (`critFlatBonus: 90`, Tooltip nennt "+40")
+und `dark_blow` Pfad A Rang 3 (`critFlatBonus: 55`, Tooltip nennt "+35")
+— beide schon vor dieser Session vorhanden, unabhängig vom
+Combat-Condition-Engine-Umbau. **Update Phase 3**: beide im Rahmen der
+Balance-Neukalibrierung tatsächlich auf ihren Tooltip-Wert korrigiert
+(90→40, 55→35), siehe Phase-3-Abschnitt unten — nicht mehr offen.
 
 **`COMBAT_SCHOOLS`-Tags aktualisiert**: `shadow.rareMechanic` und
 `star.rareMechanic` von `"shield"` auf `"resistance"` (jetzt beide
@@ -340,5 +342,106 @@ fertig.** Noch offen: Entscheidung zum toten `nextSpellRandomPrep`-Code,
 Phase 1 (Engine verallgemeinern -- de facto schon erledigt, da jede
 neue Bedingung/jeder neue Prep-Wert direkt beim Bedarf gebaut wurde,
 nicht vorab spekulativ), Phase 3 (vollständige Balance-Neukalibrierung
--- zwingend nötig, alle Schulen zeigen deutlich überhöhte Sieg-/RV-Werte)
-und Phase 4 (UI/VFX/Doku, inkl. `getPlayerStatusViews()` für Präzision).
+-- zwingend nötig, alle Schulen zeigen deutlich überhöhte Sieg-/RV-Werte,
+siehe eigener Abschnitt unten) und Phase 4 (UI/VFX/Doku, inkl.
+`getPlayerStatusViews()` für Präzision).
+
+## Phase 3 — Balance-Neukalibrierung (2026-07-23)
+
+**Ausgangsproblem**: Magischer Widerstand war bis hierhin linear
+implementiert (`Math.max(1, damage - resistance)`, siehe Phase 0). Das
+lässt sich strukturell nicht gegen Stapelung balancieren — jeder feste
+Wert, der bei niedriger Investition sinnvoll ist, macht den Spieler bei
+mehreren kombinierten Widerstand-Quellen in derselben Rotation quasi
+unverwundbar. Die volle `simulate_full_builds.js`-Auswertung zeigte
+genau dieses Bild: alle 6 Schulen deutlich über den Zielbändern aus
+`Combat_Formula_v2.md` (Durchschnittlicher Build 160–190, Synergischer
+Build 220–260, Perfekt optimierter Build 300–360).
+
+**Lösung: prozentuale Schadensreduktion mit abnehmendem Grenznutzen**
+(`src/effectEngine.js`, `applyPlayerResistance`), Rüstungs-Formel-Muster
+aus League of Legends/Dota/WoW statt linearem Abzug:
+
+```
+reductionPercent = resistance / (resistance + K)
+finalDamage = floor(damageTaken * (1 - reductionPercent))
+```
+
+`K = RESISTANCE_MITIGATION_CONSTANT = 40` (Widerstandswert, der genau
+50 % Reduktion ergibt — reiner Tuning-Wert). Die Kurve nähert sich
+100 % nur asymptotisch an, macht den alten künstlichen
+Mindestschaden-1 überflüssig, und jede weitere Widerstand-Investition
+bleibt spürbar, aber mit sinkendem Grenzertrag. Diese Formel-Änderung
+allein (ohne eine einzige Zauberwert-Änderung) hat die Balance bei
+fast allen Schulen bereits deutlich in Richtung Zielband korrigiert.
+5 neue Regressionstests in `tools/test_combat_formula.js` decken die
+Formel ab (inkl. Grenzfall 0 Widerstand, hoher Widerstand, Nicht-
+Konsumption, 0 Schaden).
+
+**Verbleibender Ausreißer: Schatten.** Root Cause: `dark_blade` und
+`shadow_grasp` gewähren beide bedingungslos bei jedem Cast Präzision
+(garantierter Krit) für den nächsten Zauber — das läuft in derselben
+5-Zauber-Rotation direkt in `death_stroke` (Finisher mit großem
+flachem Krit-Bonus + Folgehit) und `shadow_dance` (Doppelhit, beide
+Treffer kritfähig). Diese beiden Finisher kritten dadurch praktisch
+in jeder Runde zuverlässig — eine Verlässlichkeit, für die ihre
+ursprüngliche (chance-basierte) Tunung nie ausgelegt war. Statt eines
+weiteren Mechanik-/Formel-Eingriffs wurde gezielt an den beiden
+"Empfänger"-Zaubern nachjustiert (`data/spellUpgradeProfiles.js`):
+
+- `death_stroke` Pfad A Rang 3: `critFlatBonus` 90 → 40 (korrigiert
+  auf den eigenen, schon vorher bestehenden Tooltip-Wert "+40" —
+  siehe oben, die überhöhte Zahl war ein Mitverursacher der
+  Übertunung).
+- `death_stroke` Rang 4 (Basis): `damage` 65 → 50.
+- `death_stroke` Pfad A Rang 5: `critFollowUpPercent` 50 % → 30 %
+  (Tooltip entsprechend angepasst).
+- `dark_blow` Pfad A Rang 3: `critFlatBonus` 55 → 35 (ebenfalls auf
+  eigenen Tooltip-Wert "+35" korrigiert).
+- `shadow_dance` Rang 4 (Basis): `damage` 45 → 40.
+
+Damit landet Schatten bei Rang 5 wieder auf RV 292 (vorher 478),
+konsistent mit dem eigenen Vor-Session-Ausgangswert der Schule
+(~275–329, vor jeglichem Combat-Condition-Engine-Umbau).
+
+**Finale Simulationsergebnisse** (`tools/simulate_full_builds.js`,
+Rang 1 Basis / Rang 3 Pfad A / Rang 5 Pfad A, Sieg-% / Ø-RV):
+
+| Schule | Rang 1 | Rang 3 | Rang 5 |
+|---|---|---|---|
+| Biomantie | 12 % / 79,4 | 42 % / 131,1 | 54 % / 186,6 |
+| Schatten | 36 % / 131,0 | 58 % / 179,1 | 75 % / 292,2 |
+| Psionik | 26 % / 93,0 | 48 % / 157,2 | 80 % / 183,4 |
+| Verbotene Runenkunst | 52 % / 74,5 | 61 % / 117,9 | 100 % / 179,3 |
+| Chaosmagie | 34 % / 119,6 | 60 % / 238,4 | 76 % / 346,3 |
+| Seelenmagie | 11 % / 73,0 | 43 % / 152,9 | 76 % / 210,9 |
+
+Alle Rang-5-Werte liegen im oder nahe am Zielband; Chaosmagie
+(Perfekt-Band, plausibel für eine aggressive Burst-Schule) und Rune
+(100 % Sieg bei Rang 5, vertretbar angesichts der defensiven
+Schulidentität) sind bewusst am oberen Rand, nicht fehlerhaft im
+Sinne von "kaputt". Rune-Basis (52 %) und Chaosmagie-Rang-3 (238,4,
+oberes Ende Synergischer Build) sind die einzigen Werte, die bei
+zukünftigem echtem Playtesting zuerst gegengeprüft werden sollten.
+
+**Offene Anomalie (nicht behoben, niedrige Priorität)**: die
+Multischule-Vergleichsbuild Seelenmagie+Biomantie zeigt bei Rang 5
+einen nicht-monotonen Einbruch (RV 132,3, unter Rang 3s 189,5). Nicht
+root-caused — sekundärer Vergleichsbuild, keine der 6 primären
+Schulen, daher zurückgestellt statt sofort verfolgt.
+
+**Verifiziert**: alle 4 Test-Suiten grün (`test_combat_formula.js` 21,
+`test_enemy_engine.js` 28, `test_upgrade_resolver.js` 19,
+`test_reward_system.js` 23 — 91/91), `validate_data.py` sauber (gleiche
+zwei lange bekannte, unabhängige Validator-Bugs wie zuvor).
+
+Geänderte Dateien: `src/effectEngine.js` (Formel),
+`data/spellUpgradeProfiles.js` (5 Zauberwerte, siehe oben),
+`tools/test_combat_formula.js` (5 neue Tests).
+
+Noch offen (nicht Teil von Phase 3): Entscheidung zum toten
+`nextSpellRandomPrep`-Code, die drei pre-existing inerten Rang-3-Werte
+(`shield_wall`/`bone_armor`/`mind_barrier` Pfad A), die zwei
+Content-Lücken ohne mechanisches Widerstand-Äquivalent
+(`shield_breaker` Pfad B Rang 3, `soul_cut` Pfad A Rang 5), die
+Multischule-Anomalie oben, und Phase 4 (UI/VFX/Doku).

@@ -264,19 +264,36 @@ const spellUpgradeProfiles = {
             tooltip: ["Verursacht 55 Schaden."]
         },
         rank4: {
-            values: { damage: 65 },
-            tooltip: ["Verursacht 65 Schaden."]
+            // War 65 -- im Rahmen der Phase-3-Neukalibrierung auf 50
+            // reduziert. death_stroke ist der Hauptempfaenger gleich
+            // zweier unbedingter Praezision-Quellen in derselben Rotation
+            // (dark_blade/shadow_grasp gewaehren beide "naechster Zauber
+            // garantiert kritisch"), critted dadurch praktisch immer --
+            // der Basisschaden muss das beruecksichtigen, nicht wie ein
+            // gelegentlich crittender Zauber kalkuliert sein.
+            values: { damage: 50 },
+            tooltip: ["Verursacht 50 Schaden."]
         },
         paths: {
             a: {
                 label: "Hinrichtung",
                 rank3: {
-                    values: { critFlatBonus: 90 },
+                    // War 90, Tooltip nannte immer schon 40 (pre-existing
+                    // Diskrepanz, siehe Roadmap-Dokument) -- im Rahmen der
+                    // Phase-3-Balance-Neukalibrierung jetzt an den Tooltip
+                    // angeglichen, da 90 in Kombination mit den neuen,
+                    // zuverlaessigen Praezision-Quellen in derselben
+                    // Rotation (dark_blade/shadow_grasp) deutlich zur
+                    // Schatten-Ueberperformance beitrug.
+                    values: { critFlatBonus: 40 },
                     tooltip: ["Kritische Treffer verursachen zusätzlich +40 Schaden."]
                 },
                 rank5: {
-                    values: { critFollowUpPercent: 50 },
-                    tooltip: ["Garantierte kritische Treffer treffen ein zweites Mal mit 50 % Schaden."]
+                    // War 50% -- auf 30% reduziert, aus demselben Grund
+                    // wie beim Basisschaden oben (garantierte statt
+                    // gelegentliche Krits).
+                    values: { critFollowUpPercent: 30 },
+                    tooltip: ["Garantierte kritische Treffer treffen ein zweites Mal mit 30 % Schaden."]
                 }
             },
             b: {
@@ -342,8 +359,14 @@ const spellUpgradeProfiles = {
             tooltip: ["Verursacht 35 Schaden."]
         },
         rank4: {
-            values: { damage: 45 },
-            tooltip: ["Verursacht 45 Schaden."]
+            // War 45 -- auf 40 reduziert (Phase-3-Neukalibrierung). Trifft
+            // bei vollem Pfad-A-Ausbau zweimal mit vollem Schaden, beide
+            // Treffer koennen kritisch sein (sequenceBothHitsCanCrit) --
+            // bei der jetzt hohen Praezision-Verfuegbarkeit in derselben
+            // Rotation ein starker Multiplikator, der einen niedrigeren
+            // Basiswert braucht.
+            values: { damage: 40 },
+            tooltip: ["Verursacht 40 Schaden."]
         },
         paths: {
             a: {
@@ -952,7 +975,11 @@ const spellUpgradeProfiles = {
             a: {
                 label: "Tödliche Präzision",
                 rank3: {
-                    values: { critFlatBonus: 55 },
+                    // War 55, Tooltip nannte immer schon 35 (pre-existing
+                    // Diskrepanz, siehe Roadmap-Dokument) -- im Rahmen der
+                    // Phase-3-Balance-Neukalibrierung an den Tooltip
+                    // angeglichen, aus demselben Grund wie bei death_stroke.
+                    values: { critFlatBonus: 35 },
                     tooltip: ["Kritische Treffer verursachen zusätzlich +35 Schaden."]
                 },
                 rank5: {

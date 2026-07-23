@@ -21,21 +21,34 @@ function applyEnemyShield(context, damage) {
     return damage;
 }
 
-// Magischer Widerstand (Combat Condition Engine, siehe
-// docs/design/BattleMages_Combat_Condition_Engine_Spec.md, Abschnitt
-// 4.1): reduziert JEDEN eingehenden Treffer permanent, wird dabei nie
-// selbst verringert (im Unterschied zu applyPlayerShield unten). Wird
-// VOR dem Schild verrechnet. Mindestens 1 Schaden bleibt immer
-// bestehen, damit Widerstand niemals zu vollständiger Unverwundbarkeit
-// führt -- die Grenze gilt nur hier an der Widerstands-Stufe, ein
-// danach noch vorhandener Schild kann den Rest trotzdem vollstaendig
-// abfangen.
+// Magischer Widerstand (Combat Condition Engine, Phase 3 Balance-
+// Neukalibrierung, siehe docs/specs/combat_condition_engine_roadmap.md):
+// prozentuale Schadensreduktion mit abnehmendem Grenznutzen statt
+// linearem Abzug (Ruestungs-Formel-Muster aus League of Legends/Dota/
+// WoW). Grund: ein linearer Abzug wird bei mehreren gestapelten
+// Widerstand-Quellen in einer Rotation unweigerlich zu voller
+// Unverwundbarkeit -- keine feste Zahl laesst sich dagegen sauber
+// balancieren. Die prozentuale Kurve naehert sich 100% nur asymptotisch
+// an, macht den vorherigen kuenstlichen Mindestschaden-1 ueberfluessig,
+// und jede weitere Investition bleibt spuerbar, aber mit sinkendem
+// Grenzertrag. RESISTANCE_MITIGATION_CONSTANT (K) ist der Widerstands-
+// Wert, der 50% Reduktion ergibt -- reiner Balance-Tuning-Wert, siehe
+// Roadmap-Dokument fuer die Herleitung.
+const RESISTANCE_MITIGATION_CONSTANT = 40;
+
 function applyPlayerResistance(context, damageTaken) {
     if (context.playerResistance <= 0 || damageTaken <= 0) {
         return damageTaken;
     }
 
-    return Math.max(1, damageTaken - context.playerResistance);
+    const reductionPercent =
+        context.playerResistance /
+        (context.playerResistance + RESISTANCE_MITIGATION_CONSTANT);
+
+    return Math.max(
+        0,
+        Math.floor(damageTaken * (1 - reductionPercent))
+    );
 }
 
 function applyPlayerShield(context, damageTaken) {
