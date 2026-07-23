@@ -424,11 +424,28 @@ Sinne von "kaputt". Rune-Basis (52 %) und Chaosmagie-Rang-3 (238,4,
 oberes Ende Synergischer Build) sind die einzigen Werte, die bei
 zukünftigem echtem Playtesting zuerst gegengeprüft werden sollten.
 
-**Offene Anomalie (nicht behoben, niedrige Priorität)**: die
-Multischule-Vergleichsbuild Seelenmagie+Biomantie zeigt bei Rang 5
-einen nicht-monotonen Einbruch (RV 132,3, unter Rang 3s 189,5). Nicht
-root-caused — sekundärer Vergleichsbuild, keine der 6 primären
-Schulen, daher zurückgestellt statt sofort verfolgt.
+**Multischule-Anomalie root-caused (2026-07-23), kein Bug**: die
+Vergleichsbuild Seelenmagie+Biomantie (`bone_fracture`/`soul_pulse`/
+`soul_spark`/`soul_bind`/`soul_ward`) zeigte bei Rang 5 einen
+nicht-monotonen RV-Einbruch (unter Rang 3s Wert). Ursache: ein
+einzelner Gegner, **Fleischformer** (Elite, `data/enemies.js`, 520 HP,
+Passiv "Fleischerneuerung" heilt 50 HP nach jeder vollständigen
+Spieler-Rotation, `buildTest: "Burst-Fenster"` — bewusst als
+Schadensrennen-Check konzipiert). Per-Runden-Diagnose (Sandbox-Skript)
+zeigt: bei Rang 3 verliert der Build gegen Fleischformer sofort (0 %
+Sieg, ~1 gemessene Runde, liefert kaum Stichproben). Bei Rang 5
+**gewinnt** der Build zuverlässig (95 %), braucht dafür aber im
+Schnitt 14,3 Runden (bis zu 49!), weil sein eingeschwungener
+Rundenschaden (~50) die gegnerische Heilung nur knapp überbietet.
+Da `simulate_full_builds.js` alle Rundenschäden alle Gegner gepoolt
+mittelt, ziehen diese vielen neuen, niedrigwertigen Grind-Runden bei
+Rang 5 den Durchschnitt herunter — obwohl der Build objektiv stärker
+geworden ist (Siegrate 58 %→84 %). Kein Regressions-Bug, keine
+Migrationsfolge: die Multischule-Vergleichsbuild hat schlicht keinen
+echten Burst-Finisher (konsistent mit Seelenmagies dokumentierter
+Hybrid-/Sustain-Identität, nicht Burst) und scheitert dadurch
+absehbar an einem Gegner, der genau das gezielt prüft — die
+Begegnung funktioniert wie vorgesehen. Kein Handlungsbedarf.
 
 **Verifiziert**: alle 4 Test-Suiten grün (`test_combat_formula.js` 21,
 `test_enemy_engine.js` 28, `test_upgrade_resolver.js` 19,
@@ -569,6 +586,8 @@ genannten Dokumente aktualisiert:
   sollen, ist offen — im Dokument als Hinweis hinterlegt, keine
   Entscheidung getroffen.
 
-**Verbleibend vor einem Merge**: die Multischule-Rang-5-Anomalie
-(niedrige Priorität, sekundärer Vergleichsbuild) sowie die
-zurückgestellte Präzision-Status-UI (eigener Schritt, siehe oben).
+**Verbleibend vor einem Merge**: die zurückgestellte Präzision-Status-UI
+(eigener Schritt, siehe oben) sowie die zwei offenen
+Vokabular-Entscheidungen oben. Die Multischule-Rang-5-Anomalie wurde
+zwischenzeitlich root-caused und als "kein Bug" geschlossen (siehe
+Phase-3-Abschnitt).
