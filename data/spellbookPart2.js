@@ -93,12 +93,12 @@ const spellbookPart2Definitions = [
         type: "Attack",
         role: "verstaerker",
         build: "kritmaschine",
-        mechanics: ["crit", "shield"],
+        mechanics: ["crit", "resistance"],
         rarity: "Rare",
         description: "Ein Mantel aus Schatten fängt kritische Treffer ab.",
         tooltip: [
             "Verursacht 30 Schaden.",
-            "Bei einem kritischen Treffer erhältst du 20 Schild."
+            "Bei einem kritischen Treffer erhältst du 20 Magischen Widerstand."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -110,7 +110,7 @@ const spellbookPart2Definitions = [
                 rank: 1,
                 values: {
                     damage: 32,
-                    critShieldGain: 20
+                    critResistanceGain: 20
                 }
             }
         ]
@@ -153,10 +153,13 @@ const spellbookPart2Definitions = [
         build: "krit_verwundbar",
         mechanics: ["vulnerable", "crit"],
         rarity: "Rare",
-        description: "Der gebrochene Wille öffnet den Geist für kritische Treffer.",
+        // Neugestaltet (Combat Condition Engine, 2026-07-23, "Option B"):
+        // reine Verwundbar-gated Selbst-Krit-Chance ohne eigenen Payoff wird
+        // zum bedingten Präzision-Generator, analog zu soul_spark.
+        description: "Der gebrochene Wille bereitet den Geist auf den entscheidenden Treffer vor.",
         tooltip: [
             "Verursacht 30 Schaden.",
-            "Gegen verwundbare Ziele: +30 % Kritchance."
+            "Gegen verwundbare Ziele: Der nächste Zauber erhält Präzision (garantiert kritisch)."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -168,7 +171,8 @@ const spellbookPart2Definitions = [
                 rank: 1,
                 values: {
                     damage: 30,
-                    vulnerableCritChanceBonus: 30
+                    nextSpellGuaranteedCrit: true,
+                    nextSpellPrepRequiresVulnerable: true
                 }
             }
         ]

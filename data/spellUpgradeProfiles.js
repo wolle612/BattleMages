@@ -203,8 +203,8 @@ const spellUpgradeProfiles = {
             a: {
                 label: "Schatteninstinkt",
                 rank3: {
-                    values: { critChanceBonus: 35 },
-                    tooltip: ["+35 % Kritchance."]
+                    values: { sequenceTrigger: "after_attack", sequenceGuaranteedCrit: true },
+                    tooltip: ["Wurde zuvor ein Angriffszauber gewirkt: garantierter Krit."]
                 },
                 rank5: {
                     values: { critFlatBonus: 30 },
@@ -248,8 +248,8 @@ const spellUpgradeProfiles = {
             b: {
                 label: "Fesselgriff",
                 rank3: {
-                    values: { nextSpellShieldBonus: 25 },
-                    tooltip: ["Der nächste kritische Treffer gewährt anschließend 25 Schild."]
+                    values: { nextSpellResistanceBonus: 25 },
+                    tooltip: ["Der nächste kritische Treffer gewährt anschließend 25 Magischen Widerstand."]
                 },
                 rank5: {
                     values: { nextSpellAppliesVulnerable: true },
@@ -364,8 +364,8 @@ const spellUpgradeProfiles = {
                     tooltip: ["Der zweite Treffer fügt Verwundbar zu."]
                 },
                 rank5: {
-                    values: { critShieldGain: 15 },
-                    tooltip: ["Jeder kritische Treffer erzeugt 15 Schild."]
+                    values: { critResistanceGain: 15 },
+                    tooltip: ["Jeder kritische Treffer erzeugt 15 Magischen Widerstand."]
                 }
             }
         }
@@ -491,12 +491,12 @@ const spellUpgradeProfiles = {
             a: {
                 label: "Zerschmetterter Wille",
                 rank3: {
-                    values: { vulnerableCritChanceBonus: 50 },
-                    tooltip: ["Gegen verwundbare Ziele: +50 % Kritchance."]
+                    values: { nextSpellPrepCharges: 2 },
+                    tooltip: ["Die Präzision gilt für die nächsten 2 Zauber statt nur einen."]
                 },
                 rank5: {
-                    values: { critAppliesVulnerable: true },
-                    tooltip: ["Trifft Willensbruch kritisch, fügt er zusätzlich Verwundbar zu."]
+                    values: { nextSpellCritDamageBonus: 35 },
+                    tooltip: ["Der garantierte kritische Treffer verursacht zusätzlichen Schaden."]
                 }
             },
             b: {
@@ -506,8 +506,8 @@ const spellUpgradeProfiles = {
                     tooltip: ["Gegen verwundbare Ziele: Der nächste Zauber erhält +30 Schaden."]
                 },
                 rank5: {
-                    values: { nextSpellCritChanceBonus: 25 },
-                    tooltip: ["Der nächste Zauber erhält zusätzlich +25 % Kritchance."]
+                    values: { nextSpellResistanceBonus: 25 },
+                    tooltip: ["Der nächste Zauber erhält zusätzlich 25 Magischen Widerstand."]
                 }
             }
         }
@@ -918,12 +918,12 @@ const spellUpgradeProfiles = {
             a: {
                 label: "Mantel der Finsternis",
                 rank3: {
-                    values: { critShieldGain: 35 },
-                    tooltip: ["Bei kritischem Treffer: Erhalte 35 Schild."]
+                    values: { critResistanceGain: 35 },
+                    tooltip: ["Bei kritischem Treffer: Erhalte 35 Magischen Widerstand."]
                 },
                 rank5: {
-                    values: { critShieldMultiplier: 2 },
-                    tooltip: ["Der erhaltene Schild verdoppelt sich."]
+                    values: { critResistanceMultiplier: 2 },
+                    tooltip: ["Der erhaltene Magische Widerstand verdoppelt sich."]
                 }
             },
             b: {
@@ -963,8 +963,8 @@ const spellUpgradeProfiles = {
             b: {
                 label: "Schattenenergie",
                 rank3: {
-                    values: { critShieldGain: 20 },
-                    tooltip: ["Kritische Treffer erzeugen 20 Schild."]
+                    values: { critResistanceGain: 20 },
+                    tooltip: ["Kritische Treffer erzeugen 20 Magischen Widerstand."]
                 },
                 rank5: {
                     values: { critAppliesVulnerable: true },

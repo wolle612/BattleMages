@@ -25,7 +25,8 @@ function hasCastTimeNextSpellPrepValues(values, context, cast) {
         values.nextSpellGuaranteedCrit ||
         values.nextSpellAppliesVulnerable ||
         values.nextSpellShieldBonus ||
-        values.nextSpellIgnoresShield
+        values.nextSpellIgnoresShield ||
+        values.nextSpellResistanceBonus
     );
 }
 
@@ -844,6 +845,7 @@ function grantUniversalNextSpellPrep(context, spell, values) {
         createNextSpellPrep({
             flatDamage: values.nextSpellDamageBonus || 0,
             flatShield: values.nextSpellShieldBonus || 0,
+            flatResistance: values.nextSpellResistanceBonus || 0,
             shieldPierce: values.nextSpellShieldPierce || 0,
             critChanceBonus:
                 (values.nextSpellCritChanceBonus || 0) / 100,

@@ -293,7 +293,52 @@ funktioniert nachweislich auch für einen komplett unabhängigen
 Folgezauber (`bone_fracture` im Test). Bestehende Suiten weiterhin grün,
 `simulate_full_builds.js` läuft für Chaosmagie durch.
 
-Noch nicht committet. Fehlt: Schatten (letzte Schule, hängt zusätzlich
-am Option-B-Redesign für `dark_blade`/`will_break`/weitere), Entscheidung
-zum toten `nextSpellRandomPrep`-Code, Phase 3 (Balance) und Phase 4
-(UI/Doku).
+**Phase 2 abgeschlossen — Schatten fertig, alle 6 Schulen migriert
+(2026-07-23).** Letzte Schule: `precision_strike`/`death_stroke`
+brauchten keine Änderung (reine Verwundbar-/Krit-Konsumenten, kein
+Schild-/Chance-Bezug). `shadow_grasp`/`shadow_dance`/`shadow_mantle`/
+`dark_blow` reine Werte-Migration (`critShieldGain`→`critResistanceGain`
+etc.). `dark_blade` per Option B neu gestaltet (Präzision-Generator
+statt Selbst-Chance) — Pfad A dabei ebenfalls neu gedacht
+(`sequenceTrigger: "after_attack"` + `sequenceGuaranteedCrit` statt
+weiterer Selbst-Chance-Stapelung), Pfad B unverändert gelassen (war
+bereits als sich selbst tragende Verwundbar→Krit-Schleife entworfen,
+brauchte die Selbst-Chance nie).
+
+**Nachgetragen**: `will_break` gehört zu Psionik, nicht Schatten (eigener
+Einordnungsfehler in einer früheren Zusammenfassung) — im selben
+Aufwasch nach demselben Option-B-Muster wie `soul_spark` neu gestaltet
+(Verwundbar-gated Präzision-Generator statt Selbst-Chance).
+
+**Neuer Baustein**: `nextSpellResistanceBonus` als Next-Spell-Prep-Feld
+(Gegenstück zu `nextSpellShieldBonus`) für `shadow_grasp` Pfad B und
+`will_break` Pfad B nötig — `flatResistance` in
+`createNextSpellPrep`/`applyNextSpellPrepToCast`/
+`grantUniversalNextSpellPrep` ergänzt (`combatPrep.js`/`spellEngine.js`).
+
+**Zwei weitere pre-existing Tooltip/Wert-Diskrepanzen gefunden (nicht
+Teil dieser Migration, nicht repariert, nur geflaggt)**: `death_stroke`
+Pfad A Rang 3 (`critFlatBonus: 90`, Tooltip nennt "+40") und `dark_blow`
+Pfad A Rang 3 (`critFlatBonus: 55`, Tooltip nennt "+35") — beide schon
+vor dieser Session vorhanden, unabhängig vom Combat-Condition-Engine-
+Umbau.
+
+**`COMBAT_SCHOOLS`-Tags aktualisiert**: `shadow.rareMechanic` und
+`star.rareMechanic` von `"shield"` auf `"resistance"` (jetzt beide
+Schulen vollständig migriert, analog zu `rune.primaryMechanic` aus
+Phase 0.5).
+
+Verifiziert: `test_upgrade_resolver.js` hatte 8 Fehlschläge, weil sein
+Referenzzauber (`shadow_mantle`) fest verdrahtete alte Werte
+(`critShieldGain`) als Testerwartung nutzte — Fixture aktualisiert,
+keine Logik-Änderung nötig. Alle 4 Suiten wieder grün (86/86),
+`validate_data.py` sauber, `simulate_full_builds.js` läuft für alle 6
+Schulen durch.
+
+**Damit ist die komplette Spellbook-Migration (Phase 0.5 + Phase 2)
+fertig.** Noch offen: Entscheidung zum toten `nextSpellRandomPrep`-Code,
+Phase 1 (Engine verallgemeinern -- de facto schon erledigt, da jede
+neue Bedingung/jeder neue Prep-Wert direkt beim Bedarf gebaut wurde,
+nicht vorab spekulativ), Phase 3 (vollständige Balance-Neukalibrierung
+-- zwingend nötig, alle Schulen zeigen deutlich überhöhte Sieg-/RV-Werte)
+und Phase 4 (UI/VFX/Doku, inkl. `getPlayerStatusViews()` für Präzision).

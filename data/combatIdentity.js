@@ -129,7 +129,7 @@ const COMBAT_SCHOOLS = {
         gameplay: "Präzision, Tempo und kritische Treffer.",
         primaryMechanic: "crit",
         secondaryMechanic: "sequence",
-        rareMechanic: "shield",
+        rareMechanic: "resistance",
         sequenceLevel: "high"
     },
     dream: {
@@ -159,7 +159,7 @@ const COMBAT_SCHOOLS = {
         gameplay: "Hoher Druck, kontrolliertes Risiko.",
         primaryMechanic: "burst",
         secondaryMechanic: "hybrid",
-        rareMechanic: "shield",
+        rareMechanic: "resistance",
         sequenceLevel: "very_low"
     },
     primal: {

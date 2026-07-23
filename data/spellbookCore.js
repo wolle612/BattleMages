@@ -146,10 +146,13 @@ const spellbookCoreDefinitions = [
         build: "kritmaschine",
         mechanics: ["crit"],
         rarity: "Common",
-        description: "Eine Klinge aus Schatten sucht den tödlichen Winkel.",
+        // Neugestaltet (Combat Condition Engine, 2026-07-23, "Option B"):
+        // reine Selbst-Krit-Chance ohne eigenen Payoff wird zum
+        // Präzision-Generator für den nächsten Zauber.
+        description: "Eine Klinge aus Schatten bereitet den tödlichen Winkel vor.",
         tooltip: [
             "Verursacht 30 Schaden.",
-            "+20 % Kritchance."
+            "Der nächste Zauber erhält Präzision (garantiert kritisch)."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -161,7 +164,7 @@ const spellbookCoreDefinitions = [
                 rank: 1,
                 values: {
                     damage: 30,
-                    critChanceBonus: 20
+                    nextSpellGuaranteedCrit: true
                 }
             }
         ]
