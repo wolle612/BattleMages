@@ -1329,6 +1329,57 @@ const spellUpgradeProfiles = {
             }
         }
     },
+    // rank2/rank4 restaten hier bewusst BEIDE Werte (Schaden+Widerstand),
+    // nicht nur den jeweils geaenderten -- ein einzeiliges "Verursacht X
+    // Schaden."-Tooltip wuerde laut getSpellTooltipLines() (upgradeResolver.js,
+    // tooltipLinesLookComplete: matcht "verursacht \d") als VOLLSTAENDIGER
+    // Ersatz gewertet und die Widerstand-Zeile aus dem angezeigten Tooltip
+    // verschwinden lassen, obwohl der Widerstand-Gewinn mechanisch weiter
+    // besteht. Gleiches vorbestehendes Verhalten bei rune_thrust beobachtet
+    // (dort NICHT repariert, nur hier bewusst vermieden) -- fuer
+    // "kontrollierter Schaden" waere ein Verschwinden der Widerstand-Zeile
+    // besonders ungluecklich, da die Balance beider Werte der ganze Punkt
+    // des Zaubers ist.
+    bound_chaos: {
+        rank2: {
+            values: { damage: 34 },
+            tooltip: [
+                "Verursacht 34 Schaden.",
+                "Erhalte 22 Magischen Widerstand."
+            ]
+        },
+        rank4: {
+            values: { resistance: 30 },
+            tooltip: [
+                "Verursacht 34 Schaden.",
+                "Erhalte 30 Magischen Widerstand."
+            ]
+        },
+        paths: {
+            a: {
+                label: "Gebündigter Zorn",
+                rank3: {
+                    values: { critFlatBonus: 20 },
+                    tooltip: ["Kritische Treffer verursachen zusätzlich +20 Schaden."]
+                },
+                rank5: {
+                    values: { resistanceBonusDamagePercent: 40 },
+                    tooltip: ["Verursacht zusätzlich Schaden in Höhe von 40 % deines Magischen Widerstands."]
+                }
+            },
+            b: {
+                label: "Standhafter Kern",
+                rank3: {
+                    values: { resistanceGainIfPlayerHasResistance: 15 },
+                    tooltip: ["Besitzt du bereits Widerstand: Erhalte zusätzlich 15 Magischen Widerstand."]
+                },
+                rank5: {
+                    values: { critResistanceGain: 25 },
+                    tooltip: ["Kritische Treffer gewähren zusätzlich 25 Magischen Widerstand."]
+                }
+            }
+        }
+    },
     soul_pulse: {
         rank2: {
             values: { damage: 40 },

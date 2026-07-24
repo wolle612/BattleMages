@@ -647,6 +647,43 @@ const spellbookPart2Definitions = [
         ]
     },
     {
+        id: "bound_chaos",
+        school: "star",
+        name: "Gezügeltes Chaos",
+        type: "Attack",
+        role: "verstaerker",
+        build: "kontrollierter_schaden",
+        mechanics: ["burst", "resistance"],
+        rarity: "Rare",
+        // Fuellt den kontrollierter_schaden-Archetyp (bisher 0 Zauber, siehe
+        // BattleMages_Spellpool_Backlog.md) -- bewusst in Chaosmagie statt
+        // Runenkunst platziert (Nutzer-Entscheidung 2026-07-24, Rune hat mit 9
+        // Zaubern bereits das groesste Uebergewicht im Spellbook). Anders als
+        // die bestehenden leichten Widerstand-Generatoren (entropy, bone_armor,
+        // mind_barrier, rune_thrust: kleiner Schaden + ordentlich Widerstand)
+        // liefert dieser Zauber beide Werte auf spuerbarem, vergleichbarem
+        // Niveau -- echte Balance statt Widerstand-Uebergewicht.
+        description: "Das eigene Chaos wird für einen Moment gebändigt — Schaden und Schutz zugleich.",
+        tooltip: [
+            "Verursacht 26 Schaden.",
+            "Erhalte 22 Magischen Widerstand."
+        ],
+        tags: ["Attack"],
+        spellbookCore: true,
+        starter: false,
+        cooldown: 0,
+        effects: ["deal_damage", "gain_resistance"],
+        upgrades: [
+            {
+                rank: 1,
+                values: {
+                    damage: 26,
+                    resistance: 22
+                }
+            }
+        ]
+    },
+    {
         id: "soul_bind",
         school: "primal",
         name: "Seelenbindung",
