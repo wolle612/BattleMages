@@ -92,13 +92,24 @@ const spellbookPart2Definitions = [
         name: "Schattenmantel",
         type: "Attack",
         role: "verstaerker",
-        build: "kritmaschine",
-        mechanics: ["crit", "resistance"],
+        build: "krit_verwundbar",
+        mechanics: ["crit", "resistance", "vulnerable"],
         rarity: "Rare",
-        description: "Ein Mantel aus Schatten fängt kritische Treffer ab.",
+        // Verwundbar-Erzeugung ergaenzt (2026-07-24): Schatten hatte zuvor
+        // keinen einzigen garantierten Verwundbar-Erzeuger auf Basisebene
+        // (nur pfadgebundene Optionen bei precision_strike/death_stroke),
+        // waehrend mehrere Zauber (u.a. in Seelenmagie) Verwundbar-Zugang
+        // voraussetzen. critAppliesVulnerable existiert bereits als Wert
+        // (dark_blade Pfad B) -- hier unconditional auf Basisebene statt
+        // pfadgebunden, da Schattens eigene Praezision-Generatoren
+        // (dark_blade/shadow_grasp) verlaesslich Krits erzeugen und dadurch
+        // aus dem an sich chancenbasierten Trigger in der Praxis einen
+        // zuverlaessigen macht.
+        description: "Ein Mantel aus Schatten fängt kritische Treffer ab und reißt Wunden auf.",
         tooltip: [
             "Verursacht 30 Schaden.",
-            "Bei einem kritischen Treffer erhältst du 20 Magischen Widerstand."
+            "Bei einem kritischen Treffer erhältst du 20 Magischen Widerstand.",
+            "Kritische Treffer fügen zusätzlich Verwundbar zu."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -110,7 +121,8 @@ const spellbookPart2Definitions = [
                 rank: 1,
                 values: {
                     damage: 32,
-                    critResistanceGain: 20
+                    critResistanceGain: 20,
+                    critAppliesVulnerable: true
                 }
             }
         ]
@@ -499,7 +511,7 @@ const spellbookPart2Definitions = [
         ],
         tags: ["Attack"],
         spellbookCore: true,
-        starter: false,
+        starter: true,
         cooldown: 0,
         effects: ["deal_damage"],
         upgrades: [
@@ -527,7 +539,7 @@ const spellbookPart2Definitions = [
         ],
         tags: ["Burst"],
         spellbookCore: true,
-        starter: false,
+        starter: true,
         cooldown: 0,
         effects: ["deal_damage"],
         upgrades: [
@@ -650,7 +662,7 @@ const spellbookPart2Definitions = [
         ],
         tags: ["Attack"],
         spellbookCore: true,
-        starter: false,
+        starter: true,
         cooldown: 0,
         effects: ["deal_damage", "gain_resistance_from_dealt_damage"],
         upgrades: [

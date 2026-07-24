@@ -969,9 +969,17 @@ const spellUpgradeProfiles = {
             },
             b: {
                 label: "Lautloser Jäger",
+                // War frueher: { critAppliesVulnerable: true } -- inzwischen
+                // (2026-07-24) auf Basis-Rang verschoben (siehe
+                // spellbookPart2.js, shadow_mantle-Kommentar: Schatten hatte
+                // keinen garantierten Basis-Verwundbar-Erzeuger), Rang 3
+                // Pfad B waere dadurch wirkungslos geworden. Ersetzt durch
+                // einen zum "Jaeger"-Thema passenden Verwundbar-Bonus, der
+                // sauber auf das Rang-5-Ziel (garantierter Krit gegen
+                // Verwundbare) hinfuehrt.
                 rank3: {
-                    values: { critAppliesVulnerable: true },
-                    tooltip: ["Kritische Treffer fügen zusätzlich Verwundbar zu."]
+                    values: { vulnerableBonusDamage: 20 },
+                    tooltip: ["Gegen verwundbare Ziele: +20 Schaden."]
                 },
                 rank5: {
                     values: { vulnerableGuaranteedCrit: true },

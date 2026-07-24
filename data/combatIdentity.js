@@ -77,7 +77,7 @@ const BUILD_ARCHETYPES = {
     sustain: {
         id: "sustain",
         label: "Sustain",
-        focus: ["shield", "heal"]
+        focus: ["resistance", "heal"]
     },
     monoschule: {
         id: "monoschule",
@@ -107,7 +107,7 @@ const BUILD_ARCHETYPES = {
     kontrollierter_schaden: {
         id: "kontrollierter_schaden",
         label: "Kontrollierter Schaden",
-        focus: ["damage", "shield"]
+        focus: ["damage", "resistance"]
     }
 };
 

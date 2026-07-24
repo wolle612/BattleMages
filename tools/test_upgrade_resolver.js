@@ -81,56 +81,70 @@ const shadowMantle =
     fns.getSpellById("shadow_mantle");
 
 // --- resolveSpellUpgradeValues: vollstaendiger Rang-/Pfad-Verlauf ----------
-// Referenzzauber Schattenmantel: Basis {damage:32, critResistanceGain:20}
-// (data/spellbookPart2.js), Profil in data/spellUpgradeProfiles.js.
-// Werte hier am 2026-07-23 aktualisiert (Combat Condition Engine, Phase 2):
-// shadow_mantle nutzt seither critResistanceGain/-Multiplier statt
-// critShieldGain/-Multiplier -- reine Fixture-Aktualisierung, die
-// Merge-Logik selbst ist unveraendert.
+// Referenzzauber Schattenmantel: Basis {damage:32, critResistanceGain:20,
+// critAppliesVulnerable:true} (data/spellbookPart2.js), Profil in
+// data/spellUpgradeProfiles.js. Werte hier am 2026-07-24 aktualisiert
+// (Schatten-Verwundbar-Erzeugung ergaenzt, siehe Kommentar in
+// spellbookPart2.js): critAppliesVulnerable zog von Pfad B Rang 3 auf die
+// Basis um (Schatten hatte zuvor keinen garantierten Verwundbar-Erzeuger),
+// Pfad B Rang 3 wurde durch vulnerableBonusDamage ersetzt, um nicht
+// wirkungslos zu werden -- reine Fixture-Aktualisierung, die Merge-Logik
+// selbst ist unveraendert.
 
 check(
     "resolveSpellUpgradeValues: Rang 1 = unveraenderte Basiswerte",
     fns.resolveSpellUpgradeValues(shadowMantle, 1, null),
-    { damage: 32, critResistanceGain: 20 }
+    { damage: 32, critResistanceGain: 20, critAppliesVulnerable: true }
 );
 
 check(
     "resolveSpellUpgradeValues: Rang 2 ueberschreibt nur damage (schulweiter Patch)",
     fns.resolveSpellUpgradeValues(shadowMantle, 2, null),
-    { damage: 40, critResistanceGain: 20 }
+    { damage: 40, critResistanceGain: 20, critAppliesVulnerable: true }
 );
 
 check(
     "resolveSpellUpgradeValues: Rang 3 Pfad A ueberschreibt critResistanceGain",
     fns.resolveSpellUpgradeValues(shadowMantle, 3, "a"),
-    { damage: 40, critResistanceGain: 35 }
+    { damage: 40, critResistanceGain: 35, critAppliesVulnerable: true }
 );
 
 check(
-    "resolveSpellUpgradeValues: Rang 3 Pfad B setzt critAppliesVulnerable statt critResistanceGain-Aenderung",
+    "resolveSpellUpgradeValues: Rang 3 Pfad B ergaenzt vulnerableBonusDamage",
     fns.resolveSpellUpgradeValues(shadowMantle, 3, "b"),
-    { damage: 40, critResistanceGain: 20, critAppliesVulnerable: true }
+    {
+        damage: 40,
+        critResistanceGain: 20,
+        critAppliesVulnerable: true,
+        vulnerableBonusDamage: 20
+    }
 );
 
 check(
     "resolveSpellUpgradeValues: Rang 4 Pfad A (globaler Rang4-Patch, kein pfadspezifischer Rang4)",
     fns.resolveSpellUpgradeValues(shadowMantle, 4, "a"),
-    { damage: 50, critResistanceGain: 35 }
+    { damage: 50, critResistanceGain: 35, critAppliesVulnerable: true }
 );
 
 check(
     "resolveSpellUpgradeValues: Rang 5 Pfad A addiert critResistanceMultiplier",
     fns.resolveSpellUpgradeValues(shadowMantle, 5, "a"),
-    { damage: 50, critResistanceGain: 35, critResistanceMultiplier: 2 }
+    {
+        damage: 50,
+        critResistanceGain: 35,
+        critAppliesVulnerable: true,
+        critResistanceMultiplier: 2
+    }
 );
 
 check(
-    "resolveSpellUpgradeValues: Rang 5 Pfad B addiert vulnerableGuaranteedCrit statt critResistanceMultiplier",
+    "resolveSpellUpgradeValues: Rang 5 Pfad B addiert vulnerableGuaranteedCrit",
     fns.resolveSpellUpgradeValues(shadowMantle, 5, "b"),
     {
         damage: 50,
         critResistanceGain: 20,
         critAppliesVulnerable: true,
+        vulnerableBonusDamage: 20,
         vulnerableGuaranteedCrit: true
     }
 );
@@ -138,7 +152,7 @@ check(
 check(
     "resolveSpellUpgradeValues: Rang 3 ohne Pfadwahl liefert nur den Rang2-Stand (kein Pfad-Patch anwendbar)",
     fns.resolveSpellUpgradeValues(shadowMantle, 3, null),
-    { damage: 40, critResistanceGain: 20 }
+    { damage: 40, critResistanceGain: 20, critAppliesVulnerable: true }
 );
 
 // --- mergeUpgradeValues / mergeUpgradeEffects: isolierte Merge-Logik ------
