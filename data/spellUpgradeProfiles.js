@@ -1026,6 +1026,62 @@ const spellUpgradeProfiles = {
             }
         }
     },
+    // rank2/rank4 restaten hier bewusst ALLE Basiszeilen (Schaden,
+    // Verwundbar-Bonus, Krit-Verwundbar), nicht nur den jeweils geaenderten
+    // Wert -- gleicher Grund wie bei bound_chaos: ein Tooltip-Text, der
+    // "verursacht \d"/"erhalte \d" matcht, wird von getSpellTooltipLines()
+    // als vollstaendiger Ersatz gewertet und wuerde die anderen Zeilen
+    // optisch verschwinden lassen, obwohl die Werte mechanisch bestehen
+    // bleiben (siehe dortiger Kommentar, gleiches vorbestehendes Verhalten
+    // auch bei dark_blow/shadow_mantle beobachtet, dort nicht repariert).
+    keen_cut: {
+        rank2: {
+            values: { damage: 36 },
+            tooltip: [
+                "Verursacht 36 Schaden.",
+                "Gegen verwundbare Ziele: +20 Schaden.",
+                "Kritische Treffer fügen zusätzlich Verwundbar zu."
+            ]
+        },
+        rank4: {
+            values: { vulnerableBonusDamage: 30 },
+            tooltip: [
+                "Verursacht 36 Schaden.",
+                "Gegen verwundbare Ziele: +30 Schaden.",
+                "Kritische Treffer fügen zusätzlich Verwundbar zu."
+            ]
+        },
+        paths: {
+            a: {
+                label: "Klingentänzer",
+                rank3: {
+                    values: { critFlatBonus: 20 },
+                    tooltip: ["Kritische Treffer verursachen zusätzlich +20 Schaden."]
+                },
+                rank5: {
+                    values: { vulnerableRepeatHits: 2 },
+                    tooltip: ["Gegen verwundbare Ziele trifft Findiger Schnitt zweimal."]
+                }
+            },
+            b: {
+                label: "Kettenreißer",
+                rank3: {
+                    // "Erhalte zusaetzlich" statt "Erhalte 15" -- Letzteres
+                    // matcht tooltipLinesLookComplete() (upgradeResolver.js,
+                    // erhalte\s+\d) direkt und wuerde die anderen Tooltip-
+                    // Zeilen dieses Rangs loeschen (identisches Wortmuster bei
+                    // blood_clot Pfad B Rang 3 pre-existing beobachtet, dort
+                    // nicht repariert, nur hier bewusst vermieden).
+                    values: { vulnerableResistanceGain: 15 },
+                    tooltip: ["Gegen verwundbare Ziele: Erhalte zusätzlich 15 Magischen Widerstand."]
+                },
+                rank5: {
+                    values: { critResistanceGain: 20 },
+                    tooltip: ["Kritische Treffer gewähren zusätzlich 20 Magischen Widerstand."]
+                }
+            }
+        }
+    },
     mind_trap: {
         rank2: {
             values: { damage: 35 },

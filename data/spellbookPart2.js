@@ -157,6 +157,46 @@ const spellbookPart2Definitions = [
         ]
     },
     {
+        id: "keen_cut",
+        school: "shadow",
+        name: "Findiger Schnitt",
+        type: "Attack",
+        role: "verstaerker",
+        build: "verwundbar_ketten",
+        mechanics: ["crit", "vulnerable"],
+        rarity: "Common",
+        // Fuellt den verwundbar_ketten-Archetyp (bisher 0 Zauber in Schatten,
+        // siehe BattleMages_Spellpool_Backlog.md, Slot 3). Bewusst NICHT als
+        // 1:1-Portierung einer Biomantie-Mechanik, sondern an die eigene
+        // Schulidentitaet angepasst: critAppliesVulnerable (dasselbe
+        // Vokabular wie shadow_mantle, siehe dortiger Kommentar) statt
+        // bedingungsloser Verwundbar-Erneuerung -- synergiert direkt mit den
+        // vorhandenen Praezision-Generatoren (dark_blade/shadow_grasp), die
+        // in einer gut gebauten Rotation zuverlaessig Krits liefern und
+        // dadurch die Kette am Laufen halten.
+        description: "Gezielte Präzisionsschläge finden immer neue Schwachstellen.",
+        tooltip: [
+            "Verursacht 28 Schaden.",
+            "Gegen verwundbare Ziele: +20 Schaden.",
+            "Kritische Treffer fügen zusätzlich Verwundbar zu."
+        ],
+        tags: ["Attack"],
+        spellbookCore: true,
+        starter: false,
+        cooldown: 0,
+        effects: ["deal_damage"],
+        upgrades: [
+            {
+                rank: 1,
+                values: {
+                    damage: 28,
+                    vulnerableBonusDamage: 20,
+                    critAppliesVulnerable: true
+                }
+            }
+        ]
+    },
+    {
         id: "will_break",
         school: "dream",
         name: "Willensbruch",
