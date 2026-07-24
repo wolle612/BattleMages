@@ -673,14 +673,44 @@ Log-Eintrag wie der Cast. Reine Zeitpunkt-Änderung, keine
 Kampf-Mathematik betroffen — Regressionssuite (91/91) und
 `simulate_full_builds.js` unverändert.
 
-Zwei unabhängige Konsolenmeldungen während des manuellen Tests
-entdeckt, nicht durch diese Arbeit verursacht (nicht untersucht, nur
-notiert): PixiJS-Warnung "Texture added to the cache ... already had
-an entry" (`school_impact_soul_05.png`), und ein 404 für `entropy.png`
-(Chaosmagie-Zauber-Icon oder gleichnamige Gegner-Aktion). Beides für
-eine spätere, separate Untersuchung vorgemerkt.
+## Nachtrag: zwei Konsolenmeldungen untersucht (2026-07-24)
 
-**Verbleibend vor einem Merge**: keine offenen Punkte mehr aus der
-Combat-Condition-Engine-Migration selbst. Optional/später: die zwei
-oben notierten Konsolenmeldungen untersuchen, das eigene
-Widerstand-Icon-Asset des Nutzers einbauen (sobald erstellt).
+Beide waren nicht durch die Combat-Condition-Engine-Arbeit verursacht,
+aber unabhängig davon behoben bzw. eingeordnet:
+
+- **PixiJS "Texture added to the cache ... already had an entry"**
+  (`school_impact_soul_05.png`): echter Race-Condition-Bug in
+  `loadVfxSpritesheet` (`src/vfx/assetManager.js`). Der Cache-Check
+  (`if (vfxSpritesheetCache[manifestPath])`) ist synchron, das
+  tatsächliche Cachen passiert aber erst nach dem asynchronen Laden +
+  Parsen. Zwei Aufrufe für denselben Manifest-Pfad kurz hintereinander
+  (z. B. zwei Seelenmagie-VFX-Impacts im selben Kampf-Moment) sahen
+  beide einen leeren Cache und starteten unabhängig voneinander
+  `spritesheet.parse()` — PixiJS registrierte dieselben Frame-IDs
+  dadurch doppelt in seinem globalen Texture-Cache. **Fix**: neue
+  `vfxSpritesheetLoadPromises`-Map cached das laufende Promise selbst
+  (sofort, synchron gesetzt), ein zweiter Aufruf während des Ladens
+  bekommt dasselbe Promise zurück statt einen eigenen Ladevorgang zu
+  starten. `vfxSpritesheetCache` (die aufgelöste Spritesheet-Map,
+  synchron von `getVfxSpritesheetAnimation` gelesen) bleibt in Form
+  und Verhalten unverändert. Verifiziert per isoliertem Mock-Test
+  (zwei gleichzeitige Aufrufe → dieselbe Promise-Referenz,
+  `loadVfxManifest` nur einmal aufgerufen) — kein Test in den
+  bestehenden Node-Suiten möglich, da `src/vfx/*` echtes PixiJS/DOM
+  braucht und dort bisher keine Testabdeckung existiert.
+- **`entropy.png: 404`**: kein Bug, bereits vom eigenen
+  `tools/validate_icons.py` korrekt getrackt. Drei Zauber-Icons fehlen
+  aktuell im Spellbook: `entropy`, `overload` (beide Chaosmagie,
+  `assets/icons/spells/chaos/`) und `soul_ward` (Seelenmagie,
+  `assets/icons/spells/soul/`). Reine Asset-Erstellung (Bild-Content),
+  nicht code-seitig lösbar — visuell bereits über den bestehenden
+  Icon-Fallback-Mechanismus abgefangen (Anfangsbuchstaben-Platzhalter
+  statt kaputtem Bild), nur die Konsole ist lauter als nötig. Gleiche
+  Kategorie wie das vom Nutzer geplante eigene Widerstand-Icon —
+  zurückgestellt, bis entsprechende Icon-Assets erstellt werden.
+
+**Verbleibend vor einem Merge**: keine offenen Punkte mehr — sowohl
+aus der Combat-Condition-Engine-Migration selbst als auch aus den
+beiden hier untersuchten Konsolenmeldungen. Rein optional/später:
+die drei fehlenden Spell-Icons und das eigene Widerstand-Icon-Asset
+des Nutzers einbauen, sobald erstellt.
