@@ -20,13 +20,20 @@ Priorisierung unten.
 
 ## Priorisierte Liste
 
-### 1. Persistenz-Grundlage
-- `localStorage`-basiert, keine Server-Anbindung nötig.
-- Trägt Run-Zwischenstand über Reload hinweg UND ist die Voraussetzung
-  für alle folgenden Punkte.
-- Umfang bewusst minimal halten: reines Speichern/Laden des
-  bestehenden State-Objekts, keine neue Datenstruktur an dieser
-  Stelle.
+### 1. Persistenz-Grundlage — ✅ umgesetzt (2026-07-24)
+- `localStorage`-basiert (`src/persistence.js`), degradiert sauber ohne
+  Verfügbarkeit (Private-Mode etc.).
+- Checkpoint statt Frame-genau: gespeichert wird der State direkt vor
+  jedem Kampf (`showFightScreen()`), nie ein laufender Kampf selbst —
+  passend zur Simulate-then-Replay-Architektur.
+- Home-Screen zeigt bei vorhandenem Speicherstand einen
+  "Weiterspielen"-Button.
+- **Nebenfund**: `showFightScreen()` setzte nie selbst seinen
+  App-Screen-Modus, verließ sich stillschweigend auf
+  `showSpellSelection()` (zufällig CSS-kompatibel) — der neue direkte
+  Home→Kampf-Sprung über "Weiterspielen" deckte das auf (kein
+  Hintergrundbild, Scrollen blockiert). Robust gefixt: `showFightScreen()`
+  setzt "game" jetzt selbst, unabhängig vom Aufrufer. Commit `317a184`.
 
 ### 2. Run-Recap-Screen (Sieg UND Niederlage)
 - Ersetzt den aktuellen Ein-Satz-Abschluss
