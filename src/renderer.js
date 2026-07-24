@@ -236,7 +236,30 @@ function playScreenTransition(callback) {
     }, 240);
 }
 
-function renderHomeScreen() {
+function renderHomeScreen(canResume = false) {
+    const resumeButtonHtml =
+        canResume
+            ? `
+                <button
+                    id="resumeRunButton"
+                    class="home-menu-btn home-menu-btn--primary"
+                    type="button"
+                >
+                    <span class="home-menu-btn__label">
+                        Weiterspielen
+                    </span>
+                </button>
+            `
+            : "";
+
+    const startButtonLabel =
+        canResume ? "Neuer Run" : "Spiel starten";
+
+    const startButtonClass =
+        canResume
+            ? "home-menu-btn home-menu-btn--secondary"
+            : "home-menu-btn home-menu-btn--primary";
+
     getGameRoot().innerHTML = `
         <div class="home-screen">
             <div
@@ -245,13 +268,14 @@ function renderHomeScreen() {
             ></div>
 
             <nav class="home-screen-menu" aria-label="Hauptmenü">
+                ${resumeButtonHtml}
                 <button
                     id="startRunButton"
-                    class="home-menu-btn home-menu-btn--primary"
+                    class="${startButtonClass}"
                     type="button"
                 >
                     <span class="home-menu-btn__label">
-                        Spiel starten
+                        ${startButtonLabel}
                     </span>
                 </button>
                 <button

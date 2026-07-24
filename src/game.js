@@ -2,13 +2,26 @@ function showHomeScreen() {
     hideVfxStage();
 
     setAppScreenMode("home");
-    renderHomeScreen();
+    renderHomeScreen(hasSavedRun());
 
     getGameRoot().classList.add("screen-enter");
 
     window.setTimeout(() => {
         getGameRoot().classList.remove("screen-enter");
     }, 420);
+
+    const resumeButton =
+        document.getElementById("resumeRunButton");
+
+    if (resumeButton) {
+        resumeButton.addEventListener("click", () => {
+            playScreenTransition(() => {
+                if (!resumeRun()) {
+                    showHomeScreen();
+                }
+            });
+        });
+    }
 
     document
         .getElementById("startRunButton")
@@ -202,6 +215,18 @@ function shuffleSpells(spellsToShuffle) {
 
 function showFightScreen() {
 
+    // War bisher implizit vom Aufrufer abhaengig: showSpellSelection()
+    // setzt "selection" (zufaellig CSS-kompatibel mit dem Kampfbildschirm,
+    // gleicher Hintergrund/Scroll-Regelsatz), aber niemand setzte hier
+    // "game" explizit. Fiel erst beim direkten Home->Kampf-Sprung ueber
+    // "Weiterspielen" auf: body blieb auf "app-home" (kein Hintergrundbild,
+    // overflow:hidden) haengen, da dieser Pfad NICHT ueber die
+    // Zauberauswahl laeuft. Explizit setzen statt sich auf den Aufrufer zu
+    // verlassen behebt das robust fuer alle Einstiegspunkte.
+    setAppScreenMode("game");
+
+    saveRunState();
+
     const enemy =
         enemies[currentFight];
 
@@ -306,6 +331,7 @@ function handleFightStart() {
 }
 
 function restartRun() {
+    clearRunState();
     playScreenTransition(showHomeScreen);
 }
 
