@@ -1,11 +1,3 @@
-// "vulnerable" ist absichtlich deaktiviert: das alte Asset (vulnerable.png)
-// war fehlerhaft und wurde geloescht. Die CSS-Klasse
-// (combatant-portrait-slot--vulnerable) wird weiterhin toggled (siehe
-// updatePortraitVulnerableOverlays), es existiert nur aktuell kein Bild dafuer.
-// Neues Asset einfach wieder hier eintragen, um die Visualisierung zu
-// reaktivieren.
-const PORTRAIT_EFFECT_ASSETS = {};
-
 const PORTRAIT_SHIELD_RISE_ASSET = {
     sheet: "assets/effects/shield/portrait_shield_rise/portrait_shield_rise_sheet.png",
     frameCount: 8,
@@ -111,23 +103,13 @@ function getCombatantPortraitPath(combatantType, entityId) {
     )?.primary || null;
 }
 
-function getPortraitEffectAsset(effectId) {
-    return PORTRAIT_EFFECT_ASSETS[effectId] || null;
-}
-
 function renderPortraitEffectOverlaysHtml() {
-    const staticEffects =
-        Object
-            .entries(PORTRAIT_EFFECT_ASSETS)
-            .map(([effectId, asset]) => `
-            <img
-                class="combatant-portrait-effect combatant-portrait-effect--${effectId}"
-                src="${asset}"
-                alt=""
-                aria-hidden="true"
-            />
-        `)
-            .join("");
+    const vulnerableEffect = `
+        <div
+            class="combatant-portrait-effect combatant-portrait-effect--vulnerable"
+            aria-hidden="true"
+        ></div>
+    `;
 
     const shieldEffect = `
         <div
@@ -143,7 +125,7 @@ function renderPortraitEffectOverlaysHtml() {
         ></div>
     `;
 
-    return `${staticEffects}${shieldEffect}${precisionEffect}`;
+    return `${vulnerableEffect}${shieldEffect}${precisionEffect}`;
 }
 
 function statusListHasVulnerable(statuses) {

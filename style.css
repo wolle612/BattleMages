@@ -969,9 +969,79 @@ body.app-selection #spellContainer {
     image-rendering: crisp-edges;
 }
 
+/*
+ * Verwundbar-Glow (2026-07-24): das alte Bild-Asset (vulnerable.png) war
+ * fehlerhaft und wurde geloescht, seitdem gab es hier gar keine Visualisierung
+ * mehr (nur die CSS-Klasse wurde weiter getoggelt, ins Leere). Bewusst reines
+ * CSS statt neuem Bild-Asset -- gleicher Ansatz wie beim Praezision-Glow,
+ * aber in Krimson/Rot statt Gold, um klar als Debuff (nicht als Buff) lesbar
+ * zu sein. Gilt fuer Spieler- UND Gegner-Portrait (siehe
+ * updatePortraitVulnerableOverlays), anders als Praezision/Widerstand.
+ */
+.combatant-portrait-effect--vulnerable {
+    border-radius: var(--radius-sm);
+    background: radial-gradient(
+        circle at center,
+        transparent 55%,
+        rgba(180, 30, 40, 0.0) 62%,
+        rgba(180, 30, 40, 0.6) 82%,
+        rgba(230, 70, 60, 0.9) 96%,
+        rgba(180, 30, 40, 0.0) 100%
+    );
+    box-shadow: inset 0 0 1.1em 0.3em rgba(200, 40, 40, 0.65);
+    mix-blend-mode: normal;
+}
+
+/*
+ * Risse: duenne, unregelmaessig verteilte Linien (kein wiederholendes Muster,
+ * damit es nicht wie ein Spinner aussieht), per radialer Maske auf den
+ * aeusseren Rand begrenzt -- wirkt dadurch wie Risse, die von den Kanten
+ * leicht Richtung Mitte laufen, statt bis zur Mitte durchzugehen.
+ */
+.combatant-portrait-effect--vulnerable::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg 14deg,
+        rgba(255, 110, 90, 0.6) 14.5deg 15.3deg,
+        transparent 15.8deg 46deg,
+        rgba(255, 110, 90, 0.5) 46.5deg 47.1deg,
+        transparent 47.6deg 93deg,
+        rgba(255, 110, 90, 0.55) 93.5deg 94.4deg,
+        transparent 94.9deg 138deg,
+        rgba(255, 110, 90, 0.45) 138.5deg 139.2deg,
+        transparent 139.7deg 173deg,
+        rgba(255, 110, 90, 0.6) 173.5deg 174.5deg,
+        transparent 175deg 228deg,
+        rgba(255, 110, 90, 0.5) 228.5deg 229.3deg,
+        transparent 229.8deg 273deg,
+        rgba(255, 110, 90, 0.55) 273.5deg 274.4deg,
+        transparent 274.9deg 318deg,
+        rgba(255, 110, 90, 0.5) 318.5deg 319.3deg,
+        transparent 319.8deg 360deg
+    );
+    -webkit-mask-image: radial-gradient(circle at center, transparent 48%, black 92%);
+    mask-image: radial-gradient(circle at center, transparent 48%, black 92%);
+    mix-blend-mode: screen;
+}
+
 .combatant-portrait-slot--vulnerable
     .combatant-portrait-effect--vulnerable {
     opacity: 1;
+    animation: portraitVulnerablePulse 1.1s ease-in-out infinite;
+}
+
+@keyframes portraitVulnerablePulse {
+    0%,
+    100% {
+        opacity: 0.55;
+    }
+
+    50% {
+        opacity: 1;
+    }
 }
 
 .combatant-portrait-effect--shield {
@@ -3977,6 +4047,11 @@ body.app-home #game {
  * exakt am sichtbaren Portraet-Bereich aus.
  */
 .combatant-portrait-effect--precision {
+    inset: 0;
+}
+
+/* Gleicher Grund wie oben bei Schild/Praezision. */
+.combatant-portrait-effect--vulnerable {
     inset: 0;
 }
 

@@ -15,7 +15,7 @@
 
 const VFX_CAST_PRESETS = {
     generic_flare: { color: 0xf4e9c9, radius: 22, duration: 220 },
-    flare_blood: { color: 0x8c1024, radius: 24, duration: 220 },
+    flare_blood: { color: 0x8c1024, radius: 68, duration: 260 },
     flare_shadow: { color: 0x3a4159, radius: 24, duration: 220 },
     flare_dream: { color: 0x39c2ff, radius: 24, duration: 220 },
     cast_circle_dream: {
@@ -67,7 +67,7 @@ const VFX_PROJECTILE_PRESETS = {
 
 const VFX_IMPACT_PRESETS = {
     generic_burst: { color: 0xffffff, radius: 20, duration: 260 },
-    burst_blood: { color: 0x8c1024, radius: 22, duration: 280 },
+    burst_blood: { color: 0x8c1024, radius: 55, duration: 300 },
     burst_shadow: { color: 0x3a4159, radius: 20, duration: 260 },
     burst_dream: { color: 0x39c2ff, radius: 22, duration: 280 },
     burst_rune: { color: 0x9c3b2e, radius: 24, duration: 300 },

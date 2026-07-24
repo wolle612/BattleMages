@@ -70,6 +70,37 @@ function buildVfxProjectilePhase(projectileType, school) {
     return null;
 }
 
+// Prototyp (2026-07-24, noch nicht final entschieden): Schulen hier drin
+// nutzen fuer CAST UND IMPACT bewusst die bereits vorhandenen, bisher aber
+// nie erreichten prozeduralen Stile aus VFX_CAST_PRESETS/VFX_IMPACT_PRESETS
+// (data/vfx/effectPresets.js -- farbige PIXI.Graphics-Formen, kein
+// Bild-Asset) statt der Sprite-Sheets. Grund fuer Impact: die Sprite-Sheet-
+// Quellbilder (z. B. assets/effects/impact/Biomancy_Impact.png) haben einen
+// durchgehenden Verlaufs-/Glow-Hintergrund, der NICHT an den Frame-Grenzen
+// endet -- beim Zuschneiden auf ein einzelnes Frame entstehen dadurch harte,
+// unpassende Kanten (wirkt wie eine "Spiegelung" am Rand). Betrifft
+// ausschliesslich Cast/Impact; Projektil bleibt unveraendert (hat ohnehin
+// aktuell kein eigenes Sprite fuer die meisten Projektiltypen). Reiner
+// Vergleichs-/Sichtungs-Schalter -- Liste einfach erweitern/leeren, um
+// weitere Schulen umzustellen oder die Aenderung zurueckzunehmen.
+const VFX_PROCEDURAL_VFX_SCHOOLS = ["blood"];
+
+function resolveCastStyleForSchool(school) {
+    if (VFX_PROCEDURAL_VFX_SCHOOLS.includes(school)) {
+        return `flare_${school}`;
+    }
+
+    return resolveSchoolSheetStyle("cast", school);
+}
+
+function resolveImpactStyleForSchool(school) {
+    if (VFX_PROCEDURAL_VFX_SCHOOLS.includes(school)) {
+        return `burst_${school}`;
+    }
+
+    return resolveSchoolSheetStyle("impact", school);
+}
+
 // Datengetriebene Zauber-Definition: Cast + Impact aus der Schule,
 // Projektiltyp aus SPELL_PROJECTILE_TYPES (MD v1.0). Keine per-Zauber-
 // Hardcodierung ausserhalb dieser Daten.
@@ -94,10 +125,10 @@ function resolveSpellVfxDefinition(spellId) {
         spell.school;
 
     const castStyle =
-        resolveSchoolSheetStyle("cast", school);
+        resolveCastStyleForSchool(school);
 
     const impactStyle =
-        resolveSchoolSheetStyle("impact", school);
+        resolveImpactStyleForSchool(school);
 
     const projectileType =
         typeof getSpellProjectileType === "function"
