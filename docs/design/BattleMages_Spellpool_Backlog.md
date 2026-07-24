@@ -20,7 +20,7 @@ gar keinen:
 | `sustain` | — | weiterhin 0 Zauber, zurückgestellt (Slot 1) |
 | `kontrollierter_schaden` | `bound_chaos` (Chaosmagie) | ✅ Slot 2 umgesetzt |
 | `verwundbar_ketten` | `organ_failure` (Finisher), `keen_cut` (Schatten) | ✅ Slot 3 umgesetzt |
-| `sequenz` | `shadow_dance` (Schatten) | einziger Vertreter, Epic (spät im Run) — Slot 4 noch offen |
+| `sequenz` | `shadow_dance` (Schatten), `soul_resonance` (Seelenmagie) | ✅ Slot 4 umgesetzt |
 | `monoschule` | `purity` (Rune) | einziger Vertreter |
 | `hybrid` | `rune_break` (Rune) | einziger Vertreter |
 
@@ -95,32 +95,47 @@ Priorität, siehe Chat.
   verband bislang Verwundbar-Bonusschaden mit Krit-getriggerter
   Kettenfortsetzung.
 
-## Slot 4 — Sequenz-Vertiefung
+## Slot 4 — Sequenz-Vertiefung — ✅ umgesetzt
 
+- **Status (2026-07-24):** umgesetzt als `soul_resonance`
+  ("Seelenresonanz", Seelenmagie, Common, Verstärker). Weder Schatten
+  noch Psionik gewählt: Schatten stand nach den heutigen Ergänzungen
+  bereits bei 8 von 40 Zaubern (nur 1 hinter Rune) — dieselbe
+  Häufungs-Problematik wie bei Slot 2/3 wäre wiederholt worden.
+  Seelenmagie schließt stattdessen eine seit Langem in
+  `COMBAT_SCHOOLS` dokumentierte, nie eingelöste Identitätslücke
+  (`primal.rareMechanic: "sequence"`, zuvor 0 Zauber).
+- **Die befürchtete Mehrschritt-Ketten-Frage stellte sich nicht**:
+  `shadow_dance` (und damit der gesamte `sequenz`-Archetyp) prüft wie
+  alle Sequenz-Zauber im Spiel ausschließlich den unmittelbar letzten
+  Cast — keine Abweichung von der bestehenden Regel nötig.
 - **Archetyp:** `sequenz`
-- **Schule (Optionen):** Schatten oder Psionik (beide laut
-  `Combat_Identity_Matrix_v1.0.md` "hohe Sequenz"-Schulen)
-- **Rolle:** Verstärker
-- **Design-Zweck:** belohnt eine **längere** bewusste Zauberreihenfolge
-  statt nur den unmittelbar letzten Zauber (aktuelle Sequenzregel prüft
-  laut `Combat_Formula_v2.md` ausschließlich den direkten Vorgänger,
-  "keine längeren Ketten") — würde das Sequenz-System um eine neue
-  Tiefe erweitern, nicht nur wiederholen.
-- **Design-Frage:** "Baue ich eine mehrstufige Zauberreihenfolge auf,
-  die sich erst nach mehreren aufeinanderfolgenden Casts auszahlt?"
-- **Achtung:** das ist die einzige Idee hier, die potenziell über die
-  bestehende Sequenzregel hinausgeht (echte Mehrschritt-Kette statt
-  Ein-Schritt-Prüfung) — müsste vor der Umsetzung explizit gegen
-  `Combat_Formula_v2.md` ("Keine längeren Ketten") abgeglichen werden,
-  da das eine bewusste Design-Grundregel berührt, nicht nur ein
-  Content-Slot ist.
+- **Design-Zweck:** Schaden + Widerstand, wenn zuvor ein Zauber einer
+  anderen Schule gewirkt wurde (`sequenceTrigger: "different_school"`,
+  bereits vollständig implementiertes Vokabular, zuvor nur in Psionik
+  genutzt) — belohnt bewusstes Schulwechseln, passend zu Seelenmagies
+  eigener Identität als Verbindungsschule.
+- **Ersetzt keine bestehende Karte, weil:** kein Seelenmagie-Zauber
+  nutzte zuvor irgendeinen Sequenz-Trigger.
 
-## Verknüpfung zum Startauswahl-Thema — teilweise eingelöst
+## Verknüpfung zum Startauswahl-Thema — eingelöst
 
-Slot 2 ist tatsächlich in Chaosmagie gelandet (5→6 Zauber) — löst die
-aus der Startauswahl-Analyse zurückgestellte "soll der Pool wachsen"-
-Frage für diese Schule mit. Seelenmagie (Slot 1, zurückgestellt)
-bleibt bei 5 Zaubern, diese Verknüpfung steht also noch aus.
+Slot 2 landete in Chaosmagie (5→6 Zauber), Slot 4 in Seelenmagie
+(5→6 Zauber) — beide aus der Startauswahl-Analyse zurückgestellten
+"soll der Pool wachsen"-Fragen sind damit nebenbei mit gelöst, ohne
+eigene Content-Initiative.
+
+## Status: alle vier Slots bearbeitet (2026-07-24)
+
+Drei umgesetzt (`bound_chaos`, `keen_cut`, `soul_resonance`), Slot 1
+(Sustain) bewusst zurückgestellt (siehe oben). Auffällig im Rückblick:
+bei allen drei umgesetzten Slots wich die tatsächliche Schulwahl von
+der ursprünglichen Erstidee im Backlog ab — jedes Mal, weil ein
+genauerer Blick auf die aktuelle Schulgröße oder eine übersehene,
+bereits dokumentierte Identitätslücke (`rareMechanic`) eine bessere
+Passung ergab. Für künftige Slots lohnt sich dieser Zwischenschritt
+("Schulgröße + COMBAT_SCHOOLS-Vokabular gegenprüfen, bevor die
+Erstidee umgesetzt wird") offenbar grundsätzlich.
 
 ## Nicht Teil dieser Liste
 
