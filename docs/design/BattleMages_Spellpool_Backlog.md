@@ -17,10 +17,10 @@ gar keinen:
 
 | Archetyp | Aktuell belegt von | Problem |
 |---|---|---|
-| `sustain` | — | 0 Zauber, reine Vokabel |
-| `kontrollierter_schaden` | — | 0 Zauber, reine Vokabel |
-| `verwundbar_ketten` | `organ_failure` (Biomantie) | einziger Vertreter wurde gerade zum Finisher umgewidmet — der Verstärker-Unterbau fehlt jetzt |
-| `sequenz` | `shadow_dance` (Schatten) | einziger Vertreter, Epic (spät im Run) |
+| `sustain` | — | weiterhin 0 Zauber, zurückgestellt (Slot 1) |
+| `kontrollierter_schaden` | `bound_chaos` (Chaosmagie) | ✅ Slot 2 umgesetzt |
+| `verwundbar_ketten` | `organ_failure` (Finisher), `keen_cut` (Schatten) | ✅ Slot 3 umgesetzt |
+| `sequenz` | `shadow_dance` (Schatten) | einziger Vertreter, Epic (spät im Run) — Slot 4 noch offen |
 | `monoschule` | `purity` (Rune) | einziger Vertreter |
 | `hybrid` | `rune_break` (Rune) | einziger Vertreter |
 
@@ -31,8 +31,16 @@ Priorität, siehe Chat.
 
 ---
 
-## Slot 1 — Sustain-Verstärker
+## Slot 1 — Sustain-Verstärker (zurückgestellt)
 
+- **Status (2026-07-24):** zurückgestellt, nicht umgesetzt. Beim
+  Durchsprechen stellte sich heraus, dass Heilung im Kampf aktuell
+  komplett fehlt (`healPlayer` in `combatFormula.js` existiert, wird
+  aber nirgends aufgerufen — toter Code) — ein einzelner Zauber wäre
+  zu dünn, um eine komplett neue Mechanik zu tragen. Entweder mehrere
+  Sustain-Zauber auf einmal (größerer Umfang) oder vorerst bei den
+  anderen drei Slots bleiben, die bestehende Mechaniken rekombinieren
+  statt eine neue einzuführen.
 - **Archetyp:** `sustain`
 - **Schule (Optionen):** Seelenmagie (passt zur "Mechaniken
   verbinden"-Identität) oder Biomantie (Körper-Regeneration passt zur
@@ -49,41 +57,43 @@ Priorität, siehe Chat.
   keinen Heilungs-Zugang außerhalb der vollen Heilung zwischen
   Kämpfen — das wäre der erste In-Combat-Sustain-Baustein.
 
-## Slot 2 — Kontrollierter-Schaden-Verstärker
+## Slot 2 — Kontrollierter-Schaden-Verstärker — ✅ umgesetzt
 
+- **Status (2026-07-24):** umgesetzt als `bound_chaos` ("Gezügeltes
+  Chaos", Chaosmagie, Rare, Verstärker). Rune verworfen (bereits 9
+  Zauber, größtes Übergewicht im Spellbook) — Chaosmagie passt
+  zusätzlich zur eigenen Schulbeschreibung "Hoher Druck, kontrolliertes
+  Risiko" und wächst den kleineren Pool (5→6).
 - **Archetyp:** `kontrollierter_schaden`
-- **Schule (Optionen):** Runenkunst (natürliche Erweiterung des
-  bestehenden Widerstand-Kerns) oder Chaosmagie (als bewusster
-  Kontrast zum reinen Burst-Fokus der Schule)
-- **Rolle:** Verstärker
 - **Design-Zweck:** ein Cast, der in **derselben Aktion** spürbaren
   Schaden UND Widerstand liefert, ohne dass eine Seite dominiert —
   Mittelweg-Option für Spieler, die sich weder auf reinen Burst noch
   auf reine Verteidigung festlegen wollen.
-- **Design-Frage:** "Gebe ich etwas Schadenspotenzial auf, um
-  stabiler zu werden — ohne komplett auf Offensive zu verzichten?"
 - **Ersetzt keine bestehende Karte, weil:** die existierenden
   Widerstand-Schaden-Hybriden (z. B. `soul_cut`, `chaos_catalyst`)
-  skalieren Schaden AUS Widerstand — dieser Slot soll beides
-  UNABHÄNGIG in einem Cast liefern, ein anderes Verhältnis.
+  skalieren Schaden AUS Widerstand — dieser Slot liefert beides
+  UNABHÄNGIG in einem Cast, ein anderes Verhältnis.
 
-## Slot 3 — Verwundbar-Ketten-Verstärker
+## Slot 3 — Verwundbar-Ketten-Verstärker — ✅ umgesetzt
 
+- **Status (2026-07-24):** umgesetzt als `keen_cut` ("Findiger
+  Schnitt", Schatten, Common, Verstärker). Biomantie verworfen (schon
+  mehrere sehr ähnliche Verwundbar-Zauber, ein weiterer hätte kaum
+  Abwechslung gebracht) — Schatten hatte bislang nur einen
+  pfadgebundenen Verwundbar-Zauber, passenderer Ort für echte
+  Vertiefung. Mechanik an die Schulidentität angepasst
+  (`critAppliesVulnerable` statt bedingungsloser Anwendung, synergiert
+  mit den vorhandenen Präzision-Generatoren).
+- **Nebenfund dabei**: `organ_failure`s eigene "erneut anwenden"-Kern-
+  fähigkeit griff nie (Live-Check-Timing-Bug, gleiche Ursache/Lösung
+  wie bei Präzision) — gefixt, siehe Commit `3a59cb0`.
 - **Archetyp:** `verwundbar_ketten`
-- **Schule:** Biomantie (ergänzt `organ_failure`, das durch die
-  Finisher-Umwidmung den Verstärker-Unterbau dieses Archetyps verloren
-  hat)
-- **Rolle:** Verstärker
 - **Design-Zweck:** hält Verwundbar aktiv oder erneuert es, statt es
   nur einmalig auszulösen — baut die Brücke zwischen einem frühen
-  Verwundbar-Erzeuger (z. B. `bone_fracture`) und dem
-  `organ_failure`-Finisher, der auf wiederholt vorhandenes Verwundbar
-  angewiesen ist.
-- **Design-Frage:** "Halte ich Verwundbar durchgehend aktiv, statt es
-  nur punktuell für einen Bonus auszulösen?"
-- **Ersetzt keine bestehende Karte, weil:** aktuelle Biomantie-Zauber
-  erzeugen oder nutzen Verwundbar einmalig — kein Zauber verlängert
-  oder erneuert es aktiv.
+  Verwundbar-Erzeuger und dem `organ_failure`-Finisher.
+- **Ersetzt keine bestehende Karte, weil:** kein Schatten-Zauber
+  verband bislang Verwundbar-Bonusschaden mit Krit-getriggerter
+  Kettenfortsetzung.
 
 ## Slot 4 — Sequenz-Vertiefung
 
@@ -105,14 +115,12 @@ Priorität, siehe Chat.
   da das eine bewusste Design-Grundregel berührt, nicht nur ein
   Content-Slot ist.
 
-## Offene Verknüpfung zum Startauswahl-Thema
+## Verknüpfung zum Startauswahl-Thema — teilweise eingelöst
 
-Slot 1 (Seelenmagie-Option) und Slot 2 (Chaosmagie-Option) würden
-nebenbei auch den Gesamtpool der beiden kleinsten Schulen (je 5
-Zauber) wachsen lassen — die aus der Startauswahl-Analyse
-zurückgestellte Frage "soll der Pool dieser Schulen wachsen" ließe
-sich damit zusammen mit der Archetyp-Lücke lösen, statt zwei separate
-Content-Initiativen zu brauchen.
+Slot 2 ist tatsächlich in Chaosmagie gelandet (5→6 Zauber) — löst die
+aus der Startauswahl-Analyse zurückgestellte "soll der Pool wachsen"-
+Frage für diese Schule mit. Seelenmagie (Slot 1, zurückgestellt)
+bleibt bei 5 Zaubern, diese Verknüpfung steht also noch aus.
 
 ## Nicht Teil dieser Liste
 
