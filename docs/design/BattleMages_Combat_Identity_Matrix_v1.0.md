@@ -22,7 +22,7 @@ Zauberrollen liefern die Funktion. Die Sequenz liefert die Optimierung.
 
 ## `UNIVERSELLE MECHANIKEN` 
 
-- `Schild Defensive Ressource. Kann aufgebaut, verstärkt oder offensiv genutzt werden.` 
+- `Magischer Widerstand (Update 2026-07-23, vormals "Schild") Permanente Defensiv-Ressource, nie konsumiert. Kann aufgebaut, verstärkt oder offensiv genutzt werden (Schaden skaliert mit Widerstandshöhe).` 
 
 - `Verwundbar Temporärer Debuff. Nicht stackbar. Erhöht erhaltenen Schaden.` 
 
@@ -30,6 +30,8 @@ Zauberrollen liefern die Funktion. Die Sequenz liefert die Optimierung.
 -   Krit Universeller Schadensmultiplikator. Kann aufgebaut, verstärkt
     oder gezielt ausgenutzt werden.
 ```
+
+- `Präzision (Update 2026-07-23) Deterministische Krit-Variante: garantierter kritischer Treffer für den nächsten Zauber statt einer Chance.` 
 
 ```
 ========================================
@@ -83,7 +85,7 @@ Verwundbar - Sekundär: Hybrid - Selten: Krit
 
 ```
 Schatten - Gameplay: Präzision, Tempo und kritische Treffer. - Primär:
-Krit - Sekundär: Sequenz - Selten: Schild
+Krit - Sekundär: Sequenz - Selten: Widerstand
 ```
 
 ```
@@ -93,12 +95,12 @@ Sekundär: Sequenz - Selten: Burst
 
 ```
 Verbotene Runenkunst - Gameplay: Stabilität und Kontrolle. - Primär:
-Schild - Sekundär: Utility - Selten: Krit
+Widerstand - Sekundär: Utility - Selten: Krit
 ```
 
 ```
 Chaosmagie - Gameplay: Hoher Druck, kontrolliertes Risiko. - Primär:
-Burst - Sekundär: Hybrid - Selten: Schild
+Burst - Sekundär: Hybrid - Selten: Widerstand
 ```
 
 ```
@@ -131,8 +133,8 @@ MECHANIK-VERTEILUNG
 ```
 
 ```
-Schild: - Hauptschule: Runenkunst - Nebenschulen: Seelenmagie, Psionik,
-Biomantie
+Widerstand (Update 2026-07-23, vormals "Schild"): - Hauptschule:
+Runenkunst - Nebenschulen: Seelenmagie, Psionik, Biomantie
 ```
 
 ```
@@ -182,11 +184,23 @@ Sehr niedrig: - Chaosmagie
 BUILD-ARCHETYPEN
 ```
 
-- `Schildfestung` 
+- `Widerstandsfestung` 
 
-- `Schildkanone` 
+- `Widerstandskanone` 
 
-- `Schild/Krit` 
+- `Widerstand/Krit` 
+
+```
+(Update 2026-07-23: vormals Schildfestung/Schildkanone/Schild-Krit --
+die drei Archetyp-IDs `schildfestung`/`schildkanone`/`schild_krit`
+(`data/combatIdentity.js`, `BUILD_ARCHETYPES`) referenzierten noch die
+alte Schild-Mechanik und wurden auf `widerstandsfestung`/
+`widerstandskanone`/`widerstand_krit` (`focus: ["resistance", ...]`)
+umbenannt, um mit dem Rest des Vokabulars konsistent zu sein. Rein
+interne Design-/Balance-IDs, nie spielersichtbar -- alle
+`build:`-Referenzen in `data/spellbookCore.js`/`spellbookPart2.js`
+mitgezogen.)
+```
 
 - `Verwundbar-Burst` 
 

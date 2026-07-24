@@ -21,6 +21,8 @@ function createNextSpellPrep(overrides = {}) {
         label: "",
         requeueOnConsume: false,
         sourceSpellId: "",
+        ignoreShield: false,
+        flatResistance: 0,
         ...overrides
     };
 }
@@ -111,6 +113,10 @@ function applyNextSpellPrepToCast(context, spell, cast) {
         (cast.flatShieldBonus || 0) +
         (prep.flatShield || 0);
 
+    cast.flatResistanceBonus =
+        (cast.flatResistanceBonus || 0) +
+        (prep.flatResistance || 0);
+
     cast.shieldPierce +=
         prep.shieldPierce || 0;
 
@@ -132,6 +138,10 @@ function applyNextSpellPrepToCast(context, spell, cast) {
 
     if (prep.appliesVulnerable) {
         cast.nextSpellAppliesVulnerable = true;
+    }
+
+    if (prep.ignoreShield) {
+        cast.ignoreShieldFromPrep = true;
     }
 
     if (prep.adaptiveBonus) {

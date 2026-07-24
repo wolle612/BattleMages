@@ -144,8 +144,29 @@ function addCombatAction(context, message, options = {}) {
     });
 }
 
-function getPlayerStatusViews() {
-    return [];
+function getPlayerStatusViews(context) {
+    const views = [];
+
+    if (context.playerResistance > 0) {
+        views.push({
+            id: "resistance",
+            stacks: context.playerResistance
+        });
+    }
+
+    const precisionCharges =
+        context.effects.nextSpellPreps.filter(
+            prep => prep.guaranteedCrit
+        ).length;
+
+    if (precisionCharges > 0) {
+        views.push({
+            id: "precision",
+            stacks: precisionCharges
+        });
+    }
+
+    return views;
 }
 
 function getEnemyBuffViews() {

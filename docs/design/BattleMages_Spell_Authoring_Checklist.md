@@ -12,8 +12,8 @@
 Nicht jede Schule muss alle vier Rollen (Generator/Verstärker/Build-Enabler/
 Finisher) selbst abdecken. **Seelenmagie ist die bestätigte Ausnahme**: sie hat
 bewusst keinen Generator/Finisher, weil jeder ihrer Zauber zwei Mechaniken
-verbindet und externen Input (meist Verwundbar oder Schild) aus einer anderen
-Schule voraussetzt -- siehe Hinweis in
+verbindet und externen Input (meist Verwundbar oder Magischer Widerstand)
+aus einer anderen Schule voraussetzt -- siehe Hinweis in
 `docs/design/BattleMages_Combat_Identity_Matrix_v1.0.md`. Vor dem Ergänzen
 einer fehlenden Rolle erst prüfen, ob die Lücke ein echtes Versehen ist
 (wie bei Chaosmagie, wo ein fehlender Generator ergänzt wurde) oder eine
@@ -69,10 +69,13 @@ logische Konsequenz der Schul-Identität (wie bei Seelenmagie).
 
 **Mechanik-Tags** (`mechanics[]`, sollte zu `COMBAT_SCHOOLS[school]`s
 `primaryMechanic`/`secondaryMechanic`/`rareMechanic` passen):
-`vulnerable`, `crit`, `shield`, `hybrid`, `sequence`, `burst`, `utility`,
-`sustain`.
+`vulnerable`, `crit`, `resistance`, `hybrid`, `sequence`, `burst`,
+`utility`, `sustain`. (Update 2026-07-23: `resistance` ersetzt das
+frühere `shield` -- Magischer Widerstand statt konsumierbarem Schild,
+siehe `docs/specs/combat_condition_engine_roadmap.md`. Kein Zauber
+im aktuellen Spellbook trägt noch `shield` als Mechanik-Tag.)
 
-**Build-Archetypen** (`BUILD_ARCHETYPES`, 15 Stück, z. B. `schildfestung`,
+**Build-Archetypen** (`BUILD_ARCHETYPES`, 15 Stück, z. B. `widerstandsfestung`,
 `verwundbar_burst`, `kritmaschine`, `monoschule`, `multischule`, `sequenz`,
 `burst`, `sustain`, `one_shot`, `kontrollierter_schaden` ...): volle Liste in
 `data/combatIdentity.js`. **Nur internes Design-/Balance-Werkzeug, niemals
@@ -81,11 +84,36 @@ im UI anzeigen** (siehe CLAUDE.md, "Build-Archetyp-Entscheidung").
 ## 4. Effekte (`effects[]`) -- welche IDs existieren
 
 Dispatch in `src/spellEngine.js` (`resolveSpellEffect`), aktuell genau
-diese sieben:
+diese zehn:
 
 `deal_damage`, `gain_shield`, `apply_vulnerable`, `grant_next_spell_prep`,
 `deal_shield_damage`, `increase_shield_percent`,
-`gain_shield_from_dealt_damage`.
+`gain_shield_from_dealt_damage`, `gain_resistance`, `increase_resistance`,
+`gain_resistance_from_dealt_damage`.
+
+Die drei `resistance`-Effekte (Update 2026-07-23, Combat Condition
+Engine) sind die direkten Pendants zu den drei gleichnamigen
+`shield`-Effekten (`gain_shield`→`gain_resistance`,
+`increase_shield_percent`→`increase_resistance`,
+`gain_shield_from_dealt_damage`→`gain_resistance_from_dealt_damage`)
+und arbeiten gegen `context.playerResistance` statt
+`context.playerShield` -- permanent statt konsumierbar, siehe
+Roadmap-Dokument für die Herleitung.
+
+**Hinweis (Stand 2026-07-23, noch nicht final entschieden)**: kein
+einziger Spieler-Zauber im aktuellen Spellbook nutzt `gain_shield`,
+`increase_shield_percent`, `deal_shield_damage` oder
+`gain_shield_from_dealt_damage` mehr in seinem `effects[]` (verifiziert
+per Grep über `data/*.js`) -- die vollständige Migration hat sie für
+Spieler-Zauber faktisch verwaist zurückgelassen. `applyPlayerShield`
+selbst bleibt für Gegner-zugefügten Schaden relevant, und die vier
+Effekt-IDs werden weiterhin von `enemyEngine.js`/`data/enemies.js`
+für Gegner-Schild verwendet (separates, unabhängiges Vokabular) --
+für **neue Spieler-Zauber** ist `resistance` daher die zu bevorzugende
+Wahl. Ob die vier `shield`-Handler in `spellEngine.js` (nur noch für
+Spieler-Zauber tot, nicht insgesamt) entfernt oder als bewusst
+verfügbares Vokabular für zukünftige Nicht-Widerstand-Designs
+beibehalten werden sollen, ist eine offene Entscheidung.
 
 ## 5. Werte (`values`) -- keine zweite Vokabelliste pflegen
 

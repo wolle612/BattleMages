@@ -996,6 +996,43 @@ body.app-selection #spellContainer {
     animation: none;
 }
 
+/*
+ * Praezision-Glow (Combat Condition Engine, 2026-07-24): bewusst reines CSS
+ * (radialer Farbverlauf + innerer Schatten), kein Bild-Asset -- reine
+ * relative Einheiten (inset/Prozent), skaliert dadurch automatisch mit
+ * --portrait-size auf jedem Geraet mit, ohne eigene Breakpoint-Pflege.
+ */
+.combatant-portrait-effect--precision {
+    border-radius: var(--radius-sm);
+    background: radial-gradient(
+        circle at center,
+        transparent 58%,
+        rgba(255, 205, 90, 0.0) 66%,
+        rgba(255, 205, 90, 0.55) 84%,
+        rgba(255, 236, 170, 0.85) 96%,
+        rgba(255, 205, 90, 0.0) 100%
+    );
+    box-shadow: inset 0 0 1.2em 0.3em rgba(255, 205, 90, 0.6);
+    mix-blend-mode: screen;
+}
+
+.combatant-portrait-slot--precision
+    .combatant-portrait-effect--precision {
+    opacity: 1;
+    animation: portraitPrecisionPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes portraitPrecisionPulse {
+    0%,
+    100% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
 @keyframes portraitShieldRise {
     from {
         background-position: 0 0;
@@ -3928,6 +3965,115 @@ body.app-home #game {
  */
 .combatant-portrait-effect--shield {
     inset: 0;
+}
+
+/*
+ * Gleicher Grund wie beim Schild-Effekt oben: die generische
+ * .combatant-portrait-effect-Regel (inset: var(--portrait-frame-inset))
+ * positioniert relativ zur Padding-Kante des Slots -- der Slot selbst hat
+ * aber ebenfalls padding: var(--portrait-frame-inset), wodurch derselbe
+ * Inset-Wert doppelt angewendet wuerde und der Glow sichtbar zu klein und
+ * nach unten rechts versetzt erscheint. inset:0 richtet ihn stattdessen
+ * exakt am sichtbaren Portraet-Bereich aus.
+ */
+.combatant-portrait-effect--precision {
+    inset: 0;
+}
+
+/*
+ * Widerstand-Badge (Combat Condition Engine, 2026-07-24): eigenstaendiges
+ * Element statt des generischen Status-Chip-Systems (das fuer kurzlebige
+ * Debuffs wie Verwundbar gedacht ist, nicht fuer eine dauerhafte, staendig
+ * sichtbare Ressource). Bewusst reines CSS (Farbverlauf + Rahmen), kein
+ * Bild-Asset -- Prozentwerte relativ zu --portrait-size, skaliert dadurch
+ * automatisch mit dem Portraet auf jedem Geraet mit.
+ */
+.resistance-badge {
+    position: absolute;
+    right: -8%;
+    bottom: -8%;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 24%;
+    height: 24%;
+    padding: 0 5%;
+    border-radius: 999px;
+    border: 0.15em solid var(--border-accent);
+    background: radial-gradient(
+        circle at 35% 30%,
+        #6d5a32 0%,
+        #4a3a1c 55%,
+        #241b0c 100%
+    );
+    box-shadow:
+        0 0.15em 0.4em rgba(0, 0, 0, 0.55),
+        inset 0 0 0.4em rgba(0, 0, 0, 0.5),
+        inset 0 0.05em 0.1em rgba(255, 235, 190, 0.22),
+        0 0 0.5em rgba(201, 168, 74, 0.32);
+    color: var(--accent-gold-bright);
+    font-weight: 800;
+    font-size: clamp(0.68rem, 1.6vw, 0.95rem);
+    letter-spacing: 0.02em;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    pointer-events: auto;
+    cursor: default;
+    transition: transform 0.25s ease;
+}
+
+.resistance-badge[hidden] {
+    display: none;
+}
+
+/*
+ * Eigenes Hover-Tooltip statt native title-Attribute (unzuverlaessig --
+ * verzoegert, verschwindet bei kleinster Mausbewegung). Reines CSS
+ * :hover, kein JS-Timing noetig.
+ */
+.resistance-badge-tooltip {
+    position: absolute;
+    bottom: 130%;
+    left: 50%;
+    z-index: 10;
+    min-width: 180px;
+    max-width: 240px;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    background: var(--tooltip-fill);
+    border: 1px solid var(--border-bronze);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    color: var(--text-primary);
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: normal;
+    text-align: left;
+    text-shadow: none;
+    white-space: normal;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translate(-50%, 4px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.resistance-badge-tooltip strong {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 0.82rem;
+    color: var(--accent-gold-bright);
+}
+
+.resistance-badge-tooltip p {
+    margin: 4px 0 0;
+    color: var(--text-secondary);
+}
+
+.resistance-badge:hover .resistance-badge-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
 }
 
 .enemy-portrait-slot {

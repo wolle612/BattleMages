@@ -63,25 +63,25 @@ const spellbookPart2Definitions = [
         name: "Knochenpanzer",
         type: "Attack",
         role: "verstaerker",
-        build: "schildfestung",
-        mechanics: ["shield"],
+        build: "widerstandsfestung",
+        mechanics: ["resistance"],
         rarity: "Common",
         description: "Knochenplatten wachsen über Haut und Fleisch.",
         tooltip: [
             "Verursacht 15 Schaden.",
-            "Erhalte 20 Schild."
+            "Erhalte 20 Magischen Widerstand."
         ],
         tags: ["Attack"],
         spellbookCore: true,
         starter: true,
         cooldown: 0,
-        effects: ["deal_damage", "gain_shield"],
+        effects: ["deal_damage", "gain_resistance"],
         upgrades: [
             {
                 rank: 1,
                 values: {
                     damage: 15,
-                    shield: 20
+                    resistance: 20
                 }
             }
         ]
@@ -93,12 +93,12 @@ const spellbookPart2Definitions = [
         type: "Attack",
         role: "verstaerker",
         build: "kritmaschine",
-        mechanics: ["crit", "shield"],
+        mechanics: ["crit", "resistance"],
         rarity: "Rare",
         description: "Ein Mantel aus Schatten fängt kritische Treffer ab.",
         tooltip: [
             "Verursacht 30 Schaden.",
-            "Bei einem kritischen Treffer erhältst du 20 Schild."
+            "Bei einem kritischen Treffer erhältst du 20 Magischen Widerstand."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -110,7 +110,7 @@ const spellbookPart2Definitions = [
                 rank: 1,
                 values: {
                     damage: 32,
-                    critShieldGain: 20
+                    critResistanceGain: 20
                 }
             }
         ]
@@ -153,10 +153,13 @@ const spellbookPart2Definitions = [
         build: "krit_verwundbar",
         mechanics: ["vulnerable", "crit"],
         rarity: "Rare",
-        description: "Der gebrochene Wille öffnet den Geist für kritische Treffer.",
+        // Neugestaltet (Combat Condition Engine, 2026-07-23, "Option B"):
+        // reine Verwundbar-gated Selbst-Krit-Chance ohne eigenen Payoff wird
+        // zum bedingten Präzision-Generator, analog zu soul_spark.
+        description: "Der gebrochene Wille bereitet den Geist auf den entscheidenden Treffer vor.",
         tooltip: [
             "Verursacht 30 Schaden.",
-            "Gegen verwundbare Ziele: +30 % Kritchance."
+            "Gegen verwundbare Ziele: Der nächste Zauber erhält Präzision (garantiert kritisch)."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -168,7 +171,8 @@ const spellbookPart2Definitions = [
                 rank: 1,
                 values: {
                     damage: 30,
-                    vulnerableCritChanceBonus: 30
+                    nextSpellGuaranteedCrit: true,
+                    nextSpellPrepRequiresVulnerable: true
                 }
             }
         ]
@@ -182,10 +186,15 @@ const spellbookPart2Definitions = [
         build: "kritmaschine",
         mechanics: ["crit"],
         rarity: "Common",
-        description: "Ein Gedankenstoß sucht den verwundbaren Punkt.",
+        // Neugestaltet (Combat Condition Engine, 2026-07-23): reine
+        // Selbst-Krit-Chance ohne eigenen Payoff (siehe Phase-0.5-
+        // Diskussion) wird zum Präzision-Generator fuer den naechsten
+        // Zauber -- Nutzer-Entscheidung "Option B", keine reine
+        // Formalismus-Migration wie sonst in dieser Session.
+        description: "Ein Gedankenstoß bereitet den entscheidenden Treffer vor.",
         tooltip: [
             "Verursacht 32 Schaden.",
-            "+18 % Kritchance."
+            "Der nächste Zauber erhält Präzision (garantiert kritisch)."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -197,7 +206,7 @@ const spellbookPart2Definitions = [
                 rank: 1,
                 values: {
                     damage: 32,
-                    critChanceBonus: 18
+                    nextSpellGuaranteedCrit: true
                 }
             }
         ]
@@ -238,25 +247,25 @@ const spellbookPart2Definitions = [
         name: "Gedankenbarriere",
         type: "Attack",
         role: "verstaerker",
-        build: "schildfestung",
-        mechanics: ["shield"],
+        build: "widerstandsfestung",
+        mechanics: ["resistance"],
         rarity: "Common",
         description: "Gedanken verdichten sich zu einem schützenden Schild.",
         tooltip: [
             "Verursacht 15 Schaden.",
-            "Erhalte 20 Schild."
+            "Erhalte 20 Magischen Widerstand."
         ],
         tags: ["Attack"],
         spellbookCore: true,
         starter: true,
         cooldown: 0,
-        effects: ["deal_damage", "gain_shield"],
+        effects: ["deal_damage", "gain_resistance"],
         upgrades: [
             {
                 rank: 1,
                 values: {
                     damage: 15,
-                    shield: 20
+                    resistance: 20
                 }
             }
         ]
@@ -326,26 +335,26 @@ const spellbookPart2Definitions = [
         name: "Verbotenes Siegel",
         type: "Protection",
         role: "verstaerker",
-        build: "schildfestung",
-        mechanics: ["shield", "sequence"],
+        build: "widerstandsfestung",
+        mechanics: ["resistance", "sequence"],
         rarity: "Rare",
         description: "Ein verbotenes Siegel wächst mit jedem Schutzzauber.",
         tooltip: [
-            "Erhalte 25 Schild.",
-            "Wurde zuvor ein Schutzzauber gewirkt: +20 Schild."
+            "Erhalte 25 Magischen Widerstand.",
+            "Wurde zuvor ein Schutzzauber gewirkt: +20 Magischen Widerstand."
         ],
         tags: ["Protection"],
         spellbookCore: true,
         starter: false,
         cooldown: 0,
-        effects: ["gain_shield"],
+        effects: ["gain_resistance"],
         upgrades: [
             {
                 rank: 1,
                 values: {
-                    shield: 25,
+                    resistance: 25,
                     sequenceTrigger: "after_protection",
-                    sequenceShieldBonus: 20
+                    sequenceResistanceBonus: 20
                 }
             }
         ]
@@ -356,24 +365,24 @@ const spellbookPart2Definitions = [
         name: "Verstärktes Siegel",
         type: "Attack",
         role: "verstaerker",
-        build: "schildfestung",
-        mechanics: ["shield"],
+        build: "widerstandsfestung",
+        mechanics: ["resistance"],
         rarity: "Rare",
         description: "Das Siegel pulsiert und verdoppelt die vorhandene Barriere.",
         tooltip: [
-            "Erhöhe deinen aktuellen Schild um 50 %.",
+            "Erhöhe deinen aktuellen Magischen Widerstand um 50 %.",
             "Verursacht 15 Schaden."
         ],
         tags: ["Attack"],
         spellbookCore: true,
         starter: false,
         cooldown: 0,
-        effects: ["increase_shield_percent", "deal_damage"],
+        effects: ["increase_resistance", "deal_damage"],
         upgrades: [
             {
                 rank: 1,
                 values: {
-                    playerShieldPercentIncrease: 50,
+                    playerResistancePercentIncrease: 50,
                     damage: 15
                 }
             }
@@ -412,12 +421,12 @@ const spellbookPart2Definitions = [
         type: "Attack",
         role: "verstaerker",
         build: "hybrid",
-        mechanics: ["shield", "vulnerable"],
+        mechanics: ["resistance", "vulnerable"],
         rarity: "Rare",
         description: "Hinter dem eigenen Schild bricht die Rune das Ziel.",
         tooltip: [
             "Verursacht 30 Schaden.",
-            "Besitzt du Schild, fügt dieser Zauber Verwundbar zu."
+            "Besitzt du Magischen Widerstand, fügt dieser Zauber Verwundbar zu."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -429,7 +438,7 @@ const spellbookPart2Definitions = [
                 rank: 1,
                 values: {
                     damage: 30,
-                    applyVulnerableIfPlayerShield: true
+                    applyVulnerableIfPlayerResistance: true
                 }
             }
         ]
@@ -440,25 +449,25 @@ const spellbookPart2Definitions = [
         name: "Runenstoß",
         type: "Attack",
         role: "verstaerker",
-        build: "schildfestung",
-        mechanics: ["shield"],
+        build: "widerstandsfestung",
+        mechanics: ["resistance"],
         rarity: "Common",
         description: "Ein runischer Stoß, der zugleich schützt und verletzt.",
         tooltip: [
             "Verursacht 35 Schaden.",
-            "Erhalte 15 Schild."
+            "Erhalte 15 Magischen Widerstand."
         ],
         tags: ["Attack"],
         spellbookCore: true,
         starter: false,
         cooldown: 0,
-        effects: ["deal_damage", "gain_shield"],
+        effects: ["deal_damage", "gain_resistance"],
         upgrades: [
             {
                 rank: 1,
                 values: {
                     damage: 35,
-                    shield: 15
+                    resistance: 15
                 }
             }
         ]
@@ -472,9 +481,21 @@ const spellbookPart2Definitions = [
         build: "burst",
         mechanics: ["burst"],
         rarity: "Common",
-        description: "Ungezähmte Energie entlädt sich in unberechenbarer Gewalt.",
+        // Neugestaltet (Combat Condition Engine, 2026-07-23, zweiter Anlauf
+        // nach Nutzer-Feedback): ersetzt die vormals zufällige Schadensspanne
+        // UND den zufälligen Next-Spell-Prep (Pfad B) durch deterministische
+        // Mechaniken -- explizite Nutzer-Entscheidung, kein reiner
+        // Formalismus-Bug wie bei den sonstigen Migrationen. Erster Entwurf
+        // (Schaden skaliert mit eigener fehlender Lebensenergie) verworfen --
+        // gehörte konzeptionell zu Blutmagie/Biomantie (siehe
+        // docs/archive/blood_spec.md), nicht zu Chaosmagie. Stattdessen an
+        // "Chaosblitz" (World of Warcraft) orientiert: Chaos ignoriert
+        // gegnerische Verteidigung komplett, wirkt dadurch instabil/
+        // rücksichtslos, ist mechanisch aber vollständig deterministisch.
+        description: "Ungezähmte Energie durchschlägt jede Verteidigung, ungeachtet von Schild oder Widerstand.",
         tooltip: [
-            "Verursacht 30–50 Schaden."
+            "Verursacht 35 Schaden.",
+            "Ignoriert gegnerischen Schild und Magischen Widerstand vollständig."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -485,8 +506,8 @@ const spellbookPart2Definitions = [
             {
                 rank: 1,
                 values: {
-                    randomDamageMin: 30,
-                    randomDamageMax: 50
+                    damage: 35,
+                    ignoreShield: true
                 }
             }
         ]
@@ -522,13 +543,13 @@ const spellbookPart2Definitions = [
         name: "Chaoskatalysator",
         type: "Attack",
         role: "build_enabler",
-        build: "schildkanone",
-        mechanics: ["shield", "burst"],
+        build: "widerstandskanone",
+        mechanics: ["resistance", "burst"],
         rarity: "Epic",
         description: "Chaos nährt sich am Schild und entlädt den Überschuss.",
         tooltip: [
             "Verursacht 25 Schaden.",
-            "Besitzt du Schild, verursacht dieser Zauber zusätzlichen Schaden in Höhe von 50 % deines Schildes."
+            "Besitzt du Magischen Widerstand, verursacht dieser Zauber zusätzlichen Schaden in Höhe von 50 % deines Widerstands."
         ],
         tags: ["Burst"],
         spellbookCore: true,
@@ -540,7 +561,7 @@ const spellbookPart2Definitions = [
                 rank: 1,
                 values: {
                     damage: 25,
-                    shieldBonusDamagePercent: 50
+                    resistanceBonusDamagePercent: 50
                 }
             }
         ]
@@ -551,25 +572,25 @@ const spellbookPart2Definitions = [
         name: "Entropie",
         type: "Attack",
         role: "generator",
-        build: "schildkanone",
-        mechanics: ["burst", "shield"],
+        build: "widerstandskanone",
+        mechanics: ["burst", "resistance"],
         rarity: "Common",
         description: "Geordnete Energie zerfällt in Chaos und hinterlässt einen schützenden Rest.",
         tooltip: [
             "Verursacht 26 Schaden.",
-            "Erhalte 10 Schild."
+            "Erhalte 10 Magischen Widerstand."
         ],
         tags: ["Attack"],
         spellbookCore: true,
         starter: true,
         cooldown: 0,
-        effects: ["deal_damage", "gain_shield"],
+        effects: ["deal_damage", "gain_resistance"],
         upgrades: [
             {
                 rank: 1,
                 values: {
                     damage: 26,
-                    shield: 10
+                    resistance: 10
                 }
             }
         ]
@@ -580,26 +601,35 @@ const spellbookPart2Definitions = [
         name: "Überladung",
         type: "Attack",
         role: "finisher",
-        build: "schildkanone",
-        mechanics: ["shield", "burst"],
+        build: "widerstandskanone",
+        mechanics: ["resistance", "burst"],
         rarity: "Epic",
-        description: "Aufgestauter Schild überlädt sich und entlädt sich gewaltsam.",
+        // Hinweis fuer Phase 3 (Balance): Ueberladung war urspruenglich bewusst
+        // so gebaut, dass sie sich selbst einen garantierten Schild-Sockel
+        // verschafft UND ihn im selben Cast wieder verbraucht (Rotationsposition-
+        // unabhaengig, siehe Content-Phase-Notizen). Unter Magischem Widerstand
+        // (nie konsumiert) skaliert der Schaden jetzt zusaetzlich mit JEDEM
+        // zuvor angesammelten Widerstand (z. B. von Entropie), nicht nur dem
+        // eigenen +12 -- eine echte Staerkung gegenueber dem urspruenglichen
+        // Design, faithful uebernommen, nicht kompensiert. Gehoert zur
+        // Retuning-Liste der Balance-Phase.
+        description: "Aufgestauter Widerstand überlädt sich und entlädt sich gewaltsam.",
         tooltip: [
             "Verursacht 12 Schaden.",
-            "Erzeugt 12 Schild und entlädt deinen gesamten Schild sofort als zusätzlichen Schaden."
+            "Erzeugt 12 Magischen Widerstand und verursacht zusätzlichen Schaden in Höhe von 100 % deines Magischen Widerstands."
         ],
         tags: ["Attack"],
         spellbookCore: true,
         starter: false,
         cooldown: 0,
-        effects: ["gain_shield", "deal_shield_damage"],
+        effects: ["gain_resistance", "deal_damage"],
         upgrades: [
             {
                 rank: 1,
                 values: {
                     damage: 12,
-                    shield: 12,
-                    shieldBonusDamagePercent: 100
+                    resistance: 12,
+                    resistanceBonusDamagePercent: 100
                 }
             }
         ]
@@ -610,25 +640,25 @@ const spellbookPart2Definitions = [
         name: "Seelenbindung",
         type: "Attack",
         role: "verstaerker",
-        build: "schildkanone",
-        mechanics: ["shield", "hybrid"],
+        build: "widerstandskanone",
+        mechanics: ["resistance", "hybrid"],
         rarity: "Rare",
-        description: "Die getroffene Seele gibt Kraft als Schild zurück.",
+        description: "Die getroffene Seele gibt Kraft als Magischen Widerstand zurück.",
         tooltip: [
             "Verursacht 30 Schaden.",
-            "Erhalte Schild in Höhe von 50 % des verursachten Schadens."
+            "Erhalte Magischen Widerstand in Höhe von 50 % des verursachten Schadens."
         ],
         tags: ["Attack"],
         spellbookCore: true,
         starter: false,
         cooldown: 0,
-        effects: ["deal_damage", "gain_shield_from_dealt_damage"],
+        effects: ["deal_damage", "gain_resistance_from_dealt_damage"],
         upgrades: [
             {
                 rank: 1,
                 values: {
                     damage: 30,
-                    shieldFromDealtDamagePercent: 50
+                    resistanceFromDealtDamagePercent: 50
                 }
             }
         ]
@@ -639,12 +669,12 @@ const spellbookPart2Definitions = [
         name: "Seelenschnitt",
         type: "Attack",
         role: "verstaerker",
-        build: "schildkanone",
-        mechanics: ["shield"],
+        build: "widerstandskanone",
+        mechanics: ["resistance"],
         rarity: "Common",
-        description: "Ein Schnitt, der aus dem eigenen Schild gespeist wird.",
+        description: "Ein Schnitt, der aus dem eigenen Widerstand gespeist wird.",
         tooltip: [
-            "Verursacht Schaden in Höhe von 50 % deines Schildes."
+            "Verursacht Schaden in Höhe von 50 % deines Magischen Widerstands."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -655,7 +685,7 @@ const spellbookPart2Definitions = [
             {
                 rank: 1,
                 values: {
-                    shieldBonusDamagePercent: 50
+                    resistanceBonusDamagePercent: 50
                 }
             }
         ]
@@ -667,12 +697,12 @@ const spellbookPart2Definitions = [
         type: "Attack",
         role: "verstaerker",
         build: "verwundbar_burst",
-        mechanics: ["vulnerable", "shield"],
+        mechanics: ["vulnerable", "resistance"],
         rarity: "Rare",
         description: "Verwundbarkeit wird zu schützender Seelenkraft.",
         tooltip: [
             "Verursacht 30 Schaden.",
-            "Gegen verwundbare Ziele erhältst du 20 Schild."
+            "Gegen verwundbare Ziele erhältst du 20 Magischen Widerstand."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -684,7 +714,7 @@ const spellbookPart2Definitions = [
                 rank: 1,
                 values: {
                     damage: 30,
-                    vulnerableShieldGain: 20
+                    vulnerableResistanceGain: 20
                 }
             }
         ]
@@ -698,10 +728,15 @@ const spellbookPart2Definitions = [
         build: "krit_verwundbar",
         mechanics: ["crit", "vulnerable"],
         rarity: "Rare",
-        description: "Ein Funke Seelenfeuer sucht kritische Schwachstellen.",
+        // Neugestaltet (Combat Condition Engine, 2026-07-23, "Option B"):
+        // reine Verwundbar-gated Selbst-Krit-Chance ohne eigenen Payoff wird
+        // zum bedingten Präzision-Generator -- nutzt das bereits bestehende
+        // nextSpellPrepRequiresVulnerable (siehe organ_failure), kein neuer
+        // Code noetig.
+        description: "Ein Funke Seelenfeuer bereitet den nächsten Treffer vor.",
         tooltip: [
             "Verursacht 30 Schaden.",
-            "Gegen verwundbare Ziele: +30 % Kritchance."
+            "Gegen verwundbare Ziele: Der nächste Zauber erhält Präzision (garantiert kritisch)."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -713,7 +748,8 @@ const spellbookPart2Definitions = [
                 rank: 1,
                 values: {
                     damage: 30,
-                    vulnerableCritChanceBonus: 30
+                    nextSpellGuaranteedCrit: true,
+                    nextSpellPrepRequiresVulnerable: true
                 }
             }
         ]
@@ -724,13 +760,13 @@ const spellbookPart2Definitions = [
         name: "Seelenwache",
         type: "Attack",
         role: "verstaerker",
-        build: "schild_krit",
-        mechanics: ["crit", "shield"],
+        build: "widerstand_krit",
+        mechanics: ["crit", "resistance"],
         rarity: "Common",
         description: "Die Seele wacht auf und schützt sich im entscheidenden Moment.",
         tooltip: [
             "Verursacht 26 Schaden.",
-            "Bei kritischem Treffer: Erhalte 20 Schild."
+            "Bei kritischem Treffer: Erhalte 20 Magischen Widerstand."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -742,7 +778,7 @@ const spellbookPart2Definitions = [
                 rank: 1,
                 values: {
                     damage: 26,
-                    critShieldGain: 20
+                    critResistanceGain: 20
                 }
             }
         ]

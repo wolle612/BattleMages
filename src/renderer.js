@@ -340,6 +340,29 @@ function renderCombatantPortrait(type, entityId) {
             ? ` data-portrait-fallback="${sources.fallback}"`
             : "";
 
+    const resistanceBadge =
+        type === "player"
+            ? `
+            <div
+                id="playerResistanceBadge"
+                class="resistance-badge"
+                hidden
+                aria-hidden="true"
+            >
+                <span class="resistance-badge-value">0</span>
+                <div class="resistance-badge-tooltip">
+                    <strong>
+                        Magischer Widerstand: <span class="resistance-badge-tooltip-value">0</span>
+                    </strong>
+                    <p>
+                        Reduziert erlittenen Schaden um
+                        <span class="resistance-badge-tooltip-percent">0</span> %.
+                    </p>
+                </div>
+            </div>
+        `
+            : "";
+
     return `
         <div
             class="combatant-portrait-slot combatant-portrait-slot--${type} combatant-portrait-slot--reveal"
@@ -352,6 +375,7 @@ function renderCombatantPortrait(type, entityId) {
                 ${fallbackAttribute}
             />
             ${renderPortraitEffectOverlaysHtml()}
+            ${resistanceBadge}
         </div>
     `;
 }
@@ -2435,6 +2459,8 @@ function updateCombatBars(action) {
 function updateCombatClarity(action) {
     updatePortraitVulnerableOverlays(action);
     updatePortraitShieldOverlays(action);
+    updatePortraitPrecisionOverlay(action);
+    updatePlayerResistanceBadge(action);
     updateEnemyIntent(action.enemyActionBar);
 }
 

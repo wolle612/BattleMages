@@ -1,6 +1,7 @@
 let vfxPlaceholderTexture = null;
 const vfxTextureCache = {};
 const vfxSpritesheetCache = {};
+const vfxSpritesheetLoadPromises = {};
 
 function applyVfxNearestScale(texture) {
     if (texture && texture.baseTexture) {
@@ -263,39 +264,58 @@ function loadVfxSpritesheet(manifestPath) {
         return Promise.resolve(vfxSpritesheetCache[manifestPath]);
     }
 
-    return loadVfxManifest(manifestPath)
-        .then(async manifest => {
-            const imagePath =
-                manifestPath.replace(/[^/]+$/, manifest.meta.image);
+    // vfxSpritesheetCache wird erst NACH dem asynchronen Laden befuellt --
+    // ohne dieses zweite, sofort (synchron) gesetzte Promise-Cache wuerde
+    // ein zweiter Aufruf fuer denselben Pfad, der eintrifft bevor der erste
+    // fertig ist (z.B. zwei VFX-Impacts derselben Schule kurz hintereinander
+    // im Kampf), das Manifest ein zweites Mal parsen -- PixiJS registriert
+    // dieselben Frame-IDs dann doppelt in seinem globalen Texture-Cache
+    // ("Texture added to the cache ... already had an entry").
+    if (vfxSpritesheetLoadPromises[manifestPath]) {
+        return vfxSpritesheetLoadPromises[manifestPath];
+    }
 
-            const baseTexture =
-                await loadVfxImageBaseTexture(imagePath);
+    const loadPromise =
+        loadVfxManifest(manifestPath)
+            .then(async manifest => {
+                const imagePath =
+                    manifestPath.replace(/[^/]+$/, manifest.meta.image);
 
-            const spritesheet =
-                new PIXI.Spritesheet(baseTexture, manifest);
+                const baseTexture =
+                    await loadVfxImageBaseTexture(imagePath);
 
-            await spritesheet.parse();
+                const spritesheet =
+                    new PIXI.Spritesheet(baseTexture, manifest);
 
-            if (
-                !spritesheet.animations ||
-                Object.keys(spritesheet.animations).length === 0
-            ) {
-                throw new Error(
-                    `Spritesheet enthält keine Animationen: ${manifestPath}`
+                await spritesheet.parse();
+
+                if (
+                    !spritesheet.animations ||
+                    Object.keys(spritesheet.animations).length === 0
+                ) {
+                    throw new Error(
+                        `Spritesheet enthält keine Animationen: ${manifestPath}`
+                    );
+                }
+
+                vfxSpritesheetCache[manifestPath] = spritesheet;
+
+                return spritesheet;
+            })
+            .catch(error => {
+                console.warn(
+                    `[VFX] Spritesheet konnte nicht geladen werden: ${manifestPath} — ${formatVfxLoadError(error, "Ladefehler")}`
                 );
-            }
 
-            vfxSpritesheetCache[manifestPath] = spritesheet;
+                return null;
+            })
+            .finally(() => {
+                delete vfxSpritesheetLoadPromises[manifestPath];
+            });
 
-            return spritesheet;
-        })
-        .catch(error => {
-            console.warn(
-                `[VFX] Spritesheet konnte nicht geladen werden: ${manifestPath} — ${formatVfxLoadError(error, "Ladefehler")}`
-            );
+    vfxSpritesheetLoadPromises[manifestPath] = loadPromise;
 
-            return null;
-        });
+    return loadPromise;
 }
 
 function getVfxSpritesheetAnimation(manifestPath, animationName) {

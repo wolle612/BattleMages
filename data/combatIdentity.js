@@ -34,20 +34,20 @@ const SPELL_ROLES = {
 };
 
 const BUILD_ARCHETYPES = {
-    schildfestung: {
-        id: "schildfestung",
-        label: "Schildfestung",
-        focus: ["shield"]
+    widerstandsfestung: {
+        id: "widerstandsfestung",
+        label: "Widerstandsfestung",
+        focus: ["resistance"]
     },
-    schildkanone: {
-        id: "schildkanone",
-        label: "Schildkanone",
-        focus: ["shield", "damage"]
+    widerstandskanone: {
+        id: "widerstandskanone",
+        label: "Widerstandskanone",
+        focus: ["resistance", "damage"]
     },
-    schild_krit: {
-        id: "schild_krit",
-        label: "Schild/Krit",
-        focus: ["shield", "crit"]
+    widerstand_krit: {
+        id: "widerstand_krit",
+        label: "Widerstand/Krit",
+        focus: ["resistance", "crit"]
     },
     verwundbar_burst: {
         id: "verwundbar_burst",
@@ -129,7 +129,7 @@ const COMBAT_SCHOOLS = {
         gameplay: "Präzision, Tempo und kritische Treffer.",
         primaryMechanic: "crit",
         secondaryMechanic: "sequence",
-        rareMechanic: "shield",
+        rareMechanic: "resistance",
         sequenceLevel: "high"
     },
     dream: {
@@ -147,7 +147,7 @@ const COMBAT_SCHOOLS = {
         iconFolder: "forbidden_runes",
         fantasyName: "Verbotene Runenkunst",
         gameplay: "Stabilität und Kontrolle.",
-        primaryMechanic: "shield",
+        primaryMechanic: "resistance",
         secondaryMechanic: "utility",
         rareMechanic: "crit",
         sequenceLevel: "medium"
@@ -159,7 +159,7 @@ const COMBAT_SCHOOLS = {
         gameplay: "Hoher Druck, kontrolliertes Risiko.",
         primaryMechanic: "burst",
         secondaryMechanic: "hybrid",
-        rareMechanic: "shield",
+        rareMechanic: "resistance",
         sequenceLevel: "very_low"
     },
     primal: {

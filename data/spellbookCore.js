@@ -89,22 +89,22 @@ const spellbookCoreDefinitions = [
         name: "Schildwall",
         type: "Protection",
         role: "generator",
-        build: "schildfestung",
-        mechanics: ["shield"],
+        build: "widerstandsfestung",
+        mechanics: ["resistance"],
         rarity: "Common",
         description: "Runen formen eine dichte Barriere aus hartem Licht.",
         tooltip: [
-            "Erhalte 32 Schild."
+            "Erhalte 32 Magischen Widerstand."
         ],
         tags: ["Protection"],
         spellbookCore: true,
         starter: true,
         cooldown: 0,
-        effects: ["gain_shield"],
+        effects: ["gain_resistance"],
         upgrades: [
             {
                 rank: 1,
-                values: { shield: 32 }
+                values: { resistance: 32 }
             }
         ]
     },
@@ -114,23 +114,26 @@ const spellbookCoreDefinitions = [
         name: "Schildbrecher",
         type: "Attack",
         role: "build_enabler",
-        build: "schildkanone",
-        mechanics: ["shield"],
+        build: "widerstandskanone",
+        mechanics: ["resistance", "sequence"],
         rarity: "Rare",
         description: "Die Barriere zerbricht und entlädt sich als tödlicher Stoß.",
         tooltip: [
-            "Verursacht Schaden in Höhe deines aktuellen Schildes.",
-            "Entfernt anschließend deinen Schild."
+            "Verursacht Schaden in Höhe deines Magischen Widerstands.",
+            "Nur wirksam, wenn du zuvor einen Schutzzauber gewirkt hast."
         ],
         tags: ["Burst"],
         spellbookCore: true,
         starter: true,
         cooldown: 0,
-        effects: ["deal_shield_damage"],
+        effects: ["deal_damage"],
         upgrades: [
             {
                 rank: 1,
-                values: { consumePlayerShield: true }
+                values: {
+                    sequenceTrigger: "after_protection",
+                    resistanceBonusDamagePercentOnSequence: 100
+                }
             }
         ]
     },
@@ -143,10 +146,13 @@ const spellbookCoreDefinitions = [
         build: "kritmaschine",
         mechanics: ["crit"],
         rarity: "Common",
-        description: "Eine Klinge aus Schatten sucht den tödlichen Winkel.",
+        // Neugestaltet (Combat Condition Engine, 2026-07-23, "Option B"):
+        // reine Selbst-Krit-Chance ohne eigenen Payoff wird zum
+        // Präzision-Generator für den nächsten Zauber.
+        description: "Eine Klinge aus Schatten bereitet den tödlichen Winkel vor.",
         tooltip: [
             "Verursacht 30 Schaden.",
-            "+20 % Kritchance."
+            "Der nächste Zauber erhält Präzision (garantiert kritisch)."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -158,7 +164,7 @@ const spellbookCoreDefinitions = [
                 rank: 1,
                 values: {
                     damage: 30,
-                    critChanceBonus: 20
+                    nextSpellGuaranteedCrit: true
                 }
             }
         ]
@@ -228,13 +234,13 @@ const spellbookCoreDefinitions = [
         name: "Runenharmonie",
         type: "Attack",
         role: "build_enabler",
-        build: "schild_krit",
-        mechanics: ["shield", "crit"],
+        build: "widerstand_krit",
+        mechanics: ["resistance", "crit"],
         rarity: "Rare",
         description: "Runen und Schatten schwingen im gleichen Takt.",
         tooltip: [
             "Verursacht 30 Schaden.",
-            "Kritische Treffer gewähren 20 Schild."
+            "Kritische Treffer gewähren 20 Magischen Widerstand."
         ],
         tags: ["Attack"],
         spellbookCore: true,
@@ -246,7 +252,7 @@ const spellbookCoreDefinitions = [
                 rank: 1,
                 values: {
                     damage: 30,
-                    critShieldGain: 20
+                    critResistanceGain: 20
                 }
             }
         ]

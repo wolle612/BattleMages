@@ -136,7 +136,14 @@ function renderPortraitEffectOverlaysHtml() {
         ></div>
     `;
 
-    return `${staticEffects}${shieldEffect}`;
+    const precisionEffect = `
+        <div
+            class="combatant-portrait-effect combatant-portrait-effect--precision"
+            aria-hidden="true"
+        ></div>
+    `;
+
+    return `${staticEffects}${shieldEffect}${precisionEffect}`;
 }
 
 function statusListHasVulnerable(statuses) {
@@ -193,6 +200,80 @@ function updatePortraitSlotShielded(slot, isShielded) {
 
     if (!isShielded) {
         slot.classList.remove("combatant-portrait-slot--shield-rise");
+    }
+}
+
+function statusListHasPrecision(statuses) {
+    return (statuses || []).some(status => status.id === "precision");
+}
+
+function updatePortraitPrecisionOverlay(action) {
+    const slot =
+        document.querySelector(".player-panel .combatant-portrait-slot");
+
+    if (!slot) {
+        return;
+    }
+
+    slot.classList.toggle(
+        "combatant-portrait-slot--precision",
+        statusListHasPrecision(action.playerStatuses)
+    );
+}
+
+function getPlayerResistanceValue(statuses) {
+    return (statuses || [])
+        .find(status => status.id === "resistance")
+        ?.stacks || 0;
+}
+
+// Muss mit RESISTANCE_MITIGATION_CONSTANT (effectEngine.js,
+// applyPlayerResistance) uebereinstimmen -- reine Anzeige-Ableitung der
+// dortigen Formel, keine eigene Balance-Quelle. Bei einer Aenderung des
+// Balance-Werts dort auch hier nachziehen.
+function getResistanceReductionPercent(resistanceValue) {
+    if (resistanceValue <= 0) {
+        return 0;
+    }
+
+    return Math.round(
+        (resistanceValue / (resistanceValue + RESISTANCE_MITIGATION_CONSTANT)) * 100
+    );
+}
+
+function updatePlayerResistanceBadge(action) {
+    const badge =
+        document.getElementById("playerResistanceBadge");
+
+    if (!badge) {
+        return;
+    }
+
+    const value =
+        getPlayerResistanceValue(action.playerStatuses);
+
+    badge.hidden = value <= 0;
+
+    const valueLabel =
+        badge.querySelector(".resistance-badge-value");
+
+    if (valueLabel) {
+        valueLabel.textContent = value;
+    }
+
+    const tooltipValue =
+        badge.querySelector(".resistance-badge-tooltip-value");
+
+    if (tooltipValue) {
+        tooltipValue.textContent = value;
+    }
+
+    const tooltipPercent =
+        badge.querySelector(".resistance-badge-tooltip-percent");
+
+    if (tooltipPercent) {
+        tooltipPercent.textContent =
+            getResistanceReductionPercent(value);
     }
 }
 

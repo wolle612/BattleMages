@@ -272,6 +272,44 @@ check(
     );
 }
 
+// --- applyPlayerResistance (Phase 3 Balance-Neukalibrierung: prozentuale
+// Reduktion mit abnehmendem Grenznutzen statt linearem Abzug) --------------
+
+check(
+    "applyPlayerResistance: ohne Widerstand unveraendert",
+    fns.applyPlayerResistance(makeContext({ playerResistance: 0 }), 30),
+    30
+);
+
+check(
+    "applyPlayerResistance: K=40, 40 Widerstand -> 50% Reduktion (30 -> 15)",
+    fns.applyPlayerResistance(makeContext({ playerResistance: 40 }), 30),
+    15
+);
+
+check(
+    "applyPlayerResistance: 200 Widerstand -> ~83% Reduktion, aber nie 100% (30 -> 4)",
+    fns.applyPlayerResistance(makeContext({ playerResistance: 200 }), 30),
+    4
+);
+
+check(
+    "applyPlayerResistance: Widerstand wird durch Verrechnung nicht konsumiert",
+    (() => {
+        const context = makeContext({ playerResistance: 40 });
+        fns.applyPlayerResistance(context, 30);
+        fns.applyPlayerResistance(context, 30);
+        return context.playerResistance;
+    })(),
+    40
+);
+
+check(
+    "applyPlayerResistance: 0 Schaden bleibt 0",
+    fns.applyPlayerResistance(makeContext({ playerResistance: 40 }), 0),
+    0
+);
+
 // --- Summary --------------------------------------------------------------
 
 console.log(`\n${passed} passed, ${failed} failed`);
