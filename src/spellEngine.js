@@ -202,7 +202,7 @@ function resolveSpellEffect(context, spell, values, cast, effect) {
     }
 
     if (effect === "apply_vulnerable") {
-        applyVulnerableEffect(context, spell, values);
+        applyVulnerableEffect(context, spell, values, cast);
         return;
     }
 
@@ -781,10 +781,20 @@ function increaseResistance(context, spell, values) {
     grantResistance(context, spell, resistanceGain, "Widerstand verstärkt");
 }
 
-function applyVulnerableEffect(context, spell, values) {
+function applyVulnerableEffect(context, spell, values, cast) {
+    // cast.enemyWasVulnerableAtCast statt live hasEnemyVulnerable(context):
+    // effects[] laeuft fuer organ_failure als ["deal_damage",
+    // "apply_vulnerable"] -- deal_damage konsumiert Verwundbar im selben
+    // Cast BEVOR dieser Check hier laeuft, ein Live-Check wuerde also fast
+    // immer faelschlich "false" liefern, obwohl das Ziel beim Cast-Start
+    // verwundbar war. Exakt derselbe Bug/dieselbe Loesung wie bei
+    // hasCastTimeNextSpellPrepValues (siehe dortiger Kommentar) --
+    // organ_failures eigene "erneut anwenden"-Kernfaehigkeit war dadurch
+    // faktisch nie erreichbar. Gefunden und gefixt 2026-07-24 im Rahmen des
+    // Spellpool-Slot-3-Vorhabens (Verwundbar-Ketten).
     if (
         values.applyVulnerableOnlyIfVulnerable &&
-        !hasEnemyVulnerable(context)
+        !cast.enemyWasVulnerableAtCast
     ) {
         return;
     }
