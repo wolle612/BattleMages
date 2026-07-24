@@ -1537,5 +1537,51 @@ const spellUpgradeProfiles = {
                 }
             }
         }
+    },
+    // rank4 restatet hier bewusst beide Basiszeilen (Schaden + der
+    // sequenzgebundene Widerstandsgewinn), gleicher Grund wie bei
+    // bound_chaos/keen_cut. Pfad-Tooltips vermeiden bewusst
+    // "erhalte \d"/"verursacht \d" als direkte Wortfolge (siehe dortige
+    // Kommentare) und nutzen stattdessen "zusaetzlich", damit
+    // getSpellTooltipLines() sie additiv statt als Vollersatz behandelt.
+    soul_resonance: {
+        rank2: {
+            values: { damage: 36 },
+            tooltip: [
+                "Verursacht 36 Schaden.",
+                "Wurde zuvor ein Zauber einer anderen Schule gewirkt: Erhalte 22 Magischen Widerstand."
+            ]
+        },
+        rank4: {
+            values: { sequenceResistanceGain: 30 },
+            tooltip: [
+                "Verursacht 36 Schaden.",
+                "Wurde zuvor ein Zauber einer anderen Schule gewirkt: Erhalte 30 Magischen Widerstand."
+            ]
+        },
+        paths: {
+            a: {
+                label: "Verstärkte Resonanz",
+                rank3: {
+                    values: { sequenceResistanceBonus: 15 },
+                    tooltip: ["Wurde zuvor ein Zauber einer anderen Schule gewirkt: Erhalte zusätzlich 15 Magischen Widerstand."]
+                },
+                rank5: {
+                    values: { resistanceBonusDamagePercent: 35 },
+                    tooltip: ["Verursacht zusätzlich Schaden in Höhe von 35 % deines Magischen Widerstands."]
+                }
+            },
+            b: {
+                label: "Kritischer Nachhall",
+                rank3: {
+                    values: { critResistanceGain: 15 },
+                    tooltip: ["Kritische Treffer gewähren zusätzlich 15 Magischen Widerstand."]
+                },
+                rank5: {
+                    values: { critResistanceMultiplier: 2 },
+                    tooltip: ["Der aus kritischen Treffern erhaltene Widerstand verdoppelt sich."]
+                }
+            }
+        }
     }
 };

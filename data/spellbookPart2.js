@@ -871,5 +871,44 @@ const spellbookPart2Definitions = [
                 }
             }
         ]
+    },
+    {
+        id: "soul_resonance",
+        school: "primal",
+        name: "Seelenresonanz",
+        type: "Attack",
+        role: "verstaerker",
+        build: "sequenz",
+        mechanics: ["sequence", "resistance"],
+        rarity: "Common",
+        // Fuellt den sequenz-Archetyp (bisher nur shadow_dance, Epic --
+        // Slot 4 aus BattleMages_Spellpool_Backlog.md). Schliesst dabei eine
+        // in COMBAT_SCHOOLS dokumentierte, nie eingeloeste Identitaetsluecke:
+        // primal.rareMechanic ist bereits seit langem "sequence", aber kein
+        // Seelenmagie-Zauber nutzte bislang einen Sequenz-Trigger.
+        // different_school + sequenceResistanceGain sind bereits
+        // vollstaendig implementiertes, schul-agnostisches Vokabular
+        // (siehe combatFormula.js calculateResistanceGain), aktuell nur in
+        // Psionik (arcane_chain/mind_trap) genutzt -- kein neuer Code.
+        description: "Die Seele reagiert auf fremde Magie, die ihr vorausging.",
+        tooltip: [
+            "Verursacht 28 Schaden.",
+            "Wurde zuvor ein Zauber einer anderen Schule gewirkt: Erhalte 22 Magischen Widerstand."
+        ],
+        tags: ["Attack"],
+        spellbookCore: true,
+        starter: false,
+        cooldown: 0,
+        effects: ["deal_damage", "gain_resistance"],
+        upgrades: [
+            {
+                rank: 1,
+                values: {
+                    damage: 28,
+                    sequenceTrigger: "different_school",
+                    sequenceResistanceGain: 22
+                }
+            }
+        ]
     }
 ];
