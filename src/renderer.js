@@ -2445,7 +2445,8 @@ function renderReadonlyBuildList(actionbarSlots, spellRanks) {
     setupSpellTooltips(
         spells,
         "#rewardBuildList .build-card:not(.build-card--empty)",
-        spell => getSpellProgress(spell.id)
+        spell => getSpellProgress(spell.id),
+        { showUpgradePreview: false }
     );
 }
 
@@ -2752,6 +2753,11 @@ function renderRewardScreen() {
                     id="rewardBuildList"
                     class="actionbar actionbar--readonly actionbar--reward"
                 ></div>
+                <div
+                    id="spellTooltip"
+                    class="spell-tooltip"
+                    hidden
+                ></div>
             </section>
 
             <div
@@ -2768,12 +2774,6 @@ function renderRewardScreen() {
                     Auswahl bestätigen
                 </button>
             </div>
-
-            <div
-                id="spellTooltip"
-                class="spell-tooltip"
-                hidden
-            ></div>
 
         </div>
     `;
@@ -3065,23 +3065,71 @@ function renderSpellReplaceScreen(selectedSpells) {
     );
 }
 
-function renderRunVictoryScreen() {
+function renderRunRecapScreen(recap) {
+    const titleClass =
+        recap.victory
+            ? "combat-outcome-title--victory"
+            : "combat-outcome-title--defeat";
+
+    const title =
+        recap.victory ? "Run geschafft!" : "Deine Reise endet hier";
+
+    const subtitle =
+        recap.victory
+            ? "Du hast alle Gegner besiegt. Eine neue Reise wartet bereits."
+            : "Doch jede Niederlage ist nur der Auftakt einer neuen Geschichte.";
+
     getGameRoot().innerHTML = `
-        <h1>
-            Run geschafft!
-        </h1>
+        <div class="screen screen-run-recap">
+            <h1 class="combat-outcome-title ${titleClass}">
+                ${title}
+            </h1>
 
-        <p class="subtitle">
-            Du hast alle Gegner besiegt. Eine neue Reise wartet bereits.
-        </p>
+            <p class="subtitle">
+                ${subtitle}
+            </p>
 
-        <div class="screen-actions">
-            <button
-                id="backToHomeButton"
-                class="btn btn-primary"
-            >
-                Zurück zum Hauptmenü
-            </button>
+            <p class="run-recap-stat">
+                ${recap.fightsCompleted} von ${recap.totalFights} Kämpfen überstanden
+            </p>
+
+            <div class="run-recap-stat-grid">
+                <div class="run-recap-stat-item">
+                    <span class="run-recap-stat-value">${recap.highestHit}</span>
+                    <span class="run-recap-stat-label">Höchster Einzelschaden</span>
+                </div>
+                <div class="run-recap-stat-item">
+                    <span class="run-recap-stat-value">${recap.peakResistance}</span>
+                    <span class="run-recap-stat-label">Maximaler Widerstand</span>
+                </div>
+            </div>
+
+            <section class="reward-build-panel">
+                <h3 class="reward-build-title">
+                    Deine letzte Rotation
+                </h3>
+                <p class="reward-build-hint">
+                    Zauber überfahren, um Details zu sehen
+                </p>
+                <div
+                    id="rewardBuildList"
+                    class="actionbar actionbar--readonly actionbar--reward"
+                ></div>
+                <div
+                    id="spellTooltip"
+                    class="spell-tooltip"
+                    hidden
+                ></div>
+            </section>
+
+            <div class="screen-actions">
+                <button
+                    id="recapHomeButton"
+                    class="btn btn-primary"
+                >
+                    Zurück zum Hauptmenü
+                </button>
+            </div>
         </div>
     `;
 }

@@ -294,6 +294,8 @@ function handleFightStart() {
 
     const result = simulateFight();
 
+    updateRunStats(result.actionQueue);
+
     document.getElementById("fightButton").disabled = true;
 
     renderCombatPlayback(
@@ -317,13 +319,13 @@ function handleFightStart() {
 
                 document
                     .getElementById("restartButton")
-                    .addEventListener("click", restartRun);
+                    .addEventListener("click", () => showRunRecapScreen(false));
 
                 document
                     .getElementById("overlayRestartButton")
                     .addEventListener("click", () => {
                         removeCombatOutcomeOverlay();
-                        restartRun();
+                        showRunRecapScreen(false);
                     });
             }
         }
@@ -344,8 +346,44 @@ function startRun() {
     });
 
     currentFight = 0;
+    runStats = {
+        highestHit: 0,
+        peakResistance: 0
+    };
 
     showFightScreen();
+}
+
+// Reine Recap-Statistik, keine Kampfmechanik: liest nur die HP-/Status-
+// Snapshots, die jede Kampf-Aktion ohnehin schon mitfuehrt (siehe
+// addCombatAction() in battleManager.js), und haelt Bestwerte per Math.max
+// ueber den gesamten Run fest.
+function updateRunStats(actionQueue) {
+    let previousEnemyHp = null;
+    let peakResistanceThisFight = 0;
+
+    actionQueue.forEach(action => {
+        if (previousEnemyHp !== null) {
+            const hit = previousEnemyHp - action.enemyHp;
+
+            if (hit > runStats.highestHit) {
+                runStats.highestHit = hit;
+            }
+        }
+
+        previousEnemyHp = action.enemyHp;
+
+        const resistanceStatus = (action.playerStatuses || [])
+            .find(status => status.id === "resistance");
+
+        if (resistanceStatus && resistanceStatus.stacks > peakResistanceThisFight) {
+            peakResistanceThisFight = resistanceStatus.stacks;
+        }
+    });
+
+    if (peakResistanceThisFight > runStats.peakResistance) {
+        runStats.peakResistance = peakResistanceThisFight;
+    }
 }
 
 function showRewardScreen() {
@@ -697,19 +735,45 @@ function showNextFightScreen() {
         currentFight >=
         enemies.length
     ) {
-
-        hideVfxStage();
-
-        renderRunVictoryScreen();
-
-        document
-            .getElementById("backToHomeButton")
-            .addEventListener("click", restartRun);
-
+        showRunRecapScreen(true);
         return;
     }
 
     showFightScreen();
+}
+
+function showRunRecapScreen(victory) {
+    hideVfxStage();
+
+    // Nicht auf den Aufrufer verlassen (siehe Kommentar in
+    // showFightScreen() -- gleiche Lektion, hier defensiv wiederholt statt
+    // stillschweigend vorausgesetzt).
+    setAppScreenMode("game");
+
+    // Der Run ist an diesem Punkt vorbei (Sieg oder Niederlage). Der
+    // Checkpoint wurde vor dem zuletzt gespielten Kampf gespeichert und
+    // wuerde bei einem Reload sonst genau diesen Kampf erneut anbieten --
+    // auch nach einer Niederlage. Sofort loeschen statt erst beim Klick auf
+    // "Zurueck zum Hauptmenue", damit ein Reload auf dem Recap-Screen kein
+    // "Weiterspielen" mehr anbietet.
+    clearRunState();
+
+    renderRunRecapScreen({
+        victory,
+        fightsCompleted: victory ? enemies.length : currentFight,
+        totalFights: enemies.length,
+        highestHit: runStats.highestHit,
+        peakResistance: runStats.peakResistance
+    });
+
+    renderReadonlyBuildList(
+        getRotationSlots(),
+        spellRanks
+    );
+
+    document
+        .getElementById("recapHomeButton")
+        .addEventListener("click", restartRun);
 }
 
 showHomeScreen();

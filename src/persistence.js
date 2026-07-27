@@ -28,7 +28,8 @@ function saveRunState() {
                 selectedSpellIds: selectedSpells.map(spell => spell.id),
                 spellRanks,
                 spellPaths,
-                currentFight
+                currentFight,
+                runStats
             })
         );
     } catch (error) {
@@ -105,6 +106,10 @@ function resumeRun() {
     spellRanks = saved.spellRanks || {};
     spellPaths = saved.spellPaths || {};
     currentFight = saved.currentFight;
+    runStats = saved.runStats || {
+        highestHit: 0,
+        peakResistance: 0
+    };
 
     showFightScreen();
 

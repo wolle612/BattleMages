@@ -220,6 +220,39 @@ h1.app-logo {
     margin-bottom: 8px;
 }
 
+.run-recap-stat {
+    text-align: center;
+    color: var(--accent-gold-bright);
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    margin-bottom: 24px;
+}
+
+.run-recap-stat-grid {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    margin-bottom: 24px;
+}
+
+.run-recap-stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.run-recap-stat-value {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: var(--accent-gold-bright);
+}
+
+.run-recap-stat-label {
+    font-size: 0.85em;
+    color: var(--text-muted, #b5b0c4);
+    letter-spacing: 0.02em;
+}
+
 .ui-divider {
     display: block;
     width: 100%;
@@ -1527,6 +1560,7 @@ body.app-selection #spellContainer {
 }
 
 .reward-build-panel {
+    position: relative;
     margin-bottom: 28px;
     padding: 20px 22px 22px;
     background: rgba(0, 0, 0, 0.18);
