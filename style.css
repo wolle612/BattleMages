@@ -2190,6 +2190,15 @@ body.app-selection #spellContainer {
     text-align: left;
 }
 
+/* Reward-/Recap-Build-Panel sitzt nahe am oberen Bildschirmrand -- ein nach
+   oben oeffnender Tooltip (Standardverhalten oben, gedacht fuer die
+   Kampf-Actionbar am unteren Bildschirmrand) wird dort abgeschnitten.
+   Hier stattdessen nach unten oeffnen, wo ausreichend Platz ist. */
+.reward-build-panel .spell-tooltip {
+    bottom: auto;
+    top: calc(100% + 10px);
+}
+
 .spell-tooltip[hidden] {
     display: none;
 }
