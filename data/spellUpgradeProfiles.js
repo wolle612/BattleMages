@@ -479,11 +479,17 @@ const spellUpgradeProfiles = {
     blood_clot: {
         rank2: {
             values: { damage: 40 },
-            tooltip: ["Verursacht 40 Schaden."]
+            tooltip: [
+                "Verursacht 40 Schaden.",
+                "Gegen verwundbare Ziele: +15 Schaden."
+            ]
         },
         rank4: {
             values: { damage: 50 },
-            tooltip: ["Verursacht 50 Schaden."]
+            tooltip: [
+                "Verursacht 50 Schaden.",
+                "Gegen verwundbare Ziele: +15 Schaden."
+            ]
         },
         paths: {
             a: {
@@ -491,6 +497,15 @@ const spellUpgradeProfiles = {
                 rank3: {
                     values: { vulnerableBonusDamage: 30 },
                     tooltip: ["Gegen verwundbare Ziele: +30 Schaden."]
+                },
+                // Eigene rank4-Zeile (statt der geerbten aus profile.rank4),
+                // weil vulnerableBonusDamage hier bereits 30 statt 15 ist --
+                // gleicher Grund wie bei rune_thrust Pfad A.
+                rank4: {
+                    tooltip: [
+                        "Verursacht 50 Schaden.",
+                        "Gegen verwundbare Ziele: +30 Schaden."
+                    ]
                 },
                 rank5: {
                     values: { vulnerableRepeatHits: 2 },
@@ -501,11 +516,27 @@ const spellUpgradeProfiles = {
                 label: "Geronnene Essenz",
                 rank3: {
                     values: { vulnerableResistanceGain: 20 },
-                    tooltip: ["Gegen verwundbare Ziele: Erhalte 20 Magischen Widerstand."]
+                    tooltip: [
+                        "Verursacht 40 Schaden.",
+                        "Gegen verwundbare Ziele: +15 Schaden.",
+                        "Gegen verwundbare Ziele: Erhalte 20 Magischen Widerstand."
+                    ]
+                },
+                rank4: {
+                    tooltip: [
+                        "Verursacht 50 Schaden.",
+                        "Gegen verwundbare Ziele: +15 Schaden.",
+                        "Gegen verwundbare Ziele: Erhalte 20 Magischen Widerstand."
+                    ]
                 },
                 rank5: {
                     values: { nextSpellDamageBonus: 20 },
-                    tooltip: ["Gegen verwundbare Ziele: Der nächste Zauber erhält +20 Schaden."]
+                    // Bewusst ohne ":"-Praefix "Gegen verwundbare Ziele" --
+                    // mergeAdditiveTooltipLines() dedupliziert per Text vor
+                    // dem ersten ":", das wuerde sonst faelschlich auch die
+                    // Rang3/4-Zeilen zum Vulnerable-Bonus/Widerstand
+                    // entfernen (gleicher Praefix, andere Fakten).
+                    tooltip: ["Der nächste Zauber erhält bei Verwundbar zusätzlich +20 Schaden."]
                 }
             }
         }
@@ -991,11 +1022,17 @@ const spellUpgradeProfiles = {
     dark_blow: {
         rank2: {
             values: { damage: 45 },
-            tooltip: ["Verursacht 45 Schaden."]
+            tooltip: [
+                "Verursacht 45 Schaden.",
+                "Kritische Treffer verursachen +20 Schaden."
+            ]
         },
         rank4: {
             values: { damage: 55 },
-            tooltip: ["Verursacht 55 Schaden."]
+            tooltip: [
+                "Verursacht 55 Schaden.",
+                "Kritische Treffer verursachen +20 Schaden."
+            ]
         },
         paths: {
             a: {
@@ -1008,6 +1045,14 @@ const spellUpgradeProfiles = {
                     values: { critFlatBonus: 35 },
                     tooltip: ["Kritische Treffer verursachen zusätzlich +35 Schaden."]
                 },
+                // Eigene rank4-Zeile, weil critFlatBonus hier bereits 35
+                // statt 20 ist -- gleicher Grund wie bei rune_thrust Pfad A.
+                rank4: {
+                    tooltip: [
+                        "Verursacht 55 Schaden.",
+                        "Kritische Treffer verursachen zusätzlich +35 Schaden."
+                    ]
+                },
                 rank5: {
                     values: { critFollowUpPercent: 50 },
                     tooltip: ["Kritische Treffer treffen zweimal mit 50 % Schaden."]
@@ -1018,6 +1063,13 @@ const spellUpgradeProfiles = {
                 rank3: {
                     values: { critResistanceGain: 20 },
                     tooltip: ["Kritische Treffer erzeugen 20 Magischen Widerstand."]
+                },
+                rank4: {
+                    tooltip: [
+                        "Verursacht 55 Schaden.",
+                        "Kritische Treffer verursachen +20 Schaden.",
+                        "Kritische Treffer erzeugen 20 Magischen Widerstand."
+                    ]
                 },
                 rank5: {
                     values: { critAppliesVulnerable: true },
@@ -1199,7 +1251,10 @@ const spellUpgradeProfiles = {
         },
         rank4: {
             values: { damage: 55 },
-            tooltip: ["Verursacht 55 Schaden."]
+            tooltip: [
+                "Verursacht 55 Schaden.",
+                "Erhalte 45 Magischen Widerstand."
+            ]
         },
         paths: {
             a: {
@@ -1210,7 +1265,10 @@ const spellUpgradeProfiles = {
                 },
                 rank4: {
                     values: { damage: 75 },
-                    tooltip: ["Verursacht 75 Schaden."]
+                    tooltip: [
+                        "Verursacht 75 Schaden.",
+                        "Erhalte 25 Magischen Widerstand."
+                    ]
                 },
                 rank5: {
                     values: { critFlatBonus: 40 },
