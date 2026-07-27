@@ -1473,11 +1473,17 @@ const spellUpgradeProfiles = {
     soul_spark: {
         rank2: {
             values: { damage: 40 },
-            tooltip: ["Verursacht 40 Schaden."]
+            tooltip: [
+                "Verursacht 40 Schaden.",
+                "Gegen verwundbare Ziele: Der nächste Zauber erhält Präzision (garantiert kritisch)."
+            ]
         },
         rank4: {
             values: { damage: 50 },
-            tooltip: ["Verursacht 50 Schaden."]
+            tooltip: [
+                "Verursacht 50 Schaden.",
+                "Gegen verwundbare Ziele: Der nächste Zauber erhält Präzision (garantiert kritisch)."
+            ]
         },
         paths: {
             a: {
@@ -1495,7 +1501,11 @@ const spellUpgradeProfiles = {
                 label: "Seelenlicht",
                 rank3: {
                     values: { vulnerableResistanceGain: 25 },
-                    tooltip: ["Gegen verwundbare Ziele: Erhalte 25 Magischen Widerstand."]
+                    tooltip: [
+                        "Verursacht 40 Schaden.",
+                        "Gegen verwundbare Ziele: Der nächste Zauber erhält Präzision (garantiert kritisch).",
+                        "Gegen verwundbare Ziele: Erhalte zusätzlich 25 Magischen Widerstand."
+                    ]
                 },
                 rank5: {
                     values: { nextSpellDamageBonus: 30 },
