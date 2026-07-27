@@ -35,14 +35,30 @@ Priorisierung unten.
   Hintergrundbild, Scrollen blockiert). Robust gefixt: `showFightScreen()`
   setzt "game" jetzt selbst, unabhängig vom Aufrufer. Commit `317a184`.
 
-### 2. Run-Recap-Screen (Sieg UND Niederlage)
-- Ersetzt den aktuellen Ein-Satz-Abschluss
-  (`renderRunVictoryScreen`/Defeat-Overlay).
-- Zeigt: finale Rotation (5 Zauber inkl. Rang/Pfad), Anzahl
-  überstandener Kämpfe, ggf. welcher Build gespielt wurde.
-- Größter Hebel fürs Spielgefühl bei überschaubarem Aufwand — baut
-  direkt auf Punkt 1 auf (braucht keine neue Persistenz, nur Zugriff
-  auf den bestehenden Run-State vor dem Reset).
+### 2. Run-Recap-Screen (Sieg UND Niederlage) — ✅ umgesetzt (2026-07-27)
+- Ersetzt `renderRunVictoryScreen`/Defeat-Overlay durch
+  `renderRunRecapScreen()`: finale Rotation (inkl. Rang/Pfad), Anzahl
+  überstandener Kämpfe, plus zwei run-weite Statistiken (höchster
+  Einzelschaden, maximaler Widerstand). Werte kommen aus einem neuen,
+  rein präsentationsseitigen Akkumulator (`runStats` in `state.js`),
+  der nach jedem `simulateFight()`-Aufruf aus den ohnehin vorhandenen
+  Kampf-Snapshots aktualisiert wird — keine neue Kampfmechanik.
+- **Nebenfunde/Fixes unterwegs**:
+  - `#spellTooltip` hatte in keinem Vorfahren `position: relative` und
+    landete je nach Seiteninhalt außerhalb des sichtbaren Bereichs
+    (zufällig unauffällig beim kurzen Reward-Screen, sichtbar kaputt
+    beim längeren Recap-Screen). Fix: Tooltip ist jetzt Kind von
+    `.reward-build-panel` (die selbst `position: relative` bekommen
+    hat) — gilt für Reward- und Recap-Screen gleichermaßen.
+  - Die readonly-Build-Panels (Reward "Dein Build", Recap) zeigten die
+    volle Rang-III/V-Pfadvorschau in den Tooltips und sprengten damit
+    die Höhe zusätzlich; dort über den bestehenden
+    `showUpgradePreview:false`-Options-Pfad unterdrückt.
+  - Checkpoint (`localStorage`) wurde erst beim Klick auf "Zurück zum
+    Hauptmenü" gelöscht, nicht beim Erreichen des Recap-Screens selbst
+    — ein Reload auf dem Recap-Screen bot fälschlich "Weiterspielen"
+    für den gerade beendeten (auch verlorenen) Kampf an. Jetzt wird
+    `clearRunState()` direkt beim Rendern des Recap-Screens aufgerufen.
 
 ### 3. Zwischen-Screen ("aktuelle Rotation")
 - Kurzer Moment zwischen Kämpfen, der die eigene Rotation bewusst
