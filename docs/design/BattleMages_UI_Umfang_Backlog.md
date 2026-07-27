@@ -60,15 +60,21 @@ Priorisierung unten.
     für den gerade beendeten (auch verlorenen) Kampf an. Jetzt wird
     `clearRunState()` direkt beim Rendern des Recap-Screens aufgerufen.
 
-### 3. Zwischen-Screen ("aktuelle Rotation")
-- Kurzer Moment zwischen Kämpfen, der die eigene Rotation bewusst
-  zeigt, statt Fight→Reward→nächster Fight ohne Pause durchzuhetzen.
-- Kein neuer Mechanik-Inhalt, reine Präsentations-/Pacing-Ergänzung.
+### 3. Zwischen-Screen ("aktuelle Rotation") — ❌ verworfen (2026-07-27)
+- Ursprüngliche Idee: kurzer Moment zwischen Kämpfen, der die eigene
+  Rotation bewusst zeigt, statt Fight→Reward→nächster Fight ohne Pause
+  durchzuhetzen.
+- Verworfen: `showFightScreen()` rendert die volle, anpassbare Rotation
+  bereits vor jedem Klick auf "Kämpfen" — ein eigener Zwischen-Screen
+  würde nur wiederholen, was ohnehin schon sichtbar ist.
 
-### 4. Lautstärke-/Mute-Kontrolle
+### 4. Lautstärke-/Mute-Kontrolle — zurückgestellt (2026-07-27)
 - Sound existiert bereits (`src/vfx/soundBridge.js`), aber keinerlei
   Einstellmöglichkeit.
-- Kleiner Umfang, aber eine Standard-Erwartung, die aktuell fehlt.
+- Zurückgestellt, bis überhaupt reguläres SFX-/Musik-Material vorhanden
+  ist — eine Lautstärke-Kontrolle für praktisch keinen Sound bringt
+  aktuell keinen Mehrwert. Wieder aufgreifen, sobald Thema 3
+  (Animation/Feedback) nennenswerten Sound-Content bringt.
 
 ### 5. Meta-Progression (Grundgerüst, bewusst nicht ausformuliert)
 
