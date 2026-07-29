@@ -208,6 +208,14 @@ function setAppScreenMode(mode) {
         "app-selection"
     );
 
+    // Zuruecksetzen auf den generischen Kampfbildschirm-Hintergrund bei
+    // jedem Screen-Wechsel -- showFightScreen() (game.js) ist die einzige
+    // Stelle, die ihn per setFightBackground() danach wieder ueberschreibt.
+    // Ohne diesen Reset wuerde der zuletzt gesetzte Kampf-Hintergrund in
+    // Recap/Kompendium/Statistik-Screens haengen bleiben, die ebenfalls
+    // den "game"-Modus nutzen, aber kein eigener Kampf sind.
+    document.documentElement.style.removeProperty("--fight-background");
+
     const screenClass =
         mode === "home"
             ? "app-home"
@@ -217,6 +225,22 @@ function setAppScreenMode(mode) {
 
     document.body.classList.add(screenClass);
     document.documentElement.classList.add(screenClass);
+}
+
+// Pro-Kampf-Hintergrund (2026-07-29): setzt eine CSS-Custom-Property statt
+// eine eigene Stylesheet-Regel pro Gegner zu pflegen. Fehlt fuer einen
+// Gegner (noch) kein Bild unter assets/backgrounds/fights/{id}.png, faellt
+// die CSS-Regel automatisch auf den bisherigen generischen Hintergrund
+// zurueck (var(..., fallback)) -- kein Broken-Image-Risiko.
+function setFightBackground(enemyId) {
+    if (!enemyId) {
+        return;
+    }
+
+    document.documentElement.style.setProperty(
+        "--fight-background",
+        `url("assets/backgrounds/fights/${enemyId}.png")`
+    );
 }
 
 function playScreenTransition(callback) {

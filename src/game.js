@@ -267,6 +267,7 @@ function showFightScreen() {
     const enemy =
         enemies[currentFight];
 
+    setFightBackground(enemy.id);
     recordSeenEnemy(enemy.id);
 
     // VFX-Canvas ist ausschliesslich auf dem Kampfbildschirm sichtbar

@@ -2968,7 +2968,10 @@ html.app-selection {
             rgba(8, 10, 14, 0.32),
             rgba(8, 10, 14, 0.38)
         ),
-        url("assets/backgrounds/menus/battlemages_gamescreen.png");
+        var(
+            --fight-background,
+            url("assets/backgrounds/menus/battlemages_gamescreen.png")
+        );
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -2986,7 +2989,10 @@ body.app-selection {
             rgba(8, 10, 14, 0.32),
             rgba(8, 10, 14, 0.38)
         ),
-        url("assets/backgrounds/menus/battlemages_gamescreen.png");
+        var(
+            --fight-background,
+            url("assets/backgrounds/menus/battlemages_gamescreen.png")
+        );
     background-position: center center;
     background-size: cover;
     background-repeat: no-repeat;
