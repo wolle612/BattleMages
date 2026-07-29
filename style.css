@@ -985,7 +985,7 @@ body.app-selection #spellContainer {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 18%;
+    object-position: center center;
 }
 
 .combatant-portrait-effect {
@@ -4236,6 +4236,14 @@ body.app-home #game {
     background: var(--panel-inset);
 }
 
+/*
+ * object-position/scale waren auf die frueheren Kopf-Buesten kalibriert
+ * (leichter Zoom + Bias nach oben, damit das Gesicht mittig im Rahmen
+ * sitzt). Seit der Umstellung auf Ganzkoerper-Sprites (2026-07-29)
+ * schnitt das oben Hut/Haare und unten die Fuesse ab -- Sprites/Slot
+ * sind beide quadratisch, object-fit:cover ohne Zoom/Bias fuellt den
+ * Rahmen daher bereits exakt ohne Beschnitt.
+ */
 .combatant-portrait-image {
     position: relative;
     z-index: 1;
@@ -4243,12 +4251,11 @@ body.app-home #game {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: center 18%;
+    object-position: center center;
     border-radius: 0;
     box-shadow: none;
     image-rendering: pixelated;
     image-rendering: crisp-edges;
-    transform: scale(1.12);
 }
 
 .combatant-portrait-effect {
