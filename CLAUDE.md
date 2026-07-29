@@ -62,9 +62,17 @@ Wahrheit — nicht annehmen, dass sie aktuell bereits Gameplay beeinflussen.
 - **Daten/Logik-Trennung strikt einhalten**: `data/*.js` enthält
   ausschließlich Objekt-/Array-Literale, `src/*.js` ausschließlich
   Funktionen. Neue Zauber/Gegner/Upgrades sind Daten, nicht Code.
-- **State**: `src/state.js` hält nur 4 globale Variablen, kein
-  Persistieren (Run geht bei Reload verloren — das ist aktueller Stand,
-  nicht notwendigerweise gewollt, im Zweifel nachfragen).
+- **State**: `src/state.js` hält 5 laufzeit-lokale Variablen des
+  aktuellen Runs (`selectedSpells`, `spellRanks`, `spellPaths`,
+  `currentFight`, `runStats`). Persistenz läuft über zwei getrennte
+  Schichten:
+  `src/persistence.js` (Checkpoint vor jedem Kampf, `localStorage`-Key
+  `battlemages_run_v1`, ermöglicht „Weiterspielen" nach einem Reload,
+  wird bei Run-Ende gelöscht — ein Kampf selbst ist dabei nicht
+  reload-sicher) und `src/metaProgression.js` (run-übergreifende
+  Fortschrittsdaten wie Kompendium/Statistik/Freischaltungen, Key
+  `battlemages_meta_v1`, bleibt dauerhaft erhalten — siehe
+  `docs/design/BattleMages_Meta_Progression_Concept_v1.md`).
 
 ### Modul-Landkarte
 
@@ -113,10 +121,18 @@ Wahrheit — nicht annehmen, dass sie aktuell bereits Gameplay beeinflussen.
 - **Kein Zufall in der Gegner-KI**: Gegner spulen eine feste
   Aktionsleiste ab, keine Entscheidungslogik. Überraschung entsteht
   über deklarative Passiv-Regeln (Trigger-Bedingungen), nicht über RNG.
-- **6 Magieschulen**, intern über kurze IDs (`blood/shadow/dream/rune/
-  star/primal`), nach außen (Icons, VFX, Fantasy-Namen) als Biomantie/
-  Schatten/Psionik/Verbotene Runenkunst/Chaosmagie/Seelenmagie geführt.
-  Mapping-Tabelle: `data/combatIdentity.js` (`COMBAT_SCHOOLS`).
+- **6 Magieschulen**: Biomantie, Schatten, Psionik, Verbotene
+  Runenkunst, Chaosmagie, Seelenmagie. Das sind die einzigen gültigen
+  Schulnamen. Intern verwendet der Code dafür kurze technische
+  Schlüssel (`blood/shadow/dream/rune/star/primal` in
+  `data/combatIdentity.js`, `COMBAT_SCHOOLS`) — das sind reine
+  Datenbank-Keys aus einer früheren, überholten Projektphase, **keine
+  Schulnamen und kein alternatives/altes Schulsystem**. Nie als
+  Schulbezeichnung verwenden oder in Design-Gesprächen nennen — die
+  Gameplay-Identität pro Schule (`gameplay`/`primaryMechanic`/
+  `secondaryMechanic`/`rareMechanic` in `COMBAT_SCHOOLS`) bleibt davon
+  unberührt und ist weiterhin gültig, nur an den technischen Schlüssel
+  gehängt statt an einen Namen.
 
 ## Design neuer Zauber
 

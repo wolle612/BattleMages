@@ -34,6 +34,18 @@ function showHomeScreen() {
         .addEventListener("click", () => {
             playScreenTransition(showHowToPlayScreen);
         });
+
+    document
+        .getElementById("compendiumButton")
+        .addEventListener("click", () => {
+            playScreenTransition(showCompendiumScreen);
+        });
+
+    document
+        .getElementById("statsButton")
+        .addEventListener("click", () => {
+            playScreenTransition(showStatsScreen);
+        });
 }
 
 function showHowToPlayScreen() {
@@ -66,12 +78,19 @@ function showSpellSelection() {
     const selectionCounter = document.getElementById("selectionCounter");
     const startButton = document.getElementById("startButton");
 
+    const metaState =
+        getMetaState();
+
     selectedSpells = [];
 
     starterSpells
         .forEach(spell => {
 
         const card = renderSpellSelectionCard(spell);
+
+        if (!metaState.seenSpellIds.includes(spell.id)) {
+            card.classList.add("spell-card--new");
+        }
 
         card.addEventListener("click", () => {
 
@@ -113,11 +132,29 @@ function showSpellSelection() {
     startButton.addEventListener("click", startRun);
 }
 
+// Zusaetzlich zu spell.starter (fest im Datensatz) zaehlen Zauber, deren
+// starterUnlockArchetype-Feld bereits einmal im Archetyp-Tracker erreicht
+// wurde (siehe data/spellbookPart3.js, classifyRotationArchetypes() in
+// metaProgression.js) -- Baustein D, Option A der Meta-Progression-Roadmap.
+function isStarterEligible(spell, metaState) {
+    if (spell.starter === true) {
+        return true;
+    }
+
+    return Boolean(
+        spell.starterUnlockArchetype &&
+        metaState.unlockedArchetypeIds.includes(spell.starterUnlockArchetype)
+    );
+}
+
 function getRandomStarterOffer() {
+    const metaState =
+        getMetaState();
+
     const starterPool =
         spells.filter(spell => {
             return (
-                spell.starter === true &&
+                isStarterEligible(spell, metaState) &&
                 (STARTER_RARITY_WEIGHTS[spell.rarity] || 0) > 0
             );
         });
@@ -229,6 +266,8 @@ function showFightScreen() {
 
     const enemy =
         enemies[currentFight];
+
+    recordSeenEnemy(enemy.id);
 
     // VFX-Canvas ist ausschliesslich auf dem Kampfbildschirm sichtbar
     // (siehe Architekturplan, Risiko 8). renderFightScreen() unten baut
@@ -350,6 +389,8 @@ function startRun() {
         highestHit: 0,
         peakResistance: 0
     };
+
+    recordRunStart(selectedSpells.map(spell => spell.id));
 
     showFightScreen();
 }
@@ -758,9 +799,21 @@ function showRunRecapScreen(victory) {
     // "Weiterspielen" mehr anbietet.
     clearRunState();
 
+    const fightsCompleted =
+        victory ? enemies.length : currentFight;
+
+    recordRunEnd({
+        victory,
+        fightsCompleted,
+        runStats,
+        finalSpellIds: selectedSpells.map(spell => spell.id),
+        matchedArchetypeIds: classifyRotationArchetypes(selectedSpells),
+        monoSchoolId: getMonoSchoolId(selectedSpells)
+    });
+
     renderRunRecapScreen({
         victory,
-        fightsCompleted: victory ? enemies.length : currentFight,
+        fightsCompleted,
         totalFights: enemies.length,
         highestHit: runStats.highestHit,
         peakResistance: runStats.peakResistance
@@ -774,6 +827,95 @@ function showRunRecapScreen(victory) {
     document
         .getElementById("recapHomeButton")
         .addEventListener("click", restartRun);
+}
+
+function showCompendiumScreen() {
+    hideVfxStage();
+
+    setAppScreenMode("game");
+
+    const metaState =
+        getMetaState();
+
+    renderCompendiumScreen({
+        spellEntries: getCompendiumSpellEntries(metaState),
+        enemyEntries: getCompendiumEnemyEntries(metaState),
+        archetypeEntries: getCompendiumArchetypeEntries(metaState)
+    });
+
+    bindSpellIcons(getGameRoot());
+    bindCombatantPortraits(getGameRoot());
+
+    document
+        .getElementById("compendiumHomeButton")
+        .addEventListener("click", () => {
+            playScreenTransition(showHomeScreen);
+        });
+}
+
+function getCompendiumSpellEntries(metaState) {
+    return spells.map(spell => {
+        const seen =
+            metaState.seenSpellIds.includes(spell.id);
+
+        return {
+            seen,
+            icon: seen ? getSpellIconPath(spell) : null,
+            fallbackInitial: seen ? getSpellIconFallbackInitial(spell) : "?",
+            name: seen ? spell.name : "???",
+            schoolLabel: seen ? getSchoolLabel(spell.school) : "",
+            rarity: seen ? getRarityView(spell.rarity) : null
+        };
+    });
+}
+
+function getCompendiumEnemyEntries(metaState) {
+    return enemies.map(enemy => {
+        const seen =
+            metaState.seenEnemyIds.includes(enemy.id);
+
+        return {
+            seen,
+            portraitPath: seen ? getCombatantPortraitPath("enemy", enemy.id) : null,
+            name: seen ? enemy.name : "???",
+            tierLabel: seen ? getEnemyTierLabel(enemy.tier) : ""
+        };
+    });
+}
+
+// "sustain" bleibt aussen vor -- unerreichbar mangels Zaubern mit
+// build:"sustain" im aktuellen Pool (siehe classifyRotationArchetypes
+// in metaProgression.js). Zeigt bewusst ARCHETYPE_COMPENDIUM_TITLES
+// (eigens formulierte Spieler-Titel), nie BUILD_ARCHETYPES.label --
+// letzteres ist rein internes Design-Vokabular, siehe Kommentar dort.
+function getCompendiumArchetypeEntries(metaState) {
+    return Object.values(BUILD_ARCHETYPES)
+        .filter(archetype => archetype.id !== "sustain")
+        .map(archetype => {
+            const unlocked =
+                metaState.unlockedArchetypeIds.includes(archetype.id);
+
+            return {
+                unlocked,
+                name: unlocked
+                    ? ARCHETYPE_COMPENDIUM_TITLES[archetype.id]
+                    : "???"
+            };
+        });
+}
+
+function showStatsScreen() {
+    hideVfxStage();
+
+    setAppScreenMode("game");
+
+    renderStatsScreen(getMetaState());
+
+    document
+        .getElementById("statsHomeButton")
+        .addEventListener("click", () => {
+            playScreenTransition(showHomeScreen);
+        });
 }
 
 showHomeScreen();

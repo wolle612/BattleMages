@@ -230,6 +230,7 @@ h1.app-logo {
 
 .run-recap-stat-grid {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     gap: 32px;
     margin-bottom: 24px;
@@ -2802,6 +2803,120 @@ body.app-selection #spellContainer {
         0 14px 36px rgba(0, 0, 0, 0.38);
 }
 
+/* Compendium & stats screens */
+.screen-compendium,
+.screen-stats {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.compendium-section {
+    margin-bottom: 32px;
+}
+
+.compendium-section-title {
+    margin-bottom: 16px;
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.compendium-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(104px, 1fr));
+    gap: 14px;
+}
+
+.compendium-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 8px;
+    background: var(--panel-inset);
+    border: 1px solid rgba(0, 0, 0, 0.32);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-inset);
+}
+
+.compendium-tile--unseen {
+    filter: grayscale(1);
+    opacity: 0.55;
+}
+
+.compendium-tile__icon {
+    width: 64px;
+    height: 64px;
+}
+
+.compendium-tile__icon--unseen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.compendium-tile__unseen-mark {
+    color: var(--text-muted);
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.compendium-tile__name {
+    color: var(--text-secondary);
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.compendium-tile__meta {
+    min-height: 1em;
+    color: var(--text-muted);
+    font-size: 0.72rem;
+    letter-spacing: 0.02em;
+}
+
+.compendium-grid--archetypes {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+}
+
+.compendium-archetype-tile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: var(--panel-inset);
+    border: 1px solid rgba(0, 0, 0, 0.32);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-inset);
+    filter: grayscale(1);
+    opacity: 0.55;
+}
+
+.compendium-archetype-tile--unlocked {
+    filter: none;
+    opacity: 1;
+}
+
+.compendium-archetype-tile__check {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    color: var(--accent-gold-bright);
+    font-weight: 700;
+}
+
+.compendium-archetype-tile__name {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-align: left;
+}
+
 /* Home & menu screens */
 body.app-home {
     padding: 0;
@@ -2982,6 +3097,24 @@ body.app-home #game {
     font-size: 0.94rem;
     letter-spacing: 0.18em;
     color: #c4b59a;
+}
+
+/* Kompendium/Statistik sitzen als kompaktes Paar unter dem Hauptmenue,
+   damit die absolut positionierte .home-screen-menu (startet bei
+   ~56vh, body.app-home hat overflow:hidden) nicht ueber den sichtbaren
+   Bereich hinauswaechst. */
+.home-screen-submenu {
+    display: flex;
+    gap: 12px;
+    margin-top: -6px;
+}
+
+.home-menu-btn--compact {
+    flex: 1 1 0;
+    min-height: 48px;
+    padding: 10px 20px;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
 }
 
 .home-menu-btn:hover::before {
@@ -3631,6 +3764,22 @@ body.app-home #game {
 
 .spell-card--selection.selected::after {
     filter: saturate(0.74) brightness(1.06);
+}
+
+.spell-card--new::before {
+    content: "NEU";
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    z-index: 2;
+    padding: 2px 8px;
+    background: var(--accent-gold-bright, #e8c874);
+    color: #1a1408;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    border-radius: var(--radius-sm, 4px);
+    pointer-events: none;
 }
 
 .spell-card--selection .spell-card-channel {

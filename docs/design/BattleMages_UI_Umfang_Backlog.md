@@ -76,10 +76,15 @@ Priorisierung unten.
   aktuell keinen Mehrwert. Wieder aufgreifen, sobald Thema 3
   (Animation/Feedback) nennenswerten Sound-Content bringt.
 
-### 5. Meta-Progression (Grundgerüst, bewusst nicht ausformuliert)
+### 5. Meta-Progression — Konzept steht, Schritt 1 umgesetzt (2026-07-27)
 
-Noch keine Entscheidung im Detail — nur eine erste konzeptionelle
-Richtung, damit klar ist, worauf Punkt 1 (Persistenz) auslegen sollte:
+Ausformuliertes Konzept inkl. Genre-Vergleich (Slay the Spire, Balatro,
+Hades u.a.) siehe `BattleMages_Meta_Progression_Concept_v1.md`. Schritt 1
+(run-übergreifender Persistenz-Layer + Kompendium- + Statistik-Screen)
+ist umgesetzt; die übrigen Bausteine (Archetyp-Tracker, alternative
+Start-Loadouts, Legendary-Meilensteine, Herausforderungs-Modifikatoren,
+Kosmetik) bleiben vorerst nur konzipiert. Ursprüngliche erste
+Stoßrichtung, unten als Kontext belassen:
 
 - **Was persistiert wird** (Kandidaten, nicht final): Anzahl
   abgeschlossener Runs, bester erreichter Fortschritt (welcher Kampf/
@@ -100,6 +105,31 @@ Richtung, damit klar ist, worauf Punkt 1 (Persistenz) auslegen sollte:
   Möglichkeit, zwei offene Fäden (fehlende Legendary-Inhalte +
   fehlende Meta-Progression) mit einer Lösung zu verbinden — nur eine
   Idee, keine Festlegung.
+
+### 6. Großer UI-Optimierungscheck (inkl. Zauberanimationen) — geplant, noch nicht begonnen (2026-07-28)
+
+- **Auftrag (2026-07-28)**: umfassende Durchsicht der bestehenden UI auf
+  Optimierungspotenzial, explizit inklusive einer Überarbeitung der
+  Zauberanimationen. Ob beides als ein gemeinsamer Durchgang oder als
+  zwei getrennte Arbeitsschritte läuft, ist bewusst offengelassen —
+  Entscheidung fällt erst, wenn der Umfangs-Check tatsächlich beginnt
+  und sich zeigt, wie stark sich UI-Layout-Fragen und
+  Animations-/Feedback-Fragen in der Praxis überschneiden.
+- **Bereits vorbereitete Grundlage**: `BattleMages_Animation_Feedback_Backlog.md`
+  enthält bereits eine vollständige, priorisierte Analyse der
+  Zauberanimations-/Trefferfeedback-Lücken (Stand 2026-07-24, seither
+  bewusst zurückgestellt). Diese Liste ist der naheliegende
+  Ausgangspunkt für die Animations-Hälfte dieses Punktes, statt die
+  Analyse doppelt zu machen — muss aber gegen den aktuellen Codestand
+  gegengeprüft werden, da seither u. a. 15 neue Zauber und neue
+  Meta-Progression-Screens (Kompendium, Statistik, Recap) dazukamen,
+  die die ursprüngliche Analyse noch nicht kennt.
+- **Für den UI-Teil noch offen**: kein bestehendes Dokument deckt einen
+  ganzheitlichen UI-Optimierungscheck ab (Layout-Konsistenz,
+  Screen-Übergänge, Lesbarkeit/Kontrast, neu hinzugekommene Screens seit
+  2026-07-24 wie Kompendium/Statistik/Recap). Analyse steht noch aus.
+- **Status**: reine Backlog-Aufnahme, keine Analyse oder Umsetzung in
+  diesem Schritt.
 
 ## Bewusst zurückgestellt
 

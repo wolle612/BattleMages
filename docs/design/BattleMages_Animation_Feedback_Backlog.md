@@ -57,3 +57,11 @@ sogar bereits vorhandenen toten Code.
 
 Bewusst zurückgestellt (2026-07-24) — Arbeit geht mit dem
 Spellpool-Backlog weiter (`BattleMages_Spellpool_Backlog.md`).
+
+**Update (2026-07-28)**: als Ausgangspunkt für den Animations-Teil des
+neuen Punktes "Großer UI-Optimierungscheck (inkl. Zauberanimationen)"
+vorgemerkt, siehe `BattleMages_UI_Umfang_Backlog.md`, Punkt 6. Diese
+Analyse ist Stand 2026-07-24 und kennt weder die 15 neuen
+Meta-Progression-Zauber noch die seither ergänzten Screens
+(Kompendium, Statistik, Recap) — vor Umsetzung gegen den aktuellen
+Codestand gegenprüfen, nicht ungeprüft übernehmen.

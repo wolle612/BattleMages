@@ -111,6 +111,32 @@ const BUILD_ARCHETYPES = {
     }
 };
 
+// Spieler-sichtbare Titel fuers Kompendium (Archetyp-Tracker,
+// src/game.js getCompendiumArchetypeEntries()). BUILD_ARCHETYPES
+// selbst bleibt ein rein internes Design-/Balance-Werkzeug -- die
+// .label-Werte dort duerfen nie im UI erscheinen (siehe CLAUDE.md,
+// Memory "project-build-archetype-decision"). Diese Tabelle ist die
+// bewusst getrennte, eigens formulierte UI-Uebersetzung derselben
+// Erkennung. "sustain" fehlt hier absichtlich (siehe
+// classifyRotationArchetypes() in metaProgression.js -- unerreichbar
+// mangels Zaubern mit build:"sustain").
+const ARCHETYPE_COMPENDIUM_TITLES = {
+    widerstandsfestung: "Lebende Festung",
+    widerstandskanone: "Gepanzerter Vergelter",
+    widerstand_krit: "Geschärfte Verteidigung",
+    verwundbar_burst: "Jäger der offenen Wunde",
+    verwundbar_ketten: "Kettenschlächter",
+    kritmaschine: "Tödliche Präzision",
+    one_shot: "Alles-oder-Nichts",
+    krit_verwundbar: "Präzise Zerstörung",
+    monoschule: "Reiner Fokus",
+    multischule: "Wandler der Schulen",
+    sequenz: "Perfekte Verkettung",
+    hybrid: "Verschmelzer der Kräfte",
+    burst: "Ungezügelte Wucht",
+    kontrollierter_schaden: "Berechnetes Risiko"
+};
+
 const COMBAT_SCHOOLS = {
     blood: {
         id: "blood",

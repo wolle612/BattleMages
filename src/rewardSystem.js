@@ -168,6 +168,22 @@ function spellRequiresNegativeEffectSetup(spell) {
     );
 }
 
+// Legendary-Zauber (data/spellbookPart4.js) sind ausserhalb des
+// normalen Rarity-Gewichts zusaetzlich an einen Meta-Progression-
+// Meilenstein gekoppelt (Baustein C, siehe metaProgression.js
+// recordRunEnd/unlockedLegendarySchools) -- vor Freischaltung tauchen
+// sie im Reward-Pool ueberhaupt nicht auf, unabhaengig vom
+// REWARD_RARITY_WEIGHTS_BY_PROGRESS-Anteil.
+function isLegendaryUnlocked(spell, metaState) {
+    if (spell.rarity !== "Legendary" || !spell.legendaryUnlockSchool) {
+        return true;
+    }
+
+    return metaState.unlockedLegendarySchools.includes(
+        spell.legendaryUnlockSchool
+    );
+}
+
 function getNewSpellOfferWeight(spell, ownedSpellIds, fightIndex) {
     const rarityWeights =
         getRewardRarityWeights(fightIndex);
@@ -308,11 +324,15 @@ function pickNewRewardSpell(
     fightIndex,
     excludedSpellIds = []
 ) {
+    const metaState =
+        getMetaState();
+
     const newSpellPool =
         spells.filter(spell => {
             return (
                 !ownedSpellIds.includes(spell.id) &&
-                !excludedSpellIds.includes(spell.id)
+                !excludedSpellIds.includes(spell.id) &&
+                isLegendaryUnlocked(spell, metaState)
             );
         });
 
@@ -337,10 +357,14 @@ function hasAvailableUpgrades(upgradeableSpells, excludedSpellIds) {
 }
 
 function hasAvailableNewSpells(ownedSpellIds, excludedSpellIds) {
+    const metaState =
+        getMetaState();
+
     return spells.some(spell => {
         return (
             !ownedSpellIds.includes(spell.id) &&
-            !excludedSpellIds.includes(spell.id)
+            !excludedSpellIds.includes(spell.id) &&
+            isLegendaryUnlocked(spell, metaState)
         );
     });
 }

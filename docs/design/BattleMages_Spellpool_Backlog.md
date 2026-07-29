@@ -144,3 +144,19 @@ Erstidee umgesetzt wird") offenbar grundsätzlich.
 - Konkrete Werte, Namen, Tooltips, Icon-Bedarf — folgt erst, wenn ein
   Slot tatsächlich bearbeitet wird, dann über die volle Checkliste aus
   CLAUDE.md ("Design neuer Zauber").
+
+## Update 2026-07-27 — Meta-Progression Baustein D (Option A)
+
+Neun weitere Zauber ergänzt (`data/spellbookPart3.js`), diesmal
+motiviert durch fehlende **startfähige** Zauber (`starter: true`) statt
+durch fehlende Zauber insgesamt — betrifft auch die hier bewusst
+zurückgestellten `monoschule` (`rune_binding`) und `hybrid`
+(`soul_fusion`), plus weitere Vertiefungen bei `kontrollierter_schaden`
+(`dampened_eruption`), `verwundbar_ketten` (`wound_gangrene`) und
+`sequenz` (`mind_cascade`) sowie den zuvor unbehandelten
+`multischule`/`one_shot`/`widerstand_krit`/`krit_verwundbar`. Details
+und Design-Begründung: `BattleMages_Meta_Progression_Concept_v1.md`,
+Abschnitt "Umsetzungsstand Baustein D". `Wundbrand` (Biomantie) hätte
+laut Slot-3-Begründung oben eigentlich vermieden werden sollen (vierter
+Biomantie-Verwundbar-Zauber) — bewusste Ausnahme, siehe dortige
+Begründung (deckt die bislang fehlende Sequenz-Hälfte ab).

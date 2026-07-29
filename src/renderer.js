@@ -287,6 +287,27 @@ function renderHomeScreen(canResume = false) {
                         How to Play
                     </span>
                 </button>
+
+                <div class="home-screen-submenu">
+                    <button
+                        id="compendiumButton"
+                        class="home-menu-btn home-menu-btn--compact home-menu-btn--secondary"
+                        type="button"
+                    >
+                        <span class="home-menu-btn__label">
+                            Kompendium
+                        </span>
+                    </button>
+                    <button
+                        id="statsButton"
+                        class="home-menu-btn home-menu-btn--compact home-menu-btn--secondary"
+                        type="button"
+                    >
+                        <span class="home-menu-btn__label">
+                            Statistik
+                        </span>
+                    </button>
+                </div>
             </nav>
         </div>
     `;
@@ -3125,6 +3146,187 @@ function renderRunRecapScreen(recap) {
             <div class="screen-actions">
                 <button
                     id="recapHomeButton"
+                    class="btn btn-primary"
+                >
+                    Zurück zum Hauptmenü
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function renderCompendiumSpellTile(entry) {
+    const iconHtml =
+        entry.seen
+            ? `
+                <div
+                    class="card-icon-slot spell-icon compendium-tile__icon"
+                    aria-hidden="true"
+                >
+                    <img
+                        class="spell-icon__image"
+                        src="${entry.icon}"
+                        alt=""
+                    />
+                    <span class="spell-icon__fallback">
+                        ${entry.fallbackInitial}
+                    </span>
+                </div>
+            `
+            : `
+                <div
+                    class="card-icon-slot spell-icon compendium-tile__icon compendium-tile__icon--unseen"
+                    aria-hidden="true"
+                >
+                    <span class="compendium-tile__unseen-mark">?</span>
+                </div>
+            `;
+
+    const rarityClass =
+        entry.seen && entry.rarity ? entry.rarity.className : "";
+
+    return `
+        <div class="compendium-tile ${entry.seen ? rarityClass : "compendium-tile--unseen"}">
+            ${iconHtml}
+            <span class="compendium-tile__name">${escapeHtml(entry.name)}</span>
+            <span class="compendium-tile__meta">${escapeHtml(entry.schoolLabel || "")}</span>
+        </div>
+    `;
+}
+
+function renderCompendiumEnemyTile(entry) {
+    const portraitHtml =
+        entry.seen
+            ? `
+                <div
+                    class="combatant-portrait-slot compendium-tile__icon"
+                    aria-hidden="true"
+                >
+                    <img
+                        class="combatant-portrait-image"
+                        src="${entry.portraitPath}"
+                        alt=""
+                    />
+                </div>
+            `
+            : `
+                <div
+                    class="combatant-portrait-slot compendium-tile__icon compendium-tile__icon--unseen"
+                    aria-hidden="true"
+                >
+                    <span class="compendium-tile__unseen-mark">?</span>
+                </div>
+            `;
+
+    return `
+        <div class="compendium-tile ${entry.seen ? "" : "compendium-tile--unseen"}">
+            ${portraitHtml}
+            <span class="compendium-tile__name">${escapeHtml(entry.name)}</span>
+            <span class="compendium-tile__meta">${escapeHtml(entry.tierLabel || "")}</span>
+        </div>
+    `;
+}
+
+function renderCompendiumArchetypeTile(entry) {
+    return `
+        <div class="compendium-archetype-tile ${entry.unlocked ? "compendium-archetype-tile--unlocked" : ""}">
+            <span class="compendium-archetype-tile__check">${entry.unlocked ? "✓" : "?"}</span>
+            <span class="compendium-archetype-tile__name">${escapeHtml(entry.name)}</span>
+        </div>
+    `;
+}
+
+function renderCompendiumScreen(data) {
+    const spellTiles =
+        data.spellEntries.map(renderCompendiumSpellTile).join("");
+
+    const enemyTiles =
+        data.enemyEntries.map(renderCompendiumEnemyTile).join("");
+
+    const archetypeTiles =
+        data.archetypeEntries.map(renderCompendiumArchetypeTile).join("");
+
+    getGameRoot().innerHTML = `
+        <div class="screen-compendium">
+            <h1 class="screen-title">Kompendium</h1>
+
+            <section class="compendium-section">
+                <h2 class="compendium-section-title">Zauber</h2>
+                <div class="compendium-grid">
+                    ${spellTiles}
+                </div>
+            </section>
+
+            <section class="compendium-section">
+                <h2 class="compendium-section-title">Gegner</h2>
+                <div class="compendium-grid">
+                    ${enemyTiles}
+                </div>
+            </section>
+
+            <section class="compendium-section">
+                <h2 class="compendium-section-title">Archetypen</h2>
+                <div class="compendium-grid compendium-grid--archetypes">
+                    ${archetypeTiles}
+                </div>
+            </section>
+
+            <div class="screen-actions">
+                <button
+                    id="compendiumHomeButton"
+                    class="btn btn-primary"
+                >
+                    Zurück zum Hauptmenü
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function getWinRatePercent(metaState) {
+    if (metaState.runsCompleted <= 0) {
+        return 0;
+    }
+
+    return Math.round(
+        (metaState.wins / metaState.runsCompleted) * 100
+    );
+}
+
+function renderStatsScreen(metaState) {
+    const statItems = [
+        { value: metaState.runsStarted, label: "Runs gestartet" },
+        { value: metaState.runsCompleted, label: "Runs abgeschlossen" },
+        { value: metaState.wins, label: "Siege" },
+        { value: metaState.losses, label: "Niederlagen" },
+        { value: `${getWinRatePercent(metaState)}%`, label: "Siegquote" },
+        { value: metaState.bestFightReached, label: "Bester Fortschritt (Kampf)" },
+        { value: metaState.bestStats.highestHit, label: "Höchster Einzelschaden" },
+        { value: metaState.bestStats.peakResistance, label: "Maximaler Widerstand" },
+        { value: metaState.bestStats.longestRun, label: "Längster Run (Kämpfe)" }
+    ];
+
+    const statHtml =
+        statItems
+            .map(item => `
+                <div class="run-recap-stat-item">
+                    <span class="run-recap-stat-value">${item.value}</span>
+                    <span class="run-recap-stat-label">${item.label}</span>
+                </div>
+            `)
+            .join("");
+
+    getGameRoot().innerHTML = `
+        <div class="screen-stats">
+            <h1 class="screen-title">Statistik</h1>
+
+            <div class="run-recap-stat-grid">
+                ${statHtml}
+            </div>
+
+            <div class="screen-actions">
+                <button
+                    id="statsHomeButton"
                     class="btn btn-primary"
                 >
                     Zurück zum Hauptmenü
