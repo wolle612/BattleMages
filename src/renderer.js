@@ -137,16 +137,21 @@ function renderEnemyActionTimeline(actionBar) {
     `;
 }
 
+// UI-Optimierungscheck (2026-07-29): war ein ausgeschriebener Textblock
+// (Label + Name + 2-3 Zeilen Beschreibung) -- nahm im Gegner-Panel
+// unverhaeltnismaessig viel Bauhoehe ein. Jetzt eine kompakte Zeile mit
+// Hover-Tooltip fuer die volle Beschreibung, gleiches Tooltip-Muster wie
+// .resistance-badge-tooltip (reines CSS :hover statt native title-Attribute).
 function renderEnemyPassiveBlock(enemy) {
     return `
-        <div class="enemy-passive-block">
+        <div class="enemy-passive-compact">
             <span class="enemy-section-label">Passiv</span>
             <strong class="enemy-passive-name">
                 ${escapeHtml(renderEnemyPassiveName(enemy))}
             </strong>
-            <p class="enemy-passive-text">
-                ${escapeHtml(renderEnemyPassiveText(enemy))}
-            </p>
+            <div class="enemy-passive-tooltip">
+                <p>${escapeHtml(renderEnemyPassiveText(enemy))}</p>
+            </div>
         </div>
     `;
 }
@@ -655,15 +660,15 @@ function renderFightScreen(viewModel) {
 
             <header class="battle-header">
                 <div class="run-progress-banner">
-                    <div class="run-progress-label">
+                    <span class="run-progress-label">
                         Kampf ${viewModel.fightNumber} / ${viewModel.totalFights}
+                    </span>
+                    <div class="run-progress-track">
+                        ${renderRunProgress(
+                            viewModel.fightNumber,
+                            viewModel.totalFights
+                        )}
                     </div>
-                </div>
-                <div class="run-progress-track">
-                    ${renderRunProgress(
-                        viewModel.fightNumber,
-                        viewModel.totalFights
-                    )}
                 </div>
             </header>
 

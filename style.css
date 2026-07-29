@@ -76,7 +76,7 @@
     --radius-sm: 3px;
     --radius-md: 4px;
     --slot-size: 56px;
-    --portrait-size: 272px;
+    --portrait-size: 236px;
     --spell-slot-size: 72px;
     --spell-slot-source: url('assets/ui/actionbar/spell_slot.png');
     --spell-slot-active-source: url('assets/ui/actionbar/spell_slot_active.png');
@@ -126,7 +126,7 @@
     --starter-card-frame-source: url('assets/ui/cards/starter_card.png');
     --starter-card-fill: #16181e;
     --combat-log-pillar-width: 68px;
-    --combat-log-panel-height: 300px;
+    --combat-log-panel-height: 120px;
     /* Native asset bounds (opaque content) — used to crop transparent padding
        so pillar caps and center rails share the same top/bottom edge. */
     --combat-log-center-native-h: 856;
@@ -139,7 +139,7 @@
     --combat-log-pillar-left-source: url('assets/ui/log/combat_log_pillar_left.png');
     --combat-log-pillar-right-source: url('assets/ui/log/combat_log_pillar_right.png');
     --combat-log-fill: #13161c;
-    --header-panel-height: 48px;
+    --header-panel-height: 40px;
     --header-panel-native-width: 1024;
     --header-panel-native-height: 128;
     --header-panel-width: calc(
@@ -579,15 +579,15 @@ body.app-selection #spellContainer {
 .battle-screen {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 10px;
 }
 
 .battle-header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
-    padding: 16px 24px 18px;
+    gap: 0;
+    padding: 8px 24px;
     text-align: center;
     background-color: var(--panel-fill);
     border: var(--panel-frame-width) solid transparent;
@@ -602,11 +602,19 @@ body.app-selection #spellContainer {
         inset 0 0 0 1px rgba(0, 0, 0, 0.35);
 }
 
+/*
+ * UI-Optimierungscheck (2026-07-29): Label und Pip-Reihe standen vorher
+ * gestapelt in zwei separaten Boxen (run-progress-banner nur fuer das
+ * Label, run-progress-track darunter) -- unnoetige zweite Zeile Bauhoehe
+ * fuer eine reine "Kampf X/12"-Anzeige. Jetzt eine Zeile: Label links,
+ * Pips rechts, beide vertikal zentriert in derselben gerahmten Leiste.
+ */
 .run-progress-banner {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 14px;
     box-sizing: border-box;
     width: var(--run-progress-band-width);
     height: var(--header-panel-height);
@@ -631,9 +639,11 @@ body.app-selection #spellContainer {
 .run-progress-label {
     position: relative;
     z-index: 1;
+    flex: 0 0 auto;
     margin: 0;
+    white-space: nowrap;
     color: var(--accent-gold-bright);
-    font-size: 0.9rem;
+    font-size: 0.82rem;
     font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -643,13 +653,16 @@ body.app-selection #spellContainer {
 }
 
 .run-progress-track {
+    position: relative;
+    z-index: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 0;
+    flex: 1 1 auto;
     flex-wrap: nowrap;
-    width: var(--run-progress-band-width);
-    padding: 6px 10px 2px;
+    min-width: 0;
+    padding: 0;
     background: transparent;
     border: none;
     border-radius: 0;
@@ -660,10 +673,10 @@ body.app-selection #spellContainer {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 20px;
-    height: 28px;
+    min-width: 16px;
+    height: 22px;
     color: var(--text-muted);
-    font-size: 1.2rem;
+    font-size: 1rem;
     line-height: 1;
 }
 
@@ -673,12 +686,12 @@ body.app-selection #spellContainer {
 
 .run-marker--current {
     color: var(--accent-gold);
-    font-size: 1.35rem;
+    font-size: 1.1rem;
     text-shadow: 0 0 8px rgba(201, 168, 74, 0.35);
 }
 
 .run-marker--elite {
-    font-size: 1.25rem;
+    font-size: 1.05rem;
 }
 
 .run-marker--complete.run-marker--elite {
@@ -686,7 +699,7 @@ body.app-selection #spellContainer {
 }
 
 .run-marker--current.run-marker--elite {
-    font-size: 1.4rem;
+    font-size: 1.15rem;
     color: var(--accent-gold);
     text-shadow: 0 0 8px rgba(201, 168, 74, 0.35);
 }
@@ -696,14 +709,14 @@ body.app-selection #spellContainer {
 }
 
 .run-marker--boss {
-    min-width: 24px;
-    height: 32px;
+    min-width: 20px;
+    height: 26px;
 }
 
 .run-marker-boss-icon {
     display: block;
-    width: 22px;
-    height: 22px;
+    width: 18px;
+    height: 18px;
     color: #8a4048;
     filter: drop-shadow(0 0 4px rgba(120, 30, 40, 0.35));
 }
@@ -726,7 +739,14 @@ body.app-selection #spellContainer {
     display: grid;
     grid-template-columns: minmax(320px, 0.9fr) minmax(280px, 1fr) minmax(320px, 0.9fr);
     gap: 20px;
-    align-items: stretch;
+    /*
+     * UI-Optimierungscheck (2026-07-29): war "stretch" -- zwang das
+     * (inhaltsleere) Spieler-Panel auf dieselbe Hoehe wie das Gegner-Panel
+     * (Passiv-Text + Aktionsvorschau), dadurch ein grosser erzwungener
+     * Leerraum unter dem Spieler-Portraet. Panels wachsen jetzt nach
+     * eigenem Inhalt.
+     */
+    align-items: start;
 }
 
 /* VFX-Engine (PixiJS-Layer): transparenter Canvas ueber der bestehenden
@@ -895,12 +915,10 @@ body.app-selection #spellContainer {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    padding: 20px;
+    padding: 14px 20px;
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    align-self: stretch;
-    min-height: 100%;
 }
 
 .combatant-panel-stack {
@@ -923,9 +941,9 @@ body.app-selection #spellContainer {
     display: flex;
     flex: 1;
     flex-direction: column;
-    gap: 22px;
+    gap: 12px;
     width: 100%;
-    margin-top: 22px;
+    margin-top: 14px;
 }
 
 .combatant-panel-details--empty {
@@ -1344,7 +1362,7 @@ body.app-selection #spellContainer {
 
 .enemy-section-label {
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 6px;
     color: var(--text-muted);
     font-size: 0.68rem;
     font-weight: 800;
@@ -1352,9 +1370,20 @@ body.app-selection #spellContainer {
     text-transform: uppercase;
 }
 
-.enemy-passive-block {
+/*
+ * UI-Optimierungscheck (2026-07-29): ersetzt den frueheren
+ * .enemy-passive-block-Textkasten (Label + Name + ausgeschriebene
+ * Beschreibung, ~90-110px Bauhoehe). Kompakte einzeilige Variante,
+ * volle Beschreibung nur noch im Hover-Tooltip (siehe
+ * .resistance-badge-tooltip fuer dasselbe Muster).
+ */
+.enemy-passive-compact {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
     width: 100%;
-    padding: 16px 18px;
+    padding: 8px 12px;
     border: 1px solid rgba(255, 235, 200, 0.08);
     border-radius: var(--radius-sm);
     background:
@@ -1368,23 +1397,50 @@ body.app-selection #spellContainer {
         inset 0 1px 0 rgba(255, 235, 200, 0.05),
         var(--shadow-inset);
     text-align: left;
+    cursor: default;
+}
+
+.enemy-passive-compact .enemy-section-label {
+    margin-bottom: 0;
 }
 
 .enemy-passive-name {
-    display: block;
-    margin-bottom: 8px;
     color: var(--accent-gold-bright);
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-weight: 800;
     letter-spacing: 0.02em;
     line-height: 1.25;
 }
 
-.enemy-passive-text {
+.enemy-passive-tooltip {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    z-index: 10;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    background: var(--tooltip-fill);
+    border: 1px solid var(--border-bronze);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.enemy-passive-tooltip p {
     margin: 0;
     color: var(--text-secondary);
-    font-size: 0.8rem;
-    line-height: 1.45;
+}
+
+.enemy-passive-compact:hover .enemy-passive-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
 }
 
 .enemy-action-preview {
@@ -1417,8 +1473,8 @@ body.app-selection #spellContainer {
 .enemy-action-step {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 14px;
+    gap: 10px;
+    padding: 7px 10px;
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: var(--radius-sm);
     background: rgba(0, 0, 0, 0.22);
@@ -1460,13 +1516,13 @@ body.app-selection #spellContainer {
 .enemy-action-step__connector {
     display: flex;
     justify-content: center;
-    padding: 4px 0;
+    padding: 2px 0;
 }
 
 .enemy-action-step__arrow {
     display: block;
-    width: 10px;
-    height: 16px;
+    width: 9px;
+    height: 12px;
     background:
         linear-gradient(
             180deg,
@@ -1482,7 +1538,7 @@ body.app-selection #spellContainer {
     justify-content: center;
     align-items: center;
     gap: 8px;
-    margin-top: 14px;
+    margin-top: 8px;
 }
 
 .enemy-action-progress__dot {
@@ -1507,9 +1563,9 @@ body.app-selection #spellContainer {
 
 .enemy-action-step .enemy-action-icon {
     display: inline-flex;
-    width: 36px;
-    height: 36px;
-    flex: 0 0 36px;
+    width: 26px;
+    height: 26px;
+    flex: 0 0 26px;
     align-items: center;
     justify-content: center;
     overflow: hidden;
@@ -1695,8 +1751,18 @@ body.app-selection #spellContainer {
 }
 
 .spellbar--compact {
+    /*
+     * UI-Optimierungscheck (2026-07-29): die mittlere Grid-Spalte
+     * (.battle-arena, minmax(280px,1fr)) ist schmaler als 5 Slots bei
+     * der Basisgroesse (72px) + Gaps brauchen (~400px) -- ohne
+     * Verkleinerung wrappt die Zeile sichtbar ungleichmaessig (3+2).
+     * 56px passt 5 Slots zuverlaessig in eine Zeile.
+     */
+    --spell-slot-size: 56px;
     width: 100%;
     max-width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
     padding: 8px 14px;
     background: rgba(19, 22, 28, 0.72);
     border: 1px solid rgba(255, 235, 200, 0.1);
@@ -1707,6 +1773,7 @@ body.app-selection #spellContainer {
 }
 
 .spellbar--compact .actionbar {
+    gap: 6px;
     padding: 0;
     background: transparent;
     border: none;
@@ -1721,6 +1788,8 @@ body.app-selection #spellContainer {
 
 .spellbar--compact .build-card {
     flex: 0 0 auto;
+    width: 62px;
+    padding: 4px;
 }
 
 .spellbar--compact .build-card--active {
@@ -1770,10 +1839,21 @@ body.app-selection #spellContainer {
 
 .actionbar {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: flex-start;
     gap: 10px;
     width: 100%;
+    /*
+     * UI-Optimierungscheck (2026-07-29): .build-card hat flex:0 0 auto
+     * (kein Schrumpfen). Ohne flex-wrap konnten 5 Zauber-Icons breiter
+     * werden als die mittlere Grid-Spalte und sichtbar in die
+     * Charakter-Panels links/rechts ueberlaufen (CSS-Grid clippt
+     * Overflow nicht automatisch). Wrap ist die sichere Untergrenze --
+     * im Normalfall (genug Breite) bleibt es eine Zeile.
+     */
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 /* Fight layout */
@@ -2999,8 +3079,28 @@ body.app-selection {
     background-attachment: fixed;
 }
 
+/*
+ * UI-Optimierungscheck (2026-07-29): das grosse, zentrierte Logo kostet auf
+ * dem Kampf-/Auswahl-Bildschirm ~200px Bauhoehe, bevor ueberhaupt
+ * Kampfinhalt beginnt -- genau die Screens, auf denen der Spieler die
+ * meiste Zeit verbringt und sofort Information braucht. Position: fixed
+ * nimmt es komplett aus dem Dokumentfluss (kein Platzverbrauch mehr),
+ * verkleinert auf reine Wortmarke oben links. Home-Screen (.app-home)
+ * bleibt unveraendert gross und zentriert.
+ */
+body.app-game .app-logo,
+body.app-selection .app-logo {
+    position: fixed;
+    top: 10px;
+    left: 14px;
+    z-index: 5;
+    margin: 0;
+    pointer-events: none;
+}
+
 body.app-game .app-logo__image,
 body.app-selection .app-logo__image {
+    width: 84px;
     filter:
         drop-shadow(0 2px 10px rgba(0, 0, 0, 0.65))
         drop-shadow(0 0 24px rgba(0, 0, 0, 0.35));
@@ -4421,7 +4521,7 @@ body.app-home #game {
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
 }
 
-.enemy-passive-block {
+.enemy-passive-compact {
     box-shadow:
         inset 0 1px 0 rgba(255, 235, 200, 0.06),
         inset 0 -2px 0 rgba(0, 0, 0, 0.28),
