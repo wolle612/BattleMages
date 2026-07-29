@@ -7,8 +7,9 @@
 // metaState.unlockedLegendarySchools, siehe src/metaProgression.js).
 // Machtneutral: keine automatische Vergabe, weiterhin normale
 // Reward-Gewichtung (REWARD_RARITY_WEIGHTS_BY_PROGRESS) -- lediglich
-// vorher komplett ausgeschlossen. Kein Rang-2-5-Aufstiegspfad,
-// bewusst wie bei den Baustein-D-Zaubern.
+// vorher komplett ausgeschlossen. Rang-2-5-Aufstiegspfade (urspruenglich
+// bewusst ausgeklammert wie bei den Baustein-D-Zaubern) inzwischen
+// nachgezogen -- siehe data/spellUpgradeProfiles.js.
 const spellbookPart4Definitions = [
     {
         id: "organ_collapse",

@@ -3,8 +3,9 @@
 // Build-Archetyp in einem echten Run erreicht hat (siehe
 // classifyRotationArchetypes()/starterUnlockArchetype-Filter in
 // src/game.js). Vorher ganz normale Reward-Pool-Zauber wie jeder andere.
-// Kein Rang-2-5-Aufstiegspfad -- bewusst ausgeklammert, siehe
-// docs/design/BattleMages_Meta_Progression_Concept_v1.md.
+// Rang-2-5-Aufstiegspfade (urspruenglich bewusst ausgeklammert, siehe
+// docs/design/BattleMages_Meta_Progression_Concept_v1.md) inzwischen
+// nachgezogen -- siehe data/spellUpgradeProfiles.js.
 const spellbookPart3Definitions = [
     {
         id: "soul_migration",

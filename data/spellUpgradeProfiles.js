@@ -1655,5 +1655,554 @@ const spellUpgradeProfiles = {
                 }
             }
         }
+    },
+
+    // Meta-Progression-Zauber (Baustein D + Legendary, data/spellbookPart3.js
+    // + spellbookPart4.js) -- vollstaendige Rang-2-5-Pfade (2026-07-28),
+    // ersetzt den vereinfachten Rang-2-Nur-Aufstieg aus dem Balancing-Sprint.
+    // Ausschliesslich bereits an anderer Stelle in dieser Datei verwendete
+    // Werte-Schluessel, keine neue Engine-Logik. Pfad-Tooltips folgen der
+    // "zusaetzlich"-Konvention (siehe Kommentar bei soul_resonance oben),
+    // damit getSpellTooltipLines() sie additiv statt als Vollersatz
+    // behandelt -- nur rank2/rank4 restaten bewusst die Hauptzeile komplett,
+    // wie bei allen Bestandszaubern.
+    soul_migration: {
+        rank2: {
+            values: { damage: 29 },
+            tooltip: ["Verursacht 29 Schaden."]
+        },
+        rank4: {
+            values: { damage: 35 },
+            tooltip: ["Verursacht 35 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Weitwanderung",
+                rank3: {
+                    values: { damagePerUniqueSchoolInRotation: 9 },
+                    tooltip: ["Pro zusätzlicher Schule in deiner Rotation: +9 Schaden statt +6."]
+                },
+                rank5: {
+                    values: { damagePerUniqueSchoolInRotation: 13 },
+                    tooltip: ["Pro zusätzlicher Schule in deiner Rotation: +13 Schaden."]
+                }
+            },
+            b: {
+                label: "Rückkehr",
+                rank3: {
+                    values: { sequenceTrigger: "different_school", sequenceDamageBonus: 20 },
+                    tooltip: ["Wurde zuvor ein Zauber einer anderen Schule gewirkt: +20 Schaden."]
+                },
+                rank5: {
+                    values: { sequenceDamageBonus: 35 },
+                    tooltip: ["Wurde zuvor ein Zauber einer anderen Schule gewirkt: +35 Schaden."]
+                }
+            }
+        }
+    },
+    wound_gangrene: {
+        rank2: {
+            values: { damage: 24 },
+            tooltip: ["Verursacht 24 Schaden."]
+        },
+        rank4: {
+            values: { damage: 30 },
+            tooltip: ["Verursacht 30 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Fortschreitende Fäulnis",
+                rank3: {
+                    values: { vulnerableBonusDamage: 28 },
+                    tooltip: ["Gegen verwundbare Ziele: +28 Schaden statt +15."]
+                },
+                rank5: {
+                    values: { vulnerableRepeatHits: 2 },
+                    tooltip: ["Gegen verwundbare Ziele trifft Wundbrand zweimal."]
+                }
+            },
+            b: {
+                label: "Blutvergiftung",
+                rank3: {
+                    values: { applyVulnerableResistanceGain: 15 },
+                    tooltip: ["Du erhältst zusätzlich 15 Magischen Widerstand, wenn dieser Zauber Verwundbar zufügt."]
+                },
+                rank5: {
+                    values: { applyVulnerableResistanceGain: 30, sequenceDamageBonus: 18 },
+                    tooltip: [
+                        "Du erhältst zusätzlich 30 Magischen Widerstand statt 15.",
+                        "Wurde zuvor ein Angriffszauber gewirkt: +18 Schaden statt +10."
+                    ]
+                }
+            }
+        }
+    },
+    chaos_discharge: {
+        rank2: {
+            values: { damage: 22 },
+            tooltip: ["Verursacht 22 Schaden."]
+        },
+        rank4: {
+            values: { damage: 27 },
+            tooltip: ["Verursacht 27 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Verzweiflung",
+                rank3: {
+                    values: { missingLifeBonusMax: 38 },
+                    tooltip: ["Je weniger eigene Lebenspunkte: bis zu +38 Schaden statt +24."]
+                },
+                rank5: {
+                    values: { missingLifeBonusMax: 55 },
+                    tooltip: ["Je weniger eigene Lebenspunkte: bis zu +55 Schaden."]
+                }
+            },
+            b: {
+                label: "Präzision",
+                rank3: {
+                    values: { critFlatBonus: 28, vulnerableBonusDamage: 32 },
+                    tooltip: [
+                        "Kritische Treffer verursachen +28 Schaden statt +15.",
+                        "Gegen verwundbare Ziele: +32 Schaden statt +22."
+                    ]
+                },
+                rank5: {
+                    values: { vulnerableGuaranteedCrit: true },
+                    tooltip: ["Gegen verwundbare Ziele: Garantierter Krit."]
+                }
+            }
+        }
+    },
+    shadow_carapace: {
+        rank2: {
+            values: { damage: 31 },
+            tooltip: ["Verursacht 31 Schaden."]
+        },
+        rank4: {
+            values: { damage: 38 },
+            tooltip: ["Verursacht 38 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Gehärteter Schatten",
+                rank3: {
+                    values: { critResistanceGain: 26 },
+                    tooltip: ["Kritische Treffer gewähren 26 Magischen Widerstand statt 16."]
+                },
+                rank5: {
+                    values: { critResistanceMultiplier: 2 },
+                    tooltip: ["Der aus kritischen Treffern erhaltene Widerstand verdoppelt sich."]
+                }
+            },
+            b: {
+                label: "Scharfe Kante",
+                rank3: {
+                    values: { resistanceBonusDamagePercent: 40 },
+                    tooltip: ["Verursacht zusätzlich Schaden in Höhe von 40 % deines Magischen Widerstands."]
+                },
+                rank5: {
+                    values: { resistanceBonusDamagePercent: 65 },
+                    tooltip: ["Verursacht zusätzlich Schaden in Höhe von 65 % deines Magischen Widerstands."]
+                }
+            }
+        }
+    },
+    rune_binding: {
+        rank2: {
+            values: { resistance: 22 },
+            tooltip: ["Erhalte 22 Magischen Widerstand."]
+        },
+        rank4: {
+            values: { resistance: 27 },
+            tooltip: ["Erhalte 27 Magischen Widerstand."]
+        },
+        paths: {
+            a: {
+                label: "Ungebrochener Kreis",
+                rank3: {
+                    values: { sequenceResistanceGain: 24 },
+                    tooltip: ["Wurde zuvor ein Zauber derselben Schule gewirkt: +24 zusätzlicher Widerstand statt +14."]
+                },
+                rank5: {
+                    values: { resistanceBonusDamagePercentOnSequence: 40 },
+                    tooltip: ["Wurde zuvor ein Zauber derselben Schule gewirkt: zusätzlich Schaden in Höhe von 40 % deines Magischen Widerstands."]
+                }
+            },
+            b: {
+                label: "Runenwall",
+                rank3: {
+                    values: { resistanceGainIfPlayerHasResistance: 15 },
+                    tooltip: ["Besitzt du bereits Widerstand: Erhalte zusätzlich 15 Magischen Widerstand."]
+                },
+                rank5: {
+                    values: { resistanceGainIfPlayerHasResistance: 28, resistance: 30 },
+                    tooltip: [
+                        "Besitzt du bereits Widerstand: Erhalte zusätzlich 28 Magischen Widerstand statt 15.",
+                        "Grundwiderstand steigt auf 30."
+                    ]
+                }
+            }
+        }
+    },
+    nerve_cut: {
+        rank2: {
+            values: { damage: 29 },
+            tooltip: ["Verursacht 29 Schaden."]
+        },
+        rank4: {
+            values: { damage: 35 },
+            tooltip: ["Verursacht 35 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Präziser Schnitt",
+                rank3: {
+                    values: { nextSpellCritDamageBonus: 30 },
+                    tooltip: ["Der nächste Zauber verursacht bei kritischem Treffer zusätzlich +30 % Schaden."]
+                },
+                rank5: {
+                    values: { nextSpellPrepCharges: 2 },
+                    tooltip: ["Die Präzision gilt für die nächsten 2 Zauber statt nur einen."]
+                }
+            },
+            b: {
+                label: "Offene Wunde",
+                rank3: {
+                    values: { vulnerableBonusDamage: 24 },
+                    tooltip: ["Gegen verwundbare Ziele: +24 Schaden statt +12."]
+                },
+                rank5: {
+                    values: { vulnerableGuaranteedCrit: true },
+                    tooltip: ["Gegen verwundbare Ziele: Garantierter Krit."]
+                }
+            }
+        }
+    },
+    mind_cascade: {
+        rank2: {
+            values: { damage: 24 },
+            tooltip: ["Verursacht 24 Schaden."]
+        },
+        rank4: {
+            values: { damage: 29 },
+            tooltip: ["Verursacht 29 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Kettenreaktion",
+                rank3: {
+                    values: { sequenceDamageBonus: 34 },
+                    tooltip: ["Wurde zuvor ein Angriffszauber gewirkt: +34 Schaden statt +22."]
+                },
+                rank5: {
+                    values: { sequenceRepeatHits: 2 },
+                    tooltip: ["Wurde zuvor ein Angriffszauber gewirkt: trifft zweimal."]
+                }
+            },
+            b: {
+                label: "Geistesschärfe",
+                rank3: {
+                    values: { nextSpellCritChanceBonus: 30 },
+                    tooltip: ["Der nächste Zauber erhält +30 % Kritchance."]
+                },
+                rank5: {
+                    values: { nextSpellCritDamageBonus: 35 },
+                    tooltip: ["Der nächste Zauber erhält zusätzlich +35 % Kritschaden."]
+                }
+            }
+        }
+    },
+    dampened_eruption: {
+        rank2: {
+            values: { damage: 24 },
+            tooltip: ["Verursacht 24 Schaden."]
+        },
+        rank4: {
+            values: { damage: 29 },
+            tooltip: ["Verursacht 29 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Kontrollierte Kettenreaktion",
+                rank3: {
+                    values: { resistanceBonusDamagePercent: 60 },
+                    tooltip: ["Zusätzlich Schaden in Höhe von 60 % deines Magischen Widerstands statt 40 %."]
+                },
+                rank5: {
+                    values: { resistanceBonusDamagePercent: 85 },
+                    tooltip: ["Zusätzlich Schaden in Höhe von 85 % deines Magischen Widerstands."]
+                }
+            },
+            b: {
+                label: "Rückkopplung",
+                rank3: {
+                    values: { resistance: 12 },
+                    effects: ["gain_resistance"],
+                    tooltip: ["Erhalte zusätzlich 12 Magischen Widerstand."]
+                },
+                rank5: {
+                    values: { resistance: 22 },
+                    tooltip: ["Erhalte zusätzlich 22 Magischen Widerstand statt 12."]
+                }
+            }
+        }
+    },
+    soul_fusion: {
+        rank2: {
+            values: { damage: 19 },
+            tooltip: ["Verursacht 19 Schaden."]
+        },
+        rank4: {
+            values: { damage: 23 },
+            tooltip: ["Verursacht 23 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Doppelte Bindung",
+                rank3: {
+                    values: { vulnerableBonusDamage: 22, resistanceBonusDamagePercent: 30 },
+                    tooltip: [
+                        "Gegen verwundbare Ziele: +22 Schaden statt +14.",
+                        "Zusätzlich Schaden in Höhe von 30 % deines Magischen Widerstands statt 20 %."
+                    ]
+                },
+                rank5: {
+                    values: { vulnerableBonusDamage: 30, resistanceBonusDamagePercent: 45 },
+                    tooltip: [
+                        "Gegen verwundbare Ziele: +30 Schaden.",
+                        "Zusätzlich Schaden in Höhe von 45 % deines Magischen Widerstands."
+                    ]
+                }
+            },
+            b: {
+                label: "Kritischer Bund",
+                rank3: {
+                    values: { critFlatBonus: 18 },
+                    tooltip: ["Kritische Treffer verursachen zusätzlich +18 Schaden."]
+                },
+                rank5: {
+                    values: { critResistanceGain: 20 },
+                    tooltip: ["Kritische Treffer gewähren zusätzlich 20 Magischen Widerstand."]
+                }
+            }
+        }
+    },
+    organ_collapse: {
+        rank2: {
+            values: { damage: 31 },
+            tooltip: ["Verursacht 31 Schaden."]
+        },
+        rank4: {
+            values: { damage: 38 },
+            tooltip: ["Verursacht 38 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Endgültiger Verfall",
+                rank3: {
+                    values: { vulnerableBonusDamage: 75 },
+                    tooltip: ["Gegen verwundbare Ziele: +75 Schaden statt +55."]
+                },
+                rank5: {
+                    values: { vulnerableBonusDamage: 95 },
+                    tooltip: ["Gegen verwundbare Ziele: +95 Schaden."]
+                }
+            },
+            b: {
+                label: "Kettenkollaps",
+                rank3: {
+                    values: { applyVulnerableOnlyIfVulnerable: true },
+                    effects: ["apply_vulnerable"],
+                    tooltip: ["Gegen verwundbare Ziele: Fügt erneut Verwundbar zu."]
+                },
+                rank5: {
+                    values: { vulnerableRepeatHits: 2 },
+                    tooltip: ["Gegen verwundbare Ziele trifft Organkollaps zweimal."]
+                }
+            }
+        }
+    },
+    shadow_execution: {
+        rank2: {
+            values: { damage: 38 },
+            tooltip: ["Verursacht 38 Schaden."]
+        },
+        rank4: {
+            values: { damage: 46 },
+            tooltip: ["Verursacht 46 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Makellose Klinge",
+                rank3: {
+                    values: { critFlatBonus: 60 },
+                    tooltip: ["Kritische Treffer verursachen +60 Schaden statt +40."]
+                },
+                rank5: {
+                    values: { critFlatBonus: 85 },
+                    tooltip: ["Kritische Treffer verursachen +85 Schaden."]
+                }
+            },
+            b: {
+                label: "Schattenurteil",
+                rank3: {
+                    values: { critResistanceGain: 20 },
+                    tooltip: ["Kritische Treffer gewähren zusätzlich 20 Magischen Widerstand."]
+                },
+                rank5: {
+                    values: { critResistanceGain: 35, critResistanceMultiplier: 2 },
+                    tooltip: [
+                        "Kritische Treffer gewähren 35 Magischen Widerstand statt 20.",
+                        "Der daraus erhaltene Widerstand verdoppelt sich."
+                    ]
+                }
+            }
+        }
+    },
+    mind_storm: {
+        rank2: {
+            values: { damage: 31 },
+            tooltip: ["Verursacht 31 Schaden."]
+        },
+        rank4: {
+            values: { damage: 38 },
+            tooltip: ["Verursacht 38 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Vollständige Durchdringung",
+                rank3: {
+                    values: { damagePerUniqueSchoolInRotation: 15 },
+                    tooltip: ["Pro zusätzlicher Schule in deiner Rotation: +15 Schaden statt +10."]
+                },
+                rank5: {
+                    values: { damagePerUniqueSchoolInRotation: 22 },
+                    tooltip: ["Pro zusätzlicher Schule in deiner Rotation: +22 Schaden."]
+                }
+            },
+            b: {
+                label: "Geistesbruch",
+                rank3: {
+                    values: { resistanceBonusDamagePercent: 25 },
+                    tooltip: ["Zusätzlich Schaden in Höhe von 25 % deines Magischen Widerstands."]
+                },
+                rank5: {
+                    values: { resistanceBonusDamagePercent: 45 },
+                    tooltip: ["Zusätzlich Schaden in Höhe von 45 % deines Magischen Widerstands."]
+                }
+            }
+        }
+    },
+    rune_collapse: {
+        rank2: {
+            values: { damage: 24 },
+            tooltip: ["Verursacht 24 Schaden."]
+        },
+        rank4: {
+            values: { damage: 29 },
+            tooltip: ["Verursacht 29 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Totaler Kollaps",
+                rank3: {
+                    values: { resistanceBonusDamagePercent: 150 },
+                    tooltip: ["Zusätzlich Schaden in Höhe von 150 % deines Magischen Widerstands statt 120 %."]
+                },
+                rank5: {
+                    values: { resistanceBonusDamagePercent: 190 },
+                    tooltip: ["Zusätzlich Schaden in Höhe von 190 % deines Magischen Widerstands."]
+                }
+            },
+            b: {
+                label: "Rückschlag",
+                rank3: {
+                    values: { resistanceBonusDamageCritMultiplier: 2 },
+                    tooltip: ["Kritische Treffer verdoppeln den zusätzlichen Widerstandsschaden."]
+                },
+                rank5: {
+                    values: { resistanceBonusDamageCritMultiplier: 3 },
+                    tooltip: ["Kritische Treffer verdreifachen den zusätzlichen Widerstandsschaden."]
+                }
+            }
+        }
+    },
+    annihilation: {
+        rank2: {
+            values: { damage: 84 },
+            tooltip: ["Verursacht 84 Schaden."]
+        },
+        rank4: {
+            values: { damage: 100 },
+            tooltip: ["Verursacht 100 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Absolute Vernichtung",
+                rank3: {
+                    values: { missingLifeBonusMax: 30 },
+                    tooltip: ["Je weniger eigene Lebenspunkte: bis zu +30 Schaden."]
+                },
+                rank5: {
+                    values: { missingLifeBonusMax: 50 },
+                    tooltip: ["Je weniger eigene Lebenspunkte: bis zu +50 Schaden."]
+                }
+            },
+            b: {
+                label: "Kettenvernichtung",
+                rank3: {
+                    values: { sequenceTrigger: "after_attack", sequenceDamageBonus: 14 },
+                    tooltip: ["Wurde zuvor ein Angriffszauber gewirkt: +14 Schaden."]
+                },
+                rank5: {
+                    values: { sequenceDamageBonus: 22 },
+                    tooltip: ["Wurde zuvor ein Angriffszauber gewirkt: +22 Schaden."]
+                }
+            }
+        }
+    },
+    soul_apotheosis: {
+        rank2: {
+            values: { damage: 22 },
+            tooltip: ["Verursacht 22 Schaden."]
+        },
+        rank4: {
+            values: { damage: 27 },
+            tooltip: ["Verursacht 27 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Dreifache Vollendung",
+                rank3: {
+                    values: { vulnerableBonusDamage: 30, resistanceBonusDamagePercent: 42, critFlatBonus: 28 },
+                    tooltip: [
+                        "Gegen verwundbare Ziele: +30 Schaden statt +20.",
+                        "Zusätzlich Schaden in Höhe von 42 % deines Magischen Widerstands statt 30 %.",
+                        "Kritische Treffer verursachen +28 statt +20 zusätzlichen Schaden."
+                    ]
+                },
+                rank5: {
+                    values: { vulnerableBonusDamage: 40, resistanceBonusDamagePercent: 58, critFlatBonus: 38 },
+                    tooltip: [
+                        "Gegen verwundbare Ziele: +40 Schaden.",
+                        "Zusätzlich Schaden in Höhe von 58 % deines Magischen Widerstands.",
+                        "Kritische Treffer verursachen +38 zusätzlichen Schaden."
+                    ]
+                }
+            },
+            b: {
+                label: "Seelenkreislauf",
+                rank3: {
+                    values: { resistanceFromDealtDamagePercent: 25 },
+                    effects: ["gain_resistance_from_dealt_damage"],
+                    tooltip: ["Erhalte zusätzlich Magischen Widerstand in Höhe von 25 % des verursachten Schadens."]
+                },
+                rank5: {
+                    values: { resistanceFromDealtDamagePercent: 45 },
+                    tooltip: ["Erhalte zusätzlich Magischen Widerstand in Höhe von 45 % des verursachten Schadens."]
+                }
+            }
+        }
     }
 };
