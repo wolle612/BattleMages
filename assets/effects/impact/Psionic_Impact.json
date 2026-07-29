@@ -2,22 +2,22 @@
   "frames": {
     "school_impact_psionic_00.png": {
       "frame": {
-        "x": 48,
-        "y": 3,
-        "w": 58,
-        "h": 173
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 58,
-        "h": 173
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 58,
-        "h": 173
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -26,22 +26,22 @@
     },
     "school_impact_psionic_01.png": {
       "frame": {
-        "x": 48,
-        "y": 182,
-        "w": 58,
-        "h": 173
+        "x": 64,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 58,
-        "h": 173
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 58,
-        "h": 173
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -50,22 +50,22 @@
     },
     "school_impact_psionic_02.png": {
       "frame": {
-        "x": 48,
-        "y": 361,
-        "w": 58,
-        "h": 174
+        "x": 128,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 58,
-        "h": 174
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 58,
-        "h": 174
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -74,22 +74,22 @@
     },
     "school_impact_psionic_03.png": {
       "frame": {
-        "x": 48,
-        "y": 541,
-        "w": 58,
-        "h": 173
+        "x": 192,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 58,
-        "h": 173
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 58,
-        "h": 173
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -98,22 +98,70 @@
     },
     "school_impact_psionic_04.png": {
       "frame": {
-        "x": 48,
-        "y": 720,
-        "w": 58,
-        "h": 173
+        "x": 256,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 58,
-        "h": 173
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 58,
-        "h": 173
+        "w": 64,
+        "h": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_impact_psionic_05.png": {
+      "frame": {
+        "x": 320,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_impact_psionic_06.png": {
+      "frame": {
+        "x": 384,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -127,7 +175,9 @@
       "school_impact_psionic_01.png",
       "school_impact_psionic_02.png",
       "school_impact_psionic_03.png",
-      "school_impact_psionic_04.png"
+      "school_impact_psionic_04.png",
+      "school_impact_psionic_05.png",
+      "school_impact_psionic_06.png"
     ]
   },
   "meta": {
@@ -136,18 +186,18 @@
     "image": "Psionic_Impact.png",
     "format": "RGBA8888",
     "size": {
-      "w": 128,
-      "h": 896
+      "w": 448,
+      "h": 64
     },
     "scale": "1",
     "frameSize": {
-      "w": 58,
-      "h": 173
+      "w": 64,
+      "h": 64
     },
-    "frameCount": 5,
+    "frameCount": 7,
     "styleKey": "school_impact_psionic",
     "school": "psionic",
     "category": "impact",
-    "durationMs": 380
+    "durationMs": 385
   }
 }

@@ -1,5 +1,12 @@
 # BattleMages -- VFX Animation Mapping v1.0
 
+> Stand 2026-07-29: um die 21 zuvor fehlenden Zauber ergänzt (6 aus
+> `spellbookCore.js`/`spellbookPart2.js`, 15 aus den neuen
+> `spellbookPart3.js`/`spellbookPart4.js`) -- macht 56 Zauber gesamt.
+> Verbindliche Quelle bleibt `SPELL_PROJECTILE_TYPES`
+> (`data/vfx/spellVfxDefinitions.js`), diese Tabelle ist eine
+> Lesehilfe, keine zweite Wahrheit.
+
 ## Prinzip
 
 Jeder Zauber besteht aus genau drei wiederverwendbaren Bausteinen:
@@ -69,3 +76,24 @@ Seelen-Impact
   Chaoskatalysator     Chaos-Cast        Projektil   Chaos-Impact
   Seelenimpuls         Seelen-Cast       Beam        Seelen-Impact
   Seelenfunke          Seelen-Cast       Projektil   Seelen-Impact
+  Findiger Schnitt     Schatten-Cast     Schnitt     Schatten-Impact
+  Entropie             Chaos-Cast        Explosion   Chaos-Impact
+  Überladung           Chaos-Cast        Explosion   Chaos-Impact
+  Gezügeltes Chaos     Chaos-Cast        Explosion   Chaos-Impact
+  Seelenwache          Seelen-Cast       Beam        Seelen-Impact
+  Seelenresonanz       Seelen-Cast       Beam        Seelen-Impact
+  Seelenwanderung      Seelen-Cast       Beam        Seelen-Impact
+  Wundbrand            Biomantie-Cast    Explosion   Biomantie-Impact
+  Nervenschnitt        Biomantie-Cast    Schnitt     Biomantie-Impact
+  Chaosentladung       Chaos-Cast        Explosion   Chaos-Impact
+  Schattenpanzer       Schatten-Cast     Schnitt     Schatten-Impact
+  Runenbindung         Runenkunst-Cast   Schild      Runenkunst-Impact
+  Gedankenkaskade      Psionik-Cast      Beam        Psionik-Impact
+  Gedämpfte Eruption   Chaos-Cast        Explosion   Chaos-Impact
+  Seelenverschmelzung  Seelen-Cast       Beam        Seelen-Impact
+  Organkollaps         Biomantie-Cast    Explosion   Biomantie-Impact
+  Hinrichtung          Schatten-Cast     Schnitt     Schatten-Impact
+  Geistessturm         Psionik-Cast      Beam        Psionik-Impact
+  Runenkollaps         Runenkunst-Cast   Explosion   Runenkunst-Impact
+  Vernichtung          Chaos-Cast        Explosion   Chaos-Impact
+  Seelenapotheose      Seelen-Cast       Beam        Seelen-Impact

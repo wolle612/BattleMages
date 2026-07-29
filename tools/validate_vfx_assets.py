@@ -25,9 +25,20 @@ def load_json_const(relative_path, const_name):
     return json.loads(match.group(1))
 
 
+SPELLBOOK_FILES = [
+    "spellbookCore.js",
+    "spellbookPart2.js",
+    "spellbookPart3.js",
+    "spellbookPart4.js",
+]
+
+
 def load_spell_ids():
-    text = (ROOT / "data" / "spellbookCore.js").read_text(encoding="utf-8")
-    text += (ROOT / "data" / "spellbookPart2.js").read_text(encoding="utf-8")
+    text = ""
+    for filename in SPELLBOOK_FILES:
+        path = ROOT / "data" / filename
+        if path.exists():
+            text += path.read_text(encoding="utf-8")
     return set(re.findall(r'id:\s*"([^"]+)"', text))
 
 

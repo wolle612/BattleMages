@@ -65,20 +65,24 @@ Engine-Schul-ID (`blood` / `shadow` / `dream` / `rune` / `star` /
 
 # Asset-Übersicht
 
-Alle Einträge Status ✅ (produktiv, generiert via
-`tools/generate_school_vfx_manifests.py`, Stand 2026-07-17). Frame-/
-Timing-Details je Preset: `data/vfx/schoolVfxAssets.js`.
+Cast/Explosion/Impact (alle 6 Schulen) Status ✅, generiert
+2026-07-29 über die PixelLab-`animate_image`-Pipeline (echte
+Einzelframes statt geometrischer Streifen-Schnitt, siehe
+`BattleMages_VFX_Production_Plan_v2.md` Abschnitt "Produktionsablauf
+v2"). Beam/Schnitt Status ✅, unverändert aus dem ursprünglichen
+Bulk-Durchlauf (Stand 2026-07-17). Frame-/Timing-Details je Preset:
+`data/vfx/schoolVfxAssets.js`.
 
-## Cast (Anzeigegröße 230px, Dauer 380ms)
+## Cast (Anzeigegröße 230px, Dauer 455ms)
 
 | Schule | Datei | Frames |
 |---|---|---|
-| Biomantie | `cast/Biomancy_Cast.png` | 6 |
-| Schatten | `cast/Shadow_Cast.png` | 6 |
-| Psionik | `cast/Psionic_Cast.png` | 6 |
-| Verbotene Runenkunst | `cast/Rune_Cast.png` | 6 |
-| Chaosmagie | `cast/Chaos_Cast.png` | 6 |
-| Seelenmagie | `cast/Soul_Cast.png` | 6 |
+| Biomantie | `cast/Biomancy_Cast.png` | 7 |
+| Schatten | `cast/Shadow_Cast.png` | 7 |
+| Psionik | `cast/Psionic_Cast.png` | 7 |
+| Verbotene Runenkunst | `cast/Rune_Cast.png` | 7 |
+| Chaosmagie | `cast/Chaos_Cast.png` | 7 |
+| Seelenmagie | `cast/Soul_Cast.png` | 7 |
 
 ## Beam (Anzeigegröße 96px, Dauer 460ms)
 
@@ -95,12 +99,12 @@ Timing-Details je Preset: `data/vfx/schoolVfxAssets.js`.
 
 | Schule | Datei | Frames |
 |---|---|---|
-| Biomantie | `projectiles/Explosion/Biomancy_Explosion.png` | 6 |
+| Biomantie | `projectiles/Explosion/Biomancy_Explosion.png` | 7 |
 | Schatten | `projectiles/Explosion/Shadow_Explosion.png` | 7 |
-| Psionik | `projectiles/Explosion/Psionic_Explosion.png` | 6 |
-| Verbotene Runenkunst | `projectiles/Explosion/Rune_Explosion.png` | 6 |
-| Chaosmagie | `projectiles/Explosion/Chaos_Explosion.png` | 6 |
-| Seelenmagie | `projectiles/Explosion/Soul_Explosion.png` | 6 |
+| Psionik | `projectiles/Explosion/Psionic_Explosion.png` | 7 |
+| Verbotene Runenkunst | `projectiles/Explosion/Rune_Explosion.png` | 7 |
+| Chaosmagie | `projectiles/Explosion/Chaos_Explosion.png` | 7 |
+| Seelenmagie | `projectiles/Explosion/Soul_Explosion.png` | 7 |
 
 ## Schnitt / Cut (Anzeigegröße 250px, Dauer 440ms)
 
@@ -113,25 +117,26 @@ Timing-Details je Preset: `data/vfx/schoolVfxAssets.js`.
 | Chaosmagie | `projectiles/Schnitt/Chaos_Cut.png` | 9 |
 | Seelenmagie | `projectiles/Schnitt/Soul_Cut.png` | 9 |
 
-## Impact (Anzeigegröße 210px, Dauer 380ms)
+## Impact (Anzeigegröße 210px, Dauer 385ms)
 
 | Schule | Datei | Frames |
 |---|---|---|
-| Biomantie | `impact/Biomancy_Impact.png` | 5 |
-| Schatten | `impact/Shadow_Impact.png` | 5 |
-| Psionik | `impact/Psionic_Impact.png` | 5 (Original, siehe Hinweis unten) |
-| Verbotene Runenkunst | `impact/Rune_Impact.png` | 5 |
-| Chaosmagie | `impact/Chaos_Impact.png` | 5 |
-| Seelenmagie | `impact/Soul_Impact.png` | 6 |
+| Biomantie | `impact/Biomancy_Impact.png` | 7 |
+| Schatten | `impact/Shadow_Impact.png` | 7 |
+| Psionik | `impact/Psionic_Impact.png` | 7 |
+| Verbotene Runenkunst | `impact/Rune_Impact.png` | 7 |
+| Chaosmagie | `impact/Chaos_Impact.png` | 7 |
+| Seelenmagie | `impact/Soul_Impact.png` | 7 |
 
-**Hinweis Psionik-Beam/-Impact**: Diese beiden Dateien sind die
-originalen, aus dem Internet bezogenen Sprite-Sheets. Alle übrigen
-Schulen sind ChatGPT-recolorte Versionen mit identischem
-Frame-Layout, deshalb stimmt die Frame-Anzahl je Kategorie über alle
-Schulen hinweg überein, auch wenn die native Pixelauflösung der
-Psionik-Originale von den recolorten Varianten abweicht. Kein
-Handlungsbedarf -- PixiJS skaliert seitenverhältnis-erhaltend auf die
-jeweilige Anzeigegröße.
+**Hinweis Psionik-Beam**: `Psionic_Beam.png` ist weiterhin das
+originale, aus dem Internet bezogene Sprite-Sheet, alle übrigen
+Beam-Schulen sind ChatGPT-recolorte Versionen mit identischem
+Frame-Layout -- native Pixelauflösung weicht ab, PixiJS skaliert
+seitenverhältnis-erhaltend, kein Handlungsbedarf.
+`Psionic_Impact.png` war bis 2026-07-29 ebenfalls dieses Original,
+wurde aber beim Cast/Explosion/Impact-Rework zusammen mit den
+übrigen 5 Schulen durch ein neu generiertes Sheet ersetzt (siehe
+oben) und ist damit kein Sonderfall mehr.
 
 ------------------------------------------------------------------------
 
@@ -174,8 +179,9 @@ und Impact ergeben sich automatisch aus `spell.school` (über
 `VFX_SCHOOL_ID_MAP` + die Presets oben). Der Projektiltyp ist die
 einzige Per-Zauber-Angabe und steht in `SPELL_PROJECTILE_TYPES`
 (`data/vfx/spellVfxDefinitions.js`) -- diese Datei ist die
-verbindliche Quelle für die Zauber→Projektiltyp-Zuordnung aller 35
-Zauber.
+verbindliche Quelle für die Zauber→Projektiltyp-Zuordnung aller 56
+Zauber (35 aus `spellbookCore.js`/`spellbookPart2.js` + 21 aus
+`spellbookPart3.js`/`spellbookPart4.js`).
 
 Per-Zauber-Overrides sind über `VFX_SPELL_DEFINITIONS` (ebenfalls
 `data/vfx/spellVfxDefinitions.js`) möglich, aktuell aber **leer** --
@@ -222,6 +228,29 @@ neue/geänderte Assets".
 ------------------------------------------------------------------------
 
 # Änderungsprotokoll
+
+## v2.1 (2026-07-29)
+
+-   Cast, Explosion und Impact aller 6 Schulen neu erstellt (18
+    Sprite-Sheets): PixelLab `animate_image` liefert jetzt echte,
+    einzeln generierte Frames statt eines geometrisch geschnittenen
+    Streifens. Behebt die zuvor beobachteten sichtbaren Kanten
+    zwischen Frames und die scheinbare Eigenbewegung des Effekts
+    (Ursache lag im Ausgangsbild, nicht im Rendering-Code -- Details:
+    `BattleMages_VFX_Production_Plan_v2.md`). Neues Tool:
+    `tools/pack_vfx_frames.py`.
+-   Frame-Zahl für diese drei Kategorien jetzt einheitlich 7 pro
+    Schule (vorher 5--9, je nach Schule/Kategorie unterschiedlich).
+    Beam (6--7) und Schnitt/Cut (9) unverändert.
+-   `Psionic_Impact.png` ist kein Sonderfall mehr (war das einzige
+    Original-Sheet neben `Psionic_Beam.png`, jetzt regeneriert wie
+    die übrigen 5 Schulen).
+-   Zauber→Asset-Zuordnung um die 21 zuvor fehlenden Zauber ergänzt
+    (56 Zauber gesamt), 3 davon brauchten einen nachgetragenen
+    `SPELL_PROJECTILE_TYPES`-Eintrag (`keen_cut`, `bound_chaos`,
+    `soul_resonance`), 18 waren bereits vorhanden.
+-   Blade-Projectile/Schnitt bewusst unverändert gelassen (Feedback:
+    bestehender Look wird als gut empfunden).
 
 ## v2.0 (2026-07-21)
 

@@ -2,22 +2,22 @@
   "frames": {
     "school_cast_soul_00.png": {
       "frame": {
-        "x": 3,
-        "y": 385,
-        "w": 250,
-        "h": 185
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 250,
-        "h": 185
+        "w": 32,
+        "h": 32
       },
       "sourceSize": {
-        "w": 250,
-        "h": 185
+        "w": 32,
+        "h": 32
       },
       "anchor": {
         "x": 0.5,
@@ -26,22 +26,22 @@
     },
     "school_cast_soul_01.png": {
       "frame": {
-        "x": 259,
-        "y": 385,
-        "w": 250,
-        "h": 185
+        "x": 32,
+        "y": 0,
+        "w": 32,
+        "h": 32
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 250,
-        "h": 185
+        "w": 32,
+        "h": 32
       },
       "sourceSize": {
-        "w": 250,
-        "h": 185
+        "w": 32,
+        "h": 32
       },
       "anchor": {
         "x": 0.5,
@@ -50,22 +50,22 @@
     },
     "school_cast_soul_02.png": {
       "frame": {
-        "x": 515,
-        "y": 385,
-        "w": 250,
-        "h": 185
+        "x": 64,
+        "y": 0,
+        "w": 32,
+        "h": 32
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 250,
-        "h": 185
+        "w": 32,
+        "h": 32
       },
       "sourceSize": {
-        "w": 250,
-        "h": 185
+        "w": 32,
+        "h": 32
       },
       "anchor": {
         "x": 0.5,
@@ -74,22 +74,22 @@
     },
     "school_cast_soul_03.png": {
       "frame": {
-        "x": 771,
-        "y": 385,
-        "w": 250,
-        "h": 185
+        "x": 96,
+        "y": 0,
+        "w": 32,
+        "h": 32
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 250,
-        "h": 185
+        "w": 32,
+        "h": 32
       },
       "sourceSize": {
-        "w": 250,
-        "h": 185
+        "w": 32,
+        "h": 32
       },
       "anchor": {
         "x": 0.5,
@@ -98,22 +98,22 @@
     },
     "school_cast_soul_04.png": {
       "frame": {
-        "x": 1027,
-        "y": 385,
-        "w": 250,
-        "h": 185
+        "x": 128,
+        "y": 0,
+        "w": 32,
+        "h": 32
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 250,
-        "h": 185
+        "w": 32,
+        "h": 32
       },
       "sourceSize": {
-        "w": 250,
-        "h": 185
+        "w": 32,
+        "h": 32
       },
       "anchor": {
         "x": 0.5,
@@ -122,22 +122,46 @@
     },
     "school_cast_soul_05.png": {
       "frame": {
-        "x": 1283,
-        "y": 385,
-        "w": 250,
-        "h": 185
+        "x": 160,
+        "y": 0,
+        "w": 32,
+        "h": 32
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 250,
-        "h": 185
+        "w": 32,
+        "h": 32
       },
       "sourceSize": {
-        "w": 250,
-        "h": 185
+        "w": 32,
+        "h": 32
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_soul_06.png": {
+      "frame": {
+        "x": 192,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
       },
       "anchor": {
         "x": 0.5,
@@ -152,7 +176,8 @@
       "school_cast_soul_02.png",
       "school_cast_soul_03.png",
       "school_cast_soul_04.png",
-      "school_cast_soul_05.png"
+      "school_cast_soul_05.png",
+      "school_cast_soul_06.png"
     ]
   },
   "meta": {
@@ -161,18 +186,18 @@
     "image": "Soul_Cast.png",
     "format": "RGBA8888",
     "size": {
-      "w": 1536,
-      "h": 1024
+      "w": 224,
+      "h": 32
     },
     "scale": "1",
     "frameSize": {
-      "w": 250,
-      "h": 185
+      "w": 32,
+      "h": 32
     },
-    "frameCount": 6,
+    "frameCount": 7,
     "styleKey": "school_cast_soul",
     "school": "soul",
     "category": "cast",
-    "durationMs": 380
+    "durationMs": 455
   }
 }
