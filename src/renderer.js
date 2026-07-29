@@ -39,7 +39,7 @@ function renderEnemyActionIconHtml(action, options = {}) {
             : "enemy-action-icon spell-icon";
 
     const titleAttr =
-        options.popupSize
+        options.popupSize || options.suppressTitle
             ? ""
             : ` title="${escapeHtml(action.name)}"`;
 
@@ -57,114 +57,83 @@ function renderEnemyActionIconHtml(action, options = {}) {
     `;
 }
 
-function renderEnemyActionBarItem(action) {
-    const stateClass =
-        action.isNext
-            ? "enemy-action-step--current"
-            : "enemy-action-step--future";
-
+// UI-Optimierungscheck (2026-07-29): Passiv-Textblock + vertikal gestapelte
+// Aktionsfolge-Vorschau (je Aktion eine eigene Karte mit Pfeil-Connector)
+// machten das Gegner-Panel strukturell viel hoeher als das Spieler-Panel,
+// obwohl der Spieler keine vergleichbare Information braucht. Ersetzt durch
+// zwei kleine Portraet-Badges (gleiches Muster wie .resistance-badge beim
+// Spieler): Passiv-Badge links unten, Intent-Badge (naechste Gegneraktion)
+// rechts unten -- volle Aktionsfolge weiterhin per Hover auf das
+// Intent-Badge einsehbar (Kernprinzip "kein Zufall, planbare Muster"
+// bleibt erhalten, kostet aber keinen dauerhaften Platz mehr). Macht beide
+// Charakter-Panels strukturell gleich hoch (nur Portraet+Name+HP).
+function renderEnemyPortraitBadges(enemy) {
     return `
-        <div class="enemy-action-step ${stateClass}">
-            ${renderEnemyActionIconHtml(action)}
-            <span class="enemy-action-step__name">${escapeHtml(action.name)}</span>
-        </div>
+        ${renderEnemyPassiveBadge(enemy)}
+        ${renderEnemyIntentBadge(enemy)}
     `;
 }
 
-function renderEnemyActionTimelineConnector() {
-    return `
-        <div
-            class="enemy-action-step__connector"
-            aria-hidden="true"
-        >
-            <span class="enemy-action-step__arrow"></span>
-        </div>
-    `;
-}
-
-function renderEnemyActionTimelineProgress(actionBar) {
-    if (!actionBar?.length) {
+function renderEnemyPassiveBadge(enemy) {
+    if (!enemy.passive) {
         return "";
     }
 
-    const dots =
-        actionBar
-            .map(action => `
-                <span
-                    class="enemy-action-progress__dot${
-                        action.isNext
-                            ? " enemy-action-progress__dot--active"
-                            : ""
-                    }"
-                ></span>
-            `)
-            .join("");
-
     return `
-        <div
-            class="enemy-action-progress"
-            aria-hidden="true"
-        >
-            ${dots}
-        </div>
-    `;
-}
-
-function renderEnemyActionTimeline(actionBar) {
-    if (!actionBar?.length) {
-        return `
-            <div class="enemy-action-timeline__empty">
-                Keine Aktionen bekannt.
-            </div>
-        `;
-    }
-
-    const steps = [];
-
-    actionBar.forEach((action, index) => {
-        if (index > 0) {
-            steps.push(renderEnemyActionTimelineConnector());
-        }
-
-        steps.push(renderEnemyActionBarItem(action));
-    });
-
-    return `
-        <div class="enemy-action-timeline__track">
-            ${steps.join("")}
-        </div>
-        ${renderEnemyActionTimelineProgress(actionBar)}
-    `;
-}
-
-// UI-Optimierungscheck (2026-07-29): war ein ausgeschriebener Textblock
-// (Label + Name + 2-3 Zeilen Beschreibung) -- nahm im Gegner-Panel
-// unverhaeltnismaessig viel Bauhoehe ein. Jetzt eine kompakte Zeile mit
-// Hover-Tooltip fuer die volle Beschreibung, gleiches Tooltip-Muster wie
-// .resistance-badge-tooltip (reines CSS :hover statt native title-Attribute).
-function renderEnemyPassiveBlock(enemy) {
-    return `
-        <div class="enemy-passive-compact">
-            <span class="enemy-section-label">Passiv</span>
-            <strong class="enemy-passive-name">
-                ${escapeHtml(renderEnemyPassiveName(enemy))}
-            </strong>
-            <div class="enemy-passive-tooltip">
+        <div class="enemy-passive-badge" aria-hidden="true">
+            <span class="enemy-passive-badge-icon">P</span>
+            <div class="enemy-passive-badge-tooltip">
+                <strong>${escapeHtml(renderEnemyPassiveName(enemy))}</strong>
                 <p>${escapeHtml(renderEnemyPassiveText(enemy))}</p>
             </div>
         </div>
     `;
 }
 
-function renderEnemyActionPreview(enemy) {
+function renderEnemyIntentTooltipList(actionBar) {
+    if (!actionBar?.length) {
+        return "<li>Keine Aktionen bekannt.</li>";
+    }
+
+    const nextIndex =
+        actionBar.findIndex(action => action.isNext);
+
+    const ordered =
+        nextIndex <= 0
+            ? actionBar
+            : [
+                ...actionBar.slice(nextIndex),
+                ...actionBar.slice(0, nextIndex)
+            ];
+
+    return ordered
+        .map((action, index) => `
+            <li${index === 0 ? ' class="enemy-intent-tooltip-item--next"' : ""}>
+                ${escapeHtml(action.name)}
+            </li>
+        `)
+        .join("");
+}
+
+function renderEnemyIntentBadge(enemy) {
+    const nextAction = enemy.nextAction;
+
+    if (!nextAction) {
+        return "";
+    }
+
     return `
-        <div class="enemy-action-preview">
-            <span class="enemy-section-label">Aktionsfolge</span>
-            <div
-                id="enemyActionBar"
-                class="enemy-action-timeline"
-            >
-                ${renderEnemyActionTimeline(enemy.actionBar)}
+        <div
+            id="enemyIntentBadge"
+            class="enemy-intent-badge"
+            aria-hidden="true"
+        >
+            ${renderEnemyActionIconHtml(nextAction, { suppressTitle: true })}
+            <div class="enemy-intent-badge-tooltip">
+                <strong>Aktionsfolge</strong>
+                <ol id="enemyIntentSequenceList">
+                    ${renderEnemyIntentTooltipList(enemy.actionBar)}
+                </ol>
             </div>
         </div>
     `;
@@ -396,7 +365,7 @@ function renderHowToPlayScreen() {
     `;
 }
 
-function renderCombatantPortrait(type, entityId) {
+function renderCombatantPortrait(type, entityId, extraBadgesHtml = "") {
     const sources =
         getCombatantPortraitSources(type, entityId);
 
@@ -450,6 +419,7 @@ function renderCombatantPortrait(type, entityId) {
             />
             ${renderPortraitEffectOverlaysHtml()}
             ${resistanceBadge}
+            ${extraBadgesHtml}
         </div>
     `;
 }
@@ -782,7 +752,11 @@ function renderFightScreen(viewModel) {
 
                     <div class="combatant-panel-stack">
                         <div class="combatant-panel-head">
-                            ${renderCombatantPortrait("enemy", viewModel.enemy.id)}
+                            ${renderCombatantPortrait(
+                                "enemy",
+                                viewModel.enemy.id,
+                                renderEnemyPortraitBadges(viewModel.enemy)
+                            )}
 
                             <h2 class="combatant-name">${escapeHtml(viewModel.enemy.name)}</h2>
 
@@ -815,10 +789,10 @@ function renderFightScreen(viewModel) {
                             </div>
                         </div>
 
-                        <div class="combatant-panel-details">
-                            ${renderEnemyPassiveBlock(viewModel.enemy)}
-                            ${renderEnemyActionPreview(viewModel.enemy)}
-                        </div>
+                        <div
+                            class="combatant-panel-details combatant-panel-details--empty"
+                            aria-hidden="true"
+                        ></div>
                     </div>
                 </aside>
 
@@ -850,11 +824,11 @@ function renderFightScreen(viewModel) {
 
     bindCombatantPortraits();
 
-    const enemyActionBar =
-        document.getElementById("enemyActionBar");
+    const enemyIntentBadge =
+        document.getElementById("enemyIntentBadge");
 
-    if (enemyActionBar) {
-        bindSpellIcons(enemyActionBar);
+    if (enemyIntentBadge) {
+        bindSpellIcons(enemyIntentBadge);
     }
 }
 
@@ -2543,27 +2517,43 @@ function updateCombatClarity(action) {
     updateEnemyIntent(action.enemyActionBar);
 }
 
+// UI-Optimierungscheck (2026-07-29): aktualisiert jetzt das kompakte
+// Intent-Badge (naechste Aktion als Icon + volle Sequenz im Tooltip)
+// statt der frueheren vertikalen Aktionsfolge-Liste (#enemyActionBar
+// existiert nicht mehr). Wird weiterhin bei jedem Kampf-Moment aus
+// updateCombatClarity() aufgerufen.
 function updateEnemyIntent(actionBar) {
-    const actionBarElement =
-        document.getElementById("enemyActionBar");
+    const badge =
+        document.getElementById("enemyIntentBadge");
 
-    if (!actionBarElement) {
+    if (!badge) {
         return;
     }
 
-    if (!actionBar?.length) {
-        actionBarElement.innerHTML = `
-            <div class="enemy-action-timeline__empty">
-                Keine Aktionen bekannt.
-            </div>
-        `;
+    const nextAction =
+        actionBar?.find(action => action.isNext);
+
+    if (!nextAction) {
         return;
     }
 
-    actionBarElement.innerHTML =
-        renderEnemyActionTimeline(actionBar);
+    const iconSlot =
+        badge.querySelector(".enemy-action-icon");
 
-    bindSpellIcons(actionBarElement);
+    if (iconSlot) {
+        iconSlot.outerHTML =
+            renderEnemyActionIconHtml(nextAction, { suppressTitle: true });
+
+        bindSpellIcon(badge.querySelector(".enemy-action-icon"));
+    }
+
+    const sequenceList =
+        document.getElementById("enemyIntentSequenceList");
+
+    if (sequenceList) {
+        sequenceList.innerHTML =
+            renderEnemyIntentTooltipList(actionBar);
+    }
 }
 
 function updateStatusRow(rowId, statuses) {

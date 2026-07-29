@@ -126,7 +126,7 @@
     --starter-card-frame-source: url('assets/ui/cards/starter_card.png');
     --starter-card-fill: #16181e;
     --combat-log-pillar-width: 68px;
-    --combat-log-panel-height: 120px;
+    --combat-log-panel-height: 190px;
     /* Native asset bounds (opaque content) — used to crop transparent padding
        so pillar caps and center rails share the same top/bottom edge. */
     --combat-log-center-native-h: 856;
@@ -582,6 +582,14 @@ body.app-selection #spellContainer {
     gap: 10px;
 }
 
+/*
+ * UI-Optimierungscheck (2026-07-29): hatte zusaetzlich zum eigens fuer
+ * .run-progress-banner gebauten Rahmenbild (--header-panel-frame-source,
+ * exakt auf Label+Pips zugeschnitten) noch den generischen
+ * --panel-frame-source-Rahmen um den GESAMTEN Header -- zwei sichtbare
+ * verschachtelte Rahmen fuer denselben Inhalt. Aeusserer Rahmen entfernt,
+ * der innere ist bereits vollstaendig und passgenau.
+ */
 .battle-header {
     display: flex;
     flex-direction: column;
@@ -589,17 +597,9 @@ body.app-selection #spellContainer {
     gap: 0;
     padding: 8px 24px;
     text-align: center;
-    background-color: var(--panel-fill);
-    border: var(--panel-frame-width) solid transparent;
-    border-image-source: var(--panel-frame-source);
-    border-image-slice: var(--panel-frame-slice);
-    border-image-width: var(--panel-frame-width);
-    border-image-repeat: stretch;
-    border-radius: 0;
-    box-shadow:
-        var(--shadow-panel),
-        var(--shadow-highlight),
-        inset 0 0 0 1px rgba(0, 0, 0, 0.35);
+    background: none;
+    border: none;
+    box-shadow: none;
 }
 
 /*
@@ -1360,208 +1360,140 @@ body.app-selection #spellContainer {
     white-space: nowrap;
 }
 
-.enemy-section-label {
-    display: block;
-    margin-bottom: 6px;
-    color: var(--text-muted);
-    font-size: 0.68rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-}
-
 /*
- * UI-Optimierungscheck (2026-07-29): ersetzt den frueheren
- * .enemy-passive-block-Textkasten (Label + Name + ausgeschriebene
- * Beschreibung, ~90-110px Bauhoehe). Kompakte einzeilige Variante,
- * volle Beschreibung nur noch im Hover-Tooltip (siehe
- * .resistance-badge-tooltip fuer dasselbe Muster).
+ * UI-Optimierungscheck (2026-07-29): ersetzt sowohl den frueheren
+ * ausgeschriebenen Passiv-Textblock als auch die vertikal gestapelte
+ * Aktionsfolge-Vorschau (Karten + Pfeil-Connectoren + Paginierungs-
+ * Punkte) im Gegner-Panel -- beides zusammen kostete deutlich mehr
+ * Bauhoehe als das Spieler-Panel braucht. Jetzt zwei kleine
+ * Portraet-Badges (gleiches Muster wie .resistance-badge): Passiv
+ * unten links, Intent (naechste Aktion) unten rechts, volle
+ * Aktionsfolge weiterhin per Hover auf das Intent-Badge einsehbar.
  */
-.enemy-passive-compact {
-    position: relative;
+.enemy-passive-badge,
+.enemy-intent-badge {
+    position: absolute;
+    bottom: -8%;
+    z-index: 4;
     display: flex;
-    align-items: baseline;
-    gap: 8px;
-    width: 100%;
-    padding: 8px 12px;
-    border: 1px solid rgba(255, 235, 200, 0.08);
-    border-radius: var(--radius-sm);
-    background:
-        linear-gradient(
-            180deg,
-            rgba(255, 235, 200, 0.04) 0%,
-            rgba(0, 0, 0, 0.18) 100%
-        ),
-        var(--panel-inset);
+    align-items: center;
+    justify-content: center;
+    width: 24%;
+    height: 24%;
+    min-width: 26px;
+    min-height: 26px;
+    border-radius: 999px;
+    border: 0.15em solid var(--border-accent);
     box-shadow:
-        inset 0 1px 0 rgba(255, 235, 200, 0.05),
-        var(--shadow-inset);
-    text-align: left;
+        0 0.15em 0.4em rgba(0, 0, 0, 0.55),
+        inset 0 0 0.4em rgba(0, 0, 0, 0.5);
+    pointer-events: auto;
     cursor: default;
 }
 
-.enemy-passive-compact .enemy-section-label {
-    margin-bottom: 0;
+.enemy-passive-badge {
+    left: -8%;
+    background: radial-gradient(
+        circle at 35% 30%,
+        #5a3a42 0%,
+        #3a1c22 55%,
+        #1b0c0f 100%
+    );
 }
 
-.enemy-passive-name {
+.enemy-intent-badge {
+    right: -8%;
+    background: radial-gradient(
+        circle at 35% 30%,
+        #4a3a1c 0%,
+        #2a2010 55%,
+        #120c06 100%
+    );
+    overflow: visible;
+}
+
+.enemy-passive-badge-icon {
     color: var(--accent-gold-bright);
-    font-size: 0.85rem;
     font-weight: 800;
-    letter-spacing: 0.02em;
-    line-height: 1.25;
+    font-size: clamp(0.7rem, 1.6vw, 0.95rem);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
 }
 
-.enemy-passive-tooltip {
+.enemy-intent-badge .enemy-action-icon {
+    width: 70%;
+    height: 70%;
+}
+
+.enemy-passive-badge-tooltip,
+.enemy-intent-badge-tooltip {
     position: absolute;
-    top: calc(100% + 8px);
-    left: 0;
-    right: 0;
+    bottom: 130%;
     z-index: 10;
+    min-width: 180px;
+    max-width: 240px;
     padding: 8px 10px;
     border-radius: var(--radius-sm);
     background: var(--tooltip-fill);
     border: 1px solid var(--border-bronze);
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5);
+    color: var(--text-primary);
     font-size: 0.75rem;
+    font-weight: 500;
     line-height: 1.4;
+    text-align: left;
+    white-space: normal;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
-    transform: translateY(4px);
     transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
-.enemy-passive-tooltip p {
-    margin: 0;
+.enemy-passive-badge-tooltip {
+    left: 0;
+    transform: translate(0, 4px);
+}
+
+.enemy-intent-badge-tooltip {
+    right: 0;
+    transform: translate(0, 4px);
+}
+
+.enemy-passive-badge-tooltip strong,
+.enemy-intent-badge-tooltip strong {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 0.82rem;
+    color: var(--accent-gold-bright);
+}
+
+.enemy-passive-badge-tooltip p {
+    margin: 4px 0 0;
     color: var(--text-secondary);
 }
 
-.enemy-passive-compact:hover .enemy-passive-tooltip {
+.enemy-intent-badge-tooltip ol {
+    margin: 4px 0 0;
+    padding-left: 18px;
+    color: var(--text-secondary);
+}
+
+.enemy-intent-badge-tooltip li {
+    margin: 2px 0;
+}
+
+.enemy-intent-tooltip-item--next {
+    color: var(--accent-gold-bright);
+    font-weight: 700;
+}
+
+.enemy-passive-badge:hover .enemy-passive-badge-tooltip,
+.enemy-intent-badge:hover .enemy-intent-badge-tooltip {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translate(0, 0);
 }
 
-.enemy-action-preview {
-    width: 100%;
-    text-align: left;
-}
-
-.enemy-action-timeline {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-.enemy-action-timeline__track {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-}
-
-.enemy-action-timeline__empty {
-    padding: 14px 16px;
-    color: var(--text-muted);
-    font-size: 0.8rem;
-    font-style: italic;
-    text-align: center;
-    border: 1px dashed rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-sm);
-}
-
-.enemy-action-step {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 7px 10px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: var(--radius-sm);
-    background: rgba(0, 0, 0, 0.22);
-    transition:
-        opacity 0.2s ease,
-        border-color 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.enemy-action-step--current {
-    border-color: rgba(201, 168, 74, 0.42);
-    background:
-        linear-gradient(
-            90deg,
-            rgba(201, 168, 74, 0.14) 0%,
-            rgba(0, 0, 0, 0.24) 100%
-        );
-    box-shadow:
-        inset 0 0 0 1px rgba(201, 168, 74, 0.12),
-        0 4px 14px rgba(0, 0, 0, 0.28);
-}
-
-.enemy-action-step--future {
-    opacity: 0.52;
-}
-
-.enemy-action-step__name {
-    color: var(--text-primary);
-    font-size: 0.86rem;
-    font-weight: 700;
-    line-height: 1.25;
-}
-
-.enemy-action-step--future .enemy-action-step__name {
-    color: var(--text-secondary);
-    font-weight: 600;
-}
-
-.enemy-action-step__connector {
-    display: flex;
-    justify-content: center;
-    padding: 2px 0;
-}
-
-.enemy-action-step__arrow {
-    display: block;
-    width: 9px;
-    height: 12px;
-    background:
-        linear-gradient(
-            180deg,
-            rgba(201, 168, 74, 0.55) 0%,
-            rgba(201, 168, 74, 0.15) 100%
-        );
-    clip-path: polygon(50% 100%, 0 35%, 20% 35%, 20% 0, 80% 0, 80% 35%, 100% 35%);
-    opacity: 0.7;
-}
-
-.enemy-action-progress {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-}
-
-.enemy-action-progress__dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.18);
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.45);
-    transition:
-        transform 0.2s ease,
-        background 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.enemy-action-progress__dot--active {
-    background: var(--accent-gold);
-    box-shadow:
-        0 0 8px rgba(201, 168, 74, 0.45),
-        inset 0 1px 1px rgba(255, 235, 200, 0.35);
-    transform: scale(1.2);
-}
-
-.enemy-action-step .enemy-action-icon {
+.enemy-action-icon {
     display: inline-flex;
     width: 26px;
     height: 26px;
@@ -1573,13 +1505,6 @@ body.app-selection #spellContainer {
     background: rgba(0, 0, 0, 0.34);
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.45);
-}
-
-.enemy-action-step--current .enemy-action-icon {
-    border-color: rgba(201, 168, 74, 0.35);
-    box-shadow:
-        inset 0 2px 6px rgba(0, 0, 0, 0.45),
-        0 0 10px rgba(201, 168, 74, 0.16);
 }
 
 .enemy-action-icon__image {
@@ -3708,7 +3633,13 @@ body.app-home #game {
     min-height: 0;
     height: auto;
     max-height: 100%;
-    padding: 28px 16px 26px;
+    /*
+     * UI-Optimierungscheck (2026-07-29): Padding war auf die alte 300px-Box
+     * kalibriert (28+26=54px Rand liessen ~8 Zeilen Platz). In der auf
+     * 120px verkleinerten Box blieb dadurch kaum Platz fuer Text uebrig --
+     * jetzt proportional zur neuen Boxhoehe (190px) reduziert.
+     */
+    padding: 14px 16px 12px;
     box-sizing: border-box;
     overflow-x: hidden;
     overflow-y: auto;
@@ -4519,21 +4450,6 @@ body.app-home #game {
 .combatant-name {
     letter-spacing: 0.05em;
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.55);
-}
-
-.enemy-passive-compact {
-    box-shadow:
-        inset 0 1px 0 rgba(255, 235, 200, 0.06),
-        inset 0 -2px 0 rgba(0, 0, 0, 0.28),
-        var(--shadow-inset);
-}
-
-.enemy-passive-name {
-    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.45);
-}
-
-.enemy-action-step--current .enemy-action-step__name {
-    color: var(--accent-gold-bright);
 }
 
 /* — Tooltips (9-slice frame, parchment fill) — */
