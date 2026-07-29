@@ -63,9 +63,31 @@ const SPELL_PROJECTILE_TYPES = {
     chaos_catalyst: "projectile",   // Chaoskatalysator
     entropy: "explosion",           // Entropie
     overload: "explosion",          // Ueberladung
+    bound_chaos: "explosion",       // Gezuegeltes Chaos
     soul_pulse: "beam",             // Seelenimpuls
     soul_spark: "projectile",       // Seelenfunke
-    soul_ward: "beam"               // Seelenwache
+    soul_ward: "beam",              // Seelenwache
+    soul_resonance: "beam",         // Seelenresonanz
+    keen_cut: "cut",                // Findiger Schnitt
+
+    // Meta-Progression-Zauber (data/spellbookPart3.js)
+    soul_migration: "beam",         // Seelenwanderung
+    wound_gangrene: "explosion",    // Wundbrand
+    chaos_discharge: "explosion",   // Chaosentladung
+    shadow_carapace: "cut",         // Schattenpanzer
+    rune_binding: "shield",         // Runenbindung
+    nerve_cut: "cut",               // Nervenschnitt
+    mind_cascade: "beam",           // Gedankenkaskade
+    dampened_eruption: "explosion", // Gedaempfte Eruption
+    soul_fusion: "beam",            // Seelenverschmelzung
+
+    // Legendary-Zauber (data/spellbookPart4.js)
+    organ_collapse: "explosion",    // Organkollaps
+    shadow_execution: "cut",        // Hinrichtung
+    mind_storm: "beam",             // Geistessturm
+    rune_collapse: "explosion",     // Runenkollaps
+    annihilation: "explosion",      // Vernichtung
+    soul_apotheosis: "beam"         // Seelenapotheose
 };
 
 function getSpellProjectileType(spellId) {

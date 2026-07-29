@@ -2,22 +2,22 @@
   "frames": {
     "school_explosion_chaos_00.png": {
       "frame": {
-        "x": 342,
-        "y": 3,
-        "w": 337,
-        "h": 250
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 337,
-        "h": 250
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 337,
-        "h": 250
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -26,22 +26,22 @@
     },
     "school_explosion_chaos_01.png": {
       "frame": {
-        "x": 342,
-        "y": 259,
-        "w": 337,
-        "h": 250
+        "x": 64,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 337,
-        "h": 250
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 337,
-        "h": 250
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -50,22 +50,22 @@
     },
     "school_explosion_chaos_02.png": {
       "frame": {
-        "x": 342,
-        "y": 515,
-        "w": 337,
-        "h": 250
+        "x": 128,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 337,
-        "h": 250
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 337,
-        "h": 250
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -74,22 +74,22 @@
     },
     "school_explosion_chaos_03.png": {
       "frame": {
-        "x": 342,
-        "y": 771,
-        "w": 337,
-        "h": 250
+        "x": 192,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 337,
-        "h": 250
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 337,
-        "h": 250
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -98,22 +98,22 @@
     },
     "school_explosion_chaos_04.png": {
       "frame": {
-        "x": 342,
-        "y": 1027,
-        "w": 337,
-        "h": 250
+        "x": 256,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 337,
-        "h": 250
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 337,
-        "h": 250
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -122,22 +122,46 @@
     },
     "school_explosion_chaos_05.png": {
       "frame": {
-        "x": 342,
-        "y": 1283,
-        "w": 337,
-        "h": 250
+        "x": 320,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 337,
-        "h": 250
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 337,
-        "h": 250
+        "w": 64,
+        "h": 64
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_explosion_chaos_06.png": {
+      "frame": {
+        "x": 384,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
+      },
+      "sourceSize": {
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -152,7 +176,8 @@
       "school_explosion_chaos_02.png",
       "school_explosion_chaos_03.png",
       "school_explosion_chaos_04.png",
-      "school_explosion_chaos_05.png"
+      "school_explosion_chaos_05.png",
+      "school_explosion_chaos_06.png"
     ]
   },
   "meta": {
@@ -161,15 +186,15 @@
     "image": "Chaos_Explosion.png",
     "format": "RGBA8888",
     "size": {
-      "w": 1024,
-      "h": 1536
+      "w": 448,
+      "h": 64
     },
     "scale": "1",
     "frameSize": {
-      "w": 337,
-      "h": 250
+      "w": 64,
+      "h": 64
     },
-    "frameCount": 6,
+    "frameCount": 7,
     "styleKey": "school_explosion_chaos",
     "school": "chaos",
     "category": "explosion",

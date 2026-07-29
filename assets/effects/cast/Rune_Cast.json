@@ -2,22 +2,22 @@
   "frames": {
     "school_cast_rune_00.png": {
       "frame": {
-        "x": 3,
-        "y": 411,
-        "w": 250,
-        "h": 150
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 40
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 250,
-        "h": 150
+        "w": 40,
+        "h": 40
       },
       "sourceSize": {
-        "w": 250,
-        "h": 150
+        "w": 40,
+        "h": 40
       },
       "anchor": {
         "x": 0.5,
@@ -26,22 +26,22 @@
     },
     "school_cast_rune_01.png": {
       "frame": {
-        "x": 259,
-        "y": 411,
-        "w": 250,
-        "h": 150
+        "x": 40,
+        "y": 0,
+        "w": 40,
+        "h": 40
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 250,
-        "h": 150
+        "w": 40,
+        "h": 40
       },
       "sourceSize": {
-        "w": 250,
-        "h": 150
+        "w": 40,
+        "h": 40
       },
       "anchor": {
         "x": 0.5,
@@ -50,22 +50,22 @@
     },
     "school_cast_rune_02.png": {
       "frame": {
-        "x": 515,
-        "y": 411,
-        "w": 250,
-        "h": 150
+        "x": 80,
+        "y": 0,
+        "w": 40,
+        "h": 40
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 250,
-        "h": 150
+        "w": 40,
+        "h": 40
       },
       "sourceSize": {
-        "w": 250,
-        "h": 150
+        "w": 40,
+        "h": 40
       },
       "anchor": {
         "x": 0.5,
@@ -74,22 +74,22 @@
     },
     "school_cast_rune_03.png": {
       "frame": {
-        "x": 771,
-        "y": 411,
-        "w": 250,
-        "h": 150
+        "x": 120,
+        "y": 0,
+        "w": 40,
+        "h": 40
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 250,
-        "h": 150
+        "w": 40,
+        "h": 40
       },
       "sourceSize": {
-        "w": 250,
-        "h": 150
+        "w": 40,
+        "h": 40
       },
       "anchor": {
         "x": 0.5,
@@ -98,22 +98,22 @@
     },
     "school_cast_rune_04.png": {
       "frame": {
-        "x": 1027,
-        "y": 411,
-        "w": 250,
-        "h": 150
+        "x": 160,
+        "y": 0,
+        "w": 40,
+        "h": 40
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 250,
-        "h": 150
+        "w": 40,
+        "h": 40
       },
       "sourceSize": {
-        "w": 250,
-        "h": 150
+        "w": 40,
+        "h": 40
       },
       "anchor": {
         "x": 0.5,
@@ -122,22 +122,46 @@
     },
     "school_cast_rune_05.png": {
       "frame": {
-        "x": 1283,
-        "y": 411,
-        "w": 250,
-        "h": 150
+        "x": 200,
+        "y": 0,
+        "w": 40,
+        "h": 40
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 250,
-        "h": 150
+        "w": 40,
+        "h": 40
       },
       "sourceSize": {
-        "w": 250,
-        "h": 150
+        "w": 40,
+        "h": 40
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_cast_rune_06.png": {
+      "frame": {
+        "x": 240,
+        "y": 0,
+        "w": 40,
+        "h": 40
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 40,
+        "h": 40
+      },
+      "sourceSize": {
+        "w": 40,
+        "h": 40
       },
       "anchor": {
         "x": 0.5,
@@ -152,7 +176,8 @@
       "school_cast_rune_02.png",
       "school_cast_rune_03.png",
       "school_cast_rune_04.png",
-      "school_cast_rune_05.png"
+      "school_cast_rune_05.png",
+      "school_cast_rune_06.png"
     ]
   },
   "meta": {
@@ -161,18 +186,18 @@
     "image": "Rune_Cast.png",
     "format": "RGBA8888",
     "size": {
-      "w": 1536,
-      "h": 1024
+      "w": 280,
+      "h": 40
     },
     "scale": "1",
     "frameSize": {
-      "w": 250,
-      "h": 150
+      "w": 40,
+      "h": 40
     },
-    "frameCount": 6,
+    "frameCount": 7,
     "styleKey": "school_cast_rune",
     "school": "rune",
     "category": "cast",
-    "durationMs": 380
+    "durationMs": 455
   }
 }
