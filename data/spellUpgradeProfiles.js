@@ -155,13 +155,17 @@ const spellUpgradeProfiles = {
         }
     },
     shield_breaker: {
+        // Basis (Rang 1) macht bereits 100 % Widerstandsschaden (nur bei
+        // "after_protection"-Sequenz). Werte werden pro Rang ueberschrieben,
+        // nicht addiert (siehe mergeUpgradeValues) -- Rang 2/4 muessen daher
+        // ueber 100 liegen, sonst ist der Rang-Aufstieg eine Verschlechterung.
         rank2: {
-            values: { resistanceBonusDamagePercentOnSequence: 60 },
-            tooltip: ["Schaden skaliert mit 60 % deines Magischen Widerstands."]
+            values: { resistanceBonusDamagePercentOnSequence: 130 },
+            tooltip: ["Schaden skaliert mit 130 % deines Magischen Widerstands."]
         },
         rank4: {
-            values: { resistanceBonusDamagePercentOnSequence: 75 },
-            tooltip: ["Schaden skaliert mit 75 % deines Magischen Widerstands."]
+            values: { resistanceBonusDamagePercentOnSequence: 160 },
+            tooltip: ["Schaden skaliert mit 160 % deines Magischen Widerstands."]
         },
         paths: {
             a: {
@@ -418,8 +422,8 @@ const spellUpgradeProfiles = {
             a: {
                 label: "Meister der Schulen",
                 rank3: {
-                    values: { sequenceDamageBonus: 55 },
-                    tooltip: ["Bonus nach anderer Schule: +55 Schaden."]
+                    values: { sequenceDamageBonus: 75 },
+                    tooltip: ["Bonus nach anderer Schule: +75 Schaden."]
                 },
                 rank5: {
                     values: { damagePerUniqueSchoolInRotation: 10 },
@@ -455,8 +459,8 @@ const spellUpgradeProfiles = {
             a: {
                 label: "Vollkommene Reinheit",
                 rank3: {
-                    values: { sequenceDamageBonus: 55 },
-                    tooltip: ["Bonus nach gleicher Schule: +55 Schaden."]
+                    values: { sequenceDamageBonus: 75 },
+                    tooltip: ["Bonus nach gleicher Schule: +75 Schaden."]
                 },
                 rank5: {
                     values: { sequenceRepeatHits: 2 },
