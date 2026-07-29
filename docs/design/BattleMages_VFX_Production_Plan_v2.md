@@ -13,9 +13,10 @@ verbindliche Zielmodell.
 Die VFX-Bibliothek wird **NICHT pro Zauber**, sondern **pro
 Magieschule** aufgebaut.
 
-Das aktuelle Spellbook mit den **35 Zaubern**
-(`data/spellbookCore.js` + `data/spellbookPart2.js`) ist die einzige
-gültige Referenz. Es werden keine veralteten Zauber oder Zaubernamen
+Das aktuelle Spellbook mit den **56 Zaubern**
+(`data/spellbookCore.js` + `data/spellbookPart2.js` + `data/spellbookPart3.js`
++ `data/spellbookPart4.js`, Stand 2026-07-29) ist die einzige gültige
+Referenz. Es werden keine veralteten Zauber oder Zaubernamen
 verwendet.
 
 ------------------------------------------------------------------------
@@ -24,7 +25,7 @@ verwendet.
 
 Nicht:
 
-35 Zauber x eigene Cast-/Projectile-/Impact-Animation
+56 Zauber x eigene Cast-/Projectile-/Impact-Animation
 
 Sondern:
 
@@ -109,13 +110,62 @@ Beide Skripte sind **wiederholbar** -- bei neuem/geändertem
 Quellmaterial für eine Schule/Kategorie erneut ausführen, statt manuell
 einzugreifen.
 
-Sonderfall Psionik: `Psionic_Beam.png`/`Psionic_Impact.png` sind die
-**originalen** Sprite-Sheets (aus dem Internet bezogen); die übrigen
-fünf Schulen sind farblich abgeleitete (ChatGPT-recolorte) Versionen
-mit identischem Frame-Layout. Das ist beabsichtigt, keine fehlerhafte
-Generierung -- die native Pixelauflösung der beiden Dateien weicht
-dadurch von den anderen Schulen ab, die Frame-Anzahl pro Kategorie
-stimmt aber überein. Kein Regenerierungsbedarf.
+Sonderfall Psionik: `Psionic_Beam.png` ist weiterhin das **originale**
+Sprite-Sheet (aus dem Internet bezogen); die übrigen Beam-Schulen sind
+farblich abgeleitete (ChatGPT-recolorte) Versionen mit identischem
+Frame-Layout. Das ist beabsichtigt, keine fehlerhafte Generierung --
+die native Pixelauflösung weicht dadurch ab, die Frame-Anzahl pro
+Kategorie stimmt aber überein. Kein Regenerierungsbedarf. Für
+`Psionic_Impact.png` gilt das seit dem Cast/Explosion/Impact-Rework
+(siehe unten) **nicht mehr** -- diese Datei ist jetzt genau wie die
+übrigen 5 Schulen neu generiert.
+
+------------------------------------------------------------------------
+
+# Produktionsablauf v2 (2026-07-29): Cast/Explosion/Impact-Rework
+
+**Ausgangsproblem**: Cast, Explosion und Impact wurden ursprünglich
+wie alle Sheets aus einem einzelnen, durchgehenden Bild pro
+Schule/Kategorie erzeugt (Bildprompt an ChatGPT, danach von
+`tools/generate_school_vfx_manifests.py` rein geometrisch in N gleich
+große Frames geschnitten). Das Ausgangsbild war jedoch kein Satz
+diskreter Einzelposen, sondern ein durchgehender Verlaufs-/Glow-Render
+-- das geometrische Schneiden erzeugte dadurch sichtbare, unpassende
+Kanten an den Frame-Grenzen und (weil die Schnittachse nicht
+inhaltsbewusst ist) eine scheinbare Eigenbewegung des Effekts über die
+Frames hinweg. Betraf strukturell auch Beam/Schnitt, dort aber ohne
+sichtbares Problem -- deshalb bewusst unangetastet gelassen.
+
+**Neue Pipeline** (ersetzt die ChatGPT-Bildprompt-Stufe für diese drei
+Kategorien, betrifft nicht Beam/Schnitt):
+
+1.  Standbild pro Schule/Kategorie über PixelLab `create_image_pixflux`
+    erzeugen (Motiv/Palette nach Schulensprache, siehe
+    `BattleMages_VFX_Style_Guide.md`).
+2.  Hintergrund entfernen (adaptive Flood-Fill vom Bildrand, analog zum
+    Icon-Pipeline-Ansatz in `tools/process_spell_icon.py`) und auf eine
+    Kantenlänge verkleinern, die zuverlässig durch die
+    MCP-Tool-Aufruf-Größenbeschränkung passt (praktisch 32--64px,
+    abhängig von der Bildkomplexität).
+3.  PixelLab `animate_image` mit einer Bewegungsbeschreibung aufrufen
+    (z. B. "the burst expands outward rapidly ... then dims and
+    dissipates"). Liefert `frame_count + 1` **echte Einzelbilder**
+    (Index 0 = Eingabebild, Rest generiert) -- kein Schneiden mehr
+    nötig.
+4.  `tools/pack_vfx_frames.py` packt die Einzelbilder zu einem
+    Sprite-Sheet + PixiJS-Manifest (reines Grid-Packing, da alle
+    Frames bereits gleich groß sind).
+5.  `frameW`/`frameH`/`frameCount`/`animationSpeed`/`duration` in
+    `data/vfx/schoolVfxAssets.js` für den jeweiligen `styleKey`
+    aktualisieren (`animationSpeed` gibt das Tool bereits fertig
+    berechnet aus).
+6.  `tools/sync_vfx_manifests_js.py` erneut ausführen (bündelt für den
+    `file://`-Testfall).
+
+Ergebnis: 18 Sheets (6 Schulen × Cast/Explosion/Impact) neu erstellt,
+jeweils 7 Frames (Eingabebild + 6 generierte), Anzeigegrößen
+unverändert (Cast 230px/455ms, Explosion 270px/460ms, Impact
+210px/385ms). Details je Schule: `BattleMages_VFX_Library.md`.
 
 ------------------------------------------------------------------------
 
@@ -127,7 +177,7 @@ Projektiltyp ist die einzige Per-Zauber-Angabe und steht in
 
 Ein per-Zauber-Override ist über `VFX_SPELL_DEFINITIONS`
 (`data/vfx/spellVfxDefinitions.js`) möglich, aber standardmäßig
-**leer** -- alle 35 Zauber laufen aktuell rein datengetrieben über die
+**leer** -- alle 56 Zauber laufen aktuell rein datengetrieben über die
 Schul-Sheets.
 
 Neue Assets werden **nur** erstellt, wenn:
@@ -141,6 +191,12 @@ Neue Assets werden **nur** erstellt, wenn:
 # Workflow für neue/geänderte Assets
 
 Für Einzelfälle (neue Schule, Ausnahme-Asset) gilt weiterhin:
+
+Für **Cast/Explosion/Impact** gilt seit 2026-07-29 die
+PixelLab-`animate_image`-Pipeline (Abschnitt "Produktionsablauf v2"
+oben) als Standardweg -- sie vermeidet die Schnittkanten-Problematik
+strukturell. Für **Beam/Schnitt** (bisher unauffällig) gilt weiterhin
+der ursprüngliche Ablauf:
 
 1.  Cursor liest:
 
@@ -182,10 +238,13 @@ spielerischen oder visuellen Mehrwert bieten.
 
 Alle 6 Schulen (Biomantie, Schatten, Psionik, Verbotene Runenkunst,
 Chaosmagie, Seelenmagie) haben produktive Cast-, Impact-, Beam-,
-Explosion- und Cut-Sheets (30 Sprite-Sheets, generiert 2026-07-15 bis
-2026-07-17). Alle 35 Zauber sind über `SPELL_PROJECTILE_TYPES`
-zugeordnet, keine offenen `VFX_SPELL_DEFINITIONS`-Overrides nötig.
-Details je Schule/Kategorie: `BattleMages_VFX_Library.md`.
+Explosion- und Cut-Sheets (30 Sprite-Sheets). Beam/Cut unverändert aus
+dem ursprünglichen Bulk-Durchlauf (2026-07-15 bis 2026-07-17);
+Cast/Explosion/Impact am 2026-07-29 komplett neu erstellt (siehe
+"Produktionsablauf v2" oben). Alle 56 Zauber sind über
+`SPELL_PROJECTILE_TYPES` zugeordnet, keine offenen
+`VFX_SPELL_DEFINITIONS`-Overrides nötig. Details je Schule/Kategorie:
+`BattleMages_VFX_Library.md`.
 
 Offen:
 

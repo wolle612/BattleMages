@@ -5,21 +5,21 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cast_biomancy_00.png": {
         "frame": {
           "x": 0,
-          "y": 422,
-          "w": 256,
-          "h": 147
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 147
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 147
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -28,22 +28,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_biomancy_01.png": {
         "frame": {
-          "x": 256,
-          "y": 422,
-          "w": 256,
-          "h": 147
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 147
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 147
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -52,22 +52,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_biomancy_02.png": {
         "frame": {
-          "x": 512,
-          "y": 422,
-          "w": 256,
-          "h": 147
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 147
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 147
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -76,22 +76,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_biomancy_03.png": {
         "frame": {
-          "x": 768,
-          "y": 422,
-          "w": 256,
-          "h": 147
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 147
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 147
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -100,22 +100,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_biomancy_04.png": {
         "frame": {
-          "x": 1024,
-          "y": 422,
-          "w": 256,
-          "h": 147
+          "x": 256,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 147
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 147
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -124,22 +124,46 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_biomancy_05.png": {
         "frame": {
-          "x": 1280,
-          "y": 422,
-          "w": 256,
-          "h": 147
+          "x": 320,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 147
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 147
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_cast_biomancy_06.png": {
+        "frame": {
+          "x": 384,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -154,7 +178,8 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_cast_biomancy_02.png",
         "school_cast_biomancy_03.png",
         "school_cast_biomancy_04.png",
-        "school_cast_biomancy_05.png"
+        "school_cast_biomancy_05.png",
+        "school_cast_biomancy_06.png"
       ]
     },
     "meta": {
@@ -163,19 +188,19 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Biomancy_Cast.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1536,
-        "h": 1024
+        "w": 448,
+        "h": 64
       },
       "scale": "1",
       "frameSize": {
-        "w": 256,
-        "h": 147
+        "w": 64,
+        "h": 64
       },
-      "frameCount": 6,
+      "frameCount": 7,
       "styleKey": "school_cast_biomancy",
       "school": "biomancy",
       "category": "cast",
-      "durationMs": 380
+      "durationMs": 455
     }
   },
   "assets/effects/cast/Chaos_Cast.json": {
@@ -183,21 +208,21 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cast_chaos_00.png": {
         "frame": {
           "x": 0,
-          "y": 402,
-          "w": 256,
-          "h": 183
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 183
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 183
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -206,22 +231,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_chaos_01.png": {
         "frame": {
-          "x": 256,
-          "y": 402,
-          "w": 256,
-          "h": 183
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 183
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 183
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -230,22 +255,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_chaos_02.png": {
         "frame": {
-          "x": 512,
-          "y": 402,
-          "w": 256,
-          "h": 183
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 183
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 183
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -254,22 +279,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_chaos_03.png": {
         "frame": {
-          "x": 768,
-          "y": 402,
-          "w": 256,
-          "h": 183
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 183
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 183
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -278,22 +303,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_chaos_04.png": {
         "frame": {
-          "x": 1024,
-          "y": 402,
-          "w": 256,
-          "h": 183
+          "x": 256,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 183
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 183
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -302,22 +327,46 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_chaos_05.png": {
         "frame": {
-          "x": 1280,
-          "y": 402,
-          "w": 256,
-          "h": 183
+          "x": 320,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 183
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 183
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_cast_chaos_06.png": {
+        "frame": {
+          "x": 384,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -332,7 +381,8 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_cast_chaos_02.png",
         "school_cast_chaos_03.png",
         "school_cast_chaos_04.png",
-        "school_cast_chaos_05.png"
+        "school_cast_chaos_05.png",
+        "school_cast_chaos_06.png"
       ]
     },
     "meta": {
@@ -341,19 +391,19 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Chaos_Cast.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1536,
-        "h": 1024
+        "w": 448,
+        "h": 64
       },
       "scale": "1",
       "frameSize": {
-        "w": 256,
-        "h": 183
+        "w": 64,
+        "h": 64
       },
-      "frameCount": 6,
+      "frameCount": 7,
       "styleKey": "school_cast_chaos",
       "school": "chaos",
       "category": "cast",
-      "durationMs": 380
+      "durationMs": 455
     }
   },
   "assets/effects/cast/Psionic_Cast.json": {
@@ -361,21 +411,21 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cast_psionic_00.png": {
         "frame": {
           "x": 0,
-          "y": 421,
-          "w": 256,
-          "h": 165
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 165
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 165
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -384,22 +434,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_psionic_01.png": {
         "frame": {
-          "x": 256,
-          "y": 421,
-          "w": 256,
-          "h": 165
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 165
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 165
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -408,22 +458,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_psionic_02.png": {
         "frame": {
-          "x": 512,
-          "y": 421,
-          "w": 256,
-          "h": 165
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 165
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 165
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -432,22 +482,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_psionic_03.png": {
         "frame": {
-          "x": 768,
-          "y": 421,
-          "w": 256,
-          "h": 165
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 165
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 165
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -456,22 +506,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_psionic_04.png": {
         "frame": {
-          "x": 1024,
-          "y": 421,
-          "w": 256,
-          "h": 165
+          "x": 256,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 165
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 165
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -480,22 +530,46 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_psionic_05.png": {
         "frame": {
-          "x": 1280,
-          "y": 421,
-          "w": 256,
-          "h": 165
+          "x": 320,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 165
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 256,
-          "h": 165
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_cast_psionic_06.png": {
+        "frame": {
+          "x": 384,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -510,7 +584,8 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_cast_psionic_02.png",
         "school_cast_psionic_03.png",
         "school_cast_psionic_04.png",
-        "school_cast_psionic_05.png"
+        "school_cast_psionic_05.png",
+        "school_cast_psionic_06.png"
       ]
     },
     "meta": {
@@ -519,19 +594,19 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Psionic_Cast.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1536,
-        "h": 1024
+        "w": 448,
+        "h": 64
       },
       "scale": "1",
       "frameSize": {
-        "w": 256,
-        "h": 165
+        "w": 64,
+        "h": 64
       },
-      "frameCount": 6,
+      "frameCount": 7,
       "styleKey": "school_cast_psionic",
       "school": "psionic",
       "category": "cast",
-      "durationMs": 380
+      "durationMs": 455
     }
   },
   "assets/effects/cast/Rune_Cast.json": {
@@ -539,21 +614,21 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cast_rune_00.png": {
         "frame": {
           "x": 0,
-          "y": 411,
-          "w": 256,
-          "h": 150
+          "y": 0,
+          "w": 40,
+          "h": 40
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 150
+          "w": 40,
+          "h": 40
         },
         "sourceSize": {
-          "w": 256,
-          "h": 150
+          "w": 40,
+          "h": 40
         },
         "anchor": {
           "x": 0.5,
@@ -562,22 +637,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_rune_01.png": {
         "frame": {
-          "x": 256,
-          "y": 411,
-          "w": 256,
-          "h": 150
+          "x": 40,
+          "y": 0,
+          "w": 40,
+          "h": 40
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 150
+          "w": 40,
+          "h": 40
         },
         "sourceSize": {
-          "w": 256,
-          "h": 150
+          "w": 40,
+          "h": 40
         },
         "anchor": {
           "x": 0.5,
@@ -586,22 +661,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_rune_02.png": {
         "frame": {
-          "x": 512,
-          "y": 411,
-          "w": 256,
-          "h": 150
+          "x": 80,
+          "y": 0,
+          "w": 40,
+          "h": 40
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 150
+          "w": 40,
+          "h": 40
         },
         "sourceSize": {
-          "w": 256,
-          "h": 150
+          "w": 40,
+          "h": 40
         },
         "anchor": {
           "x": 0.5,
@@ -610,22 +685,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_rune_03.png": {
         "frame": {
-          "x": 768,
-          "y": 411,
-          "w": 256,
-          "h": 150
+          "x": 120,
+          "y": 0,
+          "w": 40,
+          "h": 40
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 150
+          "w": 40,
+          "h": 40
         },
         "sourceSize": {
-          "w": 256,
-          "h": 150
+          "w": 40,
+          "h": 40
         },
         "anchor": {
           "x": 0.5,
@@ -634,22 +709,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_rune_04.png": {
         "frame": {
-          "x": 1024,
-          "y": 411,
-          "w": 256,
-          "h": 150
+          "x": 160,
+          "y": 0,
+          "w": 40,
+          "h": 40
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 150
+          "w": 40,
+          "h": 40
         },
         "sourceSize": {
-          "w": 256,
-          "h": 150
+          "w": 40,
+          "h": 40
         },
         "anchor": {
           "x": 0.5,
@@ -658,22 +733,46 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_rune_05.png": {
         "frame": {
-          "x": 1280,
-          "y": 411,
-          "w": 256,
-          "h": 150
+          "x": 200,
+          "y": 0,
+          "w": 40,
+          "h": 40
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 150
+          "w": 40,
+          "h": 40
         },
         "sourceSize": {
-          "w": 256,
-          "h": 150
+          "w": 40,
+          "h": 40
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_cast_rune_06.png": {
+        "frame": {
+          "x": 240,
+          "y": 0,
+          "w": 40,
+          "h": 40
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 40,
+          "h": 40
+        },
+        "sourceSize": {
+          "w": 40,
+          "h": 40
         },
         "anchor": {
           "x": 0.5,
@@ -688,7 +787,8 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_cast_rune_02.png",
         "school_cast_rune_03.png",
         "school_cast_rune_04.png",
-        "school_cast_rune_05.png"
+        "school_cast_rune_05.png",
+        "school_cast_rune_06.png"
       ]
     },
     "meta": {
@@ -697,19 +797,19 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Rune_Cast.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1536,
-        "h": 1024
+        "w": 280,
+        "h": 40
       },
       "scale": "1",
       "frameSize": {
-        "w": 256,
-        "h": 150
+        "w": 40,
+        "h": 40
       },
-      "frameCount": 6,
+      "frameCount": 7,
       "styleKey": "school_cast_rune",
       "school": "rune",
       "category": "cast",
-      "durationMs": 380
+      "durationMs": 455
     }
   },
   "assets/effects/cast/Shadow_Cast.json": {
@@ -717,21 +817,21 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cast_shadow_00.png": {
         "frame": {
           "x": 0,
-          "y": 416,
-          "w": 256,
-          "h": 154
+          "y": 0,
+          "w": 48,
+          "h": 48
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 154
+          "w": 48,
+          "h": 48
         },
         "sourceSize": {
-          "w": 256,
-          "h": 154
+          "w": 48,
+          "h": 48
         },
         "anchor": {
           "x": 0.5,
@@ -740,22 +840,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_shadow_01.png": {
         "frame": {
-          "x": 256,
-          "y": 416,
-          "w": 256,
-          "h": 154
+          "x": 48,
+          "y": 0,
+          "w": 48,
+          "h": 48
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 154
+          "w": 48,
+          "h": 48
         },
         "sourceSize": {
-          "w": 256,
-          "h": 154
+          "w": 48,
+          "h": 48
         },
         "anchor": {
           "x": 0.5,
@@ -764,22 +864,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_shadow_02.png": {
         "frame": {
-          "x": 512,
-          "y": 416,
-          "w": 256,
-          "h": 154
+          "x": 96,
+          "y": 0,
+          "w": 48,
+          "h": 48
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 154
+          "w": 48,
+          "h": 48
         },
         "sourceSize": {
-          "w": 256,
-          "h": 154
+          "w": 48,
+          "h": 48
         },
         "anchor": {
           "x": 0.5,
@@ -788,22 +888,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_shadow_03.png": {
         "frame": {
-          "x": 768,
-          "y": 416,
-          "w": 256,
-          "h": 154
+          "x": 144,
+          "y": 0,
+          "w": 48,
+          "h": 48
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 154
+          "w": 48,
+          "h": 48
         },
         "sourceSize": {
-          "w": 256,
-          "h": 154
+          "w": 48,
+          "h": 48
         },
         "anchor": {
           "x": 0.5,
@@ -812,22 +912,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_shadow_04.png": {
         "frame": {
-          "x": 1024,
-          "y": 416,
-          "w": 256,
-          "h": 154
+          "x": 192,
+          "y": 0,
+          "w": 48,
+          "h": 48
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 154
+          "w": 48,
+          "h": 48
         },
         "sourceSize": {
-          "w": 256,
-          "h": 154
+          "w": 48,
+          "h": 48
         },
         "anchor": {
           "x": 0.5,
@@ -836,22 +936,46 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_shadow_05.png": {
         "frame": {
-          "x": 1280,
-          "y": 416,
-          "w": 256,
-          "h": 154
+          "x": 240,
+          "y": 0,
+          "w": 48,
+          "h": 48
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 154
+          "w": 48,
+          "h": 48
         },
         "sourceSize": {
-          "w": 256,
-          "h": 154
+          "w": 48,
+          "h": 48
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_cast_shadow_06.png": {
+        "frame": {
+          "x": 288,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 48,
+          "h": 48
+        },
+        "sourceSize": {
+          "w": 48,
+          "h": 48
         },
         "anchor": {
           "x": 0.5,
@@ -866,7 +990,8 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_cast_shadow_02.png",
         "school_cast_shadow_03.png",
         "school_cast_shadow_04.png",
-        "school_cast_shadow_05.png"
+        "school_cast_shadow_05.png",
+        "school_cast_shadow_06.png"
       ]
     },
     "meta": {
@@ -875,19 +1000,19 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Shadow_Cast.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1536,
-        "h": 1024
+        "w": 336,
+        "h": 48
       },
       "scale": "1",
       "frameSize": {
-        "w": 256,
-        "h": 154
+        "w": 48,
+        "h": 48
       },
-      "frameCount": 6,
+      "frameCount": 7,
       "styleKey": "school_cast_shadow",
       "school": "shadow",
       "category": "cast",
-      "durationMs": 380
+      "durationMs": 455
     }
   },
   "assets/effects/cast/Soul_Cast.json": {
@@ -895,21 +1020,21 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cast_soul_00.png": {
         "frame": {
           "x": 0,
-          "y": 385,
-          "w": 256,
-          "h": 185
+          "y": 0,
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 185
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 256,
-          "h": 185
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -918,22 +1043,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_soul_01.png": {
         "frame": {
-          "x": 256,
-          "y": 385,
-          "w": 256,
-          "h": 185
+          "x": 32,
+          "y": 0,
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 185
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 256,
-          "h": 185
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -942,22 +1067,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_soul_02.png": {
         "frame": {
-          "x": 512,
-          "y": 385,
-          "w": 256,
-          "h": 185
+          "x": 64,
+          "y": 0,
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 185
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 256,
-          "h": 185
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -966,22 +1091,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_soul_03.png": {
         "frame": {
-          "x": 768,
-          "y": 385,
-          "w": 256,
-          "h": 185
+          "x": 96,
+          "y": 0,
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 185
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 256,
-          "h": 185
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -990,22 +1115,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_soul_04.png": {
         "frame": {
-          "x": 1024,
-          "y": 385,
-          "w": 256,
-          "h": 185
+          "x": 128,
+          "y": 0,
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 185
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 256,
-          "h": 185
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -1014,22 +1139,46 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_cast_soul_05.png": {
         "frame": {
-          "x": 1280,
-          "y": 385,
-          "w": 256,
-          "h": 185
+          "x": 160,
+          "y": 0,
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 256,
-          "h": 185
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 256,
-          "h": 185
+          "w": 32,
+          "h": 32
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_cast_soul_06.png": {
+        "frame": {
+          "x": 192,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        },
+        "sourceSize": {
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -1044,7 +1193,8 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_cast_soul_02.png",
         "school_cast_soul_03.png",
         "school_cast_soul_04.png",
-        "school_cast_soul_05.png"
+        "school_cast_soul_05.png",
+        "school_cast_soul_06.png"
       ]
     },
     "meta": {
@@ -1053,41 +1203,41 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Soul_Cast.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1536,
-        "h": 1024
+        "w": 224,
+        "h": 32
       },
       "scale": "1",
       "frameSize": {
-        "w": 256,
-        "h": 185
+        "w": 32,
+        "h": 32
       },
-      "frameCount": 6,
+      "frameCount": 7,
       "styleKey": "school_cast_soul",
       "school": "soul",
       "category": "cast",
-      "durationMs": 380
+      "durationMs": 455
     }
   },
   "assets/effects/impact/Biomancy_Impact.json": {
     "frames": {
       "school_impact_biomancy_00.png": {
         "frame": {
-          "x": 444,
+          "x": 0,
           "y": 0,
-          "w": 205,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 205,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 205,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1096,22 +1246,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_biomancy_01.png": {
         "frame": {
-          "x": 444,
-          "y": 307,
-          "w": 205,
-          "h": 307
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 205,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 205,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1120,22 +1270,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_biomancy_02.png": {
         "frame": {
-          "x": 444,
-          "y": 614,
-          "w": 205,
-          "h": 308
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 205,
-          "h": 308
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 205,
-          "h": 308
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1144,22 +1294,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_biomancy_03.png": {
         "frame": {
-          "x": 444,
-          "y": 922,
-          "w": 205,
-          "h": 307
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 205,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 205,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1168,22 +1318,70 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_biomancy_04.png": {
         "frame": {
-          "x": 444,
-          "y": 1229,
-          "w": 205,
-          "h": 307
+          "x": 256,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 205,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 205,
-          "h": 307
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_impact_biomancy_05.png": {
+        "frame": {
+          "x": 320,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_impact_biomancy_06.png": {
+        "frame": {
+          "x": 384,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1197,7 +1395,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_impact_biomancy_01.png",
         "school_impact_biomancy_02.png",
         "school_impact_biomancy_03.png",
-        "school_impact_biomancy_04.png"
+        "school_impact_biomancy_04.png",
+        "school_impact_biomancy_05.png",
+        "school_impact_biomancy_06.png"
       ]
     },
     "meta": {
@@ -1206,41 +1406,41 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Biomancy_Impact.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1024,
-        "h": 1536
+        "w": 448,
+        "h": 64
       },
       "scale": "1",
       "frameSize": {
-        "w": 205,
-        "h": 307
+        "w": 64,
+        "h": 64
       },
-      "frameCount": 5,
+      "frameCount": 7,
       "styleKey": "school_impact_biomancy",
       "school": "biomancy",
       "category": "impact",
-      "durationMs": 380
+      "durationMs": 385
     }
   },
   "assets/effects/impact/Chaos_Impact.json": {
     "frames": {
       "school_impact_chaos_00.png": {
         "frame": {
-          "x": 331,
+          "x": 0,
           "y": 0,
-          "w": 126,
-          "h": 434
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 126,
-          "h": 434
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 126,
-          "h": 434
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1249,22 +1449,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_chaos_01.png": {
         "frame": {
-          "x": 331,
-          "y": 434,
-          "w": 126,
-          "h": 434
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 126,
-          "h": 434
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 126,
-          "h": 434
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1273,22 +1473,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_chaos_02.png": {
         "frame": {
-          "x": 331,
-          "y": 868,
-          "w": 126,
-          "h": 434
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 126,
-          "h": 434
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 126,
-          "h": 434
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1297,22 +1497,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_chaos_03.png": {
         "frame": {
-          "x": 331,
-          "y": 1302,
-          "w": 126,
-          "h": 434
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 126,
-          "h": 434
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 126,
-          "h": 434
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1321,22 +1521,70 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_chaos_04.png": {
         "frame": {
-          "x": 331,
-          "y": 1736,
-          "w": 126,
-          "h": 434
+          "x": 256,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 126,
-          "h": 434
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 126,
-          "h": 434
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_impact_chaos_05.png": {
+        "frame": {
+          "x": 320,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_impact_chaos_06.png": {
+        "frame": {
+          "x": 384,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1350,7 +1598,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_impact_chaos_01.png",
         "school_impact_chaos_02.png",
         "school_impact_chaos_03.png",
-        "school_impact_chaos_04.png"
+        "school_impact_chaos_04.png",
+        "school_impact_chaos_05.png",
+        "school_impact_chaos_06.png"
       ]
     },
     "meta": {
@@ -1359,41 +1609,41 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Chaos_Impact.png",
       "format": "RGBA8888",
       "size": {
-        "w": 725,
-        "h": 2170
+        "w": 448,
+        "h": 64
       },
       "scale": "1",
       "frameSize": {
-        "w": 126,
-        "h": 434
+        "w": 64,
+        "h": 64
       },
-      "frameCount": 5,
+      "frameCount": 7,
       "styleKey": "school_impact_chaos",
       "school": "chaos",
       "category": "impact",
-      "durationMs": 380
+      "durationMs": 385
     }
   },
   "assets/effects/impact/Psionic_Impact.json": {
     "frames": {
       "school_impact_psionic_00.png": {
         "frame": {
-          "x": 48,
+          "x": 0,
           "y": 0,
-          "w": 58,
-          "h": 179
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 58,
-          "h": 179
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 58,
-          "h": 179
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1402,22 +1652,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_psionic_01.png": {
         "frame": {
-          "x": 48,
-          "y": 179,
-          "w": 58,
-          "h": 179
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 58,
-          "h": 179
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 58,
-          "h": 179
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1426,22 +1676,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_psionic_02.png": {
         "frame": {
-          "x": 48,
-          "y": 358,
-          "w": 58,
-          "h": 180
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 58,
-          "h": 180
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 58,
-          "h": 180
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1450,22 +1700,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_psionic_03.png": {
         "frame": {
-          "x": 48,
-          "y": 538,
-          "w": 58,
-          "h": 179
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 58,
-          "h": 179
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 58,
-          "h": 179
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1474,22 +1724,70 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_psionic_04.png": {
         "frame": {
-          "x": 48,
-          "y": 717,
-          "w": 58,
-          "h": 179
+          "x": 256,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 58,
-          "h": 179
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 58,
-          "h": 179
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_impact_psionic_05.png": {
+        "frame": {
+          "x": 320,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_impact_psionic_06.png": {
+        "frame": {
+          "x": 384,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1503,7 +1801,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_impact_psionic_01.png",
         "school_impact_psionic_02.png",
         "school_impact_psionic_03.png",
-        "school_impact_psionic_04.png"
+        "school_impact_psionic_04.png",
+        "school_impact_psionic_05.png",
+        "school_impact_psionic_06.png"
       ]
     },
     "meta": {
@@ -1512,41 +1812,41 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Psionic_Impact.png",
       "format": "RGBA8888",
       "size": {
-        "w": 128,
-        "h": 896
+        "w": 448,
+        "h": 64
       },
       "scale": "1",
       "frameSize": {
-        "w": 58,
-        "h": 179
+        "w": 64,
+        "h": 64
       },
-      "frameCount": 5,
+      "frameCount": 7,
       "styleKey": "school_impact_psionic",
       "school": "psionic",
       "category": "impact",
-      "durationMs": 380
+      "durationMs": 385
     }
   },
   "assets/effects/impact/Rune_Impact.json": {
     "frames": {
       "school_impact_rune_00.png": {
         "frame": {
-          "x": 433,
+          "x": 0,
           "y": 0,
-          "w": 203,
-          "h": 307
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 203,
-          "h": 307
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 203,
-          "h": 307
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -1555,22 +1855,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_rune_01.png": {
         "frame": {
-          "x": 433,
-          "y": 307,
-          "w": 203,
-          "h": 307
+          "x": 32,
+          "y": 0,
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 203,
-          "h": 307
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 203,
-          "h": 307
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -1579,22 +1879,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_rune_02.png": {
         "frame": {
-          "x": 433,
-          "y": 614,
-          "w": 203,
-          "h": 308
+          "x": 64,
+          "y": 0,
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 203,
-          "h": 308
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 203,
-          "h": 308
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -1603,22 +1903,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_rune_03.png": {
         "frame": {
-          "x": 433,
-          "y": 922,
-          "w": 203,
-          "h": 307
+          "x": 96,
+          "y": 0,
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 203,
-          "h": 307
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 203,
-          "h": 307
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -1627,22 +1927,70 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_rune_04.png": {
         "frame": {
-          "x": 433,
-          "y": 1229,
-          "w": 203,
-          "h": 307
+          "x": 128,
+          "y": 0,
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 203,
-          "h": 307
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 203,
-          "h": 307
+          "w": 32,
+          "h": 32
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_impact_rune_05.png": {
+        "frame": {
+          "x": 160,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        },
+        "sourceSize": {
+          "w": 32,
+          "h": 32
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_impact_rune_06.png": {
+        "frame": {
+          "x": 192,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        },
+        "sourceSize": {
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -1656,7 +2004,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_impact_rune_01.png",
         "school_impact_rune_02.png",
         "school_impact_rune_03.png",
-        "school_impact_rune_04.png"
+        "school_impact_rune_04.png",
+        "school_impact_rune_05.png",
+        "school_impact_rune_06.png"
       ]
     },
     "meta": {
@@ -1665,19 +2015,19 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Rune_Impact.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1024,
-        "h": 1536
+        "w": 224,
+        "h": 32
       },
       "scale": "1",
       "frameSize": {
-        "w": 203,
-        "h": 307
+        "w": 32,
+        "h": 32
       },
-      "frameCount": 5,
+      "frameCount": 7,
       "styleKey": "school_impact_rune",
       "school": "rune",
       "category": "impact",
-      "durationMs": 380
+      "durationMs": 385
     }
   },
   "assets/effects/impact/Shadow_Impact.json": {
@@ -1686,20 +2036,20 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "frame": {
           "x": 0,
           "y": 0,
-          "w": 643,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 643,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 643,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1708,22 +2058,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_shadow_01.png": {
         "frame": {
-          "x": 0,
-          "y": 307,
-          "w": 643,
-          "h": 307
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 643,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 643,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1732,22 +2082,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_shadow_02.png": {
         "frame": {
-          "x": 0,
-          "y": 614,
-          "w": 643,
-          "h": 308
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 643,
-          "h": 308
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 643,
-          "h": 308
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1756,22 +2106,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_shadow_03.png": {
         "frame": {
-          "x": 0,
-          "y": 922,
-          "w": 643,
-          "h": 307
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 643,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 643,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1780,22 +2130,70 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_shadow_04.png": {
         "frame": {
-          "x": 0,
-          "y": 1229,
-          "w": 643,
-          "h": 307
+          "x": 256,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 643,
-          "h": 307
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 643,
-          "h": 307
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_impact_shadow_05.png": {
+        "frame": {
+          "x": 320,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_impact_shadow_06.png": {
+        "frame": {
+          "x": 384,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1809,7 +2207,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_impact_shadow_01.png",
         "school_impact_shadow_02.png",
         "school_impact_shadow_03.png",
-        "school_impact_shadow_04.png"
+        "school_impact_shadow_04.png",
+        "school_impact_shadow_05.png",
+        "school_impact_shadow_06.png"
       ]
     },
     "meta": {
@@ -1818,41 +2218,41 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Shadow_Impact.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1024,
-        "h": 1536
+        "w": 448,
+        "h": 64
       },
       "scale": "1",
       "frameSize": {
-        "w": 643,
-        "h": 307
+        "w": 64,
+        "h": 64
       },
-      "frameCount": 5,
+      "frameCount": 7,
       "styleKey": "school_impact_shadow",
       "school": "shadow",
       "category": "impact",
-      "durationMs": 380
+      "durationMs": 385
     }
   },
   "assets/effects/impact/Soul_Impact.json": {
     "frames": {
       "school_impact_soul_00.png": {
         "frame": {
-          "x": 447,
+          "x": 0,
           "y": 0,
-          "w": 222,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 222,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 222,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1861,22 +2261,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_soul_01.png": {
         "frame": {
-          "x": 447,
-          "y": 256,
-          "w": 222,
-          "h": 256
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 222,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 222,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1885,22 +2285,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_soul_02.png": {
         "frame": {
-          "x": 447,
-          "y": 512,
-          "w": 222,
-          "h": 256
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 222,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 222,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1909,22 +2309,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_soul_03.png": {
         "frame": {
-          "x": 447,
-          "y": 768,
-          "w": 222,
-          "h": 256
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 222,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 222,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1933,22 +2333,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_soul_04.png": {
         "frame": {
-          "x": 447,
-          "y": 1024,
-          "w": 222,
-          "h": 256
+          "x": 256,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 222,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 222,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1957,22 +2357,46 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_impact_soul_05.png": {
         "frame": {
-          "x": 447,
-          "y": 1280,
-          "w": 222,
-          "h": 256
+          "x": 320,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 222,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 222,
-          "h": 256
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_impact_soul_06.png": {
+        "frame": {
+          "x": 384,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -1987,7 +2411,8 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_impact_soul_02.png",
         "school_impact_soul_03.png",
         "school_impact_soul_04.png",
-        "school_impact_soul_05.png"
+        "school_impact_soul_05.png",
+        "school_impact_soul_06.png"
       ]
     },
     "meta": {
@@ -1996,19 +2421,19 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Soul_Impact.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1024,
-        "h": 1536
+        "w": 448,
+        "h": 64
       },
       "scale": "1",
       "frameSize": {
-        "w": 222,
-        "h": 256
+        "w": 64,
+        "h": 64
       },
-      "frameCount": 6,
+      "frameCount": 7,
       "styleKey": "school_impact_soul",
       "school": "soul",
       "category": "impact",
-      "durationMs": 380
+      "durationMs": 385
     }
   },
   "assets/effects/projectiles/Beam/Biomancy_Beam.json": {
@@ -2016,9 +2441,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_biomancy_00.png": {
         "frame": {
           "x": 113,
-          "y": 0,
+          "y": 3,
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "rotated": false,
         "trimmed": false,
@@ -2026,11 +2451,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "sourceSize": {
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "anchor": {
           "x": 0.5,
@@ -2040,9 +2465,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_biomancy_01.png": {
         "frame": {
           "x": 113,
-          "y": 256,
+          "y": 259,
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "rotated": false,
         "trimmed": false,
@@ -2050,11 +2475,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "sourceSize": {
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "anchor": {
           "x": 0.5,
@@ -2064,9 +2489,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_biomancy_02.png": {
         "frame": {
           "x": 113,
-          "y": 512,
+          "y": 515,
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "rotated": false,
         "trimmed": false,
@@ -2074,11 +2499,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "sourceSize": {
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "anchor": {
           "x": 0.5,
@@ -2088,9 +2513,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_biomancy_03.png": {
         "frame": {
           "x": 113,
-          "y": 768,
+          "y": 771,
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "rotated": false,
         "trimmed": false,
@@ -2098,11 +2523,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "sourceSize": {
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "anchor": {
           "x": 0.5,
@@ -2112,9 +2537,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_biomancy_04.png": {
         "frame": {
           "x": 113,
-          "y": 1024,
+          "y": 1027,
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "rotated": false,
         "trimmed": false,
@@ -2122,11 +2547,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "sourceSize": {
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "anchor": {
           "x": 0.5,
@@ -2136,9 +2561,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_biomancy_05.png": {
         "frame": {
           "x": 113,
-          "y": 1280,
+          "y": 1283,
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "rotated": false,
         "trimmed": false,
@@ -2146,11 +2571,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "sourceSize": {
           "w": 866,
-          "h": 256
+          "h": 250
         },
         "anchor": {
           "x": 0.5,
@@ -2180,7 +2605,7 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "scale": "1",
       "frameSize": {
         "w": 866,
-        "h": 256
+        "h": 250
       },
       "frameCount": 6,
       "styleKey": "school_beam_biomancy",
@@ -2194,9 +2619,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_chaos_00.png": {
         "frame": {
           "x": 77,
-          "y": 0,
+          "y": 3,
           "w": 836,
-          "h": 231
+          "h": 225
         },
         "rotated": false,
         "trimmed": false,
@@ -2204,11 +2629,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 836,
-          "h": 231
+          "h": 225
         },
         "sourceSize": {
           "w": 836,
-          "h": 231
+          "h": 225
         },
         "anchor": {
           "x": 0.5,
@@ -2218,9 +2643,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_chaos_01.png": {
         "frame": {
           "x": 77,
-          "y": 231,
+          "y": 234,
           "w": 836,
-          "h": 232
+          "h": 226
         },
         "rotated": false,
         "trimmed": false,
@@ -2228,11 +2653,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 836,
-          "h": 232
+          "h": 226
         },
         "sourceSize": {
           "w": 836,
-          "h": 232
+          "h": 226
         },
         "anchor": {
           "x": 0.5,
@@ -2242,9 +2667,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_chaos_02.png": {
         "frame": {
           "x": 77,
-          "y": 463,
+          "y": 466,
           "w": 836,
-          "h": 231
+          "h": 225
         },
         "rotated": false,
         "trimmed": false,
@@ -2252,11 +2677,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 836,
-          "h": 231
+          "h": 225
         },
         "sourceSize": {
           "w": 836,
-          "h": 231
+          "h": 225
         },
         "anchor": {
           "x": 0.5,
@@ -2266,9 +2691,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_chaos_03.png": {
         "frame": {
           "x": 77,
-          "y": 694,
+          "y": 697,
           "w": 836,
-          "h": 231
+          "h": 225
         },
         "rotated": false,
         "trimmed": false,
@@ -2276,11 +2701,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 836,
-          "h": 231
+          "h": 225
         },
         "sourceSize": {
           "w": 836,
-          "h": 231
+          "h": 225
         },
         "anchor": {
           "x": 0.5,
@@ -2290,9 +2715,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_chaos_04.png": {
         "frame": {
           "x": 77,
-          "y": 925,
+          "y": 928,
           "w": 836,
-          "h": 231
+          "h": 225
         },
         "rotated": false,
         "trimmed": false,
@@ -2300,11 +2725,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 836,
-          "h": 231
+          "h": 225
         },
         "sourceSize": {
           "w": 836,
-          "h": 231
+          "h": 225
         },
         "anchor": {
           "x": 0.5,
@@ -2314,9 +2739,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_chaos_05.png": {
         "frame": {
           "x": 77,
-          "y": 1156,
+          "y": 1159,
           "w": 836,
-          "h": 232
+          "h": 226
         },
         "rotated": false,
         "trimmed": false,
@@ -2324,11 +2749,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 836,
-          "h": 232
+          "h": 226
         },
         "sourceSize": {
           "w": 836,
-          "h": 232
+          "h": 226
         },
         "anchor": {
           "x": 0.5,
@@ -2338,9 +2763,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_chaos_06.png": {
         "frame": {
           "x": 77,
-          "y": 1388,
+          "y": 1391,
           "w": 836,
-          "h": 231
+          "h": 225
         },
         "rotated": false,
         "trimmed": false,
@@ -2348,11 +2773,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 836,
-          "h": 231
+          "h": 225
         },
         "sourceSize": {
           "w": 836,
-          "h": 231
+          "h": 225
         },
         "anchor": {
           "x": 0.5,
@@ -2383,7 +2808,7 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "scale": "1",
       "frameSize": {
         "w": 836,
-        "h": 231
+        "h": 225
       },
       "frameCount": 7,
       "styleKey": "school_beam_chaos",
@@ -2397,9 +2822,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_psionic_00.png": {
         "frame": {
           "x": 24,
-          "y": 0,
+          "y": 3,
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "rotated": false,
         "trimmed": false,
@@ -2407,11 +2832,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "sourceSize": {
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "anchor": {
           "x": 0.5,
@@ -2421,9 +2846,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_psionic_01.png": {
         "frame": {
           "x": 24,
-          "y": 64,
+          "y": 67,
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "rotated": false,
         "trimmed": false,
@@ -2431,11 +2856,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "sourceSize": {
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "anchor": {
           "x": 0.5,
@@ -2445,9 +2870,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_psionic_02.png": {
         "frame": {
           "x": 24,
-          "y": 128,
+          "y": 131,
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "rotated": false,
         "trimmed": false,
@@ -2455,11 +2880,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "sourceSize": {
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "anchor": {
           "x": 0.5,
@@ -2469,9 +2894,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_psionic_03.png": {
         "frame": {
           "x": 24,
-          "y": 192,
+          "y": 195,
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "rotated": false,
         "trimmed": false,
@@ -2479,11 +2904,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "sourceSize": {
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "anchor": {
           "x": 0.5,
@@ -2493,9 +2918,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_psionic_04.png": {
         "frame": {
           "x": 24,
-          "y": 256,
+          "y": 259,
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "rotated": false,
         "trimmed": false,
@@ -2503,11 +2928,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "sourceSize": {
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "anchor": {
           "x": 0.5,
@@ -2517,9 +2942,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_psionic_05.png": {
         "frame": {
           "x": 24,
-          "y": 320,
+          "y": 323,
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "rotated": false,
         "trimmed": false,
@@ -2527,11 +2952,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "sourceSize": {
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "anchor": {
           "x": 0.5,
@@ -2541,9 +2966,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_psionic_06.png": {
         "frame": {
           "x": 24,
-          "y": 384,
+          "y": 387,
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "rotated": false,
         "trimmed": false,
@@ -2551,11 +2976,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "sourceSize": {
           "w": 232,
-          "h": 64
+          "h": 58
         },
         "anchor": {
           "x": 0.5,
@@ -2586,7 +3011,7 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "scale": "1",
       "frameSize": {
         "w": 232,
-        "h": 64
+        "h": 58
       },
       "frameCount": 7,
       "styleKey": "school_beam_psionic",
@@ -2600,9 +3025,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_rune_00.png": {
         "frame": {
           "x": 71,
-          "y": 0,
+          "y": 3,
           "w": 811,
-          "h": 241
+          "h": 235
         },
         "rotated": false,
         "trimmed": false,
@@ -2610,11 +3035,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 811,
-          "h": 241
+          "h": 235
         },
         "sourceSize": {
           "w": 811,
-          "h": 241
+          "h": 235
         },
         "anchor": {
           "x": 0.5,
@@ -2624,9 +3049,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_rune_01.png": {
         "frame": {
           "x": 71,
-          "y": 241,
+          "y": 244,
           "w": 811,
-          "h": 240
+          "h": 234
         },
         "rotated": false,
         "trimmed": false,
@@ -2634,11 +3059,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 811,
-          "h": 240
+          "h": 234
         },
         "sourceSize": {
           "w": 811,
-          "h": 240
+          "h": 234
         },
         "anchor": {
           "x": 0.5,
@@ -2648,9 +3073,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_rune_02.png": {
         "frame": {
           "x": 71,
-          "y": 481,
+          "y": 484,
           "w": 811,
-          "h": 241
+          "h": 235
         },
         "rotated": false,
         "trimmed": false,
@@ -2658,11 +3083,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 811,
-          "h": 241
+          "h": 235
         },
         "sourceSize": {
           "w": 811,
-          "h": 241
+          "h": 235
         },
         "anchor": {
           "x": 0.5,
@@ -2672,9 +3097,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_rune_03.png": {
         "frame": {
           "x": 71,
-          "y": 722,
+          "y": 725,
           "w": 811,
-          "h": 241
+          "h": 235
         },
         "rotated": false,
         "trimmed": false,
@@ -2682,11 +3107,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 811,
-          "h": 241
+          "h": 235
         },
         "sourceSize": {
           "w": 811,
-          "h": 241
+          "h": 235
         },
         "anchor": {
           "x": 0.5,
@@ -2696,9 +3121,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_rune_04.png": {
         "frame": {
           "x": 71,
-          "y": 963,
+          "y": 966,
           "w": 811,
-          "h": 241
+          "h": 235
         },
         "rotated": false,
         "trimmed": false,
@@ -2706,11 +3131,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 811,
-          "h": 241
+          "h": 235
         },
         "sourceSize": {
           "w": 811,
-          "h": 241
+          "h": 235
         },
         "anchor": {
           "x": 0.5,
@@ -2720,9 +3145,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_rune_05.png": {
         "frame": {
           "x": 71,
-          "y": 1204,
+          "y": 1207,
           "w": 811,
-          "h": 240
+          "h": 234
         },
         "rotated": false,
         "trimmed": false,
@@ -2730,11 +3155,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 811,
-          "h": 240
+          "h": 234
         },
         "sourceSize": {
           "w": 811,
-          "h": 240
+          "h": 234
         },
         "anchor": {
           "x": 0.5,
@@ -2744,9 +3169,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_rune_06.png": {
         "frame": {
           "x": 71,
-          "y": 1444,
+          "y": 1447,
           "w": 811,
-          "h": 241
+          "h": 235
         },
         "rotated": false,
         "trimmed": false,
@@ -2754,11 +3179,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 811,
-          "h": 241
+          "h": 235
         },
         "sourceSize": {
           "w": 811,
-          "h": 241
+          "h": 235
         },
         "anchor": {
           "x": 0.5,
@@ -2789,7 +3214,7 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "scale": "1",
       "frameSize": {
         "w": 811,
-        "h": 241
+        "h": 235
       },
       "frameCount": 7,
       "styleKey": "school_beam_rune",
@@ -2803,9 +3228,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_shadow_00.png": {
         "frame": {
           "x": 87,
-          "y": 0,
+          "y": 3,
           "w": 819,
-          "h": 233
+          "h": 227
         },
         "rotated": false,
         "trimmed": false,
@@ -2813,11 +3238,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 819,
-          "h": 233
+          "h": 227
         },
         "sourceSize": {
           "w": 819,
-          "h": 233
+          "h": 227
         },
         "anchor": {
           "x": 0.5,
@@ -2827,9 +3252,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_shadow_01.png": {
         "frame": {
           "x": 87,
-          "y": 233,
+          "y": 236,
           "w": 819,
-          "h": 234
+          "h": 228
         },
         "rotated": false,
         "trimmed": false,
@@ -2837,11 +3262,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 819,
-          "h": 234
+          "h": 228
         },
         "sourceSize": {
           "w": 819,
-          "h": 234
+          "h": 228
         },
         "anchor": {
           "x": 0.5,
@@ -2851,9 +3276,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_shadow_02.png": {
         "frame": {
           "x": 87,
-          "y": 467,
+          "y": 470,
           "w": 819,
-          "h": 233
+          "h": 227
         },
         "rotated": false,
         "trimmed": false,
@@ -2861,11 +3286,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 819,
-          "h": 233
+          "h": 227
         },
         "sourceSize": {
           "w": 819,
-          "h": 233
+          "h": 227
         },
         "anchor": {
           "x": 0.5,
@@ -2875,9 +3300,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_shadow_03.png": {
         "frame": {
           "x": 87,
-          "y": 700,
+          "y": 703,
           "w": 819,
-          "h": 234
+          "h": 228
         },
         "rotated": false,
         "trimmed": false,
@@ -2885,11 +3310,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 819,
-          "h": 234
+          "h": 228
         },
         "sourceSize": {
           "w": 819,
-          "h": 234
+          "h": 228
         },
         "anchor": {
           "x": 0.5,
@@ -2899,9 +3324,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_shadow_04.png": {
         "frame": {
           "x": 87,
-          "y": 934,
+          "y": 937,
           "w": 819,
-          "h": 233
+          "h": 227
         },
         "rotated": false,
         "trimmed": false,
@@ -2909,11 +3334,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 819,
-          "h": 233
+          "h": 227
         },
         "sourceSize": {
           "w": 819,
-          "h": 233
+          "h": 227
         },
         "anchor": {
           "x": 0.5,
@@ -2923,9 +3348,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_shadow_05.png": {
         "frame": {
           "x": 87,
-          "y": 1167,
+          "y": 1170,
           "w": 819,
-          "h": 234
+          "h": 228
         },
         "rotated": false,
         "trimmed": false,
@@ -2933,11 +3358,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 819,
-          "h": 234
+          "h": 228
         },
         "sourceSize": {
           "w": 819,
-          "h": 234
+          "h": 228
         },
         "anchor": {
           "x": 0.5,
@@ -2947,9 +3372,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_shadow_06.png": {
         "frame": {
           "x": 87,
-          "y": 1401,
+          "y": 1404,
           "w": 819,
-          "h": 233
+          "h": 227
         },
         "rotated": false,
         "trimmed": false,
@@ -2957,11 +3382,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 819,
-          "h": 233
+          "h": 227
         },
         "sourceSize": {
           "w": 819,
-          "h": 233
+          "h": 227
         },
         "anchor": {
           "x": 0.5,
@@ -2992,7 +3417,7 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "scale": "1",
       "frameSize": {
         "w": 819,
-        "h": 233
+        "h": 227
       },
       "frameCount": 7,
       "styleKey": "school_beam_shadow",
@@ -3006,9 +3431,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_soul_00.png": {
         "frame": {
           "x": 0,
-          "y": 0,
+          "y": 3,
           "w": 984,
-          "h": 219
+          "h": 213
         },
         "rotated": false,
         "trimmed": false,
@@ -3016,11 +3441,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 984,
-          "h": 219
+          "h": 213
         },
         "sourceSize": {
           "w": 984,
-          "h": 219
+          "h": 213
         },
         "anchor": {
           "x": 0.5,
@@ -3030,9 +3455,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_soul_01.png": {
         "frame": {
           "x": 0,
-          "y": 219,
+          "y": 222,
           "w": 984,
-          "h": 220
+          "h": 214
         },
         "rotated": false,
         "trimmed": false,
@@ -3040,11 +3465,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 984,
-          "h": 220
+          "h": 214
         },
         "sourceSize": {
           "w": 984,
-          "h": 220
+          "h": 214
         },
         "anchor": {
           "x": 0.5,
@@ -3054,9 +3479,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_soul_02.png": {
         "frame": {
           "x": 0,
-          "y": 439,
+          "y": 442,
           "w": 984,
-          "h": 219
+          "h": 213
         },
         "rotated": false,
         "trimmed": false,
@@ -3064,11 +3489,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 984,
-          "h": 219
+          "h": 213
         },
         "sourceSize": {
           "w": 984,
-          "h": 219
+          "h": 213
         },
         "anchor": {
           "x": 0.5,
@@ -3078,9 +3503,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_soul_03.png": {
         "frame": {
           "x": 0,
-          "y": 658,
+          "y": 661,
           "w": 984,
-          "h": 220
+          "h": 214
         },
         "rotated": false,
         "trimmed": false,
@@ -3088,11 +3513,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 984,
-          "h": 220
+          "h": 214
         },
         "sourceSize": {
           "w": 984,
-          "h": 220
+          "h": 214
         },
         "anchor": {
           "x": 0.5,
@@ -3102,9 +3527,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_soul_04.png": {
         "frame": {
           "x": 0,
-          "y": 878,
+          "y": 881,
           "w": 984,
-          "h": 219
+          "h": 213
         },
         "rotated": false,
         "trimmed": false,
@@ -3112,11 +3537,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 984,
-          "h": 219
+          "h": 213
         },
         "sourceSize": {
           "w": 984,
-          "h": 219
+          "h": 213
         },
         "anchor": {
           "x": 0.5,
@@ -3126,9 +3551,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_soul_05.png": {
         "frame": {
           "x": 0,
-          "y": 1097,
+          "y": 1100,
           "w": 984,
-          "h": 220
+          "h": 214
         },
         "rotated": false,
         "trimmed": false,
@@ -3136,11 +3561,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 984,
-          "h": 220
+          "h": 214
         },
         "sourceSize": {
           "w": 984,
-          "h": 220
+          "h": 214
         },
         "anchor": {
           "x": 0.5,
@@ -3150,9 +3575,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_beam_soul_06.png": {
         "frame": {
           "x": 0,
-          "y": 1317,
+          "y": 1320,
           "w": 984,
-          "h": 219
+          "h": 213
         },
         "rotated": false,
         "trimmed": false,
@@ -3160,11 +3585,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 984,
-          "h": 219
+          "h": 213
         },
         "sourceSize": {
           "w": 984,
-          "h": 219
+          "h": 213
         },
         "anchor": {
           "x": 0.5,
@@ -3195,7 +3620,7 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "scale": "1",
       "frameSize": {
         "w": 984,
-        "h": 219
+        "h": 213
       },
       "frameCount": 7,
       "styleKey": "school_beam_soul",
@@ -3209,9 +3634,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_biomancy_00.png": {
         "frame": {
           "x": 254,
-          "y": 0,
+          "y": 3,
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3219,11 +3644,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3233,9 +3658,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_biomancy_01.png": {
         "frame": {
           "x": 254,
-          "y": 171,
+          "y": 174,
           "w": 467,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -3243,11 +3668,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 467,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 467,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -3257,9 +3682,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_biomancy_02.png": {
         "frame": {
           "x": 254,
-          "y": 341,
+          "y": 344,
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3267,11 +3692,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3281,9 +3706,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_biomancy_03.png": {
         "frame": {
           "x": 254,
-          "y": 512,
+          "y": 515,
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3291,11 +3716,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3305,9 +3730,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_biomancy_04.png": {
         "frame": {
           "x": 254,
-          "y": 683,
+          "y": 686,
           "w": 467,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -3315,11 +3740,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 467,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 467,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -3329,9 +3754,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_biomancy_05.png": {
         "frame": {
           "x": 254,
-          "y": 853,
+          "y": 856,
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3339,11 +3764,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3353,9 +3778,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_biomancy_06.png": {
         "frame": {
           "x": 254,
-          "y": 1024,
+          "y": 1027,
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3363,11 +3788,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3377,9 +3802,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_biomancy_07.png": {
         "frame": {
           "x": 254,
-          "y": 1195,
+          "y": 1198,
           "w": 467,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -3387,11 +3812,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 467,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 467,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -3401,9 +3826,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_biomancy_08.png": {
         "frame": {
           "x": 254,
-          "y": 1365,
+          "y": 1368,
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3411,11 +3836,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 467,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3448,7 +3873,7 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "scale": "1",
       "frameSize": {
         "w": 467,
-        "h": 171
+        "h": 165
       },
       "frameCount": 9,
       "styleKey": "school_cut_biomancy",
@@ -3462,9 +3887,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_chaos_00.png": {
         "frame": {
           "x": 0,
-          "y": 0,
+          "y": 3,
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3472,11 +3897,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3486,9 +3911,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_chaos_01.png": {
         "frame": {
           "x": 0,
-          "y": 171,
+          "y": 174,
           "w": 722,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -3496,11 +3921,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 722,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 722,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -3510,9 +3935,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_chaos_02.png": {
         "frame": {
           "x": 0,
-          "y": 341,
+          "y": 344,
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3520,11 +3945,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3534,9 +3959,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_chaos_03.png": {
         "frame": {
           "x": 0,
-          "y": 512,
+          "y": 515,
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3544,11 +3969,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3558,9 +3983,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_chaos_04.png": {
         "frame": {
           "x": 0,
-          "y": 683,
+          "y": 686,
           "w": 722,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -3568,11 +3993,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 722,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 722,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -3582,9 +4007,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_chaos_05.png": {
         "frame": {
           "x": 0,
-          "y": 853,
+          "y": 856,
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3592,11 +4017,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3606,9 +4031,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_chaos_06.png": {
         "frame": {
           "x": 0,
-          "y": 1024,
+          "y": 1027,
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3616,11 +4041,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3630,9 +4055,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_chaos_07.png": {
         "frame": {
           "x": 0,
-          "y": 1195,
+          "y": 1198,
           "w": 722,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -3640,11 +4065,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 722,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 722,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -3654,9 +4079,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_chaos_08.png": {
         "frame": {
           "x": 0,
-          "y": 1365,
+          "y": 1368,
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3664,11 +4089,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 722,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3701,7 +4126,7 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "scale": "1",
       "frameSize": {
         "w": 722,
-        "h": 171
+        "h": 165
       },
       "frameCount": 9,
       "styleKey": "school_cut_chaos",
@@ -3715,9 +4140,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_psionic_00.png": {
         "frame": {
           "x": 0,
-          "y": 0,
+          "y": 3,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3725,11 +4150,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3739,9 +4164,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_psionic_01.png": {
         "frame": {
           "x": 0,
-          "y": 171,
+          "y": 174,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -3749,11 +4174,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -3763,9 +4188,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_psionic_02.png": {
         "frame": {
           "x": 0,
-          "y": 341,
+          "y": 344,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3773,11 +4198,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3787,9 +4212,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_psionic_03.png": {
         "frame": {
           "x": 0,
-          "y": 512,
+          "y": 515,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3797,11 +4222,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3811,9 +4236,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_psionic_04.png": {
         "frame": {
           "x": 0,
-          "y": 683,
+          "y": 686,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -3821,11 +4246,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -3835,9 +4260,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_psionic_05.png": {
         "frame": {
           "x": 0,
-          "y": 853,
+          "y": 856,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3845,11 +4270,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3859,9 +4284,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_psionic_06.png": {
         "frame": {
           "x": 0,
-          "y": 1024,
+          "y": 1027,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3869,11 +4294,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3883,9 +4308,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_psionic_07.png": {
         "frame": {
           "x": 0,
-          "y": 1195,
+          "y": 1198,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -3893,11 +4318,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -3907,9 +4332,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_psionic_08.png": {
         "frame": {
           "x": 0,
-          "y": 1365,
+          "y": 1368,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3917,11 +4342,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3954,7 +4379,7 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "scale": "1",
       "frameSize": {
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "frameCount": 9,
       "styleKey": "school_cut_psionic",
@@ -3968,9 +4393,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_rune_00.png": {
         "frame": {
           "x": 0,
-          "y": 0,
+          "y": 3,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -3978,11 +4403,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -3992,9 +4417,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_rune_01.png": {
         "frame": {
           "x": 0,
-          "y": 171,
+          "y": 174,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -4002,11 +4427,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -4016,9 +4441,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_rune_02.png": {
         "frame": {
           "x": 0,
-          "y": 341,
+          "y": 344,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4026,11 +4451,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4040,9 +4465,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_rune_03.png": {
         "frame": {
           "x": 0,
-          "y": 512,
+          "y": 515,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4050,11 +4475,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4064,9 +4489,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_rune_04.png": {
         "frame": {
           "x": 0,
-          "y": 683,
+          "y": 686,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -4074,11 +4499,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -4088,9 +4513,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_rune_05.png": {
         "frame": {
           "x": 0,
-          "y": 853,
+          "y": 856,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4098,11 +4523,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4112,9 +4537,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_rune_06.png": {
         "frame": {
           "x": 0,
-          "y": 1024,
+          "y": 1027,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4122,11 +4547,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4136,9 +4561,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_rune_07.png": {
         "frame": {
           "x": 0,
-          "y": 1195,
+          "y": 1198,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -4146,11 +4571,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -4160,9 +4585,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_rune_08.png": {
         "frame": {
           "x": 0,
-          "y": 1365,
+          "y": 1368,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4170,11 +4595,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4207,7 +4632,7 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "scale": "1",
       "frameSize": {
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "frameCount": 9,
       "styleKey": "school_cut_rune",
@@ -4221,9 +4646,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_shadow_00.png": {
         "frame": {
           "x": 0,
-          "y": 0,
+          "y": 3,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4231,11 +4656,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4245,9 +4670,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_shadow_01.png": {
         "frame": {
           "x": 0,
-          "y": 171,
+          "y": 174,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -4255,11 +4680,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -4269,9 +4694,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_shadow_02.png": {
         "frame": {
           "x": 0,
-          "y": 341,
+          "y": 344,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4279,11 +4704,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4293,9 +4718,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_shadow_03.png": {
         "frame": {
           "x": 0,
-          "y": 512,
+          "y": 515,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4303,11 +4728,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4317,9 +4742,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_shadow_04.png": {
         "frame": {
           "x": 0,
-          "y": 683,
+          "y": 686,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -4327,11 +4752,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -4341,9 +4766,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_shadow_05.png": {
         "frame": {
           "x": 0,
-          "y": 853,
+          "y": 856,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4351,11 +4776,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4365,9 +4790,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_shadow_06.png": {
         "frame": {
           "x": 0,
-          "y": 1024,
+          "y": 1027,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4375,11 +4800,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4389,9 +4814,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_shadow_07.png": {
         "frame": {
           "x": 0,
-          "y": 1195,
+          "y": 1198,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -4399,11 +4824,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -4413,9 +4838,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_shadow_08.png": {
         "frame": {
           "x": 0,
-          "y": 1365,
+          "y": 1368,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4423,11 +4848,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4460,7 +4885,7 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "scale": "1",
       "frameSize": {
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "frameCount": 9,
       "styleKey": "school_cut_shadow",
@@ -4474,9 +4899,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_soul_00.png": {
         "frame": {
           "x": 0,
-          "y": 0,
+          "y": 3,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4484,11 +4909,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4498,9 +4923,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_soul_01.png": {
         "frame": {
           "x": 0,
-          "y": 171,
+          "y": 174,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -4508,11 +4933,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -4522,9 +4947,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_soul_02.png": {
         "frame": {
           "x": 0,
-          "y": 341,
+          "y": 344,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4532,11 +4957,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4546,9 +4971,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_soul_03.png": {
         "frame": {
           "x": 0,
-          "y": 512,
+          "y": 515,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4556,11 +4981,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4570,9 +4995,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_soul_04.png": {
         "frame": {
           "x": 0,
-          "y": 683,
+          "y": 686,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -4580,11 +5005,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -4594,9 +5019,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_soul_05.png": {
         "frame": {
           "x": 0,
-          "y": 853,
+          "y": 856,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4604,11 +5029,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4618,9 +5043,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_soul_06.png": {
         "frame": {
           "x": 0,
-          "y": 1024,
+          "y": 1027,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4628,11 +5053,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4642,9 +5067,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_soul_07.png": {
         "frame": {
           "x": 0,
-          "y": 1195,
+          "y": 1198,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "rotated": false,
         "trimmed": false,
@@ -4652,11 +5077,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "sourceSize": {
           "w": 1024,
-          "h": 170
+          "h": 164
         },
         "anchor": {
           "x": 0.5,
@@ -4666,9 +5091,9 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "school_cut_soul_08.png": {
         "frame": {
           "x": 0,
-          "y": 1365,
+          "y": 1368,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "rotated": false,
         "trimmed": false,
@@ -4676,11 +5101,11 @@ const VFX_SPRITESHEET_MANIFESTS = {
           "x": 0,
           "y": 0,
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "sourceSize": {
           "w": 1024,
-          "h": 171
+          "h": 165
         },
         "anchor": {
           "x": 0.5,
@@ -4713,7 +5138,7 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "scale": "1",
       "frameSize": {
         "w": 1024,
-        "h": 171
+        "h": 165
       },
       "frameCount": 9,
       "styleKey": "school_cut_soul",
@@ -4726,22 +5151,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
     "frames": {
       "school_explosion_biomancy_00.png": {
         "frame": {
-          "x": 365,
+          "x": 0,
           "y": 0,
-          "w": 297,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 297,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 297,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -4750,22 +5175,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_biomancy_01.png": {
         "frame": {
-          "x": 365,
-          "y": 256,
-          "w": 297,
-          "h": 256
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 297,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 297,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -4774,22 +5199,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_biomancy_02.png": {
         "frame": {
-          "x": 365,
-          "y": 512,
-          "w": 297,
-          "h": 256
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 297,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 297,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -4798,22 +5223,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_biomancy_03.png": {
         "frame": {
-          "x": 365,
-          "y": 768,
-          "w": 297,
-          "h": 256
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 297,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 297,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -4822,22 +5247,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_biomancy_04.png": {
         "frame": {
-          "x": 365,
-          "y": 1024,
-          "w": 297,
-          "h": 256
+          "x": 256,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 297,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 297,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -4846,22 +5271,46 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_biomancy_05.png": {
         "frame": {
-          "x": 365,
-          "y": 1280,
-          "w": 297,
-          "h": 256
+          "x": 320,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 297,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 297,
-          "h": 256
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_explosion_biomancy_06.png": {
+        "frame": {
+          "x": 384,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -4876,7 +5325,8 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_explosion_biomancy_02.png",
         "school_explosion_biomancy_03.png",
         "school_explosion_biomancy_04.png",
-        "school_explosion_biomancy_05.png"
+        "school_explosion_biomancy_05.png",
+        "school_explosion_biomancy_06.png"
       ]
     },
     "meta": {
@@ -4885,15 +5335,15 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Biomancy_Explosion.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1024,
-        "h": 1536
+        "w": 448,
+        "h": 64
       },
       "scale": "1",
       "frameSize": {
-        "w": 297,
-        "h": 256
+        "w": 64,
+        "h": 64
       },
-      "frameCount": 6,
+      "frameCount": 7,
       "styleKey": "school_explosion_biomancy",
       "school": "biomancy",
       "category": "explosion",
@@ -4904,22 +5354,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
     "frames": {
       "school_explosion_chaos_00.png": {
         "frame": {
-          "x": 342,
+          "x": 0,
           "y": 0,
-          "w": 337,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 337,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 337,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -4928,22 +5378,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_chaos_01.png": {
         "frame": {
-          "x": 342,
-          "y": 256,
-          "w": 337,
-          "h": 256
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 337,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 337,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -4952,22 +5402,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_chaos_02.png": {
         "frame": {
-          "x": 342,
-          "y": 512,
-          "w": 337,
-          "h": 256
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 337,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 337,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -4976,22 +5426,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_chaos_03.png": {
         "frame": {
-          "x": 342,
-          "y": 768,
-          "w": 337,
-          "h": 256
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 337,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 337,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5000,22 +5450,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_chaos_04.png": {
         "frame": {
-          "x": 342,
-          "y": 1024,
-          "w": 337,
-          "h": 256
+          "x": 256,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 337,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 337,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5024,22 +5474,46 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_chaos_05.png": {
         "frame": {
-          "x": 342,
-          "y": 1280,
-          "w": 337,
-          "h": 256
+          "x": 320,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 337,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 337,
-          "h": 256
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_explosion_chaos_06.png": {
+        "frame": {
+          "x": 384,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5054,7 +5528,8 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_explosion_chaos_02.png",
         "school_explosion_chaos_03.png",
         "school_explosion_chaos_04.png",
-        "school_explosion_chaos_05.png"
+        "school_explosion_chaos_05.png",
+        "school_explosion_chaos_06.png"
       ]
     },
     "meta": {
@@ -5063,15 +5538,15 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Chaos_Explosion.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1024,
-        "h": 1536
+        "w": 448,
+        "h": 64
       },
       "scale": "1",
       "frameSize": {
-        "w": 337,
-        "h": 256
+        "w": 64,
+        "h": 64
       },
-      "frameCount": 6,
+      "frameCount": 7,
       "styleKey": "school_explosion_chaos",
       "school": "chaos",
       "category": "explosion",
@@ -5082,22 +5557,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
     "frames": {
       "school_explosion_psionic_00.png": {
         "frame": {
-          "x": 365,
+          "x": 0,
           "y": 0,
-          "w": 295,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 295,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 295,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5106,22 +5581,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_psionic_01.png": {
         "frame": {
-          "x": 365,
-          "y": 256,
-          "w": 295,
-          "h": 256
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 295,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 295,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5130,22 +5605,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_psionic_02.png": {
         "frame": {
-          "x": 365,
-          "y": 512,
-          "w": 295,
-          "h": 256
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 295,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 295,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5154,22 +5629,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_psionic_03.png": {
         "frame": {
-          "x": 365,
-          "y": 768,
-          "w": 295,
-          "h": 256
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 295,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 295,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5178,22 +5653,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_psionic_04.png": {
         "frame": {
-          "x": 365,
-          "y": 1024,
-          "w": 295,
-          "h": 256
+          "x": 256,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 295,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 295,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5202,22 +5677,46 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_psionic_05.png": {
         "frame": {
-          "x": 365,
-          "y": 1280,
-          "w": 295,
-          "h": 256
+          "x": 320,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 295,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 295,
-          "h": 256
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_explosion_psionic_06.png": {
+        "frame": {
+          "x": 384,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5232,7 +5731,8 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_explosion_psionic_02.png",
         "school_explosion_psionic_03.png",
         "school_explosion_psionic_04.png",
-        "school_explosion_psionic_05.png"
+        "school_explosion_psionic_05.png",
+        "school_explosion_psionic_06.png"
       ]
     },
     "meta": {
@@ -5241,15 +5741,15 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Psionic_Explosion.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1024,
-        "h": 1536
+        "w": 448,
+        "h": 64
       },
       "scale": "1",
       "frameSize": {
-        "w": 295,
-        "h": 256
+        "w": 64,
+        "h": 64
       },
-      "frameCount": 6,
+      "frameCount": 7,
       "styleKey": "school_explosion_psionic",
       "school": "psionic",
       "category": "explosion",
@@ -5260,22 +5760,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
     "frames": {
       "school_explosion_rune_00.png": {
         "frame": {
-          "x": 367,
+          "x": 0,
           "y": 0,
-          "w": 297,
-          "h": 256
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 297,
-          "h": 256
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 297,
-          "h": 256
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -5284,22 +5784,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_rune_01.png": {
         "frame": {
-          "x": 367,
-          "y": 256,
-          "w": 297,
-          "h": 256
+          "x": 32,
+          "y": 0,
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 297,
-          "h": 256
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 297,
-          "h": 256
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -5308,22 +5808,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_rune_02.png": {
         "frame": {
-          "x": 367,
-          "y": 512,
-          "w": 297,
-          "h": 256
+          "x": 64,
+          "y": 0,
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 297,
-          "h": 256
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 297,
-          "h": 256
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -5332,22 +5832,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_rune_03.png": {
         "frame": {
-          "x": 367,
-          "y": 768,
-          "w": 297,
-          "h": 256
+          "x": 96,
+          "y": 0,
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 297,
-          "h": 256
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 297,
-          "h": 256
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -5356,22 +5856,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_rune_04.png": {
         "frame": {
-          "x": 367,
-          "y": 1024,
-          "w": 297,
-          "h": 256
+          "x": 128,
+          "y": 0,
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 297,
-          "h": 256
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 297,
-          "h": 256
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -5380,22 +5880,46 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_rune_05.png": {
         "frame": {
-          "x": 367,
-          "y": 1280,
-          "w": 297,
-          "h": 256
+          "x": 160,
+          "y": 0,
+          "w": 32,
+          "h": 32
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 297,
-          "h": 256
+          "w": 32,
+          "h": 32
         },
         "sourceSize": {
-          "w": 297,
-          "h": 256
+          "w": 32,
+          "h": 32
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_explosion_rune_06.png": {
+        "frame": {
+          "x": 192,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 32,
+          "h": 32
+        },
+        "sourceSize": {
+          "w": 32,
+          "h": 32
         },
         "anchor": {
           "x": 0.5,
@@ -5410,7 +5934,8 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_explosion_rune_02.png",
         "school_explosion_rune_03.png",
         "school_explosion_rune_04.png",
-        "school_explosion_rune_05.png"
+        "school_explosion_rune_05.png",
+        "school_explosion_rune_06.png"
       ]
     },
     "meta": {
@@ -5419,15 +5944,15 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Rune_Explosion.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1024,
-        "h": 1536
+        "w": 224,
+        "h": 32
       },
       "scale": "1",
       "frameSize": {
-        "w": 297,
-        "h": 256
+        "w": 32,
+        "h": 32
       },
-      "frameCount": 6,
+      "frameCount": 7,
       "styleKey": "school_explosion_rune",
       "school": "rune",
       "category": "explosion",
@@ -5438,22 +5963,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
     "frames": {
       "school_explosion_shadow_00.png": {
         "frame": {
-          "x": 364,
+          "x": 0,
           "y": 0,
-          "w": 285,
-          "h": 219
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 285,
-          "h": 219
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 285,
-          "h": 219
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5462,22 +5987,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_shadow_01.png": {
         "frame": {
-          "x": 364,
-          "y": 219,
-          "w": 285,
-          "h": 220
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 285,
-          "h": 220
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 285,
-          "h": 220
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5486,22 +6011,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_shadow_02.png": {
         "frame": {
-          "x": 364,
-          "y": 439,
-          "w": 285,
-          "h": 219
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 285,
-          "h": 219
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 285,
-          "h": 219
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5510,22 +6035,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_shadow_03.png": {
         "frame": {
-          "x": 364,
-          "y": 658,
-          "w": 285,
-          "h": 220
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 285,
-          "h": 220
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 285,
-          "h": 220
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5534,22 +6059,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_shadow_04.png": {
         "frame": {
-          "x": 364,
-          "y": 878,
-          "w": 285,
-          "h": 219
+          "x": 256,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 285,
-          "h": 219
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 285,
-          "h": 219
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5558,22 +6083,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_shadow_05.png": {
         "frame": {
-          "x": 364,
-          "y": 1097,
-          "w": 285,
-          "h": 220
+          "x": 320,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 285,
-          "h": 220
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 285,
-          "h": 220
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5582,22 +6107,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_shadow_06.png": {
         "frame": {
-          "x": 364,
-          "y": 1317,
-          "w": 285,
-          "h": 219
+          "x": 384,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 285,
-          "h": 219
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 285,
-          "h": 219
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5622,13 +6147,13 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Shadow_Explosion.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1024,
-        "h": 1536
+        "w": 448,
+        "h": 64
       },
       "scale": "1",
       "frameSize": {
-        "w": 285,
-        "h": 219
+        "w": 64,
+        "h": 64
       },
       "frameCount": 7,
       "styleKey": "school_explosion_shadow",
@@ -5641,22 +6166,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
     "frames": {
       "school_explosion_soul_00.png": {
         "frame": {
-          "x": 324,
+          "x": 0,
           "y": 0,
-          "w": 365,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 365,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 365,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5665,22 +6190,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_soul_01.png": {
         "frame": {
-          "x": 324,
-          "y": 256,
-          "w": 365,
-          "h": 256
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 365,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 365,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5689,22 +6214,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_soul_02.png": {
         "frame": {
-          "x": 324,
-          "y": 512,
-          "w": 365,
-          "h": 256
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 365,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 365,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5713,22 +6238,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_soul_03.png": {
         "frame": {
-          "x": 324,
-          "y": 768,
-          "w": 365,
-          "h": 256
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 365,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 365,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5737,22 +6262,22 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_soul_04.png": {
         "frame": {
-          "x": 324,
-          "y": 1024,
-          "w": 365,
-          "h": 256
+          "x": 256,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 365,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 365,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5761,22 +6286,46 @@ const VFX_SPRITESHEET_MANIFESTS = {
       },
       "school_explosion_soul_05.png": {
         "frame": {
-          "x": 324,
-          "y": 1280,
-          "w": 365,
-          "h": 256
+          "x": 320,
+          "y": 0,
+          "w": 64,
+          "h": 64
         },
         "rotated": false,
         "trimmed": false,
         "spriteSourceSize": {
           "x": 0,
           "y": 0,
-          "w": 365,
-          "h": 256
+          "w": 64,
+          "h": 64
         },
         "sourceSize": {
-          "w": 365,
-          "h": 256
+          "w": 64,
+          "h": 64
+        },
+        "anchor": {
+          "x": 0.5,
+          "y": 0.5
+        }
+      },
+      "school_explosion_soul_06.png": {
+        "frame": {
+          "x": 384,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "rotated": false,
+        "trimmed": false,
+        "spriteSourceSize": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64
+        },
+        "sourceSize": {
+          "w": 64,
+          "h": 64
         },
         "anchor": {
           "x": 0.5,
@@ -5791,7 +6340,8 @@ const VFX_SPRITESHEET_MANIFESTS = {
         "school_explosion_soul_02.png",
         "school_explosion_soul_03.png",
         "school_explosion_soul_04.png",
-        "school_explosion_soul_05.png"
+        "school_explosion_soul_05.png",
+        "school_explosion_soul_06.png"
       ]
     },
     "meta": {
@@ -5800,15 +6350,15 @@ const VFX_SPRITESHEET_MANIFESTS = {
       "image": "Soul_Explosion.png",
       "format": "RGBA8888",
       "size": {
-        "w": 1024,
-        "h": 1536
+        "w": 448,
+        "h": 64
       },
       "scale": "1",
       "frameSize": {
-        "w": 365,
-        "h": 256
+        "w": 64,
+        "h": 64
       },
-      "frameCount": 6,
+      "frameCount": 7,
       "styleKey": "school_explosion_soul",
       "school": "soul",
       "category": "explosion",

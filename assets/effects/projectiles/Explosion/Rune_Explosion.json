@@ -2,22 +2,22 @@
   "frames": {
     "school_explosion_rune_00.png": {
       "frame": {
-        "x": 367,
-        "y": 3,
-        "w": 297,
-        "h": 250
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 297,
-        "h": 250
+        "w": 32,
+        "h": 32
       },
       "sourceSize": {
-        "w": 297,
-        "h": 250
+        "w": 32,
+        "h": 32
       },
       "anchor": {
         "x": 0.5,
@@ -26,22 +26,22 @@
     },
     "school_explosion_rune_01.png": {
       "frame": {
-        "x": 367,
-        "y": 259,
-        "w": 297,
-        "h": 250
+        "x": 32,
+        "y": 0,
+        "w": 32,
+        "h": 32
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 297,
-        "h": 250
+        "w": 32,
+        "h": 32
       },
       "sourceSize": {
-        "w": 297,
-        "h": 250
+        "w": 32,
+        "h": 32
       },
       "anchor": {
         "x": 0.5,
@@ -50,22 +50,22 @@
     },
     "school_explosion_rune_02.png": {
       "frame": {
-        "x": 367,
-        "y": 515,
-        "w": 297,
-        "h": 250
+        "x": 64,
+        "y": 0,
+        "w": 32,
+        "h": 32
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 297,
-        "h": 250
+        "w": 32,
+        "h": 32
       },
       "sourceSize": {
-        "w": 297,
-        "h": 250
+        "w": 32,
+        "h": 32
       },
       "anchor": {
         "x": 0.5,
@@ -74,22 +74,22 @@
     },
     "school_explosion_rune_03.png": {
       "frame": {
-        "x": 367,
-        "y": 771,
-        "w": 297,
-        "h": 250
+        "x": 96,
+        "y": 0,
+        "w": 32,
+        "h": 32
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 297,
-        "h": 250
+        "w": 32,
+        "h": 32
       },
       "sourceSize": {
-        "w": 297,
-        "h": 250
+        "w": 32,
+        "h": 32
       },
       "anchor": {
         "x": 0.5,
@@ -98,22 +98,22 @@
     },
     "school_explosion_rune_04.png": {
       "frame": {
-        "x": 367,
-        "y": 1027,
-        "w": 297,
-        "h": 250
+        "x": 128,
+        "y": 0,
+        "w": 32,
+        "h": 32
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 297,
-        "h": 250
+        "w": 32,
+        "h": 32
       },
       "sourceSize": {
-        "w": 297,
-        "h": 250
+        "w": 32,
+        "h": 32
       },
       "anchor": {
         "x": 0.5,
@@ -122,22 +122,46 @@
     },
     "school_explosion_rune_05.png": {
       "frame": {
-        "x": 367,
-        "y": 1283,
-        "w": 297,
-        "h": 250
+        "x": 160,
+        "y": 0,
+        "w": 32,
+        "h": 32
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 297,
-        "h": 250
+        "w": 32,
+        "h": 32
       },
       "sourceSize": {
-        "w": 297,
-        "h": 250
+        "w": 32,
+        "h": 32
+      },
+      "anchor": {
+        "x": 0.5,
+        "y": 0.5
+      }
+    },
+    "school_explosion_rune_06.png": {
+      "frame": {
+        "x": 192,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "rotated": false,
+      "trimmed": false,
+      "spriteSourceSize": {
+        "x": 0,
+        "y": 0,
+        "w": 32,
+        "h": 32
+      },
+      "sourceSize": {
+        "w": 32,
+        "h": 32
       },
       "anchor": {
         "x": 0.5,
@@ -152,7 +176,8 @@
       "school_explosion_rune_02.png",
       "school_explosion_rune_03.png",
       "school_explosion_rune_04.png",
-      "school_explosion_rune_05.png"
+      "school_explosion_rune_05.png",
+      "school_explosion_rune_06.png"
     ]
   },
   "meta": {
@@ -161,15 +186,15 @@
     "image": "Rune_Explosion.png",
     "format": "RGBA8888",
     "size": {
-      "w": 1024,
-      "h": 1536
+      "w": 224,
+      "h": 32
     },
     "scale": "1",
     "frameSize": {
-      "w": 297,
-      "h": 250
+      "w": 32,
+      "h": 32
     },
-    "frameCount": 6,
+    "frameCount": 7,
     "styleKey": "school_explosion_rune",
     "school": "rune",
     "category": "explosion",

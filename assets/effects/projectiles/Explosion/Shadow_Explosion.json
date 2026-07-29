@@ -2,22 +2,22 @@
   "frames": {
     "school_explosion_shadow_00.png": {
       "frame": {
-        "x": 364,
-        "y": 3,
-        "w": 285,
-        "h": 213
+        "x": 0,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 285,
-        "h": 213
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 285,
-        "h": 213
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -26,22 +26,22 @@
     },
     "school_explosion_shadow_01.png": {
       "frame": {
-        "x": 364,
-        "y": 222,
-        "w": 285,
-        "h": 214
+        "x": 64,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 285,
-        "h": 214
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 285,
-        "h": 214
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -50,22 +50,22 @@
     },
     "school_explosion_shadow_02.png": {
       "frame": {
-        "x": 364,
-        "y": 442,
-        "w": 285,
-        "h": 213
+        "x": 128,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 285,
-        "h": 213
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 285,
-        "h": 213
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -74,22 +74,22 @@
     },
     "school_explosion_shadow_03.png": {
       "frame": {
-        "x": 364,
-        "y": 661,
-        "w": 285,
-        "h": 214
+        "x": 192,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 285,
-        "h": 214
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 285,
-        "h": 214
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -98,22 +98,22 @@
     },
     "school_explosion_shadow_04.png": {
       "frame": {
-        "x": 364,
-        "y": 881,
-        "w": 285,
-        "h": 213
+        "x": 256,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 285,
-        "h": 213
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 285,
-        "h": 213
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -122,22 +122,22 @@
     },
     "school_explosion_shadow_05.png": {
       "frame": {
-        "x": 364,
-        "y": 1100,
-        "w": 285,
-        "h": 214
+        "x": 320,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 285,
-        "h": 214
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 285,
-        "h": 214
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -146,22 +146,22 @@
     },
     "school_explosion_shadow_06.png": {
       "frame": {
-        "x": 364,
-        "y": 1320,
-        "w": 285,
-        "h": 213
+        "x": 384,
+        "y": 0,
+        "w": 64,
+        "h": 64
       },
       "rotated": false,
       "trimmed": false,
       "spriteSourceSize": {
         "x": 0,
         "y": 0,
-        "w": 285,
-        "h": 213
+        "w": 64,
+        "h": 64
       },
       "sourceSize": {
-        "w": 285,
-        "h": 213
+        "w": 64,
+        "h": 64
       },
       "anchor": {
         "x": 0.5,
@@ -186,13 +186,13 @@
     "image": "Shadow_Explosion.png",
     "format": "RGBA8888",
     "size": {
-      "w": 1024,
-      "h": 1536
+      "w": 448,
+      "h": 64
     },
     "scale": "1",
     "frameSize": {
-      "w": 285,
-      "h": 213
+      "w": 64,
+      "h": 64
     },
     "frameCount": 7,
     "styleKey": "school_explosion_shadow",

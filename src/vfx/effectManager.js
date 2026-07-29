@@ -70,20 +70,19 @@ function buildVfxProjectilePhase(projectileType, school) {
     return null;
 }
 
-// Prototyp (2026-07-24, noch nicht final entschieden): Schulen hier drin
-// nutzen fuer CAST UND IMPACT bewusst die bereits vorhandenen, bisher aber
-// nie erreichten prozeduralen Stile aus VFX_CAST_PRESETS/VFX_IMPACT_PRESETS
-// (data/vfx/effectPresets.js -- farbige PIXI.Graphics-Formen, kein
-// Bild-Asset) statt der Sprite-Sheets. Grund fuer Impact: die Sprite-Sheet-
-// Quellbilder (z. B. assets/effects/impact/Biomancy_Impact.png) haben einen
-// durchgehenden Verlaufs-/Glow-Hintergrund, der NICHT an den Frame-Grenzen
-// endet -- beim Zuschneiden auf ein einzelnes Frame entstehen dadurch harte,
-// unpassende Kanten (wirkt wie eine "Spiegelung" am Rand). Betrifft
-// ausschliesslich Cast/Impact; Projektil bleibt unveraendert (hat ohnehin
-// aktuell kein eigenes Sprite fuer die meisten Projektiltypen). Reiner
-// Vergleichs-/Sichtungs-Schalter -- Liste einfach erweitern/leeren, um
-// weitere Schulen umzustellen oder die Aenderung zurueckzunehmen.
-const VFX_PROCEDURAL_VFX_SCHOOLS = ["blood"];
+// Ehemaliger Workaround (bis 2026-07-29): Schulen hier drin nutzten fuer
+// CAST UND IMPACT die prozeduralen Stile aus VFX_CAST_PRESETS/VFX_IMPACT_PRESETS
+// (data/vfx/effectPresets.js -- farbige PIXI.Graphics-Formen, kein Bild-Asset)
+// statt der Sprite-Sheets, weil die alten Sheets (geometrisch aus einem
+// durchgehenden Verlaufs-/Glow-Bild geschnitten, siehe
+// tools/generate_school_vfx_manifests.py) an den Frame-Grenzen sichtbare,
+// unpassende Kanten erzeugten ("blood" war die einzige je aktivierte Schule).
+// Fuer Biomantie behoben: Cast/Explosion/Impact wurden ueber PixelLab
+// animate_image() als echte Einzelframes neu erstellt (nicht mehr geschnitten,
+// siehe assets/effects/cast/Biomancy_Cast.json), daher "blood" wieder entfernt.
+// Liste bei Bedarf fuer andere Schulen erneut befuellen, bis auch die eine
+// neue Animation haben.
+const VFX_PROCEDURAL_VFX_SCHOOLS = [];
 
 function resolveCastStyleForSchool(school) {
     if (VFX_PROCEDURAL_VFX_SCHOOLS.includes(school)) {

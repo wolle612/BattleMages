@@ -28,10 +28,13 @@ und müssen den hier definierten Regeln entsprechen.
 -   Anzeigegröße je Kategorie einheitlich (Details/Tabelle je Schule:
     `BattleMages_VFX_Library.md`): Cast 230 px, Beam 96 px, Explosion
     270 px, Schnitt/Cut 250 px, Impact 210 px.
--   Frameanzahl je Kategorie schulweise leicht unterschiedlich (5--9
-    Frames, siehe `FRAME_COUNTS` in
-    `tools/generate_school_vfx_manifests.py` bzw. die Tabelle in
-    `BattleMages_VFX_Library.md`) -- keine feste Standardzahl.
+-   Frameanzahl: Cast/Explosion/Impact seit dem 2026-07-29-Rework
+    einheitlich 7 Frames pro Schule (`tools/pack_vfx_frames.py`); Beam
+    (6--7) und Schnitt/Cut (9, `FRAME_COUNTS` in
+    `tools/generate_school_vfx_manifests.py`) weiterhin leicht
+    unterschiedlich. Tabelle je Schule/Kategorie:
+    `BattleMages_VFX_Library.md`. Keine feste Standardzahl über alle
+    Kategorien hinweg.
 -   NEAREST-Scaling
 -   Keine Farbsaum-Artefakte
 
@@ -66,14 +69,17 @@ Zweck: Transportiert den Zauber zwischen Quelle und Ziel.
 
 Regeln: - gut lesbar - konstante Flugrichtung - möglichst
 wiederverwendbar - nur dezente Trails - Trail niemals heller als
-Projektilkern - Standard 64×24 px, 8 Frames, ~200 ms Pulscyklus
+Projektilkern - konkrete Anzeigegröße/Frame-Zahl je Projektiltyp
+(Beam/Explosion/Schnitt), siehe Technische Standards oben und
+`BattleMages_VFX_Library.md`
 
 ## Impact
 
 Zweck: Der wichtigste visuelle Moment eines Zaubers.
 
-Regeln: - maximal 96×96 px - 8 Frames - klarer Energiehöhepunkt - kein
-übermäßiger Glow - darf leicht in Portraitrahmen hineinragen
+Regeln: - Anzeigegröße 210 px, 7 Frames (siehe Technische Standards
+oben) - klarer Energiehöhepunkt - kein übermäßiger Glow - darf leicht
+in Portraitrahmen hineinragen
 
 ## Particles
 
@@ -168,6 +174,13 @@ Sprache: Ätherisch, schwebend, fließend.
 7.  Gameplay-Test
 8.  Freigabe
 9.  Aufnahme in die VFX-Bibliothek
+
+Für Cast/Explosion/Impact ersetzt seit 2026-07-29 die
+PixelLab-`animate_image`-Pipeline die Schritte 3--4 (Prompt-Erstellung
++ Sprite-Sheet-Generierung) durch echte KI-generierte Einzelframes
+statt eines nachträglich geschnittenen Streifens -- Details:
+`BattleMages_VFX_Production_Plan_v2.md` Abschnitt "Produktionsablauf
+v2".
 
 ------------------------------------------------------------------------
 
