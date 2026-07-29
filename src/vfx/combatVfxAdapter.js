@@ -45,26 +45,33 @@ function isContinuationOfSameSpellCast(moment, previousMoment) {
     return getCombatFeedbackView(previousMoment).spellId === spellId;
 }
 
-// Widerstandsgewinn (Zauber mit gain_resistance) bekommt keine volle
-// Zauber-VFX-Kette (Cast/Projektil/Impact) -- der eigene, kurze
-// Porträt-Burst (playPortraitResistanceRise, siehe portraitRegistry.js)
-// deckt das Feedback vollstaendig ab. Ohne diesen fruehen Ausstieg wuerde
-// zusaetzlich noch der Schul-Impact der Zauberschule aufs eigene Portrait
-// abgespielt -- bei Zaubern mit deal_damage + gain_resistance in einem
-// Cast wirkt das wie ein zweiter, unnoetig lauter Effekt direkt nach dem
-// Schadens-Impact am Gegner. Analog zu gain_shield, das denselben
-// Sonderfall schon rein ueber den eigenen Porträt-Effekt loest, ohne dass
-// die volle Kette dafuer je unterdrueckt wurde -- hier bewusst explizit
-// gemacht, weil Widerstand sonst sichtbar "zu viel los" erzeugt hat.
-function isResistanceGainVfxMoment(action) {
+// Widerstands- und Schildgewinn bekommen keine volle Zauber-/Aktions-VFX-
+// Kette (Cast/Projektil/Impact) -- der eigene, kurze Porträt-Burst
+// (playPortraitResistanceRise/playPortraitShieldRise, siehe
+// portraitRegistry.js) deckt das Feedback vollstaendig ab. Ohne diesen
+// fruehen Ausstieg wuerde zusaetzlich noch der Schul-/Aktions-Impact aufs
+// eigene Portrait abgespielt -- bei Zaubern/Aktionen mit deal_damage +
+// gain_resistance (Spieler) bzw. bei Gegner-Aktionen wie rune_shield/
+// nameless_shield, die ueber VFX_ENEMY_ACTION_STYLE_KEYS (siehe
+// data/vfx/enemyActionVfxDefaults.js) einer vollen Schul-VFX zugeordnet
+// sind, wirkte das wie ein zweiter, unnoetig lauter Effekt direkt nach dem
+// eigentlichen Impact. Urspruenglich nur fuer Widerstand gefixt
+// (2026-07-29); beim Gegenchecken bestaetigt, dass Schild denselben Bug
+// hat -- Spieler-Schild ist zwar seit der Widerstand-Migration toter Code
+// (kein Zauber vergibt noch gain_shield/increase_shield_percent/
+// gain_shield_from_dealt_damage an den Spieler, context.playerShield
+// bleibt immer 0), aber Gegner nutzen gain_shield weiterhin aktiv.
+function isPortraitBurstOnlyMoment(action) {
     return (
-        typeof isResistanceGainCombatAction === "function" &&
-        isResistanceGainCombatAction(action)
+        (typeof isResistanceGainCombatAction === "function" &&
+            isResistanceGainCombatAction(action)) ||
+        (typeof isShieldGainCombatAction === "function" &&
+            isShieldGainCombatAction(action))
     );
 }
 
 function playVfxForCombatMoment(moment, action, presentationCallbacks = {}, previousMoment = null) {
-    if (!isVfxSupported() || isResistanceGainVfxMoment(action)) {
+    if (!isVfxSupported() || isPortraitBurstOnlyMoment(action)) {
         if (typeof presentationCallbacks.onImpact === "function") {
             presentationCallbacks.onImpact();
         }
@@ -102,7 +109,7 @@ function playVfxForCombatMoment(moment, action, presentationCallbacks = {}, prev
 }
 
 function estimateCombatVfxImpactDelay(moment, action, previousMoment = null) {
-    if (isResistanceGainVfxMoment(action)) {
+    if (isPortraitBurstOnlyMoment(action)) {
         return 0;
     }
 
