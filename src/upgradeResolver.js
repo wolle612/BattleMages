@@ -146,7 +146,7 @@ function resolveSpellEffects(spell, rank, path) {
     }
 
     const pathProfile =
-        profile.paths[path];
+        profile.paths?.[path];
 
     if (rank >= 3) {
         effects =

@@ -155,7 +155,7 @@ const rawEnemyDefinitions = [
         passive: {
             id: "rune_fortress",
             name: "Runenfestung",
-            description: "Beginnt den Kampf mit 40 Schild.",
+            description: "Beginnt den Kampf mit 35 Schild.",
             values: {},
             rules: [
                 {
@@ -198,7 +198,7 @@ const rawEnemyDefinitions = [
             }
         ],
         ui: {
-            passiveText: "Startet mit 40 Schild."
+            passiveText: "Startet mit 35 Schild."
         },
         rewards: { standard: true }
     },
@@ -265,7 +265,7 @@ const rawEnemyDefinitions = [
         passive: {
             id: "chaos_dampening",
             name: "Chaosdämpfung",
-            description: "Treffer über 70 Schaden reduzieren den nächsten Treffer um 20 Schaden.",
+            description: "Treffer über 70 Schaden reduzieren den nächsten Treffer um 15 Schaden.",
             values: {
                 anti_spike_threshold: 70,
                 anti_spike_penalty: 15
@@ -467,14 +467,14 @@ const rawEnemyDefinitions = [
         passive: {
             id: "flesh_renewal",
             name: "Fleischerneuerung",
-            description: "Heilt nach jeder vollständigen Spieler-Rotation 50 HP.",
+            description: "Heilt nach jeder vollständigen Spieler-Rotation 30 HP.",
             values: {},
             rules: [
                 {
                     hook: "after_player_rotation",
                     afterPlayerRotation: true,
                     effects: [
-                        { id: "heal", target: "enemy", amount: 50 }
+                        { id: "heal", target: "enemy", amount: 30 }
                     ]
                 }
             ]
@@ -484,33 +484,33 @@ const rawEnemyDefinitions = [
                 id: "flesh_strike",
                 name: "Fleischhieb",
                 effects: [
-                    { id: "deal_damage", target: "player", amount: 35 }
+                    { id: "deal_damage", target: "player", amount: 24 }
                 ]
             },
             {
                 id: "flesh_heal",
                 name: "Fleischheilung",
                 effects: [
-                    { id: "heal", target: "enemy", amount: 70 }
+                    { id: "heal", target: "enemy", amount: 45 }
                 ]
             },
             {
                 id: "flesh_strike_repeat",
                 name: "Fleischhieb",
                 effects: [
-                    { id: "deal_damage", target: "player", amount: 35 }
+                    { id: "deal_damage", target: "player", amount: 24 }
                 ]
             },
             {
                 id: "flesh_crush",
                 name: "Fleischschlag",
                 effects: [
-                    { id: "deal_damage", target: "player", amount: 70 }
+                    { id: "deal_damage", target: "player", amount: 42 }
                 ]
             }
         ],
         ui: {
-            passiveText: "Nach jeder Spieler-Rotation: Heilt 50 HP."
+            passiveText: "Nach jeder Spieler-Rotation: Heilt 30 HP."
         },
         rewards: { standard: true }
     },
@@ -525,14 +525,14 @@ const rawEnemyDefinitions = [
         passive: {
             id: "adaptive_shell",
             name: "Adaptive Hülle",
-            description: "Wurden in der letzten Spieler-Rotation weniger als zwei Kernmechaniken genutzt, erhält der Namenlose 20 Schild.",
+            description: "Wurden in der letzten Spieler-Rotation weniger als zwei Kernmechaniken genutzt, erhält der Namenlose 12 Schild.",
             values: {},
             rules: [
                 {
                     hook: "after_player_rotation",
                     minimumRotationMechanics: 2,
                     effects: [
-                        { id: "gain_shield", target: "enemy", amount: 20 }
+                        { id: "gain_shield", target: "enemy", amount: 12 }
                     ]
                 }
             ]
@@ -542,14 +542,14 @@ const rawEnemyDefinitions = [
                 id: "nameless_strike",
                 name: "Namensloser Schlag",
                 effects: [
-                    { id: "deal_damage", target: "player", amount: 40 }
+                    { id: "deal_damage", target: "player", amount: 24 }
                 ]
             },
             {
                 id: "nameless_strike_repeat",
                 name: "Namensloser Schlag",
                 effects: [
-                    { id: "deal_damage", target: "player", amount: 40 }
+                    { id: "deal_damage", target: "player", amount: 24 }
                 ]
             },
             {
@@ -563,12 +563,12 @@ const rawEnemyDefinitions = [
                 id: "nameless_crush",
                 name: "Namensloser Stoß",
                 effects: [
-                    { id: "deal_damage", target: "player", amount: 75 }
+                    { id: "deal_damage", target: "player", amount: 42 }
                 ]
             }
         ],
         ui: {
-            passiveText: "Weniger als zwei Mechaniken in der Rotation: +20 Schild."
+            passiveText: "Weniger als zwei Mechaniken in der Rotation: +12 Schild."
         },
         rewards: { standard: true }
     },
@@ -579,7 +579,7 @@ const rawEnemyDefinitions = [
         tier: "Boss",
         combatIdentity: "Abschlussprüfung",
         buildTest: "Vollständige Beherrschung",
-        hp: 900,
+        hp: 800,
         passive: {
             id: "master_forbidden_schools",
             name: "Meister der verbotenen Schulen",
@@ -600,7 +600,7 @@ const rawEnemyDefinitions = [
                 id: "arcane_bolt",
                 name: "Arkaner Bolzen",
                 effects: [
-                    { id: "deal_damage", target: "player", amount: 35 }
+                    { id: "deal_damage", target: "player", amount: 16 }
                 ]
             },
             {
@@ -611,39 +611,39 @@ const rawEnemyDefinitions = [
                     blood: {
                         name: "Biomantie-Technik",
                         effects: [
-                            { id: "deal_damage", target: "player", amount: 35 },
+                            { id: "deal_damage", target: "player", amount: 16 },
                             { id: "apply_status", target: "player", statusId: "vulnerable" }
                         ]
                     },
                     shadow: {
                         name: "Schattentechnik",
                         effects: [
-                            { id: "deal_damage", target: "player", amount: 45 }
+                            { id: "deal_damage", target: "player", amount: 20 }
                         ]
                     },
                     dream: {
                         name: "Psionik-Technik",
                         effects: [
-                            { id: "deal_damage", target: "player", amount: 35 }
+                            { id: "deal_damage", target: "player", amount: 16 }
                         ]
                     },
                     rune: {
                         name: "Runenkunst-Technik",
                         effects: [
                             { id: "gain_shield", target: "enemy", amount: 25 },
-                            { id: "deal_damage", target: "player", amount: 30 }
+                            { id: "deal_damage", target: "player", amount: 14 }
                         ]
                     },
                     star: {
                         name: "Chaos-Technik",
                         effects: [
-                            { id: "deal_damage", target: "player", amount: 50 }
+                            { id: "deal_damage", target: "player", amount: 22 }
                         ]
                     },
                     primal: {
                         name: "Seelenmagie-Technik",
                         effects: [
-                            { id: "deal_damage", target: "player", amount: 35 },
+                            { id: "deal_damage", target: "player", amount: 16 },
                             { id: "heal", target: "enemy", amount: 20 }
                         ]
                     }
@@ -653,7 +653,7 @@ const rawEnemyDefinitions = [
                 id: "arcane_bolt_repeat",
                 name: "Arkaner Bolzen",
                 effects: [
-                    { id: "deal_damage", target: "player", amount: 35 }
+                    { id: "deal_damage", target: "player", amount: 16 }
                 ]
             },
             {
@@ -664,39 +664,39 @@ const rawEnemyDefinitions = [
                     blood: {
                         name: "Biomantie-Technik",
                         effects: [
-                            { id: "deal_damage", target: "player", amount: 35 },
+                            { id: "deal_damage", target: "player", amount: 16 },
                             { id: "apply_status", target: "player", statusId: "vulnerable" }
                         ]
                     },
                     shadow: {
                         name: "Schattentechnik",
                         effects: [
-                            { id: "deal_damage", target: "player", amount: 45 }
+                            { id: "deal_damage", target: "player", amount: 20 }
                         ]
                     },
                     dream: {
                         name: "Psionik-Technik",
                         effects: [
-                            { id: "deal_damage", target: "player", amount: 35 }
+                            { id: "deal_damage", target: "player", amount: 16 }
                         ]
                     },
                     rune: {
                         name: "Runenkunst-Technik",
                         effects: [
                             { id: "gain_shield", target: "enemy", amount: 25 },
-                            { id: "deal_damage", target: "player", amount: 30 }
+                            { id: "deal_damage", target: "player", amount: 14 }
                         ]
                     },
                     star: {
                         name: "Chaos-Technik",
                         effects: [
-                            { id: "deal_damage", target: "player", amount: 50 }
+                            { id: "deal_damage", target: "player", amount: 22 }
                         ]
                     },
                     primal: {
                         name: "Seelenmagie-Technik",
                         effects: [
-                            { id: "deal_damage", target: "player", amount: 35 },
+                            { id: "deal_damage", target: "player", amount: 16 },
                             { id: "heal", target: "enemy", amount: 20 }
                         ]
                     }
@@ -706,7 +706,7 @@ const rawEnemyDefinitions = [
                 id: "grand_spell",
                 name: "Großzauber",
                 effects: [
-                    { id: "deal_damage", target: "player", amount: 72 }
+                    { id: "deal_damage", target: "player", amount: 32 }
                 ]
             }
         ],
