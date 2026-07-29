@@ -125,7 +125,14 @@ function renderPortraitEffectOverlaysHtml() {
         ></div>
     `;
 
-    return `${vulnerableEffect}${shieldEffect}${precisionEffect}`;
+    const resistanceEffect = `
+        <div
+            class="combatant-portrait-effect combatant-portrait-effect--resistance"
+            aria-hidden="true"
+        ></div>
+    `;
+
+    return `${vulnerableEffect}${shieldEffect}${precisionEffect}${resistanceEffect}`;
 }
 
 function statusListHasVulnerable(statuses) {
@@ -289,6 +296,41 @@ function playPortraitShieldRise(targetSide) {
     slot.classList.remove("combatant-portrait-slot--shield-rise");
     void slot.offsetWidth;
     slot.classList.add("combatant-portrait-slot--shield-rise");
+}
+
+// Magischer-Widerstand-Gewinn (2026-07-29): analog zum Schild-Burst oben --
+// eigener, kurzer Porträt-Effekt statt der vollen Zauber-VFX-Kette
+// (Cast/Projektil/Impact), siehe playVfxForCombatMoment() in
+// combatVfxAdapter.js, wo dieser Moment-Typ die volle Kette komplett
+// ueberspringt. Grund: Zauber mit deal_damage + gain_resistance erzeugen
+// zwei Momente -- ohne diesen Sonderfall wuerde der Widerstands-Moment
+// dieselbe laute Schul-Impact-Animation (nur aufs eigene Portrait
+// gerichtet) nochmal abspielen, was wie ein zweiter Cast wirkt und die
+// eigentliche Wirkung (Widerstand +X) optisch untergehen laesst.
+function isResistanceGainCombatAction(action) {
+    if (!action || action.type !== "resistance") {
+        return false;
+    }
+
+    return typeof action.impact === "string" && action.impact.startsWith("+");
+}
+
+function playPortraitResistanceRise(targetSide) {
+    const selector =
+        targetSide === "enemy"
+            ? ".enemy-panel .combatant-portrait-slot"
+            : ".player-panel .combatant-portrait-slot";
+
+    const slot =
+        document.querySelector(selector);
+
+    if (!slot) {
+        return;
+    }
+
+    slot.classList.remove("combatant-portrait-slot--resistance-rise");
+    void slot.offsetWidth;
+    slot.classList.add("combatant-portrait-slot--resistance-rise");
 }
 
 function applyPortraitPlaceholder(slot) {

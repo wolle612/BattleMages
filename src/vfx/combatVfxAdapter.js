@@ -45,8 +45,26 @@ function isContinuationOfSameSpellCast(moment, previousMoment) {
     return getCombatFeedbackView(previousMoment).spellId === spellId;
 }
 
+// Widerstandsgewinn (Zauber mit gain_resistance) bekommt keine volle
+// Zauber-VFX-Kette (Cast/Projektil/Impact) -- der eigene, kurze
+// Porträt-Burst (playPortraitResistanceRise, siehe portraitRegistry.js)
+// deckt das Feedback vollstaendig ab. Ohne diesen fruehen Ausstieg wuerde
+// zusaetzlich noch der Schul-Impact der Zauberschule aufs eigene Portrait
+// abgespielt -- bei Zaubern mit deal_damage + gain_resistance in einem
+// Cast wirkt das wie ein zweiter, unnoetig lauter Effekt direkt nach dem
+// Schadens-Impact am Gegner. Analog zu gain_shield, das denselben
+// Sonderfall schon rein ueber den eigenen Porträt-Effekt loest, ohne dass
+// die volle Kette dafuer je unterdrueckt wurde -- hier bewusst explizit
+// gemacht, weil Widerstand sonst sichtbar "zu viel los" erzeugt hat.
+function isResistanceGainVfxMoment(action) {
+    return (
+        typeof isResistanceGainCombatAction === "function" &&
+        isResistanceGainCombatAction(action)
+    );
+}
+
 function playVfxForCombatMoment(moment, action, presentationCallbacks = {}, previousMoment = null) {
-    if (!isVfxSupported()) {
+    if (!isVfxSupported() || isResistanceGainVfxMoment(action)) {
         if (typeof presentationCallbacks.onImpact === "function") {
             presentationCallbacks.onImpact();
         }
@@ -84,6 +102,10 @@ function playVfxForCombatMoment(moment, action, presentationCallbacks = {}, prev
 }
 
 function estimateCombatVfxImpactDelay(moment, action, previousMoment = null) {
+    if (isResistanceGainVfxMoment(action)) {
+        return 0;
+    }
+
     const feedbackView =
         getCombatFeedbackView(moment);
 

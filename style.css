@@ -1101,6 +1101,40 @@ body.app-selection #spellContainer {
 }
 
 /*
+ * Widerstands-Aufstieg (2026-07-29): analog zum Schild-Burst oben --
+ * eigenes 8-Frame-Sprite (Steingrau/Kupfer-Pfeile, siehe
+ * combatVfxAdapter.js isResistanceGainVfxMoment), das die volle
+ * Zauber-VFX-Kette fuer diesen Moment ersetzt statt sie zu ergaenzen.
+ * Bewusst kein "gehaltener" Endzustand wie bei --shielded, da Widerstand
+ * dauerhaft ueber das Resistance-Badge angezeigt wird, nicht ueber eine
+ * Portraet-Ueberlagerung.
+ */
+.combatant-portrait-effect--resistance {
+    background-image: url("assets/effects/resistance/portrait_resistance_rise/portrait_resistance_rise_sheet.png");
+    background-repeat: no-repeat;
+    background-position: 0 0;
+    background-size: 800% 100%;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
+.combatant-portrait-slot--resistance-rise
+    .combatant-portrait-effect--resistance {
+    opacity: 1;
+    animation: portraitResistanceRise 640ms steps(8) forwards;
+}
+
+@keyframes portraitResistanceRise {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 100% 0;
+    }
+}
+
+/*
  * Praezision-Glow (Combat Condition Engine, 2026-07-24): bewusst reines CSS
  * (radialer Farbverlauf + innerer Schatten), kein Bild-Asset -- reine
  * relative Einheiten (inset/Prozent), skaliert dadurch automatisch mit
@@ -4244,6 +4278,11 @@ body.app-home #game {
 
 /* Gleicher Grund wie oben bei Schild/Praezision. */
 .combatant-portrait-effect--vulnerable {
+    inset: 0;
+}
+
+/* Gleicher Grund wie oben bei Schild/Praezision/Verwundbar. */
+.combatant-portrait-effect--resistance {
     inset: 0;
 }
 

@@ -1681,6 +1681,10 @@ function renderFloatingImpact(action) {
         playPortraitShieldRise(target);
     }
 
+    if (isResistanceGainCombatAction(action)) {
+        playPortraitResistanceRise(target);
+    }
+
     renderFloatingNumber(
         target,
         impact,
