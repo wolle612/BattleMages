@@ -232,18 +232,31 @@ h1.app-logo {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 32px;
-    margin-bottom: 24px;
+    gap: 16px;
 }
 
+/*
+ * UI-Optimierungscheck (2026-07-30): Zahlen standen bisher lose auf dem
+ * Hintergrund (kein Panel/keine Kartenoptik) -- wirkte unfertig,
+ * besonders auf dem Statistik-Screen mit viel Leerflaeche darunter.
+ * Jetzt eine eigene Kachel je Statistik-Wert, gleiche Bildsprache wie
+ * .compendium-tile.
+ */
 .run-recap-stat-item {
     display: flex;
     flex-direction: column;
     align-items: center;
+    gap: 4px;
+    min-width: 128px;
+    padding: 18px 22px;
+    background: var(--panel-inset);
+    border: 1px solid rgba(0, 0, 0, 0.32);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-inset);
 }
 
 .run-recap-stat-value {
-    font-size: 1.6em;
+    font-size: 2em;
     font-weight: 700;
     color: var(--accent-gold-bright);
 }
@@ -252,6 +265,13 @@ h1.app-logo {
     font-size: 0.85em;
     color: var(--text-muted, #b5b0c4);
     letter-spacing: 0.02em;
+    text-align: center;
+}
+
+.stats-panel {
+    max-width: 720px;
+    margin: 0 auto 32px;
+    padding: 32px;
 }
 
 .ui-divider {
@@ -2947,6 +2967,14 @@ body.app-selection #spellContainer {
     height: 64px;
 }
 
+.compendium-portrait-slot {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-slot);
+    border: 1px solid rgba(0, 0, 0, 0.32);
+    border-radius: var(--radius-sm);
+}
+
 .compendium-tile__icon--unseen {
     display: flex;
     align-items: center;
@@ -3253,8 +3281,19 @@ body.app-home #game {
     padding: 8px 12px 24px;
 }
 
-.howto-list {
+/*
+ * UI-Optimierungscheck (2026-07-30): stand bisher ohne Panel direkt auf
+ * dem unruhigen Hintergrundbild -- schlecht lesbar, zudem inkonsistent
+ * zur "Wichtige Begriffe"-Box darunter, die bereits ein Panel hatte.
+ * .howto-list-panel gibt der Liste dieselbe Rahmenoptik.
+ */
+.howto-list-panel {
     margin: 0 0 28px;
+    padding: 18px 20px;
+}
+
+.howto-list {
+    margin: 0;
     padding-left: 1.25rem;
     color: var(--text-primary);
     line-height: 1.55;
@@ -3571,6 +3610,7 @@ body.app-home #game {
 .panel,
 .combatant-panel,
 .reward-build-panel,
+.howto-list-panel,
 .howto-status-panel {
     border: var(--panel-frame-width) solid transparent;
     border-radius: 0;

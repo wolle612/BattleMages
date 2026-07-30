@@ -320,14 +320,16 @@ function renderHowToPlayScreen() {
 
             <div class="ui-divider ui-divider--section" aria-hidden="true"></div>
 
-            <ol class="howto-list">
-                <li>Wähle zu Beginn drei Zauber.</li>
-                <li>Ordne deine Zauber per Drag &amp; Drop.</li>
-                <li>Die Reihenfolge beeinflusst den Kampf.</li>
-                <li>Nach jedem Kampf erhältst du Belohnungen.</li>
-                <li>Verbessere deinen Build.</li>
-                <li>Besiege alle Gegner.</li>
-            </ol>
+            <section class="howto-list-panel">
+                <ol class="howto-list">
+                    <li>Wähle zu Beginn drei Zauber.</li>
+                    <li>Ordne deine Zauber per Drag &amp; Drop.</li>
+                    <li>Die Reihenfolge beeinflusst den Kampf.</li>
+                    <li>Nach jedem Kampf erhältst du Belohnungen.</li>
+                    <li>Verbessere deinen Build.</li>
+                    <li>Besiege alle Gegner.</li>
+                </ol>
+            </section>
 
             <section class="howto-status-panel">
                 <h3 class="howto-subtitle">
@@ -3247,11 +3249,18 @@ function renderCompendiumSpellTile(entry) {
 }
 
 function renderCompendiumEnemyTile(entry) {
+    // UI-Optimierungscheck (2026-07-30): nutzte bisher .combatant-portrait-slot
+    // (dieselbe Klasse wie die grossen Kampf-Portraets, width/height ueber
+    // --portrait-size) fuer die Bild-Anzeige -- .compendium-tile__icons
+    // eigentliche 64px-Groessenregel wurde dadurch per Cascade-Reihenfolge
+    // ueberschrieben, Gegner-Kacheln wirkten dadurch riesig gegenueber den
+    // Zauber-Kacheln. Eigene, schlanke Klasse ohne Kampf-spezifische Frame-
+    // Overlays/Badges, die hier ohnehin nicht gebraucht werden.
     const portraitHtml =
         entry.seen
             ? `
                 <div
-                    class="combatant-portrait-slot compendium-tile__icon"
+                    class="compendium-portrait-slot compendium-tile__icon"
                     aria-hidden="true"
                 >
                     <img
@@ -3263,7 +3272,7 @@ function renderCompendiumEnemyTile(entry) {
             `
             : `
                 <div
-                    class="combatant-portrait-slot compendium-tile__icon compendium-tile__icon--unseen"
+                    class="compendium-portrait-slot compendium-tile__icon compendium-tile__icon--unseen"
                     aria-hidden="true"
                 >
                     <span class="compendium-tile__unseen-mark">?</span>
@@ -3372,9 +3381,11 @@ function renderStatsScreen(metaState) {
         <div class="screen-stats">
             <h1 class="screen-title">Statistik</h1>
 
-            <div class="run-recap-stat-grid">
-                ${statHtml}
-            </div>
+            <section class="panel stats-panel">
+                <div class="run-recap-stat-grid">
+                    ${statHtml}
+                </div>
+            </section>
 
             <div class="screen-actions">
                 <button
