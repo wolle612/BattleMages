@@ -119,6 +119,9 @@ function showSpellSelection() {
         spellContainer.appendChild(card);
     });
 
+    renderSpellSelectionDots(starterSpells.length);
+    bindSpellSelectionCarousel();
+
     setupSpellTooltips(
         starterSpells,
         "#spellContainer .spell-card",

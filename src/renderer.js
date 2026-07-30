@@ -443,6 +443,12 @@ function renderSpellSelectionScreen(starterSpellCount, selectionCount) {
         <div id="spellContainer"></div>
 
         <div
+            id="spellSelectionDots"
+            class="spell-selection-dots"
+            aria-hidden="true"
+        ></div>
+
+        <div
             id="spellTooltip"
             class="spell-tooltip"
             hidden
@@ -456,6 +462,79 @@ function renderSpellSelectionScreen(starterSpellCount, selectionCount) {
             Run starten
         </button>
     `;
+}
+
+// Mobile-Karussell (UI-Optimierungscheck, Mobile-Phase 2026-07-30):
+// #spellContainer wird per CSS (@media max-width: 720px) auf horizontales
+// Scroll-Snap umgestellt. Diese Punkte sind reine Scroll-Position-Anzeige,
+// keine Gameplay-Logik -- am Desktop bleiben sie per CSS ausgeblendet.
+function renderSpellSelectionDots(cardCount) {
+    const dotsHost = document.getElementById("spellSelectionDots");
+    if (!dotsHost) return;
+
+    dotsHost.innerHTML = "";
+
+    for (let i = 0; i < cardCount; i++) {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "spell-selection-dot";
+        if (i === 0) dot.classList.add("spell-selection-dot--active");
+        dot.setAttribute("aria-label", `Zauberkarte ${i + 1}`);
+        dotsHost.appendChild(dot);
+    }
+}
+
+function bindSpellSelectionCarousel() {
+    const container = document.getElementById("spellContainer");
+    const dotsHost = document.getElementById("spellSelectionDots");
+    if (!container || !dotsHost) return;
+
+    const cards = Array.from(container.querySelectorAll(".spell-card"));
+    const dots = Array.from(dotsHost.querySelectorAll(".spell-selection-dot"));
+    if (cards.length === 0 || dots.length !== cards.length) return;
+
+    dots.forEach((dot, index) => {
+        dot.addEventListener("click", () => {
+            cards[index].scrollIntoView({
+                behavior: "smooth",
+                inline: "center",
+                block: "nearest"
+            });
+        });
+    });
+
+    let ticking = false;
+    container.addEventListener("scroll", () => {
+        if (ticking) return;
+        ticking = true;
+
+        requestAnimationFrame(() => {
+            const containerCenter =
+                container.scrollLeft + container.clientWidth / 2;
+
+            let closestIndex = 0;
+            let closestDistance = Infinity;
+
+            cards.forEach((card, index) => {
+                const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+                const distance = Math.abs(cardCenter - containerCenter);
+
+                if (distance < closestDistance) {
+                    closestDistance = distance;
+                    closestIndex = index;
+                }
+            });
+
+            dots.forEach((dot, index) => {
+                dot.classList.toggle(
+                    "spell-selection-dot--active",
+                    index === closestIndex
+                );
+            });
+
+            ticking = false;
+        });
+    }, { passive: true });
 }
 
 function renderSpellSelectionCard(spell) {
