@@ -2491,22 +2491,79 @@ body.app-selection #spellContainer {
    height so the reward grid always lines up evenly; content that would
    overflow scrolls inside .reward-card-scroll instead of stretching the card. */
 .reward-card-scroll {
+    position: relative;
     flex: 1 1 auto;
     min-height: 0;
     width: 100%;
     overflow-y: auto;
     overflow-x: hidden;
+    /*
+     * UI-Optimierungscheck (2026-07-30): 4px/0.2-Alpha war zu unauffaellig --
+     * las sich wie abgeschnittener statt scrollbarer Text. Kontrastreichere,
+     * etwas breitere Scrollbar in der Akzentfarbe des Spiels.
+     */
     scrollbar-width: thin;
-    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+    scrollbar-color: rgba(201, 168, 74, 0.5) transparent;
 }
 
 .reward-card-scroll::-webkit-scrollbar {
-    width: 4px;
+    width: 6px;
 }
 
 .reward-card-scroll::-webkit-scrollbar-thumb {
     border-radius: 999px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(201, 168, 74, 0.5);
+}
+
+/*
+ * Zusaetzlicher "mehr Inhalt"-Hinweis (Fade + Pfeil), nur sichtbar wenn
+ * updateRewardCardOverflowIndicators() (renderer.js) per Scroll-Hoehen-
+ * Messung tatsaechlich Ueberlauf festgestellt hat -- .reward-card-scroll-fade
+ * selbst traegt height:0 zur scrollbaren Inhaltshoehe bei (kein
+ * Rueckkopplungsrisiko mit der JS-Messung), ist aber via position:sticky
+ * immer am unteren Rand des sichtbaren Scroll-Viewports verankert.
+ */
+.reward-card-scroll-fade {
+    position: sticky;
+    bottom: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.reward-card-scroll-fade::before,
+.reward-card-scroll-fade::after {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.reward-card-scroll-fade::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 26px;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        var(--reward-card-fill) 82%
+    );
+}
+
+.reward-card-scroll-fade::after {
+    content: "▾";
+    position: absolute;
+    bottom: 1px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 235, 200, 0.7);
+    font-size: 0.65rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.reward-card-scroll--overflowing .reward-card-scroll-fade::before,
+.reward-card-scroll--overflowing .reward-card-scroll-fade::after {
+    opacity: 1;
 }
 
 .reward-card.reward-path-choice {

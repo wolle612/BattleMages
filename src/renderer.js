@@ -560,6 +560,7 @@ function renderSpellCardContent(spell, view, options = {}) {
             <div class="reward-card-scroll">
                 ${schoolHtml}
                 ${bodyHtml}
+                <div class="reward-card-scroll-fade" aria-hidden="true"></div>
             </div>
         `;
     }
@@ -2823,6 +2824,26 @@ function renderRewardScreen() {
     `;
 }
 
+// UI-Optimierungscheck (2026-07-30): Reward-Karten haben absichtlich eine
+// einheitliche Fixhoehe (.reward-card-scroll scrollt intern statt die
+// Karte zu strecken, siehe Kommentar dort) -- die 4px-Scrollbar allein
+// war aber zu unauffaellig, wirkte wie abgeschnittener statt scrollbarer
+// Text. Setzt --overflowing nur auf Karten, die tatsaechlich mehr Inhalt
+// haben als sichtbar ist (CSS zeigt dafuer einen Fade-Verlauf + Pfeil
+// unten an, siehe .reward-card-scroll--overflowing). Muss nach jedem
+// (Neu-)Mounten von Reward-Karten erneut aufgerufen werden (initiales
+// Mounten UND nach einem Reroll, da beide den Karteninhalt austauschen).
+function updateRewardCardOverflowIndicators() {
+    document
+        .querySelectorAll(".reward-card-scroll")
+        .forEach(host => {
+            host.classList.toggle(
+                "reward-card-scroll--overflowing",
+                host.scrollHeight > host.clientHeight + 1
+            );
+        });
+}
+
 function renderRewardCard(option, spellRanks) {
     if (option.type === "path_choice") {
         return renderPathChoiceRewardCard(option, spellRanks);
@@ -2985,6 +3006,14 @@ function renderPathChoiceRewardCard(option, spellRanks) {
         });
 
     scrollHost.appendChild(choicesHost);
+
+    const scrollFade =
+        document.createElement("div");
+
+    scrollFade.classList.add("reward-card-scroll-fade");
+    scrollFade.setAttribute("aria-hidden", "true");
+    scrollHost.appendChild(scrollFade);
+
     slot.appendChild(scrollHost);
 
     return {

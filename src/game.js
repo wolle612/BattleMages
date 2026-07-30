@@ -631,6 +631,8 @@ function showRewardScreen() {
                             nextRewardCard.text
                         );
 
+                        updateRewardCardOverflowIndicators();
+
                         if (
                             selectedReward &&
                             selectedReward.option === previousOption
@@ -655,6 +657,7 @@ function showRewardScreen() {
     }
 
     mountRewardOptions();
+    updateRewardCardOverflowIndicators();
 
     confirmButton.addEventListener(
         "click",
