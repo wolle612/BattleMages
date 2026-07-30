@@ -158,6 +158,13 @@
     --divider-source: url('assets/ui/dividers/divider.png');
 }
 
+@font-face {
+    font-family: "Cinzel";
+    src: url('assets/fonts/Cinzel-VariableFont_wght.ttf') format('truetype-variations');
+    font-weight: 400 900;
+    font-display: swap;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -693,7 +700,8 @@ body.app-selection #spellContainer {
     margin: 0;
     white-space: nowrap;
     color: var(--accent-gold-bright);
-    font-size: 0.82rem;
+    font-family: "Cinzel", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.92rem;
     font-weight: 800;
     letter-spacing: 0.1em;
     text-transform: uppercase;
@@ -1853,7 +1861,8 @@ body.app-selection #spellContainer {
     margin: 0 0 18px;
     padding-bottom: 12px;
     border-bottom: 1px solid var(--border-subtle);
-    font-size: 1.1rem;
+    font-family: "Cinzel", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.2rem;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--text-secondary);
@@ -2486,7 +2495,8 @@ body.app-selection #spellContainer {
     background: transparent;
     border: none;
     border-radius: 0;
-    font-size: 0.95rem;
+    font-family: "Cinzel", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1.05rem;
     letter-spacing: 0.08em;
     text-align: center;
     white-space: nowrap;
