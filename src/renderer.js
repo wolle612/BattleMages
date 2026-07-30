@@ -341,8 +341,12 @@ function renderHowToPlayScreen() {
                         <dd>Das Ziel nimmt vom nächsten Treffer 50 % mehr Schaden.</dd>
                     </div>
                     <div>
+                        <dt>Magischer Widerstand</dt>
+                        <dd>Reduziert erlittenen Schaden dauerhaft und wird dabei nicht verbraucht.</dd>
+                    </div>
+                    <div>
                         <dt>Schild</dt>
-                        <dd>Absorbiert eingehenden Schaden, bevor du Leben verlierst.</dd>
+                        <dd>Absorbiert Schaden, bis er aufgebraucht ist.</dd>
                     </div>
                     <div>
                         <dt>Vorbereitung</dt>
