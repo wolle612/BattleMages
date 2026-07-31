@@ -156,6 +156,50 @@
     --divider-native-width: 512;
     --divider-native-height: 32;
     --divider-source: url('assets/ui/dividers/divider.png');
+
+    /*
+     * Z-Index-Skala (UI-Deep-Analysis 2026-07-30, Tier 1): nur fuer
+     * Layer, die ueber Komponentengrenzen hinweg konkurrieren koennen
+     * (VFX-Overlay auf dem Kampf-Screen, frei positionierte Tooltips,
+     * das Vollbild-Sieg/Niederlage-Overlay, der gezogene Rotation-Karten-
+     * Klon). Die vielen kleinen z-index:0-6 innerhalb einzelner
+     * `isolation: isolate`-Komponenten (Buttons, Karten, Badges) bleiben
+     * bewusst lokale Literale -- sie layern nur ihre eigenen
+     * Pseudo-Elemente und konkurrieren mit nichts ausserhalb ihrer
+     * eigenen Box, eine globale Skala waere dort Ueberkonstruktion.
+     */
+    --z-vfx: 4;
+    --z-vfx-flash: 6;
+    --z-tooltip: 10;
+    --z-modal: 200;
+    --z-drag: 10000;
+
+    /*
+     * Spacing-Skala (UI-Deep-Analysis 2026-07-30, Tier 1): Vokabular fuer
+     * neue/angefasste Regeln ab jetzt. Bewusst NICHT rueckwirkend auf die
+     * bestehenden Hunderte px-Literale angewendet -- ein blinder
+     * Gesamtdatei-Sweep ohne visuelle Verifikation waere ein zu grosses
+     * Regressionsrisiko fuer ein CSS-Detail.
+     */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-7: 32px;
+    --space-8: 48px;
+
+    /*
+     * Textgroessen-Einstellung (UI-Deep-Analysis 2026-07-30, Tier 1):
+     * von src/settingsManager.js gesetzt. Wirkt global, weil praktisch
+     * die gesamte UI in rem/em skaliert (siehe html-Regel unten).
+     */
+    --ui-text-scale: 1;
+}
+
+html {
+    font-size: calc(16px * var(--ui-text-scale));
 }
 
 @font-face {
@@ -385,26 +429,11 @@ body.app-selection #spellContainer {
         box-shadow 0.15s ease;
 }
 
-.spell-card:not(.reward-card):not(.spell-card--selection).rarity-common,
-.build-card.rarity-common {
-    border-color: #7a8494;
-}
-
-.spell-card:not(.reward-card):not(.spell-card--selection).rarity-rare,
-.build-card.rarity-rare {
-    border-color: #5b8def;
-}
-
-.spell-card:not(.reward-card):not(.spell-card--selection).rarity-epic,
-.build-card.rarity-epic {
-    border-color: #b26df5;
-}
-
-.spell-card:not(.reward-card):not(.spell-card--selection).rarity-legendary,
-.build-card.rarity-legendary {
-    border-color: #f0a34a;
-}
-
+/*
+ * Rarity-Randfarben: siehe .rarity-* Bloecke weiter unten, die per
+ * Ladereihenfolge ohnehin gewinnen -- hier bewusst nicht mehr
+ * dupliziert (UI-Deep-Analysis 2026-07-30, Tier 0).
+ */
 .spell-card:not(.reward-card):not(.spell-card--selection) {
     width: 240px;
     padding: 20px 18px 18px;
@@ -816,7 +845,7 @@ body.app-selection #spellContainer {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 4;
+    z-index: var(--z-vfx);
 }
 
 .vfx-flash-overlay {
@@ -825,7 +854,7 @@ body.app-selection #spellContainer {
     background: #ffffff;
     opacity: 0;
     pointer-events: none;
-    z-index: 6;
+    z-index: var(--z-vfx-flash);
 }
 
 .vfx-flash-overlay--active {
@@ -1486,7 +1515,7 @@ body.app-selection #spellContainer {
 .enemy-intent-badge-tooltip {
     position: absolute;
     bottom: 130%;
-    z-index: 10;
+    z-index: var(--z-tooltip);
     min-width: 180px;
     max-width: 240px;
     padding: 8px 10px;
@@ -1603,6 +1632,37 @@ body.app-selection #spellContainer {
     font-weight: 800;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+}
+
+/*
+ * Schulfarben (UI-Deep-Analysis 2026-07-30, Tier 1): direkt aus dem
+ * dokumentierten Farbschema pro Schule abgeleitet
+ * (docs/design/BattleMages_Icon_Design_Guide.md), je ein auf dem
+ * dunklen Basalt-Hintergrund lesbarer Akzentton -- keine neu erfundene
+ * Palette. Interne Schul-IDs siehe COMBAT_SCHOOLS (data/combatIdentity.js).
+ */
+.tooltip-school--blood {
+    color: #c9455f;
+}
+
+.tooltip-school--shadow {
+    color: #6a86b3;
+}
+
+.tooltip-school--dream {
+    color: #3ecbd0;
+}
+
+.tooltip-school--rune {
+    color: #c17f42;
+}
+
+.tooltip-school--star {
+    color: #8fae3a;
+}
+
+.tooltip-school--primal {
+    color: #c2b3e0;
 }
 
 .tooltip-description {
@@ -2011,7 +2071,7 @@ body.app-selection #spellContainer {
 
 .build-card--floating {
     position: fixed;
-    z-index: 10000;
+    z-index: var(--z-drag);
     margin: 0;
     pointer-events: none;
     opacity: 1;
@@ -2274,7 +2334,7 @@ body.app-selection #spellContainer {
 
 .spell-tooltip {
     position: absolute;
-    z-index: 10;
+    z-index: var(--z-tooltip);
     left: 50%;
     bottom: calc(100% + 10px);
     width: min(320px, calc(100vw - 32px));
@@ -2400,21 +2460,11 @@ body.app-selection #spellContainer {
     margin-top: 0;
 }
 
-.rarity-common {
-    color: #aab2c0;
-}
-
-.rarity-rare {
-    color: #5b8def;
-}
-
-.rarity-epic {
-    color: #b26df5;
-}
-
-.rarity-legendary {
-    color: #f0a34a;
-}
+/*
+ * Rarity-Textfarben: siehe .rarity-* Bloecke weiter unten
+ * (Sprint-G4-Override), die per Ladereihenfolge ohnehin gewinnen --
+ * hier bewusst nicht mehr dupliziert (UI-Deep-Analysis 2026-07-30, Tier 0).
+ */
 
 .tooltip-badges {
     display: flex;
@@ -3227,7 +3277,6 @@ body.app-home #game {
     justify-content: center;
     padding: 20px 48px;
     color: #d8c8a4;
-    font-family: Georgia, "Palatino Linotype", "Times New Roman", serif;
     font-size: 1.05rem;
     font-weight: 700;
     line-height: 1;
@@ -3402,6 +3451,75 @@ body.app-home #game {
     line-height: 1.4;
 }
 
+/* — Einstellungen (UI-Deep-Analysis 2026-07-30, Tier 1) — */
+.settings-group {
+    margin-bottom: 28px;
+}
+
+.settings-group:last-child {
+    margin-bottom: 0;
+}
+
+.settings-option-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.settings-option-btn {
+    padding: 8px 18px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    background: var(--panel-inset);
+    color: var(--text-secondary);
+    font-size: 0.86rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.settings-option-btn:hover {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+}
+
+.settings-option-btn--active {
+    border-color: var(--border-accent);
+    color: var(--accent-gold-bright);
+    background: var(--panel-fill);
+}
+
+.settings-placeholder-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0.55;
+}
+
+.settings-slider {
+    flex: 1;
+    max-width: 260px;
+    accent-color: var(--accent-gold-dim);
+}
+
+.settings-select {
+    padding: 6px 10px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    background: var(--panel-inset);
+    color: var(--text-secondary);
+    font-size: 0.86rem;
+}
+
+.settings-placeholder-note {
+    font-size: 0.76rem;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
 @keyframes screenEnter {
     from {
         opacity: 0;
@@ -3528,7 +3646,7 @@ body.app-home #game {
 .combat-outcome-overlay {
     position: fixed;
     inset: 0;
-    z-index: 200;
+    z-index: var(--z-modal);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -4522,7 +4640,7 @@ body.app-home #game {
     position: absolute;
     bottom: 130%;
     left: 50%;
-    z-index: 10;
+    z-index: var(--z-tooltip);
     min-width: 180px;
     max-width: 240px;
     padding: 8px 10px;
