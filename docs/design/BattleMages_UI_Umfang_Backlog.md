@@ -106,7 +106,7 @@ Stoßrichtung, unten als Kontext belassen:
   fehlende Meta-Progression) mit einer Lösung zu verbinden — nur eine
   Idee, keine Festlegung.
 
-### 6. Großer UI-Optimierungscheck (inkl. Zauberanimationen) — geplant, noch nicht begonnen (2026-07-28)
+### 6. Großer UI-Optimierungscheck (inkl. Zauberanimationen) — größtenteils umgesetzt (2026-07-31)
 
 - **Auftrag (2026-07-28)**: umfassende Durchsicht der bestehenden UI auf
   Optimierungspotenzial, explizit inklusive einer Überarbeitung der
@@ -124,12 +124,27 @@ Stoßrichtung, unten als Kontext belassen:
   gegengeprüft werden, da seither u. a. 15 neue Zauber und neue
   Meta-Progression-Screens (Kompendium, Statistik, Recap) dazukamen,
   die die ursprüngliche Analyse noch nicht kennt.
-- **Für den UI-Teil noch offen**: kein bestehendes Dokument deckt einen
-  ganzheitlichen UI-Optimierungscheck ab (Layout-Konsistenz,
-  Screen-Übergänge, Lesbarkeit/Kontrast, neu hinzugekommene Screens seit
-  2026-07-24 wie Kompendium/Statistik/Recap). Analyse steht noch aus.
-- **Status**: reine Backlog-Aufnahme, keine Analyse oder Umsetzung in
-  diesem Schritt.
+- **UI-Teil erledigt (2026-07-30/31)**: vollständiger Code-Audit +
+  externe Vergleichsspiel-Recherche, siehe
+  `docs/design/BattleMages_UI_Deep_Analysis_2026-07-30.md`. Umgesetzt:
+  Design-Tokens (z-index-/Spacing-Skala), Tastatur-Alternative fürs
+  Rotation-Reordering, Schulfarben im Tooltip, neuer Settings-Screen
+  (Textgröße echt funktional), diverse Rarity-Farb-/Font-Bugfixes.
+  **Wichtiger Nebenbefund**: dieser Punkt wurde ursprünglich auf einem
+  parallel abgezweigten Worktree (`worktree-vfx-rework`) bearbeitet, der
+  unabhängig fast identische Arbeit zu diesem Backlog-Punkt bereits
+  einmal gemacht hatte (`238e538` vs. diese Serie oben) — Analyse wurde
+  daraufhin auf `worktree-ui-tier1` (Basis: main) portiert, nur die
+  tatsächlich neuen Beiträge übernommen. Nicht behandelt: echte
+  Textur-Assets statt CSS-Gradient-„Stein“, Icon-v2-Pass für die
+  restlichen 5 Schulen, Rarity-Frame-Neubewertung, Gegner-Portrait-/
+  Hintergrund-Erweiterungen über die bestehenden 12 hinaus.
+- **Animations-Teil erledigt (2026-07-31)**: `BattleMages_Animation_Feedback_Backlog.md`
+  komplett abgearbeitet (Krit-Eskalation, Gegner-Angriffs-Lunge,
+  Sieg/Niederlage-Portrait-Reaktion — Hit-Flash/-Shake existierten
+  bereits, ohne dass die Backlog-Notiz das vermerkt hatte).
+- **Status**: UI- und Animations-Teil abgeschlossen. Nicht behandelte
+  Punkte siehe oben — eigene, spätere Entscheidung nötig, ob/wann.
 
 ## Bewusst zurückgestellt
 

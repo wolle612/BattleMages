@@ -65,3 +65,12 @@ Analyse ist Stand 2026-07-24 und kennt weder die 15 neuen
 Meta-Progression-Zauber noch die seither ergänzten Screens
 (Kompendium, Statistik, Recap) — vor Umsetzung gegen den aktuellen
 Codestand gegenprüfen, nicht ungeprüft übernehmen.
+
+**Update (2026-07-31), Gegencheck vor Umsetzung wie oben gefordert**:
+Punkt 1 (Hit-Flash) und Punkt 2 (Hit-Shake/Recoil) existierten bereits
+im Code (`triggerTargetImpact()`, `combatantHit`/`hpBarImpact`-
+Keyframes) — diese Liste war auf diesen zwei Punkten selbst veraltet,
+nichts zu tun. Punkte 3-5 waren echte Lücken, gegen Live-Code
+verifiziert und umgesetzt: Krit-Eskalation (medium/heavy-Shake
+verdrahtet), Gegner-Angriffs-Lunge, Sieg/Niederlage-Portrait-Reaktion.
+**Damit ist diese Liste vollständig abgearbeitet.**
