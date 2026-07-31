@@ -385,8 +385,17 @@ Settings-Screen sind nicht am Bildschirm gegengeprüft worden.
 ### Tier 2 — Mittel, etwas Asset-Arbeit nötig
 1. Icon-v2-Vereinfachungspass auf die verbleibenden 5 Schulen ausrollen
    (bereits bekannter, hier nur neu gewichteter Punkt)
-2. Geparkte `rarity_frames`-Assets mit heutigem 9-Slice-Wissen neu
-   bewerten (Teil B)
+2. ✅ **Rarity-Neubewertung (2026-07-31)** — abweichend vom ursprünglichen
+   Vorschlag ("9-Slice-Assets neu bewerten") am Ende doch NICHT auf einen
+   dritten Asset-Versuch hinausgelaufen. Gegenprüfung der dokumentierten
+   Ausfall-Historie (`Battle_Mages_UI_Asset_List.md`, Punkt 19) zeigte:
+   beide Versuche scheiterten an derselben ungeklärten Frage ("wo sitzt
+   Rarity visuell"), nicht an der Bildgenerierung selbst. Mit Nutzer
+   geklärt: Icon-Slot-Rahmen, rein CSS (eskalierender Rand + Glow je
+   Stufe, bestehende Rarity-Farben wiederverwendet) statt eines dritten
+   Asset-Versuchs — kann nicht an denselben zwei Problemen scheitern wie
+   die letzten beiden Anläufe. Die vier generierten PNGs bleiben
+   ungenutzt liegen.
 3. Schadens-Farbcodierung orthogonal zur Rarity-Farbe systematisieren
    (Teil B)
 

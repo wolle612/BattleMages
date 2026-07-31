@@ -535,6 +535,45 @@ body.app-selection #spellContainer {
     border-radius: var(--radius-sm);
 }
 
+/*
+ * Rarity-Eskalation am Icon-Slot (UI-Deep-Analysis Tier 2, 2026-07-31):
+ * loest die zweimal gescheiterten Rarity-Frame-Assets ab (siehe
+ * Battle_Mages_UI_Asset_List.md, Punkt 19 -- beide Versuche scheiterten
+ * an derselben ungeklaerten Frage "wo genau sitzt Rarity visuell",
+ * nicht an der Bildgenerierung selbst). Zielort diesmal explizit
+ * geklaert: nur der Icon-Slot, reines CSS statt eines dritten
+ * Asset-Versuchs. Wiederverwendet die bereits etablierten
+ * Rarity-Randfarben 1:1 (siehe .rarity-*-Bloecke weiter unten), keine
+ * neue Palette. Common bleibt bewusst unveraendert (Baseline, kein
+ * zusaetzlicher Aufwand fuer die haeufigste Stufe).
+ */
+.rarity-rare .card-icon-slot.spell-icon {
+    border-width: 2px;
+    border-color: #5a7a9a;
+    box-shadow: 0 0 6px rgba(90, 122, 154, 0.35);
+}
+
+.rarity-epic .card-icon-slot.spell-icon {
+    border-width: 3px;
+    border-color: #7a5898;
+    box-shadow: 0 0 9px rgba(122, 88, 152, 0.45);
+}
+
+.rarity-legendary .card-icon-slot.spell-icon {
+    border-width: 3px;
+    border-color: #9a7030;
+    box-shadow: 0 0 12px rgba(154, 112, 48, 0.55);
+}
+
+.rarity-legendary .card-icon-slot.spell-icon::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border: 1px solid rgba(154, 112, 48, 0.4);
+    border-radius: inherit;
+    pointer-events: none;
+}
+
 .spell-icon {
     position: relative;
     display: flex;
