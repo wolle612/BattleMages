@@ -93,7 +93,10 @@ function playVfxForCombatMoment(moment, action, presentationCallbacks = {}, prev
 
     const vfxOptions = {
         onImpact: presentationCallbacks.onImpact,
-        skipCast: isContinuationOfSameSpellCast(moment, previousMoment)
+        skipCast: isContinuationOfSameSpellCast(moment, previousMoment),
+        // Gleiche Erkennung wie renderer.js getImpactClass() fuer die
+        // fliegende Krit-Zahl -- keine zweite, abweichende Krit-Definition.
+        isCrit: action.effectText === "Kritischer Treffer"
     };
 
     if (feedbackView.spellId && getSpellById(feedbackView.spellId)) {

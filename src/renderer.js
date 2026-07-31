@@ -1661,6 +1661,14 @@ function playCombatMoment(result, moments, index, onComplete) {
         renderActionFeedback(moment);
         appendCombatLogMoment(moment);
 
+        if (
+            getMomentActor(moment) === "enemy" &&
+            isDamageImpact(action) &&
+            getImpactTarget(action) === "player"
+        ) {
+            triggerEnemyAttackLunge();
+        }
+
         const finishMoment = () => {
             updateCombatBars(moment);
             updateCombatClarity(moment);
@@ -2245,6 +2253,22 @@ function triggerTargetImpact(target) {
     restartCssAnimation(
         hpBar,
         "hp-bar--impact"
+    );
+}
+
+function triggerDefeatedPortraitReaction(side) {
+    const slot =
+        document.querySelector(`.${side}-panel .combatant-portrait-slot`);
+
+    if (slot) {
+        slot.classList.add("combatant-portrait-slot--defeated");
+    }
+}
+
+function triggerEnemyAttackLunge() {
+    restartCssAnimation(
+        document.querySelector(".enemy-panel"),
+        "combatant-panel--enemy-lunge"
     );
 }
 
@@ -2888,6 +2912,8 @@ function renderCombatOutcome(result) {
             feedbackDetail: "Kampf gewonnen"
         });
 
+        triggerDefeatedPortraitReaction("enemy");
+
     }
 
      else {
@@ -2909,6 +2935,8 @@ function renderCombatOutcome(result) {
             feedbackTitle: "Niederlage",
             feedbackDetail: "Deine Reise endet hier"
         });
+
+        triggerDefeatedPortraitReaction("player");
     }
 
     combatLog.scrollTop =

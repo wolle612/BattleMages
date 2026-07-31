@@ -221,7 +221,16 @@ function playVfxImpactWave(definition, anchors, options = {}) {
     }
 
     if (definition.camera) {
-        playCameraEffect(definition.camera);
+        // Krit-Eskalation (Animation-Feedback-Backlog Punkt 3): die
+        // medium/heavy-Shake-Stufen existierten bereits als CSS, wurden
+        // aber nie ausgeloest -- jeder Treffer bekam "small". Krits
+        // eskalieren jetzt auf "heavy".
+        const cameraForImpact =
+            options.isCrit && definition.camera.shake
+                ? { ...definition.camera, shake: "heavy" }
+                : definition.camera;
+
+        playCameraEffect(cameraForImpact);
     }
 
     if (definition.sound?.impact) {
@@ -406,7 +415,8 @@ function playVfxDefinition(definition, context = {}, options = {}) {
             createVfxTimeline();
 
         const impactOptions = {
-            onImpact: options.onImpact
+            onImpact: options.onImpact,
+            isCrit: options.isCrit
         };
 
         // Phase 1 – Cast: erscheint sofort am wirkenden Charakter. Wird

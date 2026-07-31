@@ -1075,6 +1075,23 @@ body.app-selection #spellContainer {
     border-color: #7a4555;
 }
 
+/*
+ * Sieg/Niederlage-Reaktion (Animation-Feedback-Backlog Punkt 5,
+ * 2026-07-31): besiegtes Portrait faded/kollabiert sichtbar statt
+ * einfach zu verschwinden. Haltender Endzustand (keine Keyframe-
+ * Animation) -- der Kampf ist vorbei, der Screen wechselt kurz danach
+ * ohnehin zum Outcome-Overlay.
+ */
+.combatant-portrait-slot--defeated {
+    transition:
+        transform 0.5s ease-in,
+        filter 0.5s ease-in,
+        opacity 0.5s ease-in;
+    transform: translateY(10px) rotate(-4deg);
+    filter: grayscale(0.85) brightness(0.6);
+    opacity: 0.55;
+}
+
 .combatant-portrait-slot--placeholder {
     background:
         linear-gradient(
@@ -2312,6 +2329,30 @@ body.app-selection #spellContainer {
     100% {
         transform: translateX(0);
         filter: brightness(1);
+    }
+}
+
+/*
+ * Gegner-Angriffs-Lunge (Animation-Feedback-Backlog Punkt 4, 2026-07-31):
+ * einfache Vor-/Zurueck-Bewegung des Gegner-Panels beim Angriffsbeginn,
+ * bevor der eigentliche Treffer-Impact (combatantHit) am Spieler-Panel
+ * ausgeloest wird. Bewegung geht nach links (Richtung Spieler-Panel).
+ */
+.combatant-panel--enemy-lunge {
+    animation: enemyAttackLunge 0.36s ease-out;
+}
+
+@keyframes enemyAttackLunge {
+    0% {
+        transform: translateX(0);
+    }
+
+    40% {
+        transform: translateX(-14px);
+    }
+
+    100% {
+        transform: translateX(0);
     }
 }
 
