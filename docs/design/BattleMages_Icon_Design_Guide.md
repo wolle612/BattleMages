@@ -201,3 +201,11 @@ enthalten.
   dicker statt feiner)
 
 Pilot-Batch und Prompts: `docs/design/icon_pilot_biomancy_v2.md`
+
+**Update (2026-07-31)**: der Rollout ist nicht bei Biomantie stehen
+geblieben, wie die "Pilot-Batch"-Formulierung oben nahelegt — alle 6
+Schulen haben inzwischen den v1→v2-Ersetzungszyklus durchlaufen
+(verifiziert: `assets/icons/spells/_archive_v1/` und `_archive_v2/`
+existieren für jede Schule, nicht nur Biomantie). Diese Doku-Stelle war
+schlicht nie nachgezogen worden, nachdem der Rollout auf die übrigen
+5 Schulen ausgeweitet wurde.

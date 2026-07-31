@@ -383,8 +383,21 @@ visuellen Verifikation — Tastatur-Reorder, Tooltip-Farben und der neue
 Settings-Screen sind nicht am Bildschirm gegengeprüft worden.
 
 ### Tier 2 — Mittel, etwas Asset-Arbeit nötig
-1. Icon-v2-Vereinfachungspass auf die verbleibenden 5 Schulen ausrollen
-   (bereits bekannter, hier nur neu gewichteter Punkt)
+1. ✅ **Korrektur (2026-07-31): entfällt, bereits erledigt.** Die
+   Behauptung "Icon-v2-Pass nur für Biomantie" (übernommen aus dem
+   internen Audit dieser Session, das sich wiederum auf den
+   Architektur-Audit vom 2026-07-21 berief) stimmte nicht mehr — Nutzer
+   fragte direkt nach ("es gibt doch schon alle Icons?") und brachte
+   damit den Fehler ans Licht. Gegenprüfung:
+   `assets/icons/spells/_archive_v1/` UND `_archive_v2/` existieren für
+   **alle 6 Schulen** mit vergleichbarer Dateizahl, nicht nur Biomantie
+   — jede Schule hat den v1→v2-Ersetzungszyklus bereits durchlaufen.
+   Visueller Stichproben-Vergleich (3 Icons je Schule) zeigt keinen
+   erkennbaren Stilbruch zwischen den Schulen. Die Icon-Design-Guide-
+   Formulierung ("Pilot-Batch", nur ein Biomantie-Dokument verlinkt) ist
+   selbst die veraltete Stelle, die den Fehler ausgelöst hat — nicht
+   hier korrigiert (nur die eigene Analyse), Doku-Fund an anderer Stelle
+   geflaggt.
 2. ✅ **Rarity-Neubewertung (2026-07-31)** — abweichend vom ursprünglichen
    Vorschlag ("9-Slice-Assets neu bewerten") am Ende doch NICHT auf einen
    dritten Asset-Versuch hinausgelaufen. Gegenprüfung der dokumentierten
