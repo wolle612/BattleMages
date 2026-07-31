@@ -171,6 +171,21 @@ Anlegen) siehe `docs/design/BattleMages_Spell_Authoring_Checklist.md`.
   Doku-vs-Code-Widersprüche, toter/duplizierter Code, veraltete
   Referenzen: explizit benennen und auf Entscheidung warten, nicht
   selbständig "reparieren" oder stillschweigend um sie herumarbeiten.
+- **Doku-Freshness bei Fixes.** Wenn eine Änderung etwas behebt, das
+  `CLAUDE.md` oder ein Roadmap-/Backlog-Dokument als "bekanntes
+  Problem"/"fehlt noch" führt, wird die betroffene Doku-Stelle im
+  selben Zug aktualisiert oder entfernt — nicht stehen lassen für eine
+  spätere Session. Grund: veraltete "bekannte Probleme"-Notizen wurden
+  wiederholt ungeprüft als aktueller Zustand übernommen und haben zu
+  unnötiger Doppelarbeit geführt (siehe `worktree-vfx-rework`-
+  Nachbereitung, 2026-07-31).
+- **Vor substanzieller Arbeit in einem bestehenden Worktree: erst
+  gegen `main` abgleichen** (`git log HEAD..main --oneline`). Ein
+  Worktree, der spürbar hinter `main` zurückliegt, kann bereits
+  enthalten, was gerade neu gebaut werden soll — Analysen/Audits, die
+  nur den lokalen Worktree-Stand prüfen, können daher falsche "fehlt
+  noch"-Befunde liefern. Bei nicht-trivialem Rückstand: benennen und
+  Sync-Strategie klären, bevor die eigentliche Aufgabe beginnt.
 - Vor größeren Änderungen: technischen Plan vorschlagen und auf
   Freigabe warten (siehe `DEVELOPMENT_RULES.md` /
   `docs/04_Development_Rules.md`).
