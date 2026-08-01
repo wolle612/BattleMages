@@ -652,7 +652,8 @@ Alte Bronze mit goldenen Gravuren.
 
 **Integrationsstatus**
 
-Geparkt — Integration rückgängig gemacht (2026-07-08).
+Geparkt — Integration rückgängig gemacht (2026-07-08). **Gelöst
+2026-07-31, siehe Update unten.**
 
 **Bekanntes Problem**
 
@@ -664,11 +665,18 @@ Geparkt — Integration rückgängig gemacht (2026-07-08).
 
 - Alle vier Varianten generiert unter `assets/ui/rarity/`
 - Tatsächliche Größe je **1024×1024** (Spezifikation: 128×128)
+- Bleiben ungenutzt liegen (kein dritter Asset-Versuch, siehe Update unten)
 
-**Nächster Schritt (offen)**
-
-- Rarity-Frames ans Ende der Produktionsliste verschieben
-- Vor erneuter Integration klären: Icon-Border vs. Karten-Akzent vs. separater Badge
+**Update (2026-07-31)**: die eigentliche offene Frage ("Icon-Border vs.
+Karten-Akzent vs. separater Badge") wurde geklärt — **Icon-Slot-Rahmen**.
+Statt eines dritten Asset-Versuchs (beide bisherigen sind an
+Bild-Generierung/Layering gescheitert, nicht am Zielort selbst) rein per
+CSS umgesetzt: eskalierender Rand + Glow am `.card-icon-slot` je Rarity-
+Stufe, wiederverwendet die bereits etablierten Rarity-Randfarben
+1:1 (siehe `style.css`, `.rarity-rare/-epic/-legendary .card-icon-slot.spell-icon`).
+Common bleibt bewusst unverändert. Die vier generierten PNGs unter
+`assets/ui/rarity/` bleiben ungenutzt liegen — kein Bedarf mehr, da
+kein Bild-Asset für diesen Ansatz nötig ist.
 
 ---
 

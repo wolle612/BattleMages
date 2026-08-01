@@ -46,6 +46,38 @@ function showHomeScreen() {
         .addEventListener("click", () => {
             playScreenTransition(showStatsScreen);
         });
+
+    document
+        .getElementById("settingsButton")
+        .addEventListener("click", () => {
+            playScreenTransition(showSettingsScreen);
+        });
+}
+
+function showSettingsScreen() {
+    hideVfxStage();
+
+    setAppScreenMode("game");
+    renderAndBindSettingsScreen();
+}
+
+function renderAndBindSettingsScreen() {
+    renderSettingsScreen(getTextScale());
+
+    document
+        .querySelectorAll(".settings-option-btn")
+        .forEach(button => {
+            button.addEventListener("click", () => {
+                setTextScale(Number(button.dataset.textScale));
+                renderAndBindSettingsScreen();
+            });
+        });
+
+    document
+        .getElementById("settingsHomeButton")
+        .addEventListener("click", () => {
+            playScreenTransition(showHomeScreen);
+        });
 }
 
 function showHowToPlayScreen() {
@@ -925,4 +957,5 @@ function showStatsScreen() {
         });
 }
 
+initializeSettings();
 showHomeScreen();

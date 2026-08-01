@@ -305,6 +305,15 @@ function renderHomeScreen(canResume = false) {
                             Statistik
                         </span>
                     </button>
+                    <button
+                        id="settingsButton"
+                        class="home-menu-btn home-menu-btn--compact home-menu-btn--secondary"
+                        type="button"
+                    >
+                        <span class="home-menu-btn__label">
+                            Einstellungen
+                        </span>
+                    </button>
                 </div>
             </nav>
         </div>
@@ -365,6 +374,101 @@ function renderHowToPlayScreen() {
                     class="btn btn-secondary"
                 >
                     Zurück
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function renderSettingsScreen(currentTextScale) {
+    const textScaleButtonsHtml =
+        [
+            { scale: 0.9, label: "Klein" },
+            { scale: 1, label: "Normal" },
+            { scale: 1.15, label: "Groß" }
+        ]
+            .map(option => `
+                <button
+                    type="button"
+                    class="settings-option-btn ${
+                        option.scale === currentTextScale
+                            ? "settings-option-btn--active"
+                            : ""
+                    }"
+                    data-text-scale="${option.scale}"
+                >
+                    ${option.label}
+                </button>
+            `)
+            .join("");
+
+    getGameRoot().innerHTML = `
+        <div class="screen-settings">
+            <h1 class="screen-title">
+                Einstellungen
+            </h1>
+
+            <div class="ui-divider ui-divider--section" aria-hidden="true"></div>
+
+            <section class="howto-status-panel">
+                <div class="settings-group">
+                    <h3 class="howto-subtitle">
+                        Textgröße
+                    </h3>
+                    <div
+                        class="settings-option-row"
+                        role="group"
+                        aria-label="Textgröße auswählen"
+                    >
+                        ${textScaleButtonsHtml}
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3 class="howto-subtitle">
+                        Lautstärke
+                    </h3>
+                    <div class="settings-placeholder-row">
+                        <input
+                            type="range"
+                            class="settings-slider"
+                            min="0"
+                            max="100"
+                            value="70"
+                            disabled
+                            aria-label="Lautstärke (bald verfügbar)"
+                        >
+                        <span class="settings-placeholder-note">
+                            Bald verfügbar
+                        </span>
+                    </div>
+                </div>
+
+                <div class="settings-group">
+                    <h3 class="howto-subtitle">
+                        Farbenblindheit-Modus
+                    </h3>
+                    <div class="settings-placeholder-row">
+                        <select
+                            class="settings-select"
+                            disabled
+                            aria-label="Farbenblindheit-Modus (bald verfügbar)"
+                        >
+                            <option>Aus</option>
+                        </select>
+                        <span class="settings-placeholder-note">
+                            Bald verfügbar
+                        </span>
+                    </div>
+                </div>
+            </section>
+
+            <div class="screen-actions">
+                <button
+                    id="settingsHomeButton"
+                    class="btn btn-primary"
+                >
+                    Zurück zum Hauptmenü
                 </button>
             </div>
         </div>
@@ -1292,6 +1396,47 @@ function setupActionbarDragDrop(onRotationChange) {
             return;
         }
 
+        const cardCount = getCards().length;
+
+        const spellLabel =
+            card.querySelector(".sr-only")?.textContent || "Zauber";
+
+        card.setAttribute(
+            "aria-label",
+            `${spellLabel}, Position ${card.dataset.slotIndex} von ` +
+            `${cardCount}. Mit Pfeiltasten links/rechts verschieben.`
+        );
+
+        card.addEventListener("keydown", event => {
+            if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") {
+                return;
+            }
+
+            event.preventDefault();
+
+            const fromIndex =
+                Number(card.dataset.slotIndex) - 1;
+
+            const toIndex =
+                event.key === "ArrowLeft"
+                    ? fromIndex - 1
+                    : fromIndex + 1;
+
+            if (
+                !moveSpellInRotation(fromIndex, toIndex)
+            ) {
+                return;
+            }
+
+            onRotationChange();
+
+            document
+                .querySelector(
+                    `#buildList .build-card[data-slot-index="${toIndex + 1}"]`
+                )
+                ?.focus();
+        });
+
         card.addEventListener("pointerdown", event => {
             if (!canReorder() || event.button !== 0) {
                 return;
@@ -1515,6 +1660,14 @@ function playCombatMoment(result, moments, index, onComplete) {
         clearCombatFeedbackFade();
         renderActionFeedback(moment);
         appendCombatLogMoment(moment);
+
+        if (
+            getMomentActor(moment) === "enemy" &&
+            isDamageImpact(action) &&
+            getImpactTarget(action) === "player"
+        ) {
+            triggerEnemyAttackLunge();
+        }
 
         const finishMoment = () => {
             updateCombatBars(moment);
@@ -2103,6 +2256,22 @@ function triggerTargetImpact(target) {
     );
 }
 
+function triggerDefeatedPortraitReaction(side) {
+    const slot =
+        document.querySelector(`.${side}-panel .combatant-portrait-slot`);
+
+    if (slot) {
+        slot.classList.add("combatant-portrait-slot--defeated");
+    }
+}
+
+function triggerEnemyAttackLunge() {
+    restartCssAnimation(
+        document.querySelector(".enemy-panel"),
+        "combatant-panel--enemy-lunge"
+    );
+}
+
 function restartCssAnimation(element, className) {
     if (!element) {
         return;
@@ -2388,7 +2557,7 @@ function showSpellTooltip(spell, rankOrProgress, options = {}) {
         <div class="tooltip-rarity ${view.rarity.className}">
             [${view.rarity.label}]
         </div>
-        <div class="tooltip-school">
+        <div class="tooltip-school tooltip-school--${spell.school}">
             ${view.schoolLabel}
         </div>
         ${view.description
@@ -2743,6 +2912,8 @@ function renderCombatOutcome(result) {
             feedbackDetail: "Kampf gewonnen"
         });
 
+        triggerDefeatedPortraitReaction("enemy");
+
     }
 
      else {
@@ -2764,6 +2935,8 @@ function renderCombatOutcome(result) {
             feedbackTitle: "Niederlage",
             feedbackDetail: "Deine Reise endet hier"
         });
+
+        triggerDefeatedPortraitReaction("player");
     }
 
     combatLog.scrollTop =

@@ -23,6 +23,8 @@ const ROOT = path.resolve(__dirname, "..");
 const SOURCE_FILES = [
     "data/spellbookCore.js",
     "data/spellbookPart2.js",
+    "data/spellbookPart3.js",
+    "data/spellbookPart4.js",
     "data/spellUpgradeProfiles.js",
     "data/spells.js",
     "data/enemies.js",

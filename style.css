@@ -32,40 +32,33 @@
         inset 0 1px 0 rgba(255, 235, 200, 0.03);
     --shadow-highlight:
         inset 0 1px 0 rgba(255, 235, 200, 0.09);
+    /*
+     * Echte Basalt-Textur (UI-Deep-Analysis Tier 3, 2026-08-01) ersetzt
+     * die vorherige CSS-Gradient-Annaeherung ("liest sich synthetisch",
+     * siehe sprint_g4_fantasy_ui_report.md) -- Pilot an --stone-face/
+     * --stone-inset, den beiden Stellen, die den Basalt-Look bereits
+     * imitiert haben. assets/ui/materials/basalt_texture.png, 128x128,
+     * nahtlos kachelbar (zweiter Generierungsversuch -- der erste ergab
+     * ein Ziegel-/Rastermuster statt einer organischen Steinoberflaeche).
+     * Die duennen Lichtungs-/Abdunklungs-Gradienten bleiben erhalten,
+     * die vorherigen repeating-linear-gradient-Feinlinien (die
+     * "Fake-Textur") entfallen, da die echte Textur das jetzt uebernimmt.
+     */
+    --basalt-texture-source: url('assets/ui/materials/basalt_texture.png');
     --stone-face:
         linear-gradient(
             168deg,
             rgba(255, 240, 210, 0.035) 0%,
             transparent 42%
         ),
-        repeating-linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.012) 0 1px,
-            transparent 1px 4px
-        ),
-        repeating-linear-gradient(
-            0deg,
-            rgba(0, 0, 0, 0.045) 0 1px,
-            transparent 1px 5px
-        ),
-        linear-gradient(
-            180deg,
-            #22252b 0%,
-            #15171c 48%,
-            #101216 100%
-        );
+        var(--basalt-texture-source) repeat;
     --stone-inset:
         linear-gradient(
             180deg,
             rgba(0, 0, 0, 0.28) 0%,
             rgba(0, 0, 0, 0.1) 100%
         ),
-        repeating-linear-gradient(
-            90deg,
-            rgba(255, 255, 255, 0.008) 0 1px,
-            transparent 1px 3px
-        ),
-        #0a0b0e;
+        var(--basalt-texture-source) repeat;
     --rune-slot:
         linear-gradient(
             180deg,
@@ -156,6 +149,50 @@
     --divider-native-width: 512;
     --divider-native-height: 32;
     --divider-source: url('assets/ui/dividers/divider.png');
+
+    /*
+     * Z-Index-Skala (UI-Deep-Analysis 2026-07-30, Tier 1): nur fuer
+     * Layer, die ueber Komponentengrenzen hinweg konkurrieren koennen
+     * (VFX-Overlay auf dem Kampf-Screen, frei positionierte Tooltips,
+     * das Vollbild-Sieg/Niederlage-Overlay, der gezogene Rotation-Karten-
+     * Klon). Die vielen kleinen z-index:0-6 innerhalb einzelner
+     * `isolation: isolate`-Komponenten (Buttons, Karten, Badges) bleiben
+     * bewusst lokale Literale -- sie layern nur ihre eigenen
+     * Pseudo-Elemente und konkurrieren mit nichts ausserhalb ihrer
+     * eigenen Box, eine globale Skala waere dort Ueberkonstruktion.
+     */
+    --z-vfx: 4;
+    --z-vfx-flash: 6;
+    --z-tooltip: 10;
+    --z-modal: 200;
+    --z-drag: 10000;
+
+    /*
+     * Spacing-Skala (UI-Deep-Analysis 2026-07-30, Tier 1): Vokabular fuer
+     * neue/angefasste Regeln ab jetzt. Bewusst NICHT rueckwirkend auf die
+     * bestehenden Hunderte px-Literale angewendet -- ein blinder
+     * Gesamtdatei-Sweep ohne visuelle Verifikation waere ein zu grosses
+     * Regressionsrisiko fuer ein CSS-Detail.
+     */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-7: 32px;
+    --space-8: 48px;
+
+    /*
+     * Textgroessen-Einstellung (UI-Deep-Analysis 2026-07-30, Tier 1):
+     * von src/settingsManager.js gesetzt. Wirkt global, weil praktisch
+     * die gesamte UI in rem/em skaliert (siehe html-Regel unten).
+     */
+    --ui-text-scale: 1;
+}
+
+html {
+    font-size: calc(16px * var(--ui-text-scale));
 }
 
 @font-face {
@@ -385,26 +422,11 @@ body.app-selection #spellContainer {
         box-shadow 0.15s ease;
 }
 
-.spell-card:not(.reward-card):not(.spell-card--selection).rarity-common,
-.build-card.rarity-common {
-    border-color: #7a8494;
-}
-
-.spell-card:not(.reward-card):not(.spell-card--selection).rarity-rare,
-.build-card.rarity-rare {
-    border-color: #5b8def;
-}
-
-.spell-card:not(.reward-card):not(.spell-card--selection).rarity-epic,
-.build-card.rarity-epic {
-    border-color: #b26df5;
-}
-
-.spell-card:not(.reward-card):not(.spell-card--selection).rarity-legendary,
-.build-card.rarity-legendary {
-    border-color: #f0a34a;
-}
-
+/*
+ * Rarity-Randfarben: siehe .rarity-* Bloecke weiter unten, die per
+ * Ladereihenfolge ohnehin gewinnen -- hier bewusst nicht mehr
+ * dupliziert (UI-Deep-Analysis 2026-07-30, Tier 0).
+ */
 .spell-card:not(.reward-card):not(.spell-card--selection) {
     width: 240px;
     padding: 20px 18px 18px;
@@ -504,6 +526,45 @@ body.app-selection #spellContainer {
     height: var(--slot-size);
     margin: 0 auto 12px;
     border-radius: var(--radius-sm);
+}
+
+/*
+ * Rarity-Eskalation am Icon-Slot (UI-Deep-Analysis Tier 2, 2026-07-31):
+ * loest die zweimal gescheiterten Rarity-Frame-Assets ab (siehe
+ * Battle_Mages_UI_Asset_List.md, Punkt 19 -- beide Versuche scheiterten
+ * an derselben ungeklaerten Frage "wo genau sitzt Rarity visuell",
+ * nicht an der Bildgenerierung selbst). Zielort diesmal explizit
+ * geklaert: nur der Icon-Slot, reines CSS statt eines dritten
+ * Asset-Versuchs. Wiederverwendet die bereits etablierten
+ * Rarity-Randfarben 1:1 (siehe .rarity-*-Bloecke weiter unten), keine
+ * neue Palette. Common bleibt bewusst unveraendert (Baseline, kein
+ * zusaetzlicher Aufwand fuer die haeufigste Stufe).
+ */
+.rarity-rare .card-icon-slot.spell-icon {
+    border-width: 2px;
+    border-color: #5a7a9a;
+    box-shadow: 0 0 6px rgba(90, 122, 154, 0.35);
+}
+
+.rarity-epic .card-icon-slot.spell-icon {
+    border-width: 3px;
+    border-color: #7a5898;
+    box-shadow: 0 0 9px rgba(122, 88, 152, 0.45);
+}
+
+.rarity-legendary .card-icon-slot.spell-icon {
+    border-width: 3px;
+    border-color: #9a7030;
+    box-shadow: 0 0 12px rgba(154, 112, 48, 0.55);
+}
+
+.rarity-legendary .card-icon-slot.spell-icon::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    border: 1px solid rgba(154, 112, 48, 0.4);
+    border-radius: inherit;
+    pointer-events: none;
 }
 
 .spell-icon {
@@ -816,7 +877,7 @@ body.app-selection #spellContainer {
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 4;
+    z-index: var(--z-vfx);
 }
 
 .vfx-flash-overlay {
@@ -825,7 +886,7 @@ body.app-selection #spellContainer {
     background: #ffffff;
     opacity: 0;
     pointer-events: none;
-    z-index: 6;
+    z-index: var(--z-vfx-flash);
 }
 
 .vfx-flash-overlay--active {
@@ -1044,6 +1105,23 @@ body.app-selection #spellContainer {
 .combatant-portrait-slot--enemy {
     border-style: solid;
     border-color: #7a4555;
+}
+
+/*
+ * Sieg/Niederlage-Reaktion (Animation-Feedback-Backlog Punkt 5,
+ * 2026-07-31): besiegtes Portrait faded/kollabiert sichtbar statt
+ * einfach zu verschwinden. Haltender Endzustand (keine Keyframe-
+ * Animation) -- der Kampf ist vorbei, der Screen wechselt kurz danach
+ * ohnehin zum Outcome-Overlay.
+ */
+.combatant-portrait-slot--defeated {
+    transition:
+        transform 0.5s ease-in,
+        filter 0.5s ease-in,
+        opacity 0.5s ease-in;
+    transform: translateY(10px) rotate(-4deg);
+    filter: grayscale(0.85) brightness(0.6);
+    opacity: 0.55;
 }
 
 .combatant-portrait-slot--placeholder {
@@ -1486,7 +1564,7 @@ body.app-selection #spellContainer {
 .enemy-intent-badge-tooltip {
     position: absolute;
     bottom: 130%;
-    z-index: 10;
+    z-index: var(--z-tooltip);
     min-width: 180px;
     max-width: 240px;
     padding: 8px 10px;
@@ -1603,6 +1681,37 @@ body.app-selection #spellContainer {
     font-weight: 800;
     letter-spacing: 0.05em;
     text-transform: uppercase;
+}
+
+/*
+ * Schulfarben (UI-Deep-Analysis 2026-07-30, Tier 1): direkt aus dem
+ * dokumentierten Farbschema pro Schule abgeleitet
+ * (docs/design/BattleMages_Icon_Design_Guide.md), je ein auf dem
+ * dunklen Basalt-Hintergrund lesbarer Akzentton -- keine neu erfundene
+ * Palette. Interne Schul-IDs siehe COMBAT_SCHOOLS (data/combatIdentity.js).
+ */
+.tooltip-school--blood {
+    color: #c9455f;
+}
+
+.tooltip-school--shadow {
+    color: #6a86b3;
+}
+
+.tooltip-school--dream {
+    color: #3ecbd0;
+}
+
+.tooltip-school--rune {
+    color: #c17f42;
+}
+
+.tooltip-school--star {
+    color: #8fae3a;
+}
+
+.tooltip-school--primal {
+    color: #c2b3e0;
 }
 
 .tooltip-description {
@@ -2011,7 +2120,7 @@ body.app-selection #spellContainer {
 
 .build-card--floating {
     position: fixed;
-    z-index: 10000;
+    z-index: var(--z-drag);
     margin: 0;
     pointer-events: none;
     opacity: 1;
@@ -2255,6 +2364,30 @@ body.app-selection #spellContainer {
     }
 }
 
+/*
+ * Gegner-Angriffs-Lunge (Animation-Feedback-Backlog Punkt 4, 2026-07-31):
+ * einfache Vor-/Zurueck-Bewegung des Gegner-Panels beim Angriffsbeginn,
+ * bevor der eigentliche Treffer-Impact (combatantHit) am Spieler-Panel
+ * ausgeloest wird. Bewegung geht nach links (Richtung Spieler-Panel).
+ */
+.combatant-panel--enemy-lunge {
+    animation: enemyAttackLunge 0.36s ease-out;
+}
+
+@keyframes enemyAttackLunge {
+    0% {
+        transform: translateX(0);
+    }
+
+    40% {
+        transform: translateX(-14px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
 @keyframes hpBarImpact {
     0% {
         filter: brightness(1);
@@ -2274,7 +2407,7 @@ body.app-selection #spellContainer {
 
 .spell-tooltip {
     position: absolute;
-    z-index: 10;
+    z-index: var(--z-tooltip);
     left: 50%;
     bottom: calc(100% + 10px);
     width: min(320px, calc(100vw - 32px));
@@ -2400,21 +2533,11 @@ body.app-selection #spellContainer {
     margin-top: 0;
 }
 
-.rarity-common {
-    color: #aab2c0;
-}
-
-.rarity-rare {
-    color: #5b8def;
-}
-
-.rarity-epic {
-    color: #b26df5;
-}
-
-.rarity-legendary {
-    color: #f0a34a;
-}
+/*
+ * Rarity-Textfarben: siehe .rarity-* Bloecke weiter unten
+ * (Sprint-G4-Override), die per Ladereihenfolge ohnehin gewinnen --
+ * hier bewusst nicht mehr dupliziert (UI-Deep-Analysis 2026-07-30, Tier 0).
+ */
 
 .tooltip-badges {
     display: flex;
@@ -3227,7 +3350,6 @@ body.app-home #game {
     justify-content: center;
     padding: 20px 48px;
     color: #d8c8a4;
-    font-family: Georgia, "Palatino Linotype", "Times New Roman", serif;
     font-size: 1.05rem;
     font-weight: 700;
     line-height: 1;
@@ -3402,6 +3524,75 @@ body.app-home #game {
     line-height: 1.4;
 }
 
+/* — Einstellungen (UI-Deep-Analysis 2026-07-30, Tier 1) — */
+.settings-group {
+    margin-bottom: 28px;
+}
+
+.settings-group:last-child {
+    margin-bottom: 0;
+}
+
+.settings-option-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.settings-option-btn {
+    padding: 8px 18px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    background: var(--panel-inset);
+    color: var(--text-secondary);
+    font-size: 0.86rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition:
+        border-color 0.15s ease,
+        color 0.15s ease;
+}
+
+.settings-option-btn:hover {
+    border-color: var(--border-strong);
+    color: var(--text-primary);
+}
+
+.settings-option-btn--active {
+    border-color: var(--border-accent);
+    color: var(--accent-gold-bright);
+    background: var(--panel-fill);
+}
+
+.settings-placeholder-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    opacity: 0.55;
+}
+
+.settings-slider {
+    flex: 1;
+    max-width: 260px;
+    accent-color: var(--accent-gold-dim);
+}
+
+.settings-select {
+    padding: 6px 10px;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-sm);
+    background: var(--panel-inset);
+    color: var(--text-secondary);
+    font-size: 0.86rem;
+}
+
+.settings-placeholder-note {
+    font-size: 0.76rem;
+    letter-spacing: 0.04em;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
 @keyframes screenEnter {
     from {
         opacity: 0;
@@ -3528,7 +3719,7 @@ body.app-home #game {
 .combat-outcome-overlay {
     position: fixed;
     inset: 0;
-    z-index: 200;
+    z-index: var(--z-modal);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -4145,6 +4336,7 @@ body.app-home #game {
 .spell-card:not(.reward-card):not(.spell-card--selection),
 .build-card {
     background: var(--stone-face);
+    image-rendering: pixelated;
     border: 2px solid var(--border-subtle);
     border-radius: var(--radius-md);
     box-shadow:
@@ -4522,7 +4714,7 @@ body.app-home #game {
     position: absolute;
     bottom: 130%;
     left: 50%;
-    z-index: 10;
+    z-index: var(--z-tooltip);
     min-width: 180px;
     max-width: 240px;
     padding: 8px 10px;
@@ -4664,6 +4856,7 @@ body.app-home #game {
 
 .reward-path-choice-option {
     background: var(--stone-inset);
+    image-rendering: pixelated;
     border: 1px solid rgba(0, 0, 0, 0.38);
     border-radius: var(--radius-sm);
     box-shadow: var(--shadow-inset);
@@ -4673,6 +4866,7 @@ body.app-home #game {
     border-radius: var(--radius-sm);
     border-color: var(--border-bronze);
     background: var(--stone-face);
+    image-rendering: pixelated;
     box-shadow:
         inset 0 1px 0 rgba(255, 235, 200, 0.06),
         inset 0 -2px 0 rgba(0, 0, 0, 0.38),
@@ -4714,6 +4908,7 @@ body.app-home #game {
 
 .fight-progress {
     background: var(--stone-inset);
+    image-rendering: pixelated;
     border: 1px solid rgba(0, 0, 0, 0.4);
     border-radius: var(--radius-sm);
     box-shadow: var(--shadow-inset);
