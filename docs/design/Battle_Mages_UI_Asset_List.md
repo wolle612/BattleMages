@@ -488,31 +488,34 @@ Optimiert für Text.
 
 **Integrationsstatus**
 
-Geparkt — Korrektur am Asset nötig, bevor die Integration abgeschlossen werden kann.
+✅ **Gelöst, anders als hier dokumentiert (verifiziert 2026-08-01).**
+Das einzelne `combat_log_frame.png` (falsches Seitenverhältnis) wird
+tatsächlich nicht mehr verwendet — die hier als "vorhanden, aber
+ungenutzt" geführten Slice-Dateien (`combat_log_pillar_left.png`,
+`_pillar_right.png`, `_center.png`) sind inzwischen aktiv verdrahtet
+(`style.css`, `.combat-log-pillar`/`.combat-log-body::before`) und
+lösen das Checkerboard-Problem durch eine 6. Technik, die hier nicht
+in der Fehlschlag-Liste steht: `background-size`/`background-position`
+schneiden die transparenten Ränder der Quell-Assets rechnerisch weg
+(`--combat-log-pillar-opaque-top`/`-opaque-h`) und skalieren exakt die
+undurchsichtige Zone auf die Panel-Höhe — kein Stretch, kein
+9-Slice-Fill, sondern gezielter Crop-Ausgleich. Kein Handlungsbedarf
+mehr. (Nicht visuell im Browser gegengeprüft, keine Browser-
+Automatisierung in dieser Session verfügbar — aber die Implementierung
+liest sich als bewusst und vollständig, nicht als Zwischenstand.)
 
-**Bekanntes Problem**
+**Ursprüngliches Problem (Stand 2026-07-08, historisch)**
 
 - Generiertes Asset ist **1536×1024** (Seitenverhältnis 3:2), Spezifikation verlangt **1024×512** (2:1, breit-flach).
-- Im Spiel bleiben an allen Seiten **transparente Ränder** (Checkerboard) sichtbar: Der Rahmen füllt den Container nicht vollständig aus.
-- Das Asset selbst wirkt bei korrektem Seitenverhältnis nicht verzerrt; das Problem ist die **Größen-/Proportions-Diskrepanz** zwischen UI-Container und Frame-Grafik.
+- Im Spiel blieben an allen Seiten **transparente Ränder** (Checkerboard) sichtbar: Der Rahmen füllte den Container nicht vollständig aus.
 
-**Bereits versuchte Integrationen (ohne Erfolg)**
+**Damals versuchte Integrationen (ohne Erfolg)**
 
 1. `border-image` 9-Slice mit `fill`
 2. Gestrecktes `::after`-Overlay (`background-size: 100% 100%`)
 3. Aufgeteilte PNG-Teile (Säulen, Rails, Center) mit Grid/Absolute-Positioning
 4. Container auf natives Seitenverhältnis verkleinert (360×240 px)
 5. `align-self: center`, `flex-shrink: 0`, festes Aspect-Ratio
-
-**Aktueller Workaround im Code**
-
-- Panel: 360×240 px (`--combat-log-panel-height`, berechnete Breite aus 1536/1024)
-- Frame per `::after`-Overlay; Innenfläche `#13161c`
-- Slice-Dateien vorhanden, aber ungenutzt: `combat_log_pillar_left.png`, `_pillar_right.png`, `_rail_top.png`, `_rail_bottom.png`, `_center.png`
-
-**Geplante Korrektur (Option C)**
-
-Asset neu generieren in echten **breit-flachen** Maßen (z. B. 1024×512 oder 480×200), wenn die übrigen Kern-Assets fertig sind.
 
 ---
 
