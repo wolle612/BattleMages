@@ -7,13 +7,16 @@
 > die bisher nur für Meta-Progression herangezogenen Slay the Spire/Hades/
 > Balatro hinaus. Nutzt den `game-ui-design`-Skill als fachliche Grundlage.
 >
-> **Status (Stand 2026-07-31): Tier 0 + Tier 1 vollständig umgesetzt,
-> plus zwei der vier freigegebenen Tier-2/3-Asset-Vorschläge.** Diese
-> Datei begann als reine Analyse/Empfehlung, wurde aber im selben
+> **Status (Stand 2026-08-01): Tier 0 + Tier 1 vollständig umgesetzt,
+> Rarity-Eskalation und ein Basalt-Textur-Pilot aus Tier 2/3 ebenfalls.**
+> Diese Datei begann als reine Analyse/Empfehlung, wurde aber im selben
 > Gespräch schrittweise mit Freigabe umgesetzt — siehe "Umsetzungsstand"
 > unten für den aktuellen Stand und alle Korrekturen, die währenddessen
-> nötig wurden. Tier 2/3 (übrige Asset-Vorschläge, echte Texturen,
-> Icon-v2-Rollout) bleiben offen für eine spätere Session.
+> nötig wurden (u. a. zwei weitere ursprüngliche Tier-2-Punkte, die sich
+> bei Gegenprüfung als bereits erledigt herausstellten: fehlende
+> Zauber-Icons und der Icon-v2-Pass). Noch offen: Basalt-Textur-Rollout
+> über den heutigen Piloten hinaus, Schadens-Farbcodierung (abgelehnt),
+> Meta-Progression-Rahmen-System.
 
 ## Umsetzungsstand (2026-07-31)
 
@@ -420,9 +423,20 @@ Spieldesign-Entscheidung
 2. Meta-Progression-Rahmen-System fürs Compendium (Teil B, hängt an
    noch offener Meta-Progression-Design-Entscheidung aus dem
    bestehenden Backlog)
-3. Echte Textur-Assets statt CSS-Gradient-"Stein" (bereits in
-   `sprint_g4_fantasy_ui_report.md` als nächster großer Hebel benannt,
-   hier extern bestätigt)
+3. ✅ **Pilot umgesetzt (2026-08-01)**: `--stone-face`/`--stone-inset`
+   (Spell-/Build-Karten, Reward-Reroll-Button, Reward-Pfadwahl-Option,
+   Kampf-Fortschrittsbalken) nutzen jetzt eine echte, nahtlos
+   kachelbare Basalt-Textur (`assets/ui/materials/basalt_texture.png`,
+   128×128, per PixelLab generiert) statt der bisherigen
+   CSS-Gradient-Annäherung. Die dünnen Lichtungs-/Abdunklungs-
+   Gradienten blieben als Overlay erhalten, nur die "Fake-Textur"-
+   Feinlinien (repeating-linear-gradient) entfielen. Zwei
+   Generierungsversuche nötig — der erste ergab ein Ziegel-/
+   Rastermuster statt einer organischen Steinoberfläche, mit
+   explizit gegen Ziegel/Raster/Fasen gerichtetem zweiten Prompt
+   korrigiert. Rollout auf den Rest der UI (u. a. `.panel` selbst,
+   aktuell noch flache Farbe ohne jede Textur) bewusst nicht Teil
+   dieses Piloten — eigener, späterer Schritt.
 
 ---
 
