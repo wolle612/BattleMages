@@ -438,6 +438,35 @@ Spieldesign-Entscheidung
    aktuell noch flache Farbe ohne jede Textur) bewusst nicht Teil
    dieses Piloten — eigener, späterer Schritt.
 
+**Panel-Textur-Rollout (2026-08-01), versucht und vertagt.** Die bei
+Kartengröße (240×300) gut aussehende Textur zeigte bei Panel-Größe
+(700×480) ein deutlich sichtbares Streifenmuster — dieselben
+diagonalen Risse wiederholen sich bei ~5-6 Kacheln pro Panel-Breite zu
+regelmäßig, liest sich als Tapete statt als Stein. Zwei weitere
+Generierungsversuche zur Korrektur (also 4 insgesamt inkl. der beiden
+Karten-Versuche oben), beide mit neuem Fehlschlag:
+3. Größere Kachel (384×384), freierer Prompt → falsche Farbe (helles
+   Blaugrau statt dunkler Basalt), eingebranntes Text-/Wasserzeichen-
+   Artefakt, weiterhin rasterartig.
+4. Farb-Referenzbild (exakte `--stone-face`-Grauwerte per
+   `color_image_base64` erzwungen) + `low detail` + kurzer Prompt →
+   Farbe korrekt, aber praktisch keine Textur mehr (nahezu einfarbige
+   Fläche).
+
+Nutzer-Entscheidung: für heute genug, kein fünfter Versuch.
+**`.panel` bleibt bei der bestehenden flachen `--bg-panel`-Farbe.**
+Der Kartenpilot (`--stone-face`/`--stone-inset`) bleibt unverändert
+und ist NICHT von diesem Fehlschlag betroffen — nichts davon wurde in
+`style.css` verdrahtet, alle vier Versuche blieben in Scratch-Dateien.
+Für einen künftigen Anlauf: das eigentliche Problem ist nicht Farbe
+oder Deckkraft, sondern dass eine einzelne 128px-Kachel bei
+~700px-Panelbreite zu oft wiederholt wird — vielversprechendere
+Richtungen wären entweder eine echt große Kachel mit tatsächlich
+zufällig verteilter (nicht nur `low detail` reduzierter) Maserung,
+oder die vorhandene Kachel nur als sehr subtile Beimischung (niedrige
+CSS-Deckkraft) über der flachen Panel-Farbe zu legen, statt eine neue
+perfekte Panel-Textur zu suchen.
+
 ---
 
 ## Teil D — Offene Fragen vor jeder Umsetzung
