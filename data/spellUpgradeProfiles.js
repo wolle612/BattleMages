@@ -2204,5 +2204,73 @@ const spellUpgradeProfiles = {
                 }
             }
         }
+    },
+    soul_anchor: {
+        rank2: {
+            values: { damage: 32 },
+            tooltip: ["Verursacht 32 Schaden."]
+        },
+        rank4: {
+            values: { damage: 40 },
+            tooltip: ["Verursacht 40 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Tiefe Verankerung",
+                rank3: {
+                    values: { healFromResistancePercent: 60 },
+                    tooltip: ["Heilt dich um 60 % deines Magischen Widerstands."]
+                },
+                rank5: {
+                    values: { healFromResistancePercent: 85 },
+                    tooltip: ["Heilt dich um 85 % deines Magischen Widerstands."]
+                }
+            },
+            b: {
+                label: "Kritischer Anker",
+                rank3: {
+                    values: { critHealGain: 15 },
+                    tooltip: ["Bei kritischem Treffer: Heile dich zusätzlich um 15 HP."]
+                },
+                rank5: {
+                    values: { critHealGain: 32 },
+                    tooltip: ["Bei kritischem Treffer: Heile dich zusätzlich um 32 HP."]
+                }
+            }
+        }
+    },
+    soul_theft: {
+        rank2: {
+            values: { damage: 36 },
+            tooltip: ["Verursacht 36 Schaden."]
+        },
+        rank4: {
+            values: { damage: 44 },
+            tooltip: ["Verursacht 44 Schaden."]
+        },
+        paths: {
+            a: {
+                label: "Blutiger Zoll",
+                rank3: {
+                    values: { healFromDealtDamagePercent: 70 },
+                    tooltip: ["Heilt dich um 70 % des verursachten Schadens."]
+                },
+                rank5: {
+                    values: { healFromDealtDamagePercent: 95 },
+                    tooltip: ["Heilt dich um 95 % des verursachten Schadens."]
+                }
+            },
+            b: {
+                label: "Verzehrende Klinge",
+                rank3: {
+                    values: { vulnerableHealGain: 15 },
+                    tooltip: ["Gegen verwundbare Ziele: Heile dich zusätzlich um 15 HP."]
+                },
+                rank5: {
+                    values: { vulnerableHealGain: 32 },
+                    tooltip: ["Gegen verwundbare Ziele: Heile dich zusätzlich um 32 HP."]
+                }
+            }
+        }
     }
 };

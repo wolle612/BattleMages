@@ -889,14 +889,13 @@ function getCompendiumEnemyEntries(metaState) {
     });
 }
 
-// "sustain" bleibt aussen vor -- unerreichbar mangels Zaubern mit
-// build:"sustain" im aktuellen Pool (siehe classifyRotationArchetypes
-// in metaProgression.js). Zeigt bewusst ARCHETYPE_COMPENDIUM_TITLES
-// (eigens formulierte Spieler-Titel), nie BUILD_ARCHETYPES.label --
-// letzteres ist rein internes Design-Vokabular, siehe Kommentar dort.
+// Zeigt bewusst ARCHETYPE_COMPENDIUM_TITLES (eigens formulierte
+// Spieler-Titel), nie BUILD_ARCHETYPES.label -- letzteres ist rein
+// internes Design-Vokabular, siehe Kommentar dort. "sustain" war hier
+// lange rausgefiltert (unerreichbar mangels Zaubern), seit
+// data/spellbookPart5.js nicht mehr noetig.
 function getCompendiumArchetypeEntries(metaState) {
     return Object.values(BUILD_ARCHETYPES)
-        .filter(archetype => archetype.id !== "sustain")
         .map(archetype => {
             const unlocked =
                 metaState.unlockedArchetypeIds.includes(archetype.id);

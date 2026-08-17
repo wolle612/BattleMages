@@ -238,6 +238,16 @@ function resolveSpellEffect(context, spell, values, cast, effect) {
 
     if (effect === "increase_resistance") {
         increaseResistance(context, spell, values);
+        return;
+    }
+
+    if (effect === "heal_from_resistance_percent") {
+        healFromResistancePercent(context, spell, values);
+        return;
+    }
+
+    if (effect === "heal_from_dealt_damage") {
+        healFromDealtDamage(context, spell, values, cast);
     }
 }
 
@@ -410,6 +420,15 @@ function resolveSpellDamageHit(context, spell, values, cast, hitIndex, hitCount)
         );
     }
 
+    if (critResult.isCrit && hitValues.critHealGain) {
+        healPlayerAmount(
+            context,
+            spell,
+            hitValues.critHealGain,
+            "Kritischer Treffer"
+        );
+    }
+
     if (
         critResult.isCrit &&
         hitValues.critAppliesVulnerable
@@ -449,6 +468,15 @@ function resolveSpellDamageHit(context, spell, values, cast, hitIndex, hitCount)
             context,
             spell,
             vulnerableResistanceValue,
+            "Verwundbar"
+        );
+    }
+
+    if (enemyWasVulnerable && hitValues.vulnerableHealGain) {
+        healPlayerAmount(
+            context,
+            spell,
+            hitValues.vulnerableHealGain,
             "Verwundbar"
         );
     }
@@ -741,6 +769,82 @@ function grantResistance(context, spell, resistanceValue, effectText) {
             effectText
         }
     );
+}
+
+// Sustain-Archetyp (Spielinhalte-Optimierung): healPlayer() existierte
+// bereits in combatFormula.js, wurde aber nirgends aufgerufen. Analog
+// zu grantResistance() oben -- Log-/Feedback-Anbindung nach demselben
+// Muster, "buff" als Typ wie bereits fuer Gegner-Heilung verwendet
+// (enemyEngine.js), damit kein neuer Renderer-/Feedback-Typ noetig ist.
+function healPlayerAmount(context, spell, healAmount, effectText) {
+    const healedAmount =
+        Math.min(
+            healAmount,
+            context.playerMaxHp - context.playerHp
+        );
+
+    healPlayer(context, healAmount);
+
+    if (healedAmount <= 0) {
+        return;
+    }
+
+    addCombatAction(
+        context,
+        `${spell.name} heilt ${healedAmount} HP.`,
+        {
+            type: "buff",
+            spellName: spell.id,
+            feedbackTitle: spell.name,
+            feedbackDetail: `+${healedAmount} HP`,
+            actor: "Spieler",
+            actionName: spell.name,
+            impact: `+${healedAmount}`,
+            effectText
+        }
+    );
+}
+
+function healFromResistancePercent(context, spell, values) {
+    if (
+        !values.healFromResistancePercent ||
+        context.playerResistance <= 0
+    ) {
+        return;
+    }
+
+    const healAmount =
+        Math.floor(
+            context.playerResistance *
+            values.healFromResistancePercent / 100
+        );
+
+    if (healAmount <= 0) {
+        return;
+    }
+
+    healPlayerAmount(context, spell, healAmount, "Widerstand");
+}
+
+function healFromDealtDamage(context, spell, values, cast) {
+    if (
+        !values.healFromDealtDamagePercent ||
+        !cast.lastDamage
+    ) {
+        return;
+    }
+
+    const healAmount =
+        Math.floor(
+            cast.lastDamage *
+            values.healFromDealtDamagePercent / 100
+        );
+
+    if (healAmount <= 0) {
+        return;
+    }
+
+    healPlayerAmount(context, spell, healAmount, "Schaden");
 }
 
 function gainSpellResistance(context, spell, values, cast) {

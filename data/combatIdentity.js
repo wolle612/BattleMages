@@ -117,9 +117,11 @@ const BUILD_ARCHETYPES = {
 // .label-Werte dort duerfen nie im UI erscheinen (siehe CLAUDE.md,
 // Memory "project-build-archetype-decision"). Diese Tabelle ist die
 // bewusst getrennte, eigens formulierte UI-Uebersetzung derselben
-// Erkennung. "sustain" fehlt hier absichtlich (siehe
-// classifyRotationArchetypes() in metaProgression.js -- unerreichbar
-// mangels Zaubern mit build:"sustain").
+// Erkennung. "sustain" war hier lange absichtlich ausgeklammert (0
+// Zauber mit build:"sustain", ueber classifyRotationArchetypes() in
+// metaProgression.js unerreichbar) -- seit data/spellbookPart5.js
+// (soul_anchor, soul_theft) erreichbar, siehe getCompendiumArchetype
+// Entries() in game.js (Filter dort ebenfalls entfernt).
 const ARCHETYPE_COMPENDIUM_TITLES = {
     widerstandsfestung: "Lebende Festung",
     widerstandskanone: "Gepanzerter Vergelter",
@@ -134,7 +136,8 @@ const ARCHETYPE_COMPENDIUM_TITLES = {
     sequenz: "Perfekte Verkettung",
     hybrid: "Verschmelzer der Kräfte",
     burst: "Ungezügelte Wucht",
-    kontrollierter_schaden: "Berechnetes Risiko"
+    kontrollierter_schaden: "Berechnetes Risiko",
+    sustain: "Zäher Wille"
 };
 
 const COMBAT_SCHOOLS = {

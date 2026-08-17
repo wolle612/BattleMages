@@ -17,7 +17,7 @@ gar keinen:
 
 | Archetyp | Aktuell belegt von | Problem |
 |---|---|---|
-| `sustain` | — | weiterhin 0 Zauber, zurückgestellt (Slot 1) |
+| `sustain` | `soul_anchor`, `soul_theft` (Seelenmagie) | ✅ Slot 1 umgesetzt (2026-08-16) |
 | `kontrollierter_schaden` | `bound_chaos` (Chaosmagie) | ✅ Slot 2 umgesetzt |
 | `verwundbar_ketten` | `organ_failure` (Finisher), `keen_cut` (Schatten) | ✅ Slot 3 umgesetzt |
 | `sequenz` | `shadow_dance` (Schatten), `soul_resonance` (Seelenmagie) | ✅ Slot 4 umgesetzt |
@@ -31,16 +31,32 @@ Priorität, siehe Chat.
 
 ---
 
-## Slot 1 — Sustain-Verstärker (zurückgestellt)
+## Slot 1 — Sustain-Verstärker — ✅ umgesetzt (2026-08-16)
 
-- **Status (2026-07-24):** zurückgestellt, nicht umgesetzt. Beim
-  Durchsprechen stellte sich heraus, dass Heilung im Kampf aktuell
-  komplett fehlt (`healPlayer` in `combatFormula.js` existiert, wird
-  aber nirgends aufgerufen — toter Code) — ein einzelner Zauber wäre
-  zu dünn, um eine komplett neue Mechanik zu tragen. Entweder mehrere
-  Sustain-Zauber auf einmal (größerer Umfang) oder vorerst bei den
-  anderen drei Slots bleiben, die bestehende Mechaniken rekombinieren
-  statt eine neue einzuführen.
+- **Status (2026-07-24):** zurückgestellt — ein einzelner Zauber wäre
+  zu dünn gewesen, um eine komplett neue Mechanik zu tragen.
+- **Status (2026-08-16):** umgesetzt als **zwei** Zauber statt einem
+  (löst genau den oben genannten Einwand), beide Seelenmagie, beide
+  `role: "verstaerker"` (Seelenmagie hat laut
+  `BattleMages_Spell_Authoring_Checklist.md`, Abschnitt 0, bewusst
+  keinen Generator/Finisher):
+  - `soul_anchor` ("Seelenanker", Common) — verbindet Magischen
+    Widerstand (extern aufgebaut) mit Heilung, analog zu `soul_cut`s
+    `resistanceBonusDamagePercent`-Muster, nur mit Heilung statt
+    Bonusschaden als Ziel.
+  - `soul_theft` ("Seelenraub", Rare) — verbindet eigenen verursachten
+    Schaden mit Heilung (Lifesteal), analog zu `soul_bind`s
+    `resistanceFromDealtDamagePercent`-Muster.
+  - `healPlayer()` (`combatFormula.js`) war bereits vorhanden und
+    korrekt (HP-Cap-Clamp), aber nie aufgerufen — die Engine-Seite war
+    trivial, der eigentliche Aufwand war die Zauber-/Werte-Gestaltung.
+  - Je zwei Pfade (A: reine Prozent-Skalierung, B: zusätzlicher
+    Krit-/Verwundbar-getriggerter Flat-Heal) über volle Rang-1-5-
+    Progression, wie bei den 41 Bestandszaubern.
+  - Gegen die echte Engine simuliert (Einzel-Slot-Tausch in
+    validierten Mono-Seelenmagie-/Widerstandsfestung-Builds): Sieg-
+    quote bei Rang 5 unverändert bei 100 %, Rotation-Value-Abweichung
+    gegenüber der jeweiligen Kontrollrotation unter 3 %.
 - **Archetyp:** `sustain`
 - **Schule (Optionen):** Seelenmagie (passt zur "Mechaniken
   verbinden"-Identität) oder Biomantie (Körper-Regeneration passt zur

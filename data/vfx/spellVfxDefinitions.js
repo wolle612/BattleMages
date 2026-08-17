@@ -87,7 +87,11 @@ const SPELL_PROJECTILE_TYPES = {
     mind_storm: "beam",             // Geistessturm
     rune_collapse: "explosion",     // Runenkollaps
     annihilation: "explosion",      // Vernichtung
-    soul_apotheosis: "beam"         // Seelenapotheose
+    soul_apotheosis: "beam",        // Seelenapotheose
+
+    // Sustain-Zauber (data/spellbookPart5.js)
+    soul_anchor: "beam",            // Seelenanker
+    soul_theft: "beam"              // Seelenraub
 };
 
 function getSpellProjectileType(spellId) {

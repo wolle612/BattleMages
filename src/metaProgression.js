@@ -104,10 +104,6 @@ function getMonoSchoolId(rotationSpells) {
         : null;
 }
 
-// "sustain" bewusst ausgeklammert: kein einziger Zauber im aktuellen
-// Pool traegt build:"sustain" (Datenluecke im Spellpool, siehe
-// docs/design/BattleMages_Meta_Progression_Concept_v1.md), der
-// Archetyp waere ueber jede Zaehlregel unerreichbar.
 function isMonoSchoolRotation(rotationSpells) {
     return getMonoSchoolId(rotationSpells) !== null;
 }

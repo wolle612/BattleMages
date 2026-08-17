@@ -200,10 +200,14 @@ Zwei per Rückfrage bestätigte Abweichungen von einer reinen
 Zählregel, beide aus echten Datenlücken im Zauber-Pool, nicht aus
 Implementierungsentscheidungen:
 
-- **"Sustain" ist aus der Tracker-Liste entfernt.** 0 von 41 Zaubern
-  tragen `build: "sustain"` — über keine Zählregel erreichbar. Bleibt
-  ein offener Faden für eine künftige Zauber-Design-Session, bewusst
-  nicht mit neu erfundenen Zaubern überbrückt.
+- ~~**"Sustain" ist aus der Tracker-Liste entfernt.**~~ **Update
+  2026-08-16**: nicht mehr zutreffend. `data/spellbookPart5.js`
+  (`soul_anchor`, `soul_theft`) trägt erstmals `build: "sustain"` —
+  der Filter in `getCompendiumArchetypeEntries()` (`game.js`) wurde
+  entfernt, `ARCHETYPE_COMPENDIUM_TITLES` um einen Eintrag ergänzt.
+  `classifyRotationArchetypes()` selbst brauchte keine Änderung (rein
+  datengetrieben über `spell.build`). Siehe
+  `BattleMages_Spellpool_Backlog.md`, Slot 1.
 - **"Monoschule" wird strukturell geprüft** (alle 5 Rotations-Zauber
   gleiche `spell.school`), nicht über die `build`-Mehrheit — nur 1
   von 41 Zaubern trägt `build: "monoschule"`, über eine reine
