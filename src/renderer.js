@@ -443,12 +443,6 @@ function renderSpellSelectionScreen(starterSpellCount, selectionCount) {
         <div id="spellContainer"></div>
 
         <div
-            id="spellSelectionDots"
-            class="spell-selection-dots"
-            aria-hidden="true"
-        ></div>
-
-        <div
             id="spellTooltip"
             class="spell-tooltip"
             hidden
@@ -462,79 +456,6 @@ function renderSpellSelectionScreen(starterSpellCount, selectionCount) {
             Run starten
         </button>
     `;
-}
-
-// Mobile-Karussell (UI-Optimierungscheck, Mobile-Phase 2026-07-30):
-// #spellContainer wird per CSS (@media max-width: 720px) auf horizontales
-// Scroll-Snap umgestellt. Diese Punkte sind reine Scroll-Position-Anzeige,
-// keine Gameplay-Logik -- am Desktop bleiben sie per CSS ausgeblendet.
-function renderSpellSelectionDots(cardCount) {
-    const dotsHost = document.getElementById("spellSelectionDots");
-    if (!dotsHost) return;
-
-    dotsHost.innerHTML = "";
-
-    for (let i = 0; i < cardCount; i++) {
-        const dot = document.createElement("button");
-        dot.type = "button";
-        dot.className = "spell-selection-dot";
-        if (i === 0) dot.classList.add("spell-selection-dot--active");
-        dot.setAttribute("aria-label", `Zauberkarte ${i + 1}`);
-        dotsHost.appendChild(dot);
-    }
-}
-
-function bindSpellSelectionCarousel() {
-    const container = document.getElementById("spellContainer");
-    const dotsHost = document.getElementById("spellSelectionDots");
-    if (!container || !dotsHost) return;
-
-    const cards = Array.from(container.querySelectorAll(".spell-card"));
-    const dots = Array.from(dotsHost.querySelectorAll(".spell-selection-dot"));
-    if (cards.length === 0 || dots.length !== cards.length) return;
-
-    dots.forEach((dot, index) => {
-        dot.addEventListener("click", () => {
-            cards[index].scrollIntoView({
-                behavior: "smooth",
-                inline: "center",
-                block: "nearest"
-            });
-        });
-    });
-
-    let ticking = false;
-    container.addEventListener("scroll", () => {
-        if (ticking) return;
-        ticking = true;
-
-        requestAnimationFrame(() => {
-            const containerCenter =
-                container.scrollLeft + container.clientWidth / 2;
-
-            let closestIndex = 0;
-            let closestDistance = Infinity;
-
-            cards.forEach((card, index) => {
-                const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-                const distance = Math.abs(cardCenter - containerCenter);
-
-                if (distance < closestDistance) {
-                    closestDistance = distance;
-                    closestIndex = index;
-                }
-            });
-
-            dots.forEach((dot, index) => {
-                dot.classList.toggle(
-                    "spell-selection-dot--active",
-                    index === closestIndex
-                );
-            });
-
-            ticking = false;
-        });
-    }, { passive: true });
 }
 
 function renderSpellSelectionCard(spell) {
@@ -633,6 +554,7 @@ function renderSpellCardContent(spell, view, options = {}) {
                 <div class="spell-card-body">
                     ${schoolHtml}
                     ${bodyHtml}
+                    <div class="spell-card-body-fade" aria-hidden="true"></div>
                 </div>
             </div>
         `;
@@ -1057,6 +979,17 @@ function renderStatusChip(status) {
 
 let isActionbarDragging = false;
 let spellTooltipHideTimeout = null;
+let spellTooltipReopenSuppressedUntil = 0;
+
+// Nach einem expliziten Schliessen (Tooltip-Close-Button, Mobile) feuert
+// der Browser kurz danach noch die Touch->Maus-Kompatibilitaets-Events
+// (mouseover/mouseenter) an der Tap-Position nach -- da das Schliessen
+// des Tooltips die darunterliegende Karte freilegt, oeffnete deren
+// mouseenter-Handler den Tooltip sofort wieder. Kurzes Zeitfenster
+// unterdrueckt genau dieses Nachzuegler-Wiederoeffnen.
+function suppressSpellTooltipReopen() {
+    spellTooltipReopenSuppressedUntil = Date.now() + 400;
+}
 
 function cancelSpellTooltipHide() {
     if (spellTooltipHideTimeout) {
@@ -1142,6 +1075,19 @@ function setupActionbarDragDrop(onRotationChange) {
             )
         ];
     }
+
+    // Leere Slots bekommen nie ein order ueber applyDragPreview() (das
+    // nur gefuellte Karten anfasst) und blieben sonst beim CSS-Default
+    // order:0 stehen -- das kollidierte waehrend eines Drags mit der
+    // gefuellten Karte, die applyDragPreview() ebenfalls auf order:0
+    // setzt, und liess leere Slots sichtbar in die Mitte der Leiste
+    // springen. Fixes Position einmal auf den echten Slot-Index.
+    buildList
+        .querySelectorAll(".build-card--empty")
+        .forEach(card => {
+            card.style.order =
+                String(Number(card.dataset.slotIndex) - 1);
+        });
 
     function moveFloatingCard(event) {
         if (!dragState?.clone) {
@@ -2353,6 +2299,10 @@ function showSpellTooltip(spell, rankOrProgress, options = {}) {
         return;
     }
 
+    if (Date.now() < spellTooltipReopenSuppressedUntil) {
+        return;
+    }
+
     const tooltip =
         document.getElementById("spellTooltip");
 
@@ -2377,6 +2327,11 @@ function showSpellTooltip(spell, rankOrProgress, options = {}) {
         );
 
     tooltip.innerHTML = `
+        <button
+            type="button"
+            class="tooltip-close-btn"
+            aria-label="Schließen"
+        >&times;</button>
         <div class="tooltip-header">
             ${renderSpellIconHtml(spell)}
             <div class="tooltip-header-text">
@@ -2406,6 +2361,14 @@ function showSpellTooltip(spell, rankOrProgress, options = {}) {
     `;
 
     bindSpellIcons(tooltip);
+
+    tooltip
+        .querySelector(".tooltip-close-btn")
+        ?.addEventListener("click", () => {
+            hideSpellTooltip();
+            suppressSpellTooltipReopen();
+        });
+
     tooltip.hidden = false;
 }
 
@@ -2916,17 +2879,36 @@ function renderRewardScreen() {
 // Text. Setzt --overflowing nur auf Karten, die tatsaechlich mehr Inhalt
 // haben als sichtbar ist (CSS zeigt dafuer einen Fade-Verlauf + Pfeil
 // unten an, siehe .reward-card-scroll--overflowing). Muss nach jedem
-// (Neu-)Mounten von Reward-Karten erneut aufgerufen werden (initiales
-// Mounten UND nach einem Reroll, da beide den Karteninhalt austauschen).
-function updateRewardCardOverflowIndicators() {
+// (Neu-)Mounten von Reward-/Auswahl-Karten erneut aufgerufen werden
+// (initiales Mounten UND z.B. nach einem Reroll, da beide den
+// Karteninhalt austauschen).
+function updateCardScrollOverflowIndicators(scrollSelector, overflowClass) {
     document
-        .querySelectorAll(".reward-card-scroll")
+        .querySelectorAll(scrollSelector)
         .forEach(host => {
             host.classList.toggle(
-                "reward-card-scroll--overflowing",
+                overflowClass,
                 host.scrollHeight > host.clientHeight + 1
             );
         });
+}
+
+function updateRewardCardOverflowIndicators() {
+    updateCardScrollOverflowIndicators(
+        ".reward-card-scroll",
+        "reward-card-scroll--overflowing"
+    );
+}
+
+// Start-Zauberauswahl hat dieselbe Fixhoehen-mit-Innenscroll-Situation wie
+// die Reward-Karten (.spell-card-body scrollt statt die Karte zu strecken),
+// litt aber am selben unsichtbaren Abschneide-Problem, das oben fuer Reward-
+// Karten bereits geloest wurde -- gleicher Mechanismus, andere Selektoren.
+function updateSpellSelectionCardOverflowIndicators() {
+    updateCardScrollOverflowIndicators(
+        ".spell-card--selection .spell-card-body",
+        "spell-card-body--overflowing"
+    );
 }
 
 function renderRewardCard(option, spellRanks) {

@@ -318,36 +318,6 @@ h1.app-logo {
     margin-bottom: 28px;
 }
 
-/*
- * Mobile-Karussell-Indikator (2026-07-30): nur sichtbar, wenn
- * #spellContainer per @media (max-width: 720px) auf horizontales
- * Scroll-Snap umgestellt wird (siehe dort). Am Desktop bleibt das
- * Grid/Wrap-Layout unveraendert, Punkte bleiben ausgeblendet.
- */
-.spell-selection-dots {
-    display: none;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    margin: -8px 0 20px;
-}
-
-.spell-selection-dot {
-    width: 8px;
-    height: 8px;
-    padding: 0;
-    border: none;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.22);
-    cursor: pointer;
-    transition: background 0.15s ease, transform 0.15s ease;
-}
-
-.spell-selection-dot--active {
-    background: var(--accent-gold-bright);
-    transform: scale(1.3);
-}
-
 body.app-selection #game {
     max-width: min(1420px, calc(100vw - 40px));
 }
@@ -1992,6 +1962,20 @@ body.app-selection #spellContainer {
     cursor: grabbing;
 }
 
+/*
+ * Mobile-Drag-Fix (2026-08-16): Ohne touch-action:none übernimmt der
+ * Browser einen Touch-Move auf der Karte als Scroll-Geste der
+ * ueberlaufenden .actionbar (mobile: overflow-x:auto), bevor die
+ * Pointer-Event-Drag-Logik in renderer.js reagieren kann -- Drag&Drop
+ * war dadurch auf Touch-Geraeten faktisch tot. Nur auf #buildList
+ * (die editierbare Rotation) scopen, damit rein lesende
+ * .build-card-Vorkommen (Reward-/Statistik-Vorschau) ihr normales
+ * Scroll-Verhalten behalten.
+ */
+#buildList .build-card {
+    touch-action: none;
+}
+
 .build-card--dragging {
     z-index: 3;
     cursor: grabbing;
@@ -2299,6 +2283,17 @@ body.app-selection #spellContainer {
 }
 
 .spell-tooltip[hidden] {
+    display: none;
+}
+
+/*
+ * Standardmaessig unsichtbar/inert (display:none) -- auf Desktop
+ * schliesst mouseleave/blur den Tooltip zuverlaessig, ein zusaetzlicher
+ * Schliessen-Button waere dort nur ungenutztes Chrome. Auf Mobile (wo
+ * der Tooltip per Tap oeffnet und als fixes Sheet ueber Inhalt liegen
+ * kann) wird er sichtbar gemacht -- siehe @media (max-width: 720px).
+ */
+.tooltip-close-btn {
     display: none;
 }
 
@@ -3971,7 +3966,7 @@ body.app-home #game {
 }
 
 .spell-card--selection.selected::after {
-    filter: saturate(0.74) brightness(1.06);
+    filter: saturate(1) brightness(1.4);
 }
 
 .spell-card--new::before {
@@ -4065,6 +4060,56 @@ body.app-home #game {
     background: rgba(255, 255, 255, 0.18);
 }
 
+/*
+ * Ueberlauf-Hinweis (analog .reward-card-scroll-fade, siehe dort) --
+ * .spell-card-body scrollt bei langen Zaubertexten intern statt die
+ * Karte zu strecken, ohne Hinweis wirkte das wie abgeschnittener statt
+ * scrollbarer Text. Nur sichtbar, wenn updateSpellSelectionCardOverflow
+ * Indicators() (game.js/renderer.js) tatsaechlich Ueberlauf misst.
+ */
+.spell-card-body-fade {
+    position: sticky;
+    bottom: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.spell-card-body-fade::before,
+.spell-card-body-fade::after {
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+
+.spell-card-body-fade::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 26px;
+    background: linear-gradient(
+        to bottom,
+        transparent 0%,
+        var(--starter-card-fill) 82%
+    );
+}
+
+.spell-card-body-fade::after {
+    content: "▾";
+    position: absolute;
+    bottom: 1px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: rgba(255, 235, 200, 0.7);
+    font-size: 0.65rem;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+.spell-card-body--overflowing .spell-card-body-fade::before,
+.spell-card-body--overflowing .spell-card-body-fade::after {
+    opacity: 1;
+}
+
 .spell-card--selection .spell-name {
     flex: 0 0 auto;
     margin: 0 0 3px;
@@ -4136,9 +4181,30 @@ body.app-home #game {
     transform: scale(1.02);
     border-color: transparent;
     box-shadow:
-        0 0 0 2px rgba(165, 150, 120, 0.55),
-        0 0 28px rgba(130, 115, 90, 0.28),
+        0 0 0 2px var(--accent-gold-bright),
+        0 0 22px rgba(226, 200, 114, 0.55),
+        0 0 44px rgba(226, 200, 114, 0.32),
         0 14px 36px rgba(0, 0, 0, 0.42);
+}
+
+.spell-card--selection.selected::before {
+    content: "✓";
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: var(--accent-gold-bright);
+    color: #1a1408;
+    font-size: 0.8rem;
+    font-weight: 800;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(226, 200, 114, 0.6);
+    pointer-events: none;
 }
 
 /* — Spell / build cards (inset stone, rarity on frame) — */
@@ -4876,7 +4942,17 @@ body.app-home #game {
         margin-top: 4px;
     }
 
+    /*
+     * flex-wrap:nowrap ergaenzt overflow-x:auto -- ohne das bleibt der
+     * Basiswert flex-wrap:wrap aktiv, der Container bricht Karten in
+     * mehrere Zeilen um statt sie in einer Reihe scrollen zu lassen.
+     * Auf der Kampf-Actionbar (kleine 78px-Karten) fiel das kaum auf,
+     * weil 5 Karten meist ohnehin in eine Zeile passen -- bei der
+     * groesseren .actionbar--reward-Variante (128px-Karten, Reward-/
+     * Run-Recap-Screen) brach die Leiste sichtbar in ein Raster um.
+     */
     .actionbar {
+        flex-wrap: nowrap;
         justify-content: flex-start;
         overflow-x: auto;
         padding-bottom: 4px;
@@ -4913,36 +4989,167 @@ body.app-home #game {
     }
 
     /*
-     * Mobile-Optimierung (2026-07-30): Zauberauswahl als horizontales
-     * Swipe-Karussell statt gestapelter Vollbreite-Karten (vorher 5
-     * Karten uebereinander, ca. 2650px Gesamthoehe). Scroll-Snap
-     * zentriert je eine Karte, seitliches Padding zeigt die Nachbarn an.
+     * Mobile-Optimierung (2026-08-16): Zauberauswahl als kompakte,
+     * vertikal gestapelte Liste statt Swipe-Karussell. Das Karussell
+     * (siehe Git-Historie) loeste das vorherige Problem von 5 volle
+     * Vollbreite-Karten uebereinander (~2650px Gesamthoehe), fuehrte
+     * aber ein neues ein: eine Karte fuellte fast den ganzen Screen,
+     * Nachbarn waren nur als 1-2px Rand erkennbar -- wirkte wie "eine
+     * Karte, kein Vergleich moeglich" statt wie ein Karussell mit 5
+     * Optionen. Statt Karten voller Breite/Hoehe zu stapeln werden sie
+     * jetzt auf Icon+Name+Raritaet+Kernzeile verschlankt (Fliesstext
+     * entfaellt), sodass mehrere gleichzeitig sichtbar/vergleichbar
+     * sind. Volltext bleibt ueber Tap erreichbar -- setupSpellTooltips()
+     * ist bereits click-faehig (renderer.js), keine neue JS-Logik noetig.
      */
-    body.app-selection {
-        --starter-card-width: min(74vw, 268px);
-    }
-
     body.app-selection #spellContainer {
+        flex-direction: column;
         flex-wrap: nowrap;
-        overflow-x: auto;
-        overflow-y: visible;
-        scroll-snap-type: x mandatory;
-        justify-content: flex-start;
-        padding: 4px calc((100% - var(--starter-card-width)) / 2) 20px;
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    body.app-selection #spellContainer::-webkit-scrollbar {
-        display: none;
+        gap: 10px;
+        padding: 4px 0 20px;
     }
 
     .spell-card--selection {
-        scroll-snap-align: center;
-        flex-shrink: 0;
+        width: 100%;
+        height: auto;
+        min-height: 0;
+        background: var(--starter-card-fill);
+        border: 2px solid var(--border-subtle);
+        border-radius: var(--radius-md);
+        box-shadow: var(--shadow-panel);
     }
 
-    .spell-selection-dots {
+    /*
+     * Das Rahmen-Bild (--starter-card-frame-source) ist fuer das hohe
+     * Hochformat der Desktop-Karte gezeichnet. Auf 100% 100% gestreckt
+     * in eine kurze Listenzeile verzerrt es zu einem erkennbar kaputten
+     * Artefakt -- hier daher aus, Karte faellt auf einen schlichten
+     * Panel-Look zurueck (gleiches Look&Feel wie .panel/.build-card).
+     */
+    .spell-card--selection::after {
+        display: none;
+    }
+
+    .spell-card--selection .spell-card-channel {
         display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        height: auto;
+        padding: 10px 14px;
+    }
+
+    .spell-card--selection .spell-card-icon-zone {
+        flex: 0 0 auto;
+        width: auto;
+        min-height: 0;
+        padding: 0;
+    }
+
+    .spell-card--selection .spell-card-icon-zone .card-icon-slot {
+        width: 52px;
+        height: 52px;
+    }
+
+    .spell-card--selection .spell-card-body {
+        flex: 1 1 auto;
+        align-items: flex-start;
+        min-height: 0;
+        min-width: 0;
+        padding: 0;
+        overflow: visible;
+    }
+
+    .spell-card--selection .spell-name,
+    .spell-card--selection .spell-card-rarity,
+    .spell-card--selection .spell-card-school,
+    .spell-card--selection .spell-card-section,
+    .spell-card--selection .spell-card-line {
+        width: 100%;
+        max-width: 100%;
+        text-align: left;
+    }
+
+    .spell-card--selection .spell-name {
+        margin: 0 0 2px;
+        font-size: 0.92rem;
+    }
+
+    .spell-card--selection .spell-card-rarity {
+        margin: 0 0 4px;
+    }
+
+    .spell-card--selection .spell-card-body .spell-card-school {
+        margin: 0 0 4px;
+    }
+
+    .spell-card--selection .spell-card-description {
+        display: none;
+    }
+
+    .spell-card--selection .spell-card-line {
+        font-size: 0.74rem;
+    }
+
+    /*
+     * #spellTooltip auf der Zauberauswahl haengt direkt im langen,
+     * scrollenden Seitenfluss (kein kurz umschliessendes .spellbar wie
+     * am Kampf-Screen) -- "bottom: calc(100% + 10px)" bezog sich damit
+     * auf die Gesamthoehe der ganzen Seite und schob den Tooltip
+     * mehrere hundert Pixel ausserhalb des sichtbaren Bereichs.
+     *
+     * .reward-build-panel (Reward- und Run-Recap-Screen) hat zwar einen
+     * korrekt kurzen positionierten Anker, das Panel selbst sitzt auf
+     * Mobile aber oft schon so weit unten im Layout, dass "10px
+     * unterhalb des Panels" ebenfalls hinter dem sichtbaren Bereich
+     * landet (empirisch verifiziert: Tooltip-Top bei 746px auf einem
+     * 664px hohen Viewport).
+     *
+     * Beide Faelle: auf Mobile per position:fixed als Sheet am unteren
+     * Bildschirmrand verankern -- unabhaengig von Scroll-Position,
+     * deckt nicht den ganzen Screen ab (Tap auf eine andere Karte
+     * bleibt erreichbar).
+     */
+    body.app-selection .spell-tooltip,
+    .reward-build-panel .spell-tooltip {
+        position: fixed;
+        left: 50%;
+        top: auto;
+        bottom: 12px;
+        transform: translateX(-50%);
+        width: min(92vw, 400px);
+        max-height: 50vh;
+        overflow-y: auto;
+    }
+
+    /*
+     * Als fixes Sheet kann der Tooltip andere Bedienelemente (z.B.
+     * "Run starten"/"Auswahl bestätigen") ueberlagern und faengt deren
+     * Taps ab, ohne dass mouseleave/blur (Desktop-Schliessmechanik) je
+     * greift -- ohne eigenen Schliessen-Button war der Tooltip auf
+     * Touch-Geraeten eine Sackgasse. Position:sticky haelt den Button
+     * oben rechts sichtbar, auch wenn der Tooltip-Inhalt selbst
+     * scrollt.
+     */
+    body.app-selection .tooltip-close-btn,
+    .reward-build-panel .tooltip-close-btn {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        touch-action: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 30px;
+        height: 30px;
+        margin: 0 0 8px auto;
+        padding: 0;
+        background: rgba(0, 0, 0, 0.55);
+        color: var(--text-primary);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 50%;
+        font-size: 1.1rem;
+        line-height: 1;
+        cursor: pointer;
     }
 }
