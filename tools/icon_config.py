@@ -87,6 +87,8 @@ SPELL_SCHOOL_BY_ID = {
     "soul_migration": "soul",
     "soul_fusion": "soul",
     "soul_apotheosis": "soul",
+    "soul_anchor": "soul",
+    "soul_theft": "soul",
 }
 
 REFERENCE_RAW_OVERRIDES = {
@@ -166,6 +168,8 @@ PILOT_BATCHES = {
         "soul_migration",
         "soul_fusion",
         "soul_apotheosis",
+        "soul_anchor",
+        "soul_theft",
     ],
     "all": [],  # resolved dynamically below
 }
@@ -577,6 +581,18 @@ SCHOOL_PROMPTS = {
                 "motif": "One ascending soul silhouette with a single bright core highlight as the accent.",
                 "remove": "fine facial features, particle halo, extra rings",
                 "keep": "ascending silhouette, bright core accent",
+            },
+            "soul_anchor": {
+                "name": "Seelenanker",
+                "motif": "A pale ethereal anchor shape formed from soul energy, its base rooted in a small glowing ring of light.",
+                "remove": "chain links, particle aura, fine wisp trails",
+                "keep": "clear anchor silhouette, one grounding ring accent",
+            },
+            "soul_theft": {
+                "name": "Seelenraub",
+                "motif": "A clawed tendril of soul energy siphoning a small glowing wisp of light into itself.",
+                "remove": "multiple wisps, particle trail haze, fine claw filigree",
+                "keep": "clear claw/siphon silhouette, one small drained wisp accent",
             },
         },
     },

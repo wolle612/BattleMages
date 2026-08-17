@@ -177,6 +177,13 @@ Energie, leichte und fließende Formen.
 
   Seelenfunke                    Kleine schwebende Seelenflamme mit
                                  heller Aura
+
+  Seelenanker                    Ätherischer Anker aus Seelenenergie,
+                                 verankert in einem kleinen leuchtenden Ring
+
+  Seelenraub                     Klauenartige Seelenenergie-Ranke, die
+                                 einen kleinen leuchtenden Seelenwisp
+                                 einsaugt
   -----------------------------------------------------------------------
 
 ------------------------------------------------------------------------
