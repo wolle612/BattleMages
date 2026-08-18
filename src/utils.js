@@ -30,3 +30,7 @@ function romanize(rank) {
 
     return numerals[rank];
 }
+
+function isMobileViewport() {
+    return window.matchMedia("(max-width: 900px)").matches;
+}

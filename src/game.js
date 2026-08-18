@@ -94,6 +94,13 @@ function showSpellSelection() {
 
         card.addEventListener("click", () => {
 
+            // Auf Mobile oeffnet ein Long-Press (bindLongPressTooltip
+            // unten) den Tooltip statt die Auswahl zu toggeln -- der
+            // danach trotzdem folgende native click wird hier verworfen.
+            if (consumeLongPressSuppression(card)) {
+                return;
+            }
+
             const index = selectedSpells.indexOf(spell);
 
             if (index > -1) {
@@ -116,6 +123,12 @@ function showSpellSelection() {
                 selectedSpells.length !== STARTER_SELECTION_COUNT;
         });
 
+        if (isMobileViewport()) {
+            bindLongPressTooltip(card, () => {
+                showSpellTooltip(spell, 1, { showRank: false });
+            });
+        }
+
         spellContainer.appendChild(card);
     });
 
@@ -127,7 +140,7 @@ function showSpellSelection() {
         () => 1,
         {
             showRank: false,
-            showUpgradePreview: true
+            openOnClick: !isMobileViewport()
         }
     );
 
@@ -332,13 +345,43 @@ function refreshActionbar() {
     });
 }
 
-function handleFightStart() {
+async function handleFightStart() {
+
+    const fightButton =
+        document.getElementById("fightButton");
+
+    if (fightButton.disabled) {
+        return;
+    }
+
+    // Direkt sperren (statt erst nach simulateFight()) verhindert
+    // Doppel-Klicks waehrend des Awaits unten. preloadVfxCoreAssets()
+    // wird beim Betreten des Kampfvorbereitungs-Screens fire-and-forget
+    // angestossen (showFightScreen()) -- ohne dieses Warten konnte
+    // renderCombatPlayback() Schul-Sprite-Sheets abspielen wollen,
+    // bevor deren Netzwerk-Ladevorgang (nur beim allerersten Kampf
+    // relevant, danach gecacht) abgeschlossen war.
+    fightButton.disabled = true;
+
+    const originalFightButtonLabel =
+        fightButton.textContent;
+
+    fightButton.textContent = "Lädt…";
+
+    if (typeof preloadVfxCoreAssets === "function") {
+        await preloadVfxCoreAssets().catch(error => {
+            console.warn(
+                "[VFX] Preload vor Kampfstart fehlgeschlagen:",
+                error
+            );
+        });
+    }
+
+    fightButton.textContent = originalFightButtonLabel;
 
     const result = simulateFight();
 
     updateRunStats(result.actionQueue);
-
-    document.getElementById("fightButton").disabled = true;
 
     renderCombatPlayback(
         result,

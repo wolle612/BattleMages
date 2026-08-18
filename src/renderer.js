@@ -1231,6 +1231,41 @@ function setupActionbarDragDrop(onRotationChange) {
         }, 420);
     }
 
+    const DRAG_ACTIVATION_THRESHOLD_PX = 8;
+
+    function activateDrag(event) {
+        if (!dragState || dragState.active) {
+            return;
+        }
+
+        const { card, fromIndex } = dragState;
+
+        const rect =
+            card.getBoundingClientRect();
+
+        const clone =
+            card.cloneNode(true);
+
+        clone.classList.add("build-card--floating");
+        clone.style.width = `${rect.width}px`;
+        document.body.appendChild(clone);
+
+        dragState.active = true;
+        dragState.clone = clone;
+        dragState.offsetX = event.clientX - rect.left;
+        dragState.offsetY = event.clientY - rect.top;
+
+        isActionbarDragging = true;
+        card.classList.add(
+            "build-card--dragging",
+            "build-card--preview-hidden"
+        );
+        buildList.classList.add("actionbar--dragging");
+        hideSpellTooltip();
+        moveFloatingCard(event);
+        applyDragPreview(fromIndex, fromIndex);
+    }
+
     getCards().forEach(card => {
         card.draggable = false;
 
@@ -1255,44 +1290,48 @@ function setupActionbarDragDrop(onRotationChange) {
                 return;
             }
 
-            const rect =
-                card.getBoundingClientRect();
-
-            const clone =
-                card.cloneNode(true);
-
-            clone.classList.add("build-card--floating");
-            clone.style.width = `${rect.width}px`;
-            document.body.appendChild(clone);
-
+            // Aktivierung wird erst in activateDrag() (pointermove, siehe
+            // unten) ausgeloest, sobald DRAG_ACTIVATION_THRESHOLD_PX
+            // ueberschritten ist. Ohne diese Schwelle liess bereits
+            // minimales Finger-Zittern bei einem simplen Tap die Karte
+            // verschieben, da jede noch so kleine Bewegung sofort einen
+            // abweichenden previewIndex erzeugte.
             dragState = {
                 card,
-                clone,
+                clone: null,
+                active: false,
                 fromIndex,
                 previewIndex: fromIndex,
-                offsetX: event.clientX - rect.left,
-                offsetY: event.clientY - rect.top
+                startX: event.clientX,
+                startY: event.clientY,
+                offsetX: 0,
+                offsetY: 0
             };
 
             card.dataset.pointerId =
                 String(event.pointerId);
 
-            isActionbarDragging = true;
-            card.classList.add(
-                "build-card--dragging",
-                "build-card--preview-hidden"
-            );
-            buildList.classList.add("actionbar--dragging");
-            hideSpellTooltip();
             card.setPointerCapture(event.pointerId);
-            moveFloatingCard(event);
-            applyDragPreview(fromIndex, fromIndex);
             event.preventDefault();
         });
 
         card.addEventListener("pointermove", event => {
             if (!dragState || dragState.card !== card) {
                 return;
+            }
+
+            if (!dragState.active) {
+                const distance =
+                    Math.hypot(
+                        event.clientX - dragState.startX,
+                        event.clientY - dragState.startY
+                    );
+
+                if (distance < DRAG_ACTIVATION_THRESHOLD_PX) {
+                    return;
+                }
+
+                activateDrag(event);
             }
 
             moveFloatingCard(event);
@@ -2270,17 +2309,24 @@ function setupSpellTooltips(spellsForTooltip, selector, getRank, options = {}) {
                 }
             );
 
-            card.addEventListener(
-                "click",
-                () => {
-                    if (isActionbarDragging) {
-                        return;
-                    }
+            // openOnClick:false wird auf Mobile fuer Karten gesetzt, die
+            // ein eigenes Tap-Verhalten haben (z.B. Zauberauswahl: Tap
+            // waehlt aus, Long-Press oeffnet den Tooltip ueber
+            // bindLongPressTooltip weiter unten) -- sonst wuerden Tap und
+            // Kartenaktion gleichzeitig ausgeloest.
+            if (options.openOnClick !== false) {
+                card.addEventListener(
+                    "click",
+                    () => {
+                        if (isActionbarDragging) {
+                            return;
+                        }
 
-                    cancelSpellTooltipHide();
-                    showSpellTooltip(spell, getRank(spell), options);
-                }
-            );
+                        cancelSpellTooltipHide();
+                        showSpellTooltip(spell, getRank(spell), options);
+                    }
+                );
+            }
 
             card.addEventListener(
                 "mouseleave",
@@ -2292,6 +2338,83 @@ function setupSpellTooltips(spellsForTooltip, selector, getRank, options = {}) {
                 scheduleSpellTooltipHide
             );
         });
+}
+
+const LONG_PRESS_DURATION_MS = 450;
+const LONG_PRESS_MOVE_TOLERANCE_PX = 10;
+
+// Mobile-Gegenstueck zu setupSpellTooltips' Hover/Click-Oeffnen: auf
+// Karten mit eigener Tap-Aktion (Zauberauswahl: Tap = auswaehlen) darf
+// ein Tap nicht gleichzeitig den Tooltip oeffnen. Long-Press ist hier die
+// einzige Moeglichkeit, den Tooltip zu sehen. Der nach einem Long-Press
+// trotzdem folgende native "click" wird ueber ein Dataset-Flag statt
+// stopImmediatePropagation() unterdrueckt, da die Reihenfolge der
+// click-Listener zwischen dieser Funktion und dem Aufrufer (z.B.
+// game.js-Auswahl-Toggle) nicht garantiert ist -- stopImmediatePropagation()
+// wirkt nur auf Listener, die NACH diesem registriert wurden.
+function consumeLongPressSuppression(card) {
+    const wasTriggered =
+        card.dataset.longPressTriggered === "true";
+
+    delete card.dataset.longPressTriggered;
+
+    return wasTriggered;
+}
+
+function bindLongPressTooltip(card, onLongPress) {
+    let pressTimer = null;
+    let startX = 0;
+    let startY = 0;
+
+    function clearPressTimer() {
+        if (pressTimer) {
+            window.clearTimeout(pressTimer);
+            pressTimer = null;
+        }
+    }
+
+    card.addEventListener("pointerdown", event => {
+        if (event.pointerType === "mouse") {
+            return;
+        }
+
+        startX = event.clientX;
+        startY = event.clientY;
+
+        clearPressTimer();
+        pressTimer = window.setTimeout(() => {
+            pressTimer = null;
+            card.dataset.longPressTriggered = "true";
+            onLongPress();
+
+            // Sicherheitsnetz: falls aus irgendeinem Grund kein click
+            // mehr folgt (der das Flag sonst ueber
+            // consumeLongPressSuppression() konsumiert), Flag nicht
+            // dauerhaft stehen lassen und den naechsten Tap blockieren.
+            window.setTimeout(() => {
+                delete card.dataset.longPressTriggered;
+            }, 600);
+        }, LONG_PRESS_DURATION_MS);
+    });
+
+    card.addEventListener("pointermove", event => {
+        if (!pressTimer) {
+            return;
+        }
+
+        const distance =
+            Math.hypot(
+                event.clientX - startX,
+                event.clientY - startY
+            );
+
+        if (distance > LONG_PRESS_MOVE_TOLERANCE_PX) {
+            clearPressTimer();
+        }
+    });
+
+    card.addEventListener("pointerup", clearPressTimer);
+    card.addEventListener("pointercancel", clearPressTimer);
 }
 
 function showSpellTooltip(spell, rankOrProgress, options = {}) {

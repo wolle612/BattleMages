@@ -48,6 +48,7 @@ Für jedes Asset gilt:
 20. header_panel.png
 21. divider.png
 22. corner_ornaments
+23. mobile_spell_tile_frame.png
 
 ---
 
@@ -807,6 +808,44 @@ Geparkt — Integration rückgängig gemacht (2026-07-08).
 **Nächster Schritt (offen)**
 
 - Nach Playtests entscheiden, auf welchen Screens Eckornamente sinnvoll sind (Home, Kampf, Menüs) und ob Größe/Intensität angepasst werden muss
+
+---
+
+# 23 — mobile_spell_tile_frame.png
+
+**Pfad**
+
+assets/ui/cards/mobile_spell_tile_frame.png
+
+**Größe**
+
+512×512
+
+**Typ**
+
+Card Frame (quadratisch)
+
+**Verwendung**
+
+Zauberauswahl (Mobile, `max-width: 900px`) — ersetzt dort die auf
+Kachel-Format gestreckte `starter_card.png` durch ein eigens für das
+quadratische Kachel-Grid gestaltetes Pendant.
+
+**Design**
+
+Quadratische Variante des Starter-Card-Rahmens: Bronze/Gold-Eckbeschläge
+mit Runengravuren, dünne Doppel-Inset-Umrandung, dunkles
+Stein-/Pergament-Innere, violetter Diamant-Akzent oben mittig.
+
+Raritäts-Unterscheidung erfolgt bewusst nicht über eigene
+Rahmen-Varianten (analog zu `starter_card.png`, das ebenfalls
+raritätsunabhängig ist), sondern über einen CSS-Farbring
+(`.spell-card--selection.rarity-*`, `style.css`), synchron zu den
+`.rarity-common/rare/epic/legendary`-Textfarben.
+
+**Integrationsstatus**
+
+Integriert (2026-08-18, Mobile-UX-Fixes-Paket).
 
 ---
 

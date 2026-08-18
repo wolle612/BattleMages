@@ -123,8 +123,26 @@ function getSpellTooltipView(spell, rank, path, options = {}) {
                     : null
             );
 
+    // showUpgradePreview/showPath faellen ohne explizite Angabe auf
+    // "nicht mobil" zurueck -- auf Mobile soll der Tooltip standardmaessig
+    // nur den aktuellen Effekt zeigen (kein unnoetiges Scrollen), auf
+    // Desktop bleibt die volle Rang-III/V-Vorschau + Pfad-Info wie bisher
+    // sichtbar. Ein explizit gesetztes true/false (z.B. renderer.js:2526)
+    // hat weiterhin Vorrang vor diesem Default.
+    const showUpgradePreview =
+        options.showUpgradePreview !== undefined
+            ? options.showUpgradePreview
+            : !isMobileViewport();
+
+    const showPath =
+        options.showPath !== undefined
+            ? options.showPath
+            : !isMobileViewport();
+
     const pathLabel =
-        getSpellPathLabel(spell, resolvedPath);
+        showPath
+            ? getSpellPathLabel(spell, resolvedPath)
+            : "";
 
     const valueLines =
         getSpellTooltipLines(
@@ -140,9 +158,6 @@ function getSpellTooltipView(spell, rank, path, options = {}) {
 
     const showRank =
         options.showRank !== false;
-
-    const showUpgradePreview =
-        options.showUpgradePreview !== false;
 
     const upgradePreview =
         showUpgradePreview

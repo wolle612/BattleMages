@@ -125,6 +125,10 @@
     --starter-selection-gap: 14px;
     --starter-card-frame-source: url('assets/ui/cards/starter_card.png');
     --starter-card-fill: #16181e;
+    --mobile-tile-frame-source: url('assets/ui/cards/mobile_spell_tile_frame.png');
+    --mobile-tile-fill: #16181e;
+    --mobile-tile-gap: 10px;
+    --mobile-tile-min: 96px;
     --combat-log-pillar-width: 68px;
     --combat-log-panel-height: 190px;
     /* Native asset bounds (opaque content) — used to crop transparent padding
@@ -338,8 +342,106 @@ body.app-selection #spellContainer {
 }
 
 @media (max-width: 900px) {
+    /*
+     * Kompaktes Kachel-Grid statt der gestapelten Desktop-Kartenliste
+     * (Live-Befund 2026-08-18: bei 390px zeigte #spellContainer bisher
+     * nur verkleinerte Desktop-Karten in einer Spalte -- "nur CSS", keine
+     * eigene Mobile-Darstellung). Inhalt reduziert auf Icon + Name;
+     * Effekt/Beschreibung/Pfad bleiben ueber den Long-Press-Tooltip
+     * erreichbar (siehe bindLongPressTooltip() in renderer.js).
+     */
     body.app-selection #spellContainer {
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(
+            auto-fill,
+            minmax(var(--mobile-tile-min), 1fr)
+        );
+        gap: var(--mobile-tile-gap);
+    }
+
+    body.app-selection .spell-card--selection {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        background-color: var(--mobile-tile-fill);
+        border-radius: var(--radius-md);
+    }
+
+    body.app-selection .spell-card--selection::after {
+        background-image: var(--mobile-tile-frame-source);
+    }
+
+    body.app-selection .spell-card--selection .spell-card-channel {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 4px;
+        height: 100%;
+        padding: 17% 14%;
+        box-sizing: border-box;
+    }
+
+    body.app-selection .spell-card--selection .spell-card-icon-zone {
+        width: 52%;
+        flex-shrink: 0;
+    }
+
+    body.app-selection .spell-card--selection .spell-card-icon-zone .spell-icon {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+    }
+
+    /* .spell-card-body erzeugt keine eigene Box mehr, damit .spell-name
+       zusammen mit .spell-card-icon-zone im selben Flex-Flow sitzt --
+       alle anderen Kinder werden einzeln ausgeblendet. */
+    body.app-selection .spell-card--selection .spell-card-body {
+        display: contents;
+    }
+
+    body.app-selection .spell-card--selection .spell-card-school,
+    body.app-selection .spell-card--selection .spell-card-description,
+    body.app-selection .spell-card--selection .spell-card-section,
+    body.app-selection .spell-card--selection .spell-card-rarity,
+    body.app-selection .spell-card--selection .spell-card-body-fade {
+        display: none;
+    }
+
+    body.app-selection .spell-card--selection .spell-name {
+        width: 100%;
+        font-size: 0.66rem;
+        line-height: 1.15;
+        text-align: center;
+        color: var(--text-primary);
+        overflow-wrap: break-word;
+    }
+
+    /*
+     * Raritaets-Ring statt eigener Rahmen-Grafik pro Raritaet -- auf
+     * Desktop bleibt der Kartenrahmen (starter_card.png) ebenfalls fuer
+     * alle Raritaeten identisch, Raritaet wird dort nur textlich/farblich
+     * markiert (siehe .spell-card-rarity, .rarity-* Textfarben oben).
+     * Werte hier bewusst mit denselben Hex-Farben wie .rarity-common/
+     * rare/epic/legendary synchron halten.
+     */
+    body.app-selection .spell-card--selection.rarity-common {
+        box-shadow: inset 0 0 0 2px rgba(170, 178, 192, 0.55);
+    }
+
+    body.app-selection .spell-card--selection.rarity-rare {
+        box-shadow: inset 0 0 0 2px rgba(91, 141, 239, 0.65),
+            0 0 10px rgba(91, 141, 239, 0.35);
+    }
+
+    body.app-selection .spell-card--selection.rarity-epic {
+        box-shadow: inset 0 0 0 2px rgba(178, 109, 245, 0.65),
+            0 0 10px rgba(178, 109, 245, 0.35);
+    }
+
+    body.app-selection .spell-card--selection.rarity-legendary {
+        box-shadow: inset 0 0 0 2px rgba(240, 163, 74, 0.7),
+            0 0 12px rgba(240, 163, 74, 0.4);
     }
 }
 
@@ -5151,5 +5253,32 @@ body.app-home #game {
         font-size: 1.1rem;
         line-height: 1;
         cursor: pointer;
+    }
+
+    /*
+     * Kompaktere Innenabstaende/Schrift, damit der Tooltip (jetzt ohne
+     * Rang-III/V-Vorschau und Pfad-Zeile, siehe getSpellTooltipView())
+     * auf Mobile moeglichst ohne Scrollen innerhalb der max-height von
+     * 50vh oben auskommt.
+     */
+    body.app-selection .spell-tooltip,
+    .reward-build-panel .spell-tooltip {
+        padding: 12px 14px;
+    }
+
+    body.app-selection .tooltip-header,
+    .reward-build-panel .tooltip-header {
+        margin-bottom: 6px;
+    }
+
+    body.app-selection .tooltip-description,
+    .reward-build-panel .tooltip-description {
+        margin: 6px 0 8px;
+        font-size: 0.82rem;
+    }
+
+    body.app-selection .tooltip-section-label,
+    .reward-build-panel .tooltip-section-label {
+        margin: 6px 0 3px;
     }
 }
